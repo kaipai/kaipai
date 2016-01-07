@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            label{
+                display:inline-block;
+                width:100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <form method="post" action="/api/v1/attendance/send" enctype="multipart/form-data">
+                <label>发送人邮箱:</label> <input type="text" name="SmtpUser" /> <br />
+                <label>邮箱密码:</label> <input type="password" name="SmtpPass" /> <br />
+                <label>考勤数据:</label> <input type="file" name="attendance"/> <br />
+                <label>是否测试?</label><input type="checkbox" checked="checked" value="1" name="Test" /><br />
+                <input type="submit" value="发送"/>
+            </form>
+        </div>
+        <br />
+        <div>
+            <?php echo $errorMsg; ?>
+        </div>
+    </body>
+
+</html>
