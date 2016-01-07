@@ -13,21 +13,10 @@ return array(
                     'route' => '/api',
                 ),
                 'child_routes' => array(
-                    'document' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/document[/:version]',
-                            'defaults' => array(
-                                '__NAMESPACE__' => 'Api\Controller',
-                                'controller' => 'Api\Controller\Document',
-                                'action' => 'index',
-                            ),
-                        )
-                    ),
                     'v1' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/[:version][/:controller][/:action][/:unitePayID]',
+                            'route' => '/[:version][/:controller][/:action]',
                             'constraints' => array(
                                 'version' => 'v1',
                                 'controller' => '[a-zA-Z0-9_-]+',

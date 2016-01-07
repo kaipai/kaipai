@@ -11,25 +11,14 @@ use Zend\Paginator\Paginator;
 
 class Controller extends AbstractActionController{
 
-    //登录信息session名称
-    const ADMIN_PLATFORM = "admin";
-
     protected $view;
     protected $sm;
     protected $route;
-    protected $_loginInfo;
-    /**
-     * @var \Zend\Paginator\Paginator 分页操作类
-     */
-    protected $_paginator;
-
-    /**
-     * @var \Zend\Paginator\Adapter\DbSelect 数据适配类
-     */
-    protected $_dbSelectAdapter;
+    protected $loginInfo;
+    const WEB_PLATFORM = 'FRONT';
+    const ADMIN_PLATFORM = 'ADMIN';
 
     public function init(){
-        $this->_err = null;
     }
 
     public function __construct(){
@@ -70,7 +59,7 @@ class Controller extends AbstractActionController{
      */
     protected function checkLogin($platform = self::WEB_PLATFORM){
         $loginSession = new Session($platform, null,null);
-        $this->_loginInfo = $session = $loginSession->read();
+        $this->loginInfo = $session = $loginSession->read();
         if(empty($session)){
             return false;
         }else{
