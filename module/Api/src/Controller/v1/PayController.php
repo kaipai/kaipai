@@ -101,7 +101,7 @@ class PayController extends Controller
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         $isJavaNotify = stripos(strtolower($userAgent), 'java');
         $checkSign = $this->sm->get('COM\Service\PayMod\MerchantPay')->checkSign($_SERVER['QUERY_STRING']);
-        if ($checkSign && $this->request->getQuery("Succeed") == 'Y' /*&& $isJavaNotify !== false*/) {
+        if ($checkSign && $this->request->getQuery("Succeed") == 'Y' && $isJavaNotify !== false) {
 
             $payModel = $this->sm->get("Api\Model\MemberPayDetail");
             $payDetail = $payModel->select(array('UnitePayID' => $this->request->getQuery('MerchantPara')))->current();
