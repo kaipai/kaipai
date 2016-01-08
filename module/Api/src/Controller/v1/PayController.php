@@ -47,15 +47,15 @@ class PayController extends Controller
                     );
                     $this->sm->get('Api\Model\PayNotifyLog')->insert($data);
 
-                    echo 'success';
+                    $this->response->setContent('success');
                 }catch (\Exception $e){
-                    echo 'fail';
+                    $this->response->setContent('fail');
                 }
             } else {
-                echo 'fail';
+                $this->response->setContent('fail');
             }
         } else {
-            echo 'fail';
+            $this->response->setContent('fail');
         }
         return $this->response;
     }
@@ -82,12 +82,12 @@ class PayController extends Controller
                     'UnitePayID' => $this->request->getPost('orderId'),
                 );
                 $this->sm->get('Api\Model\PayNotifyLog')->insert($data);
-                echo 'success';
+                $this->response->setContent('success');
             }catch(\Exception $e){
-                echo 'fail';
+                $this->response->setContent('fail');
             }
         } else {
-            echo 'fail';
+            $this->response->setContent('fail');
         }
 
         return $this->response;
@@ -118,16 +118,16 @@ class PayController extends Controller
                         'UnitePayID' => $this->request->getQuery('MerchantPara'),
                     );
                     $this->sm->get('Api\Model\PayNotifyLog')->insert($data);
-                    echo 'success';
+                    $this->response->setContent('success');
                 }catch(\Exception $e){
-                    echo 'fail';
+                    $this->response->setContent('fail');
                 }
             }else{
-                echo 'fail';
+                $this->response->setContent('fail');
             }
 
         } else {
-            echo 'fail';
+            $this->response->setContent('fail');
         }
 
         return $this->response;
