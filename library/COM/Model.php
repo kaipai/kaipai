@@ -27,6 +27,8 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
 
     public function __construct()
     {
+        $table = trim(strrchr(get_class($this), '\\'), '\\');
+        $this->table = $table;
         if (!$this->getTable()) {
             throw new ServiceNotCreatedException('table property can not empty');
         }
@@ -138,11 +140,6 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
         return $this->select($where)->count();
     }
 
-    public function fetchAll($where = null)
-    {
-        return $this->select($where)->toArray();
-    }
-
     public function getList($where, $offset = 0, $pageSize = 10, $order = null)
     {
         $select = new Select();
@@ -151,7 +148,7 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
             ->offset(intval($offset))
             ->limit(intval($pageSize));
         if ($order)
-            $select->order($order);$sql = new \Zend\Db\Sql\Sql($this->adapter);
+            $select->order($order);
         return $this->selectWith($select)->toArray();
     }
 
@@ -180,56 +177,6 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
             }
         }
         return $cols;
-    }
-
-    public function columnsValidate(array &$data, &$err, $update = false)
-    {
-        if(!$update)
-            $data['Instime'] = date("Y:m-d H:i:s", time());
-
-        $columns = ($update) ? $this->getColumns(true) : $this->getColumns();
-        if (!empty($columns)) {
-            foreach ($data as $d => $v) {
-                if (!isset($columns[$d])) {
-                    unset($data[$d]);
-                }
-                if ($update && !is_numeric($data[$d]) && empty($data[$d])) unset($data[$d]);
-            }
-
-            if (!$update) {
-                foreach ($columns as $c => $vc) {
-                    if (!is_numeric($data[$c]) && empty($data[$c])) {
-                        if (!$vc['ableNull']) {
-                            $err = $vc['comment'] . '不能为空';
-                            return false;
-                        }else{
-                            unset($data[$c]);
-                        }
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
-
-    public function insertData($data, &$err)
-    {
-        $validate = $this->columnsValidate($data, $err);
-        if (!$validate) {
-            return false;
-        }
-        return $this->insert($data);
-    }
-
-    public function updateData(array $data, &$err)
-    {
-        $validate = $this->columnsValidate($data, $err, $update = true);
-        if (!$validate) {
-            return false;
-        }
-
-        return $this->update($data, array($this->_primary => $data[$this->_primary]));
     }
 
     /**
@@ -268,5 +215,11 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
         $this->sm = $serviceManager;
     }
 
+    /**
+     * 获取select实例
+     */
+    public function getSelect(){
+        return $this->getSql()->select();
+    }
 
 }
