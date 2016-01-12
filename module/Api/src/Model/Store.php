@@ -1,10 +1,11 @@
 <?php
 /**
- * 用户详情
+ * 店铺
  */
 namespace Api\Model;
 
 use COM\Model;
-class MemberInfo extends Model{
+class Store extends Model{
+
 
 }

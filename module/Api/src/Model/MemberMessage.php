@@ -1,10 +1,11 @@
 <?php
 /**
- * 用户详情
+ * 站内信
  */
 namespace Api\Model;
 
 use COM\Model;
-class MemberInfo extends Model{
+class MemberMessage extends Model{
+
 
 }

@@ -1,10 +1,11 @@
 <?php
 /**
- * 用户详情
+ * 广告
  */
 namespace Api\Model;
 
 use COM\Model;
-class MemberInfo extends Model{
+class Ad extends Model{
+
 
 }

@@ -1,10 +1,10 @@
 <?php
 /**
- * 用户详情
+ * 用户空间
  */
 namespace Api\Model;
 
 use COM\Model;
-class MemberInfo extends Model{
+class MemberZone extends Model{
 
 }

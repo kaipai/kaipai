@@ -1,10 +1,11 @@
 <?php
 /**
- * 用户详情
+ * 用户订单
  */
 namespace Api\Model;
 
 use COM\Model;
-class MemberInfo extends Model{
+class MemberOrder extends Model{
+
 
 }
