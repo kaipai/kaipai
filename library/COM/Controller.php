@@ -34,7 +34,7 @@ class Controller extends AbstractActionController{
         $this->route = $event->getRouteMatch();
     }
 
-    protected function _return($flag = null, $msg = null, $data = null, $url = null){
+    protected function response($flag = null, $msg = null, $data = null, $url = null){
         $headers = array(
             'Access-Control-Allow-Origin: *',
             'Access-Control-Allow-Headers: Content-type',
@@ -75,18 +75,6 @@ class Controller extends AbstractActionController{
         return $this->checkLogin(self::ADMIN_PLATFORM);
     }
 
-    /**
-     * 分页数据集
-     * @param Select $select The select query
-     * @param Adapter|Sql $adapterOrSqlObject DB adapter or Sql object
-     */
-    protected function paginate(Select $select, $adapterOrSqlObject){
-
-        $dbSelect = new DbSelect($select, $adapterOrSqlObject);
-        $paginator = new Paginator($dbSelect);
-
-        return $paginator;
-    }
 
     /**
      * 根据参数生成签名

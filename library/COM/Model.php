@@ -14,6 +14,7 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\Feature\EventFeature;
 use Zend\Db\TableGateway\Feature\FeatureSet;
 use Zend\Filter\Word\UnderscoreToDash;
+use Zend\Paginator\Paginator;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\ServiceManager;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
@@ -220,6 +221,19 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
      */
     public function getSelect(){
         return $this->getSql()->select();
+    }
+
+    /**
+     * 分页数据集
+     * @param Select $select The select query
+     * @param Adapter|Sql $adapterOrSqlObject DB adapter or Sql object
+     */
+    public function paginate(Select $select){
+
+        $dbSelect = new DbSelect($select, $this->getSql());
+        $paginator = new Paginator($dbSelect);
+
+        return $paginator;
     }
 
 }
