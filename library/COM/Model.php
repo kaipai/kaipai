@@ -141,15 +141,20 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
         return $this->select($where)->count();
     }
 
-    public function getList($where, $offset = 0, $pageSize = 10, $order = null)
+    /**
+     * 获取数据列表
+     */
+    public function getList($where, $order = null, $offset = null, $pageSize = null)
     {
-        $select = new Select();
+        $select = $this->getSelect();
         $select->from($this->table)
             ->where($where)
             ->offset(intval($offset))
             ->limit(intval($pageSize));
-        if ($order)
-            $select->order($order);
+        if($offset) $select->offset(intval($offset));
+        if($pageSize) $select->limit(intval($pageSize));
+        if ($order) $select->order($order);
+
         return $this->selectWith($select)->toArray();
     }
 
@@ -166,7 +171,7 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
         $table = $metadata->getTable($this->table);
         $columns = $table->getColumns();
         $cols = array();
-        if(in_array($this->table, array('MemberInfo'))) $conPri = true;
+        if (in_array($this->table, array('MemberInfo'))) $conPri = true;
         if (!empty($columns)) {
             foreach ($columns as $c) {
                 $cols[$c->getName()]['ableNull'] = $c->getIsNullable();
@@ -188,9 +193,9 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
         $select = new Select();
         $select->from($this->getTable())->columns($this->selectColumns);
         empty($where) ?: $select->where($where);
-        empty($limit) ?: $select->limit((int) $limit);
-        empty($offset) ?: $select->offset((int) $offset);
-        empty($order) ? $select->order(array($this->_primary=>'desc')):$select->order($order);
+        empty($limit) ?: $select->limit((int)$limit);
+        empty($offset) ?: $select->offset((int)$offset);
+        empty($order) ? $select->order(array($this->_primary => 'desc')) : $select->order($order);
         return $this->selectWith($select)->toArray();
     }
 
@@ -219,7 +224,8 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
     /**
      * 获取select实例
      */
-    public function getSelect(){
+    public function getSelect()
+    {
         return $this->getSql()->select();
     }
 
@@ -228,7 +234,8 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
      * @param Select $select The select query
      * @param Adapter|Sql $adapterOrSqlObject DB adapter or Sql object
      */
-    public function paginate(Select $select){
+    public function paginate(Select $select)
+    {
 
         $dbSelect = new DbSelect($select, $this->getSql());
         $paginator = new Paginator($dbSelect);

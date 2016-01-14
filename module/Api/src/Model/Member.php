@@ -39,7 +39,7 @@ class Member extends Model{
     /**
      * 用户列表
      */
-    public function getList($where = null, $order = null){
+    public function getMemberList($where = null, $order = null){
         $select = $this->getSelect();
         $select->from(array('a' => $this->table))
                 ->where($where);
