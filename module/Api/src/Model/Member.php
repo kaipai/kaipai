@@ -11,7 +11,7 @@ class Member extends Model{
      * 验证
      */
     public function auth($mobile = null, $password = null){
-        return $this->select(array('Mobile' => $mobile, 'Password' => $this->genPassword($password)))->current();
+        return $this->select(array('mobile' => $mobile, 'password' => $this->genPassword($password)))->current();
     }
 
     /**
@@ -19,15 +19,15 @@ class Member extends Model{
      */
     public function add($data = array()){
         $memberData = array(
-            'Mobile' => $data['Mobile'],
-            'Password' => $this->genPassword($data['Password']),
+            'mobile' => $data['Mobile'],
+            'password' => $this->genPassword($data['Password']),
         );
         $memberInfoData = array(
         );
         try{
             $this->beginTransaction();
             $this->insert($memberData);
-            $memberInfoData['MemberID'] = $this->getLastInsertValue();
+            $memberInfoData['memberID'] = $this->getLastInsertValue();
             $this->sm->get('Api\Model\MemberInfo')->insert($memberInfoData);
             $this->commit();
         }catch (\Exception $e){
