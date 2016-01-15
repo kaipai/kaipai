@@ -5,7 +5,7 @@
 namespace Api\Model;
 
 use COM\Model;
-class ProductAuctionMember extends Model{
+class AuctionMember extends Model{
 
 
 }
