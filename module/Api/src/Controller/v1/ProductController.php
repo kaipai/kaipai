@@ -6,9 +6,6 @@ use Base\Functions\Utility;
 use COM\Controller\Api;
 class ProductController extends Api{
 
-    /**
-     * 拍品列表
-     */
     public function listAction(){
         $select = $this->memberModel->getSelect();
         $paginator = $this->memberModel->paginate($select);
@@ -20,9 +17,6 @@ class ProductController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
     }
 
-    /**
-     * 拍品详情
-     */
     public function detailAction(){
         $productID = $this->postData['productID'];
         $select = $this->productModel->getSelect();
@@ -33,5 +27,9 @@ class ProductController extends Api{
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $productDetail);
     }
+
+
+
+
 
 }
