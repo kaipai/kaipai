@@ -15,7 +15,12 @@ class Controller extends AbstractActionController{
     protected $sm;
     protected $route;
     protected $loginInfo;
-    const WEB_PLATFORM = 'FRONT';
+    protected $postData;
+    protected $controllerName;
+    protected $actionName;
+    protected $offset;
+    protected $limit;
+    const FRONT_PLATFORM = 'FRONT';
     const ADMIN_PLATFORM = 'ADMIN';
 
     public function init(){
@@ -32,6 +37,11 @@ class Controller extends AbstractActionController{
         $this->sm = $this->getServiceLocator();
         $event = $this->getEvent();
         $this->route = $event->getRouteMatch();
+
+        $this->postData = $this->request->getPost()->toArray();
+        $this->controllerName = $this->route->getParam('__CONTROLLER__');
+        $this->actionName = $this->route->getParam('action');
+
     }
 
     protected function response($flag = null, $msg = null, $data = null, $url = null){
@@ -66,15 +76,6 @@ class Controller extends AbstractActionController{
             return $session;
         }
     }
-
-    /**
-     * admin后台验证登录
-     * @return bool|mixed
-     */
-    protected function checkLoginForAdmin(){
-        return $this->checkLogin(self::ADMIN_PLATFORM);
-    }
-
 
     /**
      * 根据参数生成签名
