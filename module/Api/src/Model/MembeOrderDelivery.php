@@ -5,7 +5,7 @@
 namespace Api\Model;
 
 use COM\Model;
-class MemberOrderLogistics extends Model{
+class MemberOrderDelivery extends Model{
 
 
 }
