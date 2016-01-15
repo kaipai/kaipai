@@ -20,6 +20,8 @@ class Controller extends AbstractActionController{
     protected $actionName;
     protected $offset;
     protected $limit;
+    protected $order;
+    protected $sort;
     const FRONT_PLATFORM = 'FRONT';
     const ADMIN_PLATFORM = 'ADMIN';
 
@@ -41,6 +43,10 @@ class Controller extends AbstractActionController{
         $this->postData = $this->request->getPost()->toArray();
         $this->controllerName = $this->route->getParam('__CONTROLLER__');
         $this->actionName = $this->route->getParam('action');
+        $this->offset = $this->postData['offset'];
+        $this->limit = $this->postData['limit'];
+        $this->order = $this->postData['order'];
+        $this->sort = $this->postData['sort'];
 
     }
 
