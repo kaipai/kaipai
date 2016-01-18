@@ -15,7 +15,7 @@ class LoginController extends Api{
      * 登录
      */
     public function doLoginAction(){
-        $memberName = $this->postData['memberName'];
+        $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
         $verifyCode = $this->postData['verifyCode'];
 
@@ -26,7 +26,7 @@ class LoginController extends Api{
         $select = $this->memberModel->getSelect();
         $select->from(array('a' => 'Member'))
             ->join(array('b' => 'MemberInfo'), 'a.memberID = b.memberID')
-            ->where(array('a.memberName' => $memberName, 'a.password' => $password));
+            ->where(array('a.mobile' => $mobile, 'a.password' => $password));
 
         $memberInfo = $this->memberModel->selectWith($select)->current();
 
@@ -38,5 +38,14 @@ class LoginController extends Api{
             return $this->response(ApiError::LOGIN_FAILED, ApiError::LOGIN_FAILED_MSG);
         }
 
+    }
+
+    /**
+     * 获取验证码
+     */
+    public function getVerifyCodeAction(){
+        $mobile = $this->postData['mobile'];
+        
+        return $this->response();
     }
 }
