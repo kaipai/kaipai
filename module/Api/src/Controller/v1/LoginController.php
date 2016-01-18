@@ -45,7 +45,7 @@ class LoginController extends Api{
      */
     public function getVerifyCodeAction(){
         $mobile = $this->postData['mobile'];
-        
+
         return $this->response();
     }
 }
