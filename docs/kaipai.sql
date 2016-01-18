@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50532
 File Encoding         : 65001
 
-Date: 2016-01-18 11:51:02
+Date: 2016-01-18 18:02:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -155,7 +155,7 @@ CREATE TABLE `AuctionMember` (
 DROP TABLE IF EXISTS `Member`;
 CREATE TABLE `Member` (
   `memberID` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `memberName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '用户名',
+  `mobile` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '用户名',
   `password` varchar(32) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '密码',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`memberID`)
@@ -241,7 +241,6 @@ CREATE TABLE `MemberInfo` (
   `qq` varchar(20) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT 'qq号',
   `wechat` varchar(20) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '微信号',
   `selfDesc` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '个人描述',
-  `mobile` varchar(11) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '绑定手机',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`memberID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
