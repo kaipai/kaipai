@@ -45,7 +45,7 @@ class LoginController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
-    public function registeAction(){
+    public function regAction(){
 
     }
 }
