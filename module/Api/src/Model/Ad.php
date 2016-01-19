@@ -1,7 +1,4 @@
 <?php
-/**
- * 广告
- */
 namespace Api\Model;
 
 use COM\Model;

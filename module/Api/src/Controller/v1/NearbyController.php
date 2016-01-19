@@ -9,9 +9,6 @@ class NearbyController extends Api{
 
     private $baiduApiUrl = 'http://api.map.baidu.com/telematics/v3/local?output=json&ak=6E39371418ca5b0d38da3f7a7f491376';
 
-    /**
-     * 附近加油站
-     */
     public function placeAction(){
 
         $parameters = $this->request->getPost();

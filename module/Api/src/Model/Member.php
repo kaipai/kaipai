@@ -1,22 +1,13 @@
 <?php
-/**
- * 用户登录信息
- */
 namespace Api\Model;
 
 use COM\Model;
 class Member extends Model{
 
-    /**
-     * 验证
-     */
     public function auth($mobile = null, $password = null){
         return $this->select(array('mobile' => $mobile, 'password' => $this->genPassword($password)))->current();
     }
 
-    /**
-     * 新增用户
-     */
     public function add($data = array()){
         $memberData = array(
             'mobile' => $data['Mobile'],
@@ -36,9 +27,6 @@ class Member extends Model{
 
     }
 
-    /**
-     * 用户列表
-     */
     public function getMemberList($where = null, $order = null){
         $select = $this->getSelect();
         $select->from(array('a' => $this->table))
@@ -48,9 +36,6 @@ class Member extends Model{
         return $this->selectWith($select)->toArray();
     }
 
-    /**
-     * 生成密码
-     */
     public function genPassword($pwd = null){
         return md5($pwd);
     }

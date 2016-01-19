@@ -1,7 +1,4 @@
 <?php
-/**
- * 艺术家
- */
 namespace Api\Model;
 
 use COM\Model;

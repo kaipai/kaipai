@@ -10,9 +10,6 @@ use COM\Controller;
 class PayController extends Controller
 {
 
-    /**
-     * 支付宝支付通知
-     */
     public function aliNotifyAction()
     {
         include LIB . '/COM/Service/PayMod/lib/ali/alipay.php';
@@ -60,9 +57,6 @@ class PayController extends Controller
         return $this->response;
     }
 
-    /**
-     * 银联支付通知
-     */
     public function unionNotifyAction()
     {
         include LIB . '/COM/Service/PayMod/lib/Union/unionpay.php';
@@ -93,9 +87,6 @@ class PayController extends Controller
         return $this->response;
     }
 
-    /**
-     * 招行支付通知
-     */
     public function merchantNotifyAction()
     {
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -134,23 +125,14 @@ class PayController extends Controller
 
     }
 
-    /**
-     * 支付宝支付商户返回页面
-     */
     public function aliReturnAction(){
         return $this->_return(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
-    /**
-     * 银联支付商户返回页面
-     */
     public function unionReturnAction(){
         return $this->_return(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
-    /**
-     * 招行支付页
-     */
     public function merchantPayAction(){
         $unitePayID = $this->params('unitePayID');
         if(empty($unitePayID)) return $this->_return(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);

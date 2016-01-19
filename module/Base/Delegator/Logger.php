@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: william
- * Date: 15/6/12
- * Time: 14:46
- */
-
 namespace Base\Delegator;
 
 

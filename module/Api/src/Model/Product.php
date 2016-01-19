@@ -1,7 +1,4 @@
 <?php
-/**
- * 拍品
- */
 namespace Api\Model;
 
 use COM\Model;

@@ -3,23 +3,19 @@ namespace Api\Controller\v1;
 
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Api\Sms;
 use Base\Functions\Utility;
 use COM\Controller\Api;
 use Zend\Authentication\Storage\Session;
 
 class LoginController extends Api{
 
-
-
-    /**
-     * 登录
-     */
     public function doLoginAction(){
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
         $verifyCode = $this->postData['verifyCode'];
-
-        if($verifyCode != 1){
+        $smsCode = $this->mobileVerifyCodeModel->select(array('mobile' => $mobile, 'expireTime > ?' => time()))->current();
+        if(empty($verifyCode) || $verifyCode != $smsCode){
             return $this->response(ApiError::VERIFY_CODE_AUTH_FAILED, ApiError::VERIFY_CODE_AUTH_FAILED_MSG);
         }
 
@@ -40,12 +36,16 @@ class LoginController extends Api{
 
     }
 
-    /**
-     * 获取验证码
-     */
     public function getVerifyCodeAction(){
         $mobile = $this->postData['mobile'];
+        $verifyCode = $this->memberModel->getVerifyCode();
+        $sms = str_replace(Sms::VERIFY_CODE_MSG, '{$verifyCode}', $verifyCode);
+        $this->smsService->sendSms($mobile, $sms);
+        $this->mobileVerifyCodeModel->insert($data);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
 
-        return $this->response();
+    public function registeAction(){
+
     }
 }

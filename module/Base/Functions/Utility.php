@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: william
- * Date: 15/5/11
- * Time: 11:33
- */
-
 namespace Base\Functions;
 
 
@@ -20,10 +13,6 @@ class Utility
             die;
     }
 
-    /**
-     * 取客户端ip
-     * @return string
-     */
     public static function getIp()
     {
         static $ip = null;
@@ -47,9 +36,6 @@ class Utility
         return $ip;
     }
 
-    /**
-     * 根据ip获取所在城市
-     */
     public static function getRegionFromIp($ip = null)
     {
         if (!empty($ip)) {
@@ -70,10 +56,6 @@ class Utility
         }
     }
 
-    /**
-     * 获取随机码
-     * @param $length
-     */
     public static function getRandCode($length)
     {
         $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -84,11 +66,6 @@ class Utility
         return $code;
     }
 
-    /**
-     * 异或运算
-     * @param string $data
-     * @param string $key
-     */
     public static function simpleXor($data, $key)
     {
         $result = '';
@@ -103,11 +80,6 @@ class Utility
         return $result;
     }
 
-    /**
-     * 字符串转为数组
-     * @param $string
-     * @return array
-     */
     public static function mbStringToArray($string)
     {
         $strlen = mb_strlen($string);
@@ -121,12 +93,6 @@ class Utility
         return $array;
     }
 
-    /**
-     * 发起curl请求
-     * @param $uri
-     * @param $data
-     * @return bool|mixed
-     */
     public static function curl($uri, $data, $method = 'post')
     {
 
@@ -148,9 +114,6 @@ class Utility
         return $response;
     }
 
-    /**
-     * 根据参数生成签名
-     */
     public static function genSignature($data){
         $signature = 'sign:';
         if(!empty($data)){

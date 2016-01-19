@@ -3,11 +3,6 @@ namespace COM\Service;
 
 use Base\ConstDir\BaseConst;
 
-/**
- * @description 文件导入导出类
- * @author 童旭华
- * @date 2015-7-21
- */
 class ExcelService
 {
     private $_filename = '';
