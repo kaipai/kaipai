@@ -21,4 +21,11 @@ class StoreController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
     }
 
+    public function detailAction(){
+        $storeID = $this->postData['storeID'];
+        $storeInfo = $this->storeModel->select(array('storeID' => $storeID))->current();
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('storeInfo' => $storeInfo));
+    }
+
 }
