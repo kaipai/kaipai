@@ -48,4 +48,8 @@ class LoginController extends Api{
     public function regAction(){
 
     }
+
+    public function forgotAction(){
+
+    }
 }

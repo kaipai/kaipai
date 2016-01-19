@@ -2,7 +2,7 @@
 namespace Api\Model;
 
 use COM\Model;
-class ActivityProduct extends Model{
+class SpecialProduct extends Model{
 
 
 }

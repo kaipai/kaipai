@@ -7,14 +7,15 @@ use COM\Controller\Api;
 class ProductController extends Api{
 
     public function listAction(){
-        $select = $this->memberModel->getSelect();
-        $paginator = $this->memberModel->paginate($select);
+        $searchItem = $this->postData['searchItem'];
+        $select = $this->productModel->getSelect();
+        $paginator = $this->productModel->paginate($select);
         $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
         $paginator->setItemCountPerPage($this->limit);
-        $dataRows = $paginator->getCurrentItems()->toArray();
-        $dataTotalCount = $paginator->getTotalItemCount();
+        $products = $paginator->getCurrentItems()->toArray();
+        $productsCount = $paginator->getTotalItemCount();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('products' => $products, 'productsCount' => $productsCount));
     }
 
     public function detailAction(){
@@ -28,6 +29,19 @@ class ProductController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $productDetail);
     }
 
+    public function categoryAction(){
+        $select = $this->productCategoryFilterOptionModel->getSelect();
+        $select->from(array('a' => 'ProductCategoryFilterOption'))
+            ->join(array('b' => 'ProductCategoryFilter', 'a.productCategoryFilterID = b.productCategoryFilterID'))
+            ->join(array('c' => 'ProductCategory', 'b.productCategoryID = c.productCategoryID'));
+        $categories = $this->productCategoryFilterOptionModel->selectWith($select)->toArray();
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('categories' => $categories));
+    }
+
+    public function addAction(){
+
+    }
 
 
 

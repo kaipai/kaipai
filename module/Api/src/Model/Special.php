@@ -2,7 +2,7 @@
 namespace Api\Model;
 
 use COM\Model;
-class MemberComment extends Model{
+class Special extends Model{
 
 
 }
