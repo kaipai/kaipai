@@ -12,4 +12,8 @@ class CommentController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
 
     }
+
+    public function addAction(){
+        $memberID = $this->postData['memberID'];
+    }
 }
