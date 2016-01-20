@@ -14,7 +14,7 @@ class Controller extends AbstractActionController{
     protected $view;
     protected $sm;
     protected $route;
-    protected $loginInfo;
+    protected $memberInfo;
     protected $postData;
     protected $controllerName;
     protected $actionName;
@@ -75,7 +75,7 @@ class Controller extends AbstractActionController{
      */
     protected function checkLogin($platform = self::WEB_PLATFORM){
         $loginSession = new Session($platform, null,null);
-        $this->loginInfo = $session = $loginSession->read();
+        $this->memberInfo = $session = $loginSession->read();
         if(empty($session)){
             return false;
         }else{

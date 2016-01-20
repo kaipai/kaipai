@@ -18,5 +18,6 @@ class MemberMessageController extends Api{
         if(!empty($msgID)){
             $this->memberMsgModel->select()->current();
 
-        }}
+        }
+    }
 }
