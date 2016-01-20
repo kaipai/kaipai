@@ -14,6 +14,14 @@ class CommentController extends Api{
     }
 
     public function addAction(){
-        $memberID = $this->postData['memberID'];
+        $data = array(
+            'memberID' => $this->postData['memberID'],
+            'commenterName' => $this->postData['memberName'],
+            'commentTitle' => $this->postData['commentTitle'],
+            'commentContent' => $this->postData['commentContent'],
+        );
+        $this->commentModel->insert($data);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 }
