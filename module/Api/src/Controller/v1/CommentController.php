@@ -7,9 +7,14 @@ use COM\Controller\Api;
 class CommentController extends Api{
 
     public function indexAction(){
-        $comments = array();
+        $select = $this->commentModel->getSelect();
+        $paginator = $this->commentModel->paginate($select);
+        $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
+        $paginator->setItemCountPerPage($this->limit);
+        $comments = $paginator->getCurrentItems()->toArray();
+        $commentsCount = $paginator->getTotalItemCount();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('comments' => $comments, 'commentsCount' => $commentsCount));
 
     }
 

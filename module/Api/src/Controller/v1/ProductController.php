@@ -43,6 +43,13 @@ class ProductController extends Api{
 
     }
 
+    public function updateAction(){
+
+    }
+
+    public function deleteAction(){
+
+    }
 
 
 

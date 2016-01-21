@@ -3,7 +3,7 @@ namespace Admin\Controller;
 
 use COM\Controller\Admin;
 
-class MemberController extends Admin{
+class SpecialController extends Admin{
 
     public function indexAction(){
 
@@ -11,29 +11,30 @@ class MemberController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->memberModel->getSelect();
-        $members = $this->memberModel->selectWith($select)->toArray();
+        $select = $this->specialModel->getSelect();
+        $specials = $this->specialModel->selectWith($select)->toArray();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('members' => $members));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('specials' => $specials));
     }
 
     public function addAction(){
-        $memberData = array(
+        $specialData = array(
 
         );
-        $this->memberModel->insert($memberData);
+        $this->specialModel->insert($specialData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function updateAction(){
-        $memberID = $this->postData['memberID'];
+        $specialID = $this->postData['specialID'];
         $set = array();
         $where = array(
-            'memberID' => $memberID
+            'specialID' => $specialID
         );
-        $this->memberModel->update($set, $where);
+        $this->specialModel->update($set, $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
+
 }

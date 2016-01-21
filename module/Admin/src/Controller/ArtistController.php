@@ -3,7 +3,7 @@ namespace Admin\Controller;
 
 use COM\Controller\Admin;
 
-class MemberController extends Admin{
+class ArtistController extends Admin{
 
     public function indexAction(){
 
@@ -11,29 +11,31 @@ class MemberController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->memberModel->getSelect();
-        $members = $this->memberModel->selectWith($select)->toArray();
+        $select = $this->artistModel->getSelect();
+        $artists = $this->artistModel->selectWith($select)->toArray();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('members' => $members));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('artists' => $artists));
     }
 
     public function addAction(){
-        $memberData = array(
+        $artistData = array(
 
         );
-        $this->memberModel->insert($memberData);
+        $this->artistModel->insert($artistData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function updateAction(){
-        $memberID = $this->postData['memberID'];
+        $artistID = $this->postData['artistID'];
         $set = array();
         $where = array(
-            'memberID' => $memberID
+            'artistID' => $artistID
         );
-        $this->memberModel->update($set, $where);
+        $this->articleModel->update($set, $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
+
+
 }
