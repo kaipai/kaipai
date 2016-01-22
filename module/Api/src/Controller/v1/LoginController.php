@@ -62,6 +62,9 @@ class LoginController extends Api{
             $set = array(
                 'password' => $this->memberModel->genPwd($newPwd),
             );
+            $this->memberModel->update($set, array('mobile' => $mobile));
         }
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 }
