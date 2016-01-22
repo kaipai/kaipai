@@ -10,45 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50532
 File Encoding         : 65001
 
-Date: 2016-01-18 18:02:09
+Date: 2016-01-22 15:03:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for Activity
--- ----------------------------
-DROP TABLE IF EXISTS `Activity`;
-CREATE TABLE `Activity` (
-  `activityID` int(11) NOT NULL AUTO_INCREMENT COMMENT '活动ID',
-  `activityName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '活动名称',
-  `startTime` int(11) DEFAULT NULL COMMENT '开始时间',
-  `endTime` int(11) DEFAULT NULL COMMENT '结束时间',
-  `storeID` int(11) DEFAULT NULL COMMENT '选送商家ID',
-  `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`activityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
-
--- ----------------------------
--- Records of Activity
--- ----------------------------
-
--- ----------------------------
--- Table structure for ActivityProduct
--- ----------------------------
-DROP TABLE IF EXISTS `ActivityProduct`;
-CREATE TABLE `ActivityProduct` (
-  `activityProductID` int(11) NOT NULL AUTO_INCREMENT COMMENT '活动拍品记录ID',
-  `activityID` int(11) DEFAULT NULL COMMENT '活动ID',
-  `productID` int(11) DEFAULT NULL COMMENT '拍品ID',
-  `activityPrice` decimal(9,2) DEFAULT NULL COMMENT '活动价',
-  `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`activityProductID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
-
--- ----------------------------
--- Records of ActivityProduct
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for Ad
@@ -150,6 +115,24 @@ CREATE TABLE `AuctionMember` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for Comment
+-- ----------------------------
+DROP TABLE IF EXISTS `Comment`;
+CREATE TABLE `Comment` (
+  `commentID` int(11) NOT NULL COMMENT '用户评论',
+  `commenterName` varchar(25) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '留言者姓名',
+  `commentTitle` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '留言标题',
+  `commentContent` varchar(512) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '留言内容',
+  `replyContent` varchar(512) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '回复内容',
+  `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`commentID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+-- ----------------------------
+-- Records of Comment
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for Member
 -- ----------------------------
 DROP TABLE IF EXISTS `Member`;
@@ -211,21 +194,6 @@ CREATE TABLE `MemberArticleMark` (
 
 -- ----------------------------
 -- Records of MemberArticleMark
--- ----------------------------
-
--- ----------------------------
--- Table structure for MemberComment
--- ----------------------------
-DROP TABLE IF EXISTS `MemberComment`;
-CREATE TABLE `MemberComment` (
-  `memberCommentID` int(11) NOT NULL COMMENT '用户评论',
-  `memberCommentContent` varchar(512) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '用户评论内容',
-  `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`memberCommentID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
-
--- ----------------------------
--- Records of MemberComment
 -- ----------------------------
 
 -- ----------------------------
@@ -367,6 +335,24 @@ CREATE TABLE `MemberZone` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for MobileVerifyCode
+-- ----------------------------
+DROP TABLE IF EXISTS `MobileVerifyCode`;
+CREATE TABLE `MobileVerifyCode` (
+  `codeID` int(11) NOT NULL AUTO_INCREMENT COMMENT '验证码ID',
+  `mobile` varchar(11) DEFAULT NULL COMMENT '手机号',
+  `verifyCode` char(10) DEFAULT NULL COMMENT '验证码',
+  `expireTime` int(11) DEFAULT NULL COMMENT '过期时间',
+  `isUsed` tinyint(4) DEFAULT '0' COMMENT '是否使用过',
+  `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`codeID`)
+) ENGINE=MyISAM AUTO_INCREMENT=70288 DEFAULT CHARSET=utf8 COMMENT='手机验证码';
+
+-- ----------------------------
+-- Records of MobileVerifyCode
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for PaynotifyLog
 -- ----------------------------
 DROP TABLE IF EXISTS `PaynotifyLog`;
@@ -399,6 +385,7 @@ CREATE TABLE `Product` (
   `depositPrice` decimal(9,2) DEFAULT NULL COMMENT '保证金',
   `startTime` int(11) DEFAULT NULL COMMENT '起拍时间',
   `endTime` int(11) DEFAULT NULL COMMENT '结束时间',
+  `auctionStatus` tinyint(1) DEFAULT '0' COMMENT '状态',
   `auctionPerPrice` decimal(9,2) DEFAULT NULL COMMENT '单次出价',
   `coverDelivery` tinyint(1) DEFAULT '0' COMMENT '是否 包邮',
   `refundInDays` tinyint(1) DEFAULT '0' COMMENT '三日内可退',
@@ -472,6 +459,41 @@ CREATE TABLE `ProductFilterOption` (
 
 -- ----------------------------
 -- Records of ProductFilterOption
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for Special
+-- ----------------------------
+DROP TABLE IF EXISTS `Special`;
+CREATE TABLE `Special` (
+  `specialID` int(11) NOT NULL AUTO_INCREMENT COMMENT '专场id',
+  `specialName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '专场名称',
+  `startTime` int(11) DEFAULT NULL COMMENT '开始时间',
+  `endTime` int(11) DEFAULT NULL COMMENT '结束时间',
+  `storeID` int(11) DEFAULT NULL COMMENT '选送商家ID',
+  `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`specialID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+-- ----------------------------
+-- Records of Special
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for SpecialProduct
+-- ----------------------------
+DROP TABLE IF EXISTS `SpecialProduct`;
+CREATE TABLE `SpecialProduct` (
+  `specialProductID` int(11) NOT NULL AUTO_INCREMENT COMMENT '专场拍品记录ID',
+  `specialID` int(11) DEFAULT NULL COMMENT '活动ID',
+  `productID` int(11) DEFAULT NULL COMMENT '拍品ID',
+  `specialPrice` decimal(9,2) DEFAULT NULL COMMENT '活动价',
+  `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`specialProductID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+-- ----------------------------
+-- Records of SpecialProduct
 -- ----------------------------
 
 -- ----------------------------
