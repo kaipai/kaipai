@@ -40,4 +40,8 @@ class Member extends Model{
         return md5($pwd);
     }
 
+    public function genPwd($pwd = null){
+        return md5($pwd);
+    }
+
 }

@@ -22,7 +22,7 @@ class LoginController extends Api{
         $select = $this->memberModel->getSelect();
         $select->from(array('a' => 'Member'))
             ->join(array('b' => 'MemberInfo'), 'a.memberID = b.memberID')
-            ->where(array('a.mobile' => $mobile, 'a.password' => $password));
+            ->where(array('a.mobile' => $mobile, 'a.password' => $this->memberModel->genPwd($password)));
 
         $memberInfo = $this->memberModel->selectWith($select)->current();
 
@@ -41,6 +41,10 @@ class LoginController extends Api{
         $verifyCode = $this->memberModel->getVerifyCode();
         $sms = str_replace(Sms::VERIFY_CODE_MSG, '{$verifyCode}', $verifyCode);
         $this->smsService->sendSms($mobile, $sms);
+        $data = array(
+            'verifyCode' => $verifyCode,
+            'expireTime' => time(),
+        );
         $this->mobileVerifyCodeModel->insert($data);
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
@@ -50,6 +54,14 @@ class LoginController extends Api{
     }
 
     public function forgotAction(){
-
+        $mobile = $this->postData['mobile'];
+        $verifyCode = $this->postData['mobile'];
+        $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
+        $newPwd = $this->postData['newPwd'];
+        if($verifyCode == $smsVeriyfCode){
+            $set = array(
+                'password' => $this->memberModel->genPwd($newPwd),
+            );
+        }
     }
 }

@@ -8,4 +8,6 @@ class ApiError{
     const VERIFY_CODE_AUTH_FAILED_MSG = '验证码验证失败';
     const NEED_LOGIN = -102;
     const NEED_LOGIN_MSG = '需要登录才能访问';
+    const PARAMETER_MISSING = -103;
+    const PARAMETER_MISSING_MSG = '参数缺失';
 }
