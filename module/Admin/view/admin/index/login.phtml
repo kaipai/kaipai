@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<?php echo $this->doctype(); ?>
 <html>
 <head>
     <title>admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/admin/img/star.ico'))
-    ->appendStylesheet($this->basePath() . '/admin/css/bootstrap.min.css');
+    <?php
+        echo $this->headLink()->appendStylesheet($this->basePath() . '/admin/css/bootstrap.min.css');
     ?>
 </head>
 <body>
@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 col-md-2 control-label">用户名</label>
                             <div class="col-sm-10 col-md-10">
-                                <input type="text" class="form-control" id="inputEmail3" name="username" placeholder="请输入您的用户">
+                                <input type="text" class="form-control" id="inputEmail3" name="adminName" placeholder="请输入您的用户">
                             </div>
                         </div>
                     </td>
@@ -38,19 +38,6 @@
                             <label for="inputPassword3" class="col-sm-2 col-md-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
                             <div class="col-sm-10 col-md-10">
                                 <input type="password" class="form-control" name="password" id="inputPassword3" placeholder="请输入您的密码">
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10 col-md-10">
-                                <div class="checkbox">
-                                    <label>
-                                        <input name="isBind" type="checkbox"> 绑定谷歌验证器
-                                    </label>
-                                </div>
                             </div>
                         </div>
                     </td>
