@@ -18,7 +18,7 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/[:controller[/:action]',
+                            'route' => '/[:controller][/:action]',
                             'constraints' => array(
                                 '__NAMESPACE__' => 'Admin\Controller',
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -46,12 +46,10 @@ return array(
         'not_found_template' => 'error/404',
         'exception_template' => 'error/index',
         'template_map' => array(
-            'SupplierApi/layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
-            'SupplierApi/error/404' => __DIR__ . '/../view/error/404.phtml',
+            'adminLayout' => __DIR__ . '/../view/layout/admin.phtml'
         ),
         'template_path_stack' => array(
-            'SupplierApi' => __DIR__ . '/../view',
+            'admin' => __DIR__ . '/../view'
         ),
     ),
-    'token_key' => 'supplier-test',
 );

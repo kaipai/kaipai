@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1>欢迎来到管理后台</h1>
+        <?php if (isset($err) && $err != '') { ?>
+        <div class="alert alert-danger alert-dismissable">
+            <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+            <h2><?php echo $err; ?></h2>
+        </div>
+        <?php } ?>
+    </div>
+</div>

@@ -1,0 +1,182 @@
+
+
+<div id="toolbar" class="fixed-table-toolbar col-lg-offset-2">
+    <div class="form-inline" role="form">
+        <a  class="btn btn-primary" href="/admin/product/add-view"><i class="fa fa-pencil"></i>新增</a>
+    </div>
+</div>
+<div class="fixed-table-body" style="margin-bottom: 50px">
+    <table id="table-javascript" class="bootstrap_table"></table>
+</div>
+
+<!-- Edit Modal Start -->
+<div class="row">
+    <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="edit_modal_label">排序设置</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="editForm" role="form" method="get" action="/admin/<?=$this->layout()->controllerName;?>/sort-product">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="desc" class="col-sm-2 col-md-2 control-label">产品名称</label>
+                                        <div class="col-sm-10 col-md-10">
+                                            <input type="text" class="form-control" id="Name" disabled="true" name="Name" value="">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="desc" class="col-sm-2 col-md-2 control-label">产品排序</label>
+                                        <div class="col-sm-10 col-md-10">
+                                            <input type="text" class="form-control" id="Sort" name="Sort" value="">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="desc" class="col-sm-2 col-md-2 control-label">车险产品排序</label>
+                                        <div class="col-sm-10 col-md-10">
+                                            <input type="text" class="form-control" id="CxSort" name="CxSort" value="">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden"  name="ProductID" id="id" value="" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!-- btn-block可以在非PC上获取更好的体验 -->
+                    <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                    <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Modal End -->
+
+<script>
+    $('#edit_modal').on("show.bs.modal",function(e){
+        var btn = $(e.relatedTarget);
+        var id = btn.attr('rid');
+        $.get("/admin/product/get/"+id,function(data){
+
+            $("#Name").val(data.Name);
+            $("#Sort").val(data.Sort);
+            $("#CxSort").val(data.CxSort);
+            $("#id").val(data.ProductID);
+
+        },"json");
+    });
+    $('#table-javascript').bootstrapTable({
+        method: 'get',
+        url: '/admin/product/list',
+        cache: false,
+        toolbar:"#toolbar",
+        height: "auto",
+        striped: true,
+        pagination: true,
+        pageSize: 15,
+        search: true,
+        showColumns: true,
+        showRefresh: true,
+        minimumCountColumns: 2,
+        clickToSelect: true,
+        columns: [ {
+            field: 'ProductID',
+            title: '产品ID',
+            align: 'center',
+            valign: 'middle',
+            sortable: true
+        }, {
+            field: 'CategoryName',
+            title: '产品分类',
+            align: 'center',
+            valign: 'middle',
+            sortable: true
+        },{
+            field: 'Name',
+            title: '产品名称',
+            align: 'center',
+            valign: 'middle',
+        }, {
+            field: 'Price',
+            title: '产品价格',
+            align: 'center',
+            valign: 'top',
+            sortable: true
+        },{
+            field: 'SoldCount',
+            title: '销量',
+            align: 'center',
+            valign: 'top',
+
+        },{
+            field: 'Services',
+            title: '服务',
+            align: 'center',
+            valign: 'middle',
+        },{
+            field: 'Sort',
+            title: '车管家排序',
+            align: 'center',
+            valign: 'top',
+            sortable:true
+        },{
+            field: 'CxSort',
+            title: '车险排序',
+            align: 'center',
+            valign: 'top',
+            sortable:true
+        },{
+            field: 'CanBuy',
+            title: '状态',
+            align: 'center',
+            valign: 'middle',
+            formatter:function(value, row, index){
+                $s = '';
+                if(row.CanBuy == 1){
+                    $s += '<span>在售-</span>'
+                }else{
+                    $s += '<span>下架-</span>'
+                }
+                if(row.IsHide == 1){
+                    $s += '<span>隐藏</span>'
+                }else{
+                    $s += '<span>可见</span>'
+                }
+                return $s;
+            }
+
+        }, {
+            field: 'operate',
+            title: 'Item Operate',
+            align: 'center',
+            valign: 'middle',
+            formatter:operateFormatter
+        }]
+    });
+
+    function operateFormatter(value, row, index) {
+        return [
+            "<a title='编辑' href=\"/admin/product/add-view?pid="+row.ProductID+"\" ><i class=\"glyphicon glyphicon-edit\"></i></a>",
+            "<a  title='排序' href=\"javascript:void(0)\"  class=\"col-md-4\" rid=\""+row.ProductID+"\"  data-toggle=\"modal\" data-target=\"#edit_modal\"><i class=\"glyphicon glyphicon-sort\"></i></a>",
+            '<a title="删除" href="javascript:void(0)" class=" remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
+            ' cbody="确认删除产品"' + row.Name + '"吗？" url="/admin/<?=$this->layout()->controllerName;?>/delete" method="post" params="id='+ row.ProductID +'">'+
+            '<i class="glyphicon glyphicon-remove"></i>'+
+            '</a>'
+        ].join('');
+    }
+</script>

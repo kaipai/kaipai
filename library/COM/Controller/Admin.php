@@ -8,5 +8,6 @@ class Admin extends Controller{
     public function preDispatch()
     {
         parent::preDispatch();
+        $this->layout('adminLayout');
     }
 }

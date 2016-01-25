@@ -38,7 +38,6 @@ return array(
         'template_map' => array(
         ),
         'template_path_stack' => array(
-            'api' => __DIR__ . '/../view',
         ),
     ),
 );

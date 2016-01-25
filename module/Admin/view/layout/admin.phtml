@@ -1,0 +1,508 @@
+<?php echo $this->doctype(); ?>
+<html lang="en">
+<head>
+    <?php echo $this->headTitle(); ?>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php
+    echo $this->headLink()
+        ->appendStylesheet($this->basePath() . '/admin/css/style.css')
+        ->appendStylesheet($this->basePath() . '/admin/css/style-responsive.css')
+        ->appendStylesheet($this->basePath() . '/admin/css/font-awesome.min.css')
+        ->appendStylesheet($this->basePath() . '/admin/css/bootstrap-reset.css')
+        ->appendStylesheet($this->basePath() . '/admin/css/bootstrap-table.css')
+        ->appendStylesheet($this->basePath() . '/admin/css/bootstrap-datetimepicker.min.css')
+        ->appendStylesheet($this->basePath() . '/admin/css/main.css');
+    ?>
+</head>
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side" >
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="/admin"><img src="/admin/img/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="/admin"><img src="/admin/img/logo_icon.png" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+
+        <div class="left-side-inner">
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+            	<li class="menu-list <?php if (in_array($controllerName, array('phone'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-laptop"></i><span>400登录</span></a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'phone') { ?> active<?php } ?>">
+                            <a href="/admin/phone/index" target="_blank"  class="text-success">用户列表</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="menu-list <?php if (in_array($controllerName, array('member', 'memberRole'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-user"></i><span class="">用户管理</span></a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'member' && $actionName == 'index') { ?> active<?php } ?>">
+                            <a href="/admin/member/index"  class="text-success">用户列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'member' && $actionName == 'service-card') { ?> active<?php } ?>">
+                            <a href="/admin/member/service-card"  class="text-success">服务卡列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'member' && $actionName == 'driving-license') { ?> active<?php } ?>">
+                            <a href="/admin/member/driving-license"  class="text-success">行驶证管理</a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------商户管理------------------------>
+                <li class="menu-list <?php if (in_array($controllerName, array('supplier','supplier-settle','supplier-services', 'supplier-service-fee','store-service-fee'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-plane"></i><span class=""></span>商户管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'supplier-services') { ?> active<?php } ?>">
+                            <a href="/admin/supplier-services/index"  class="text-success">商户服务列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'supplier' && $actionName != 'map') { ?> active<?php } ?>">
+                            <a href="/admin/supplier/index"  class="text-success">商户列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'supplier-service-fee') { ?> active<?php } ?>">
+                            <a href="/admin/supplier-service-fee/index"  class="text-success">代办服务费用</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'store-service-fee') { ?> active<?php } ?>">
+                            <a href="/admin/store-service-fee/index"  class="text-success">到店服务费用</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'supplier-settle') { ?> active<?php } ?>">
+                            <a href="/admin/supplier-settle/index"  class="text-success">结算列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'supplier' && $actionName == 'map') { ?> active<?php } ?>">
+                            <a href="/admin/supplier/map"  class="text-success">商家地图</a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------商户管理------------------------>
+                <li class="menu-list <?php if (in_array($controllerName, array('sa'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-certificate"></i><span class=""></span>SA管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'sa' && $actionName=='index') { ?> active<?php } ?>">
+                            <a href="/admin/sa/index"  class="text-success">SA列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'sa' && $actionName=='sa-plan') { ?> active<?php } ?>">
+                            <a href="/admin/sa/sa-plan"  class="text-success">SA排班表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'sa' && $actionName=='map') { ?> active<?php } ?>">
+                            <a href="/admin/sa/map"  class="text-success">SA地图</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="menu-list <?php if (in_array($controllerName, array('product', 'product-category'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-briefcase"></i><span class=""></span>商品管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'product' && ($actionName == 'index')) { ?> active<?php } ?>">
+                            <a href="/admin/product/index"  class="text-success"> 商品列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'product-category') { ?> active<?php } ?>">
+                            <a href="/admin/product-category/index"  class="text-success"> 商品分类列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'product' && $actionName == 'present') { ?> active<?php } ?>">
+                            <a href="/admin/product/present"  class="text-success">赠送商品</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'product' && $actionName == 'proxy-order') { ?> active<?php } ?>">
+                            <a href="/admin/product/proxy-order"  class="text-success">代下单</a>
+                        </li>
+
+                        <li class="<?php if ($controllerName == 'product' && $actionName == 'use') { ?> active<?php } ?>">
+                            <a href="/admin/product/use"  class="text-success">使用商品</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'product' && $actionName == 'tag') { ?> active<?php } ?>">
+                            <a href="/admin/product/tag"  class="text-success">产品标签</a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------优惠券管理------------------------>
+                <li class="menu-list <?php if (in_array($controllerName, array('bonus-cate', 'bonus','ex-code','bonus-send'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-gift"></i><span class=""></span>优惠券管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'bonus-cate') { ?> active<?php } ?>">
+                            <a href="/admin/bonus-cate/index"  class="text-success">优惠券类别</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'ex-code') { ?> active<?php } ?>">
+                            <a href="/admin/ex-code/index"  class="text-success">兑换码列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'bonus') { ?> active<?php } ?>">
+                            <a href="/admin/bonus/index"  class="text-success">优惠券列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'bonus-send') { ?> active<?php } ?>">
+                            <a href="/admin/bonus-send/index"  class="text-success">兑换码发放</a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------优惠券管理------------------------>
+
+
+                <!------------------------活动管理------------------------>
+                <li class="menu-list <?php if (in_array($controllerName, array('ad', 'activity'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-hand-o-right"></i><span class=""></span>活动管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <!--<li class="<?php /*if ($controllerName == 'draw' && $actionName = 'index') { */?> active<?php /*} */?>">
+                            <a href="/admin/draw/index"  class="text-success">抽奖活动列表</a>
+                        </li>
+                        <li class="<?php /*if ($controllerName == 'award') { */?> active<?php /*} */?>">
+                            <a href="/admin/award/index"  class="text-success">活动奖品列表</a>
+                        </li>
+                        <li class="<?php /*if ($controllerName == 'draw' && $actionName = 'log') { */?> active<?php /*} */?>">
+                            <a href="/admin/draw/log"  class="text-success">获奖列表</a>
+                        </li>-->
+                        <li class="<?php if ($controllerName == 'ad' && $actionName = 'index') { ?> active<?php } ?>">
+                            <a href="/admin/ad/index"  class="text-success">广告列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'activity' && $actionName = 'index') { ?> active<?php } ?>">
+                            <a href="/admin/activity/index"  class="text-success">用户活动列表</a>
+                        </li>
+                    </ul>
+                </li>
+                <!------------------------活动管理------------------------>
+
+                <li class="menu-list <?php if (in_array($controllerName, array('case','scheme'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-headphones"></i><span class=""></span>受理管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'case' && $caseType == '') { ?> active<?php } ?>">
+                            <a href="/admin/case/index"  class="text-success">受理列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'case' && $caseType == 'bqyc') { ?> active<?php } ?>">
+                            <a href="/admin/case/index?CaseType=bqyc"  class="text-success">保前验车</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'case' && $caseType == 'third') { ?> active<?php } ?>">
+                            <a href="/admin/case/index?CaseType=third"  class="text-success">到店服务</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'case' && $caseType == 'safe') { ?> active<?php } ?>">
+                            <a href="/admin/case/index?CaseType=safe"  class="text-success">车险派单</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'scheme') { ?> active<?php } ?>">
+                            <a href="/admin/scheme/index"  class="text-success">推送列表</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-list <?php if (in_array($controllerName, array('order'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-tasks"></i><span class=""></span>订单管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'order' && $actionName == 'index') { ?> active<?php } ?>">
+                            <a href="/admin/order/index"  class="text-success">订单列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'order' && $actionName == 'push') { ?> active<?php } ?>">
+                            <a href="/admin/order/push"  class="text-success">推送订单</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'order' && $actionName == 'import-offline-order') { ?> active<?php } ?>">
+                            <a href="/admin/order/import-offline-order"  class="text-success">导入线下订单</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'order' && in_array($actionName, array('batch-import-offline-order', 'batch-import-offline-order-prepare'))) { ?> active<?php } ?>">
+                            <a href="/admin/order/batch-import-offline-order"  class="text-success">批量导入线下订单</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'order' && in_array($actionName, array('third-order-import'))) { ?> active<?php } ?>">
+                            <a href="/admin/order/third-order-import"  class="text-success">第三方平台订单录入</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-list <?php if (in_array($controllerName, array('sa-check-car', 'count'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-dashboard"></i><span class=""></span>体检报告管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'index') { ?> active<?php } ?>">
+                            <a href="/admin/sa-check-car/index"  class="text-success">车型列表</a>
+                        </li>
+
+
+                        <li class="<?php if ($controllerName == 'count' && $actionName == 'index') { ?> active<?php } ?>">
+                            <a href="/admin/count/index"  class="text-success">会员计算车检</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'count' && $actionName == 'strong') { ?> active<?php } ?>">
+                            <a href="/admin/count/strong"  class="text-success">新用户车险</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-list <?php if (in_array($controllerName, array('sms','push','service','article','article-category', 'apk-hash'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-key"></i><span class=""></span>功能管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'sms') { ?> active<?php } ?>">
+                            <a href="/admin/sms/index"  class="text-success">短信列表</a>
+                        </li>
+                        <!--<li class="<?php /*if ($controllerName == 'ad') { */?> active<?php /*} */?>">
+                            <a href="/admin/ad/index"  class="text-success">广告列表</a>
+                        </li>-->
+                        <li class="<?php if ($controllerName == 'push') { ?> active<?php } ?>">
+                            <a href="/admin/push/index"  class="text-success">推送列表</a>
+                        </li>
+
+                        <li class="<?php if ($controllerName == 'service') { ?> active<?php } ?>">
+                            <a href="/admin/service/index"  class="text-success">服务项列表</a>
+                        </li>
+                        <!--<li class="<?php /*if ($controllerName == 'Activity') { */?> active<?php /*} */?>">
+                            <a href="/admin/activity/index"  class="text-success">用户活动列表</a>
+                        </li>-->
+                        <li class="<?php if ($controllerName == 'article-category') { ?> active<?php } ?>">
+                            <a href="/admin/article-category/index"  class="text-success">文章分类</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'article') { ?> active<?php } ?>">
+                            <a href="/admin/article/index"  class="text-success">文章列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'apk-hash') { ?> active<?php } ?>">
+                            <a href="/admin/apk-hash/index"  class="text-success">Apk hash管理</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="menu-list <?php if (in_array($controllerName, array('base-info', 'friendly-link', 'department','job'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-cogs"></i><span class=""></span>前台基本信息设置</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'base-info') { ?> active<?php } ?>">
+                            <a href="/admin/base-info/index"  class="text-success">信息列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'friendly-link') { ?> active<?php } ?>">
+                            <a href="/admin/friendly-link/index"  class="text-success">友情链接管理</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'department') { ?> active<?php } ?>">
+                            <a href="/admin/department/index"  class="text-success">部门列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'job') { ?> active<?php } ?>">
+                            <a href="/admin/job/index"  class="text-success">职位列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'faq') { ?> active<?php } ?>">
+                            <a href="/admin/faq/index"  class="text-success">问题集列表</a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="menu-list <?php if (in_array($controllerName, array('parts-category', 'parts','settle-rate'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-lock"></i><span class=""></span>商户结算管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'parts-category') { ?> active<?php } ?>">
+                            <a href="/admin/parts-category/index"  class="text-success">配件类型管理</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'parts') { ?> active<?php } ?>">
+                            <a href="/admin/parts/index"  class="text-success">配件管理</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'settle-rate') { ?> active<?php } ?>">
+                            <a href="/admin/settle-rate/index"  class="text-success">结算百分比管理</a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="menu-list <?php if (in_array($controllerName, array('wx-activity','wx-user','wx-replay','wx-menu'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-lock"></i><span class=""></span>微信公众号管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($controllerName == 'wx-activity') { ?> active<?php } ?>">
+                            <a href="/admin/wx-activity/index"  class="text-success">活动管理</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'wx-user') { ?> active<?php } ?>">
+                            <a href="/admin/wx-user/index"  class="text-success">用户活动</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'wx-replay') { ?> active<?php } ?>">
+                            <a href="/admin/wx-replay/index"  class="text-success">自动回复</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'wx-menu') { ?> active<?php } ?>">
+                            <a href="/admin/wx-menu/index"  class="text-success">菜单栏管理</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="menu-list <?php if (in_array($controllerName, array('open'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-lock"></i><span class=""></span>开放平台管理</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($actionName == 'account') { ?> active<?php } ?>">
+                            <a href="/admin/open/account"  class="text-success">第三方账户管理</a>
+                        </li>
+                        <li class="<?php if ($actionName == 'purchase') { ?> active<?php } ?>">
+                            <a href="/admin/open/purchase"  class="text-success">第三方账户采购管理</a>
+                        </li>
+                        <li class="<?php if ($actionName == 'auth') { ?> active<?php } ?>">
+                            <a href="/admin/open/auth"  class="text-success">权限管理</a>
+                        </li>
+                    </ul>
+                </li>
+               
+                <li class="menu-list <?php if (in_array($controllerName, array('admin', 'privilege', 'role', 'sort', 'html'))) { ?> nav-active<?php } ?>">
+                    <a href="" ><i class="fa fa-wrench"></i> <span>系统管理</span></a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li <?php if ($controllerName == 'admin') { ?> class="active"<?php } ?>>
+                            <a href="/admin/admin/index">人员管理</a>
+                        </li>
+                        <li <?php if ($controllerName == 'privilege') { ?> class="active"<?php } ?>>
+                            <a href="/admin/privilege/index">权限管理</a>
+                        </li>
+                        <li<?php if ($controllerName == 'role') { ?> class="active"<?php } ?>>
+                            <a href="/admin/role/index">角色管理</a>
+                        </li>
+                        <li <?php if ($controllerName == 'html') { ?> class="active"<?php } ?>>
+                            <a href="/admin/html/map">静态地图</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+                <li class="menu-list <?php if (in_array($controllerName, array('statistic'))) { ?> nav-active<?php } ?>">
+                    <a href="#"><i class="fa fa-lock"></i><span class=""></span>数据统计</a>
+                    <ul class="sub-menu-list nav nav-second-level">
+                        <li class="<?php if ($actionName == 'sa') { ?> active<?php } ?>">
+                            <a href="/admin/statistic/sa"  class="text-success">SA</a>
+                        </li>
+                        <li class="<?php if ($actionName == 'order') { ?> active<?php } ?>">
+                            <a href="/admin/statistic/order"  class="text-success">订单</a>
+                        </li>
+                        <li class="<?php if ($actionName == 'increase') { ?> active<?php } ?>">
+                            <a href="/admin/statistic/increase"  class="text-success">增长量</a>
+                        </li>
+                        <!--<li class="<?php /*if ($actionName == 'member') { */?> active<?php /*} */?>">
+                            <a href="/admin/statistic/increase"  class="text-success">会员</a>
+                        </li>
+                        <li class="<?php /*if ($actionName == 'order') { */?> active<?php /*} */?>">
+                            <a href="/admin/statistic/increase"  class="text-success">订单</a>
+                        </li>
+                        <li class="<?php /*if ($actionName == 'case') { */?> active<?php /*} */?>">
+                            <a href="/admin/statistic/increase"  class="text-success">受理</a>
+                        </li>-->
+                    </ul>
+                </li>
+
+                <li><a href="/admin/index/login"><i class="fa fa-sign-in"></i> <span>登录页面</span></a></li>
+
+            </ul>
+
+            </ul>
+
+        </div>
+    </div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content">
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+            <!--notification menu start -->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <?php echo 'adminname';?>
+                            <span class="caret"></span>
+                        </a>
+
+                        <ul id="user-menu-info" class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="/admin/user/modifypwd"><i class="fa fa-cog"></i>  密码修改</a></li>
+                            <li><a href="/admin/index/logout"><i class="fa fa-sign-out"></i> 退出</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+
+        <!--body wrapper start-->
+
+
+        <?php
+        echo $this->headScript()
+            ->appendFile($this->basePath() . '/admin/js/jquery-1.10.2.min.js')
+            ->appendFile($this->basePath() . '/admin/js/jquery-ui-1.9.2.custom.min.js')
+            ->appendFile($this->basePath() . '/admin/js/jquery-migrate-1.2.1.min.js')
+            ->appendFile($this->basePath() . '/admin/js/bootstrap.min.js')
+            ->appendFile($this->basePath() . '/admin/js/modernizr.min.js')
+            ->appendFile($this->basePath() . '/admin/js/jquery.nicescroll.js')
+            ->appendFile($this->basePath() . '/admin/js/plupload/plupload.full.min.js')
+            ->appendFile($this->basePath() . '/admin/js/plupload/i18n/zh_CN.js')
+            ->appendFile($this->basePath() . '/admin/js/bootstrap-table.js')
+            ->appendFile($this->basePath() . '/admin/js/bootstrap-datetimepicker.min.js')
+            ->appendFile($this->basePath() . '/admin/js/bootstrap-datetimepicker.zh-CN.js', null, array('charset'=>'UTF-8'))
+            ->appendFile($this->basePath() . '/admin/js/jquery.comet.js')
+            ->appendFile($this->basePath() . '/admin/js/placeholder.js')
+            ->appendFile($this->basePath() . '/admin/js/workerman/socketio.js');
+        ?>
+
+        <?php echo $this->content; ?>
+
+        <?php echo $this->inlineScript()->setFile($this->basePath() . '/admin/js/scripts.js'); ?>
+        <?php echo $this->inlineScript()->setFile($this->basePath() . '/admin/js/check-msg.js'); ?>
+
+
+        <!--通用确认模态框-->
+        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog" id="windowSize">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="confirmModalLabel"></h4>
+                    </div>
+                    <div class="modal-body" id="confirmModalBody">
+                        在这里添加一些文本
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                        <button id="modal_confirm_btn" type="button" class="btn btn-primary">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--body wrapper end-->
+
+        <!--通用提示框 start-->
+        <div class="modal fade" id="tipModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" id="tip-dialog-box">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"
+                                data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title">
+                            提示
+                        </h4>
+                    </div>
+                    <div class="modal-body" id="tip-body">
+
+                    </div>
+
+                </div><!-- /.modal-content -->
+            </div>
+
+        </div>
+        <!--通用提示框 end-->
+    </div>
+    <!-- main content end-->
+</section>
+<script>
+   /* // 连接服务端
+    var socket = io('http://120.26.124.179:2120');
+    // uid可以是自己网站的用户id，以便针对uid推送以及统计在线人数
+    uid = 'sa'+said;
+    console.log(uid);
+    // socket连接后以uid登录
+    socket.on('connect', function(){
+        socket.emit('login', uid);
+    });
+    // 后端推送来消息时
+    socket.on('new_msg', function(msg){
+        console.log("收到消息:"+msg);
+    });
+    // 后端推送来在线数据时
+    socket.on('update_online_count', function(online_stat){
+        //console.log(online_stat);
+    });*/
+</script>
+
+</body>
+</html>

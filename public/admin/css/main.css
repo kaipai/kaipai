@@ -1,0 +1,63 @@
+.access-upload .access-papers,
+.access-upload .access-trademark { margin-bottom: 90px; overflow: hidden; }
+
+.access-upload .access-papers  { width: 200px; margin-right: 35px; float: left; position: relative; }
+
+.access-upload a { width: 198px; height: 150px; display: block; border: 1px #cccccc solid; margin-bottom: 30px; background: url(../img/icon_add.png) center center no-repeat; }
+
+.access-upload .access-papers  a:hover,
+.access-upload .access-trademark  a:hover { border: 1px #d0454b solid; background: url(../img/icon_add_hover.png) center center no-repeat; }
+
+.access-upload .access-papers  a img {height: 148px;width: 196px; }
+
+.access-upload .access-papers  span,
+.access-upload .access-trademark  span { position: absolute; right: 0px; top: 0px; width: 16px; cursor:pointer; height: 16px; display: block; background: url(../img/icon_close.png) no-repeat;z-index: 2; }
+
+.access-upload .access-papers  span:hover,
+.access-upload .access-trademark  span:hover { background: url(../img/icon_closeSel.png) no-repeat; }
+
+.access-upload .access-papers  p { width: 100%; text-align: center; font-size: 14px; color: #d54341; height: 14px; line-height: 14px; }
+.access-upload .access-papers  p.gray{ color:#666;}
+.access-upload .access-papers :last-child p { color: #666666; }
+
+.access-upload .access-trademark span { width: 200px; height: 113px; line-height: 113px; text-align: center; color: #d54341; font-size: 14px; float: left; }
+.access-upload .access-trademark span.gray{ color:#666;}
+.access-upload .access-trademark  { width: 150px; height: 111px; float: left; margin-right: 35px; margin-bottom:20px; position: relative; }
+
+.access-upload .access-trademark  a { width: 148px; height: 148px; }
+
+.access-upload a img { max-height: 113px; max-width: 146px; }
+
+.upload-btn { padding-top: 20px; margin-left: 130px; }
+
+.upload-btn a { width: 100px; height: 35px; line-height: 35px; text-align: center; display: block; overflow: hidden; float: left; color: #666666; }
+.serviceItem li{ padding: 9px 0 9px 0; list-style: none; height: auto; border-bottom:1px dashed #ccc;}
+
+.serviceItem li:after,.pro-attrbox dt:after,.pro-selected-tit:after{
+    content:"";
+    display:block;
+    height:0;
+    line-height:0;
+    clear:both;
+    visibility:hidden;
+}
+
+.delServiceItem{line-height: 26px; font-size: 26px; cursor:pointer; color: #f00; width: 48px; text-align: center; float: left;}
+#addServiceItem,#addServiceItem2{line-height: 26px; font-size: 26px; cursor:pointer;}
+#addServiceBox,#addServiceBox2{display:none;}
+
+
+.saPlanList li{ line-height:24px; font-size:12px; margin-bottom:10px;border:1px solid #ccc}
+
+.pro-attrbox{float: right;}
+.pro-attrbox dt{ font-weight: normal; width: 100%; margin-bottom: 10px; border-bottom:1px dashed #ccc;padding: 9px 0 9px 0; list-style: none; height: auto;}
+.pro-li-1{ width: 200px; font-size: 14px; margin-right: 15px;}
+.pro-li-icon{ width: 48px; font-size: 20px; color: #4cae4c; line-height: 32px; cursor: pointer;}
+.pro-li-3{ width: 72px; line-height: 33px; height: 33px;font-size: 14px; color: #428bca;}
+.pro-li-4{ width: 96px;}
+.pro-selected-tit{ margin-bottom: 10px; font-size: 14px; color: #333; display: none;}
+.pro-selected-li{ height: 32px; line-height: 32px;}
+.pro-li-5{ width: 48px; text-align: center;}
+.w120{ width: 120px;}
+.tip-err{ color: #f00;}
+.addproject{ cursor: pointer;}

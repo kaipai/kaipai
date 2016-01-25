@@ -1,0 +1,133 @@
+
+.car_type .head{font-size:16px;font-weight:bold;}
+.car_type div{text-align: left;}
+.car_type div span{color: red;width: 25%;margin-left: 10px;}
+.car_type .brand{color:blue;}
+body { font-family: "微软雅黑";font-size:12px;color:#2e3032;position:relative;}
+::-webkit-input-placeholder {
+color:#aaaaaa;
+font-size:12px;
+}
+:-moz-placeholder {
+color:#aaaaaa;
+font-size:12px;
+}
+::-moz-placeholder {
+color:#aaaaaa;
+font-size:12px;
+}
+:-ms-input-placeholder {
+color:#aaaaaa;
+font-size:12px;
+}
+
+.clearfix{zoom:1;}
+.clearfix:after{
+    content:"";
+    display:block;
+    height:0;
+    line-height:0;
+    clear:both;
+    visibility:hidden;
+}
+
+
+
+/*地址选择 start*/
+.select-address{ position:relative; display:inline-block; margin-right:5px; vertical-align:middle; cursor:pointer; *float:left; }
+.select-address .boxwrap{ display:inline-block; vertical-align:middle; }
+.select-address .select-tit{ position:relative; display:block; box-sizing:content-box; padding:5px 38px 5px 10px;width:260px; line-height:23px; height:23px; border:solid 1px #dbdbdb; text-decoration:none; background:#fff; white-space:nowrap; word-break:break-all; }
+.select-address .select-tit span{ display:inline-block; color:#333; font-size:12px; vertical-align:middle; }
+.select-address .select-tit span.default{ color:#cfcfcf;}
+.select-address .select-tit i{ position:absolute; right:0; top:0; display:block; width:28px; height:100%; border-left:1px solid #dbdbdb; background:url(http://cpt.chemayi.com/front/img/skin_icons.png)  -49px -160px no-repeat #fafafa; }
+.select-address .city-select-warp{  position:absolute;  box-sizing:content-box;  border-top:0; width:312px; top:35px; z-index: 100; /*overflow:hidden;*/ }
+.select-address .select-tit em{ color:#cfcfcf; font-style:normal;}
+.select-address .city-select-tab{
+border-bottom: 1px solid #ccc;border-right: 1px solid #dbdbdb;width: 310px;height: 35px;
+background: #f0f0f0;
+}
+.city-select-tab a {
+float: left;
+display:block;
+margin-bottom: -1px !important; height:34px; line-height:34px;
+width: 102px;
+border-left: 1px solid #ccc;
+border-bottom: 1px solid transparent;
+color: #4D4D4D;
+text-align: center; box-sizing:content-box;
+outline: 0;
+}
+.city-select-tab a.current {
+background: #fff;
+border-bottom: 1px solid #fff !important;
+color: #f60;
+}
+.city-select {
+border: 1px #dbdbdb solid;
+border-top: 0;
+padding: 10px 15px; box-sizing:content-box;
+width: 278px;
+background: #fff;
+font-size: 12px;}
+
+.city-select dl {
+clear: both;
+padding: 3px 0;
+margin: 0
+}
+
+.city-select dl:after {
+clear: both;
+content: " ";
+display: block;
+font-size: 0;
+height: 0;
+visibility: hidden
+}
+
+
+.city-select dt {
+display: inline-block;
+width: 25px;line-height:24px;
+float: left;
+padding-right: 10px;
+font-weight: 700; box-sizing:content-box;
+text-align: right
+}
+
+.city-select dd {
+width: 240px;
+display: inline;
+float: left;
+margin-left: 0
+}
+
+.city-select a {
+display: inline-block;
+color: #4D4D4D;
+padding: 0 8px; height:24px; line-height:24px;
+outline: 0; box-sizing:content-box;
+text-decoration: none;
+white-space: nowrap;
+margin-right: 2px
+}
+
+.city-select a:hover,.city-select a:focus {
+background-color: #fff8f3;
+border-radius: 2px;
+color: #f60
+}
+
+.city-select a.current {
+background-color: #f60;
+color: #fff;
+border-radius: 2px
+}
+.city-select .border-top {
+border-top: 1px solid #ccc
+}
+
+.city-select-province dd,.city-select-city dd,.city-select-street dd,.city-select-district dd {
+width: 278px; 
+}
+/*地址选择 end*/

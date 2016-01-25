@@ -6,6 +6,6 @@ use COM\Controller\Admin;
 class IndexController extends Admin{
 
     public function indexAction(){
-
+        return $this->view;
     }
 }
