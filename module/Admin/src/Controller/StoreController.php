@@ -13,16 +13,13 @@ class StoreController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->storeModel->getSelect();
-        $stores = $this->storeModel->selectWith($select)->toArray();
+        $stores = $this->storeModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('stores' => $stores));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $stores);
     }
 
     public function addAction(){
-        $storeData = array(
-
-        );
+        $storeData = $this->postData;
         $this->storeModel->insert($storeData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -30,7 +27,7 @@ class StoreController extends Admin{
 
     public function updateAction(){
         $storeID = $this->postData['storeID'];
-        $set = array();
+        $set = $this->postData;
         $where = array(
             'storeID' => $storeID
         );

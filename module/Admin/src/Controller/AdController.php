@@ -11,16 +11,13 @@ class AdController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->adModel->getSelect();
-        $ads = $this->adModel->selectWith($select)->toArray();
+        $ads = $this->adModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('ads' => $ads));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $ads);
     }
 
     public function addAction(){
-        $adData = array(
-            'position' => $this->postData['position']
-        );
+        $adData = $this->postData;
         $this->adModel->insert($adData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -28,10 +25,19 @@ class AdController extends Admin{
 
     public function updateAction(){
         $adID = $this->postData['adID'];
-        $update = array();
+        $set = $this->postData;
         $where = array('adID' => $adID);
 
-        $this->adModel->update($update, $where);
+        $this->adModel->update($set, $where);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function delAction(){
+        $where = array(
+            'adID' => $this->postData['adID']
+        );
+
+        $this->adModel->delete($where);
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 

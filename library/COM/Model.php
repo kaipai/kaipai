@@ -142,24 +142,6 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
     }
 
     /**
-     * 获取数据列表
-     */
-    public function getList($where, $order = null, $offset = null, $pageSize = null)
-    {
-        $select = $this->getSelect();
-        $select->from($this->table)
-            ->where($where)
-            ->offset(intval($offset))
-            ->limit(intval($pageSize));
-        if($offset) $select->offset(intval($offset));
-        if($pageSize) $select->limit(intval($pageSize));
-        if ($order) $select->order($order);
-
-        return $this->selectWith($select)->toArray();
-    }
-
-
-    /**
      * 根据表名获得字段
      * @return array|bool
      */
@@ -241,6 +223,35 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
         $paginator = new Paginator($dbSelect);
 
         return $paginator;
+    }
+
+    /**
+     * 获取单条数据
+     *
+     * @overwrite
+     */
+    public function fetch($where = array()){
+        return $this->select($where)->current();
+
+    }
+
+    /**
+     * 获取数据列表
+     *
+     * @overwrite
+     */
+    public function getList($where = array(), $order = null, $offset = null, $pageSize = null)
+    {
+        $select = $this->getSelect();
+        $select->from($this->table)
+            ->where($where)
+            ->offset(intval($offset))
+            ->limit(intval($pageSize));
+        if($offset) $select->offset(intval($offset));
+        if($pageSize) $select->limit(intval($pageSize));
+        if ($order) $select->order($order);
+
+        return $this->selectWith($select)->toArray();
     }
 
 }

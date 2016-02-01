@@ -12,16 +12,13 @@ class ArtistController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->artistModel->getSelect();
-        $artists = $this->artistModel->selectWith($select)->toArray();
+        $artists = $this->artistModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('artists' => $artists));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $artists);
     }
 
     public function addAction(){
-        $artistData = array(
-
-        );
+        $artistData = $this->postData;
         $this->artistModel->insert($artistData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -29,7 +26,7 @@ class ArtistController extends Admin{
 
     public function updateAction(){
         $artistID = $this->postData['artistID'];
-        $set = array();
+        $set = $this->postData;
         $where = array(
             'artistID' => $artistID
         );

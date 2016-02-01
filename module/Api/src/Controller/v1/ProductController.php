@@ -2,20 +2,25 @@
 namespace Api\Controller\v1;
 
 use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller\Api;
 class ProductController extends Api{
 
     public function listAction(){
-        $searchItem = $this->postData['searchItem'];
-        $select = $this->productModel->getSelect();
-        $paginator = $this->productModel->paginate($select);
-        $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
-        $paginator->setItemCountPerPage($this->limit);
-        $products = $paginator->getCurrentItems()->toArray();
-        $productsCount = $paginator->getTotalItemCount();
+        $productCategoryID = $this->postData['productCategoryID'];
+        $productCategoryFilterOptionID = $this->postData['productCategoryFilterOptionID'];
+        $where = arary();
+        if(!empty($productCategoryID)){
+            $where['productCategoryID'] = $productCategoryID;
+        }
+        if(!empty($productCategoryFilterOptionID)){
+            $where['productCategoryFilterOptionID'] = $productCategoryFilterOptionID;
+        }
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('products' => $products, 'productsCount' => $productsCount));
+        $products = $this->productModel->getList($where, $this->offset, $this->limit);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $products);
     }
 
     public function detailAction(){
@@ -30,25 +35,46 @@ class ProductController extends Api{
     }
 
     public function categoryAction(){
-        $select = $this->productCategoryFilterOptionModel->getSelect();
-        $select->from(array('a' => 'ProductCategoryFilterOption'))
-            ->join(array('b' => 'ProductCategoryFilter', 'a.productCategoryFilterID = b.productCategoryFilterID'))
-            ->join(array('c' => 'ProductCategory', 'b.productCategoryID = c.productCategoryID'));
-        $categories = $this->productCategoryFilterOptionModel->selectWith($select)->toArray();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('categories' => $categories));
+        $categories = $this->productCategoryModel->getList();
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $categories);
+    }
+
+    public function categoryFilterAction(){
+        $productCategoryID = $this->postData['productCategoryID'];
+        $where = array();
+        if(!empty($productCategoryID)){
+            $where = array(
+                'productCategoryID' => $productCategoryID
+            );
+        }
+
+        $filters = $this->productCategoryFilterModel->getList($where);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $filters);
     }
 
     public function addAction(){
+        $this->productModel->insert($this->postData);
 
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function updateAction(){
+        $where = array();
+        $this->productModel->update($this->postData, $where);
 
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
-    public function deleteAction(){
+    public function delAction(){
+        $where = array(
+            'productID' => $this->postData['productID']
+        );
 
+        $this->productModel->delete($where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
 

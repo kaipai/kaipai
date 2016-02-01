@@ -12,16 +12,13 @@ class SpecialController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->specialModel->getSelect();
-        $specials = $this->specialModel->selectWith($select)->toArray();
+        $specials = $this->specialModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('specials' => $specials));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $specials);
     }
 
     public function addAction(){
-        $specialData = array(
-
-        );
+        $specialData = $this->postData;
         $this->specialModel->insert($specialData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -29,7 +26,7 @@ class SpecialController extends Admin{
 
     public function updateAction(){
         $specialID = $this->postData['specialID'];
-        $set = array();
+        $set = $this->postData;
         $where = array(
             'specialID' => $specialID
         );

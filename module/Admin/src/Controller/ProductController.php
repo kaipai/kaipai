@@ -12,16 +12,13 @@ class ProductController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->producModel->getSelect();
-        $products = $this->producModel->selectWith($select)->toArray();
+        $products = $this->producModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('products' => $products));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $products);
     }
 
     public function addAction(){
-        $productData = array(
-
-        );
+        $productData = $this->postData;
         $this->productModel->insert($productData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -29,7 +26,7 @@ class ProductController extends Admin{
 
     public function updateAction(){
         $productID = $this->postData['productID'];
-        $set = array();
+        $set = $this->postData;
         $where = array(
             'productID' => $productID
         );

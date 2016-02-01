@@ -5,4 +5,5 @@ use COM\Model;
 class ProductCategory extends Model{
 
 
+
 }

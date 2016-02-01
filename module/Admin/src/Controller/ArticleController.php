@@ -12,18 +12,13 @@ class ArticleController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->articleModel->getSelect();
-        $articles = $this->articleModel->selectWith($select)->toArray();
+        $articles = $this->articleModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('articles' => $articles));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $articles);
     }
 
     public function addAction(){
-        $articleData = array(
-            'articleCategoryID' => $this->postData['articleCategoryID'],
-            'articleName' => $this->postData['articleName'],
-            'articleContent' => $this->postData['articleContent'],
-        );
+        $articleData = $this->postData;
         $this->articleModel->insert($articleData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -31,7 +26,7 @@ class ArticleController extends Admin{
 
     public function updateAction(){
         $articleID = $this->postData['articleID'];
-        $set = array();
+        $set = $this->postData;
         $where = array(
             'articleID' => $articleID
         );

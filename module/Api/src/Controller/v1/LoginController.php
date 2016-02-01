@@ -53,11 +53,11 @@ class LoginController extends Api{
 
     }
 
-    public function forgotAction(){
+    public function resetPwdAction(){
         $mobile = $this->postData['mobile'];
-        $verifyCode = $this->postData['mobile'];
-        $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
+        $verifyCode = $this->postData['verifyCode'];
         $newPwd = $this->postData['newPwd'];
+        $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
         if($verifyCode == $smsVeriyfCode){
             $set = array(
                 'password' => $this->memberModel->genPwd($newPwd),

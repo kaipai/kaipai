@@ -12,16 +12,13 @@ class ProductCategoryFilterController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->productCategoryFilterModel->getSelect();
-        $productCategoryFilters = $this->productCategoryFilterModel->selectWith($select)->toArray();
+        $productCategoryFilters = $this->productCategoryFilterModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('productCategoryFilters' => $productCategoryFilters));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $productCategoryFilters);
     }
 
     public function addAction(){
-        $productCategoryFilterData = array(
-
-        );
+        $productCategoryFilterData = $this->postData;
         $this->productCategoryFilterModel->insert($productCategoryFilterData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -29,7 +26,7 @@ class ProductCategoryFilterController extends Admin{
 
     public function updateAction(){
         $productCategoryFilterID = $this->postData['productCategoryFilterID'];
-        $set = array();
+        $set = $this->postData;
         $where = array(
             'productCategoryFilterID' => $productCategoryFilterID
         );

@@ -6,16 +6,18 @@ use COM\Controller\Api;
 
 class ArtistController extends Api{
 
-    public function indexAction(){
-        $artists = $this->artistModel->select()->toArray();
+    public function listAction(){
+        $artists = $this->artistModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('artists' => $artists));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $artists);
 
     }
 
     public function detailAction(){
-        $artistID = $this->postData['artistID'];
-        $artistInfo = $this->artistModel->select(array('artistID' => $artistID))->current();
+        $where = array(
+            'artistID' => $this->postData['artistID'],
+        );
+        $artistInfo = $this->artistModel->fetch($where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $artistInfo);
 

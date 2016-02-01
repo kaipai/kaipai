@@ -12,16 +12,13 @@ class ProductCategoryController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->productCategoryModel->getSelect();
-        $productCategories = $this->productCategoryModel->selectWith($select)->toArray();
+        $productCategories = $this->productCategoryModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('productCategories' => $productCategories));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $productCategories);
     }
 
     public function addAction(){
-        $productCategoryData = array(
-
-        );
+        $productCategoryData = $this->postData;
         $this->productCategoryModel->insert($productCategoryData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -29,12 +26,23 @@ class ProductCategoryController extends Admin{
 
     public function updateAction(){
         $productCategoryID = $this->postData['productCategoryID'];
-        $set = array();
+        $set = $this->postData;
+
         $where = array(
             'productCategoryID' => $productCategoryID
         );
         $this->productCategoryModel->update($set, $where);
 
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function delAction(){
+        $productCategoryID = $this->postData['productCategoryID'];
+        $where = array(
+            'productCategoryID' => $productCategoryID
+        );
+
+        $this->productCategoryModel->delete($where);
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 

@@ -12,16 +12,13 @@ class MemberController extends Admin{
     }
 
     public function listAction(){
-        $select = $this->memberModel->getSelect();
-        $members = $this->memberModel->selectWith($select)->toArray();
+        $members = $this->memberModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('members' => $members));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $members);
     }
 
     public function addAction(){
-        $memberData = array(
-
-        );
+        $memberData = $this->postData;
         $this->memberModel->insert($memberData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -29,7 +26,7 @@ class MemberController extends Admin{
 
     public function updateAction(){
         $memberID = $this->postData['memberID'];
-        $set = array();
+        $set = $this->postData;
         $where = array(
             'memberID' => $memberID
         );

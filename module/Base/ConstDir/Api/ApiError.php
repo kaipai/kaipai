@@ -10,4 +10,6 @@ class ApiError{
     const NEED_LOGIN_MSG = '需要登录才能访问';
     const PARAMETER_MISSING = -103;
     const PARAMETER_MISSING_MSG = '参数缺失';
+    const DATA_INSERT_FAILED = -104;
+    const DATA_INSERT_FAILED_MSG = '数据插入失败';
 }

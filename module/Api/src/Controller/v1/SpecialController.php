@@ -6,12 +6,20 @@ use COM\Controller\Api;
 
 class SpecialController extends Api{
 
-    public function indexAction(){
+    public function listAction(){
+        $where = array();
+        $specials = $this->specialModel->getList($where);
 
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $specials);
 
     }
 
     public function detailAction(){
+        $where = array(
+            'specialID' => $this->postData['specialID']
+        );
+        $specialInfo = $this->specialModel->fetch($where);
 
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $specialInfo);
     }
 }

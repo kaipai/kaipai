@@ -6,7 +6,7 @@ use COM\Controller\Api;
 
 class CommentController extends Api{
 
-    public function indexAction(){
+    public function listAction(){
         $select = $this->commentModel->getSelect();
         $paginator = $this->commentModel->paginate($select);
         $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
@@ -19,13 +19,7 @@ class CommentController extends Api{
     }
 
     public function addAction(){
-        $data = array(
-            'memberID' => $this->postData['memberID'],
-            'commenterName' => $this->postData['memberName'],
-            'commentTitle' => $this->postData['commentTitle'],
-            'commentContent' => $this->postData['commentContent'],
-        );
-        $this->commentModel->insert($data);
+        $this->commentModel->insert($this->postData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }

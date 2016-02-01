@@ -1,16 +1,16 @@
 <?php
 namespace Api\Controller\v1;
 
+use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use COM\Controller\Api;
 class StoreController extends Api{
 
-    public function indexAction(){
-        return $this->response;
-    }
 
     public function listAction(){
+        $where = array();
+        $where['type'] = $this->postData['type'];
         $select = $this->storeModel->getSelect();
         $paginator = $this->storeModel->paginate($select);
         $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
@@ -22,10 +22,29 @@ class StoreController extends Api{
     }
 
     public function detailAction(){
-        $storeID = $this->postData['storeID'];
-        $storeInfo = $this->storeModel->select(array('storeID' => $storeID))->current();
+        $where = array(
+            'storeID' => $this->postData['storeID']
+        );
+        $storeInfo = $this->storeModel->fetch($where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('storeInfo' => $storeInfo));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array($storeInfo));
     }
+
+    public function addAction(){
+        $this->storeModel->insert($this->postData);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+
+    }
+
+    public function categoryAction(){
+        $where = array(
+            'storeID' => $this->postData['storeID']
+        );
+        $categories = $this->storeModel->getCategories($where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $categories);
+    }
+
 
 }
