@@ -15,7 +15,7 @@ class AdController extends Api{
             'position' => $position,
         );
 
-        $ads = $this->adModel->getList($productWhere);
+        $ads = $this->adModel->getList($where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $ads);
     }
