@@ -2,27 +2,29 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50532
+Source Server Version : 50534
 Source Host           : localhost:3306
 Source Database       : kaipai
 
 Target Server Type    : MYSQL
-Target Server Version : 50532
+Target Server Version : 50534
 File Encoding         : 65001
 
-Date: 2016-01-22 15:03:34
+Date: 2016-02-21 14:09:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for Ad
+-- Table structure for `Ad`
 -- ----------------------------
 DROP TABLE IF EXISTS `Ad`;
 CREATE TABLE `Ad` (
   `adID` int(11) NOT NULL AUTO_INCREMENT COMMENT '广告ID',
   `img` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '广告图片',
   `position` varchar(20) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '广告位置',
+  `alt` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '广告文字',
+  `type` tinyint(1) DEFAULT '1' COMMENT '广告类型【1：轮播】',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`adID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
@@ -32,7 +34,7 @@ CREATE TABLE `Ad` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for Article
+-- Table structure for `Article`
 -- ----------------------------
 DROP TABLE IF EXISTS `Article`;
 CREATE TABLE `Article` (
@@ -40,6 +42,7 @@ CREATE TABLE `Article` (
   `articleCategoryID` int(11) DEFAULT NULL COMMENT '文章分类ID',
   `articleName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '文章名称',
   `articleContent` text COLLATE utf8_general_mysql500_ci COMMENT '文章内容',
+  `type` tinyint(4) DEFAULT '1' COMMENT '文章类型',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`articleID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
@@ -49,7 +52,7 @@ CREATE TABLE `Article` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for ArticleCategory
+-- Table structure for `ArticleCategory`
 -- ----------------------------
 DROP TABLE IF EXISTS `ArticleCategory`;
 CREATE TABLE `ArticleCategory` (
@@ -63,15 +66,17 @@ CREATE TABLE `ArticleCategory` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for Artist
+-- Table structure for `Artist`
 -- ----------------------------
 DROP TABLE IF EXISTS `Artist`;
 CREATE TABLE `Artist` (
   `artistID` int(11) NOT NULL AUTO_INCREMENT COMMENT '名家ID',
   `artistName` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '名家姓名',
+  `artistAvatar` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '艺术家头像',
   `productCategoryID` int(11) DEFAULT NULL COMMENT '擅长的排民',
-  `shortDesc` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '头衔介绍',
+  `shortDesc` text COLLATE utf8_general_mysql500_ci COMMENT '头衔介绍',
   `artistDetail` text COLLATE utf8_general_mysql500_ci COMMENT '艺术家个人介绍',
+  `productions` text COLLATE utf8_general_mysql500_ci COMMENT '作品欣赏',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`artistID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
@@ -81,7 +86,7 @@ CREATE TABLE `Artist` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for AuctionLog
+-- Table structure for `AuctionLog`
 -- ----------------------------
 DROP TABLE IF EXISTS `AuctionLog`;
 CREATE TABLE `AuctionLog` (
@@ -99,7 +104,7 @@ CREATE TABLE `AuctionLog` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for AuctionMember
+-- Table structure for `AuctionMember`
 -- ----------------------------
 DROP TABLE IF EXISTS `AuctionMember`;
 CREATE TABLE `AuctionMember` (
@@ -115,12 +120,13 @@ CREATE TABLE `AuctionMember` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for Comment
+-- Table structure for `Comment`
 -- ----------------------------
 DROP TABLE IF EXISTS `Comment`;
 CREATE TABLE `Comment` (
   `commentID` int(11) NOT NULL COMMENT '用户评论',
   `commenterName` varchar(25) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '留言者姓名',
+  `memberID` int(11) DEFAULT NULL COMMENT '用户ID',
   `commentTitle` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '留言标题',
   `commentContent` varchar(512) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '留言内容',
   `replyContent` varchar(512) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '回复内容',
@@ -133,7 +139,7 @@ CREATE TABLE `Comment` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for Member
+-- Table structure for `Member`
 -- ----------------------------
 DROP TABLE IF EXISTS `Member`;
 CREATE TABLE `Member` (
@@ -149,7 +155,7 @@ CREATE TABLE `Member` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberArticle
+-- Table structure for `MemberArticle`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberArticle`;
 CREATE TABLE `MemberArticle` (
@@ -165,7 +171,7 @@ CREATE TABLE `MemberArticle` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberArticleComment
+-- Table structure for `MemberArticleComment`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberArticleComment`;
 CREATE TABLE `MemberArticleComment` (
@@ -181,7 +187,7 @@ CREATE TABLE `MemberArticleComment` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberArticleMark
+-- Table structure for `MemberArticleMark`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberArticleMark`;
 CREATE TABLE `MemberArticleMark` (
@@ -197,7 +203,7 @@ CREATE TABLE `MemberArticleMark` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberInfo
+-- Table structure for `MemberInfo`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberInfo`;
 CREATE TABLE `MemberInfo` (
@@ -218,7 +224,7 @@ CREATE TABLE `MemberInfo` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberMessage
+-- Table structure for `MemberMessage`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberMessage`;
 CREATE TABLE `MemberMessage` (
@@ -234,7 +240,7 @@ CREATE TABLE `MemberMessage` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberOrder
+-- Table structure for `MemberOrder`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberOrder`;
 CREATE TABLE `MemberOrder` (
@@ -253,13 +259,17 @@ CREATE TABLE `MemberOrder` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberOrderDelivery
+-- Table structure for `MemberOrderDelivery`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberOrderDelivery`;
 CREATE TABLE `MemberOrderDelivery` (
   `deliveryID` int(11) NOT NULL AUTO_INCREMENT COMMENT '配送ID',
   `orderID` int(11) DEFAULT NULL COMMENT '订单ID',
   `memberID` int(11) DEFAULT NULL COMMENT '用户ID',
+  `type` tinyint(4) DEFAULT '1' COMMENT '派送方式',
+  `receiverName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '收货人姓名',
+  `receiverMobile` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '收货人电话',
+  `receiverAddr` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '收货人地址',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`deliveryID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
@@ -269,7 +279,7 @@ CREATE TABLE `MemberOrderDelivery` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberPayDetail
+-- Table structure for `MemberPayDetail`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberPayDetail`;
 CREATE TABLE `MemberPayDetail` (
@@ -286,7 +296,7 @@ CREATE TABLE `MemberPayDetail` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberProductInterest
+-- Table structure for `MemberProductInterest`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberProductInterest`;
 CREATE TABLE `MemberProductInterest` (
@@ -302,7 +312,7 @@ CREATE TABLE `MemberProductInterest` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberStoreInterest
+-- Table structure for `MemberStoreInterest`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberStoreInterest`;
 CREATE TABLE `MemberStoreInterest` (
@@ -318,7 +328,7 @@ CREATE TABLE `MemberStoreInterest` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MemberZone
+-- Table structure for `MemberZone`
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberZone`;
 CREATE TABLE `MemberZone` (
@@ -335,7 +345,7 @@ CREATE TABLE `MemberZone` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for MobileVerifyCode
+-- Table structure for `MobileVerifyCode`
 -- ----------------------------
 DROP TABLE IF EXISTS `MobileVerifyCode`;
 CREATE TABLE `MobileVerifyCode` (
@@ -353,7 +363,7 @@ CREATE TABLE `MobileVerifyCode` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for PaynotifyLog
+-- Table structure for `PaynotifyLog`
 -- ----------------------------
 DROP TABLE IF EXISTS `PaynotifyLog`;
 CREATE TABLE `PaynotifyLog` (
@@ -371,23 +381,33 @@ CREATE TABLE `PaynotifyLog` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for Product
+-- Table structure for `Product`
 -- ----------------------------
 DROP TABLE IF EXISTS `Product`;
 CREATE TABLE `Product` (
   `productID` int(11) NOT NULL AUTO_INCREMENT COMMENT '产品ID',
+  `stroreID` int(11) DEFAULT NULL COMMENT '店铺ID',
   `productName` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '拍品名称',
   `listImg` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '列表图片',
+  `detailImgs` varchar(1024) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
   `productDetail` text COLLATE utf8_general_mysql500_ci COMMENT '产品介绍',
   `productCategoryID` int(11) DEFAULT NULL COMMENT '拍品分类ID',
+  `productAuthor` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '作品作者',
+  `productCreationTime` int(11) DEFAULT NULL COMMENT '作品创作时间',
+  `productTheme` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '作品题材',
+  `productSize` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '作品尺寸',
+  `productMaterial` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '作品材质',
+  `productMount` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '作品装裱',
   `startPrice` decimal(9,2) DEFAULT NULL COMMENT '起拍价',
   `currPrice` decimal(9,2) DEFAULT NULL COMMENT '当前价格',
+  `deliveryPrice` decimal(9,2) DEFAULT NULL COMMENT '运费',
   `depositPrice` decimal(9,2) DEFAULT NULL COMMENT '保证金',
+  `auctionCount` int(11) DEFAULT '0' COMMENT '出价次数',
   `startTime` int(11) DEFAULT NULL COMMENT '起拍时间',
   `endTime` int(11) DEFAULT NULL COMMENT '结束时间',
   `auctionStatus` tinyint(1) DEFAULT '0' COMMENT '状态',
   `auctionPerPrice` decimal(9,2) DEFAULT NULL COMMENT '单次出价',
-  `coverDelivery` tinyint(1) DEFAULT '0' COMMENT '是否 包邮',
+  `coverDelivery` tinyint(1) DEFAULT '0' COMMENT '是否包邮',
   `refundInDays` tinyint(1) DEFAULT '0' COMMENT '三日内可退',
   `certificateCard` tinyint(1) DEFAULT '0' COMMENT '是否有鉴定证书',
   `authorAuth` tinyint(1) DEFAULT '0' COMMENT '作者授权',
@@ -401,7 +421,7 @@ CREATE TABLE `Product` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for ProductCategory
+-- Table structure for `ProductCategory`
 -- ----------------------------
 DROP TABLE IF EXISTS `ProductCategory`;
 CREATE TABLE `ProductCategory` (
@@ -416,7 +436,7 @@ CREATE TABLE `ProductCategory` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for ProductCategoryFilter
+-- Table structure for `ProductCategoryFilter`
 -- ----------------------------
 DROP TABLE IF EXISTS `ProductCategoryFilter`;
 CREATE TABLE `ProductCategoryFilter` (
@@ -431,7 +451,7 @@ CREATE TABLE `ProductCategoryFilter` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for ProductCategoryFilterOption
+-- Table structure for `ProductCategoryFilterOption`
 -- ----------------------------
 DROP TABLE IF EXISTS `ProductCategoryFilterOption`;
 CREATE TABLE `ProductCategoryFilterOption` (
@@ -446,7 +466,7 @@ CREATE TABLE `ProductCategoryFilterOption` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for ProductFilterOption
+-- Table structure for `ProductFilterOption`
 -- ----------------------------
 DROP TABLE IF EXISTS `ProductFilterOption`;
 CREATE TABLE `ProductFilterOption` (
@@ -462,12 +482,30 @@ CREATE TABLE `ProductFilterOption` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for Special
+-- Table structure for `SiteSetting`
+-- ----------------------------
+DROP TABLE IF EXISTS `SiteSetting`;
+CREATE TABLE `SiteSetting` (
+  `settingID` int(11) NOT NULL,
+  `settingName` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '设置名称',
+  `settingValue` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '设置的值',
+  PRIMARY KEY (`settingID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+-- ----------------------------
+-- Records of SiteSetting
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `Special`
 -- ----------------------------
 DROP TABLE IF EXISTS `Special`;
 CREATE TABLE `Special` (
   `specialID` int(11) NOT NULL AUTO_INCREMENT COMMENT '专场id',
   `specialName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '专场名称',
+  `specialProductCategoryID` int(11) DEFAULT NULL COMMENT '专场拍品分类ID',
+  `specialImg` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '拍品图片',
+  `productCount` int(11) DEFAULT NULL COMMENT '拍品数量',
   `startTime` int(11) DEFAULT NULL COMMENT '开始时间',
   `endTime` int(11) DEFAULT NULL COMMENT '结束时间',
   `storeID` int(11) DEFAULT NULL COMMENT '选送商家ID',
@@ -480,7 +518,7 @@ CREATE TABLE `Special` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for SpecialProduct
+-- Table structure for `SpecialProduct`
 -- ----------------------------
 DROP TABLE IF EXISTS `SpecialProduct`;
 CREATE TABLE `SpecialProduct` (
@@ -488,6 +526,7 @@ CREATE TABLE `SpecialProduct` (
   `specialID` int(11) DEFAULT NULL COMMENT '活动ID',
   `productID` int(11) DEFAULT NULL COMMENT '拍品ID',
   `specialPrice` decimal(9,2) DEFAULT NULL COMMENT '活动价',
+  `isRecommend` tinyint(4) DEFAULT '0' COMMENT '是否是本场推荐',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`specialProductID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
@@ -497,17 +536,51 @@ CREATE TABLE `SpecialProduct` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for Store
+-- Table structure for `Store`
 -- ----------------------------
 DROP TABLE IF EXISTS `Store`;
 CREATE TABLE `Store` (
   `storeID` int(11) NOT NULL AUTO_INCREMENT COMMENT '商家ID',
   `storeName` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '商家名称',
+  `storeSignature` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '店铺签名',
   `storeDesc` varchar(512) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '商家介绍',
+  `storeLogo` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '店铺LOGO',
+  `storeBanner` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '店铺抬头',
+  `recommendImg` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '店铺推荐图',
+  `isRecommend` tinyint(4) DEFAULT '0' COMMENT '是否是推荐店铺',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`storeID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Store
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `StoreCategory`
+-- ----------------------------
+DROP TABLE IF EXISTS `StoreCategory`;
+CREATE TABLE `StoreCategory` (
+  `storeCategoryID` int(11) NOT NULL,
+  `storeCategoryName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '店铺拍品分类',
+  PRIMARY KEY (`storeCategoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+-- ----------------------------
+-- Records of StoreCategory
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `StoreCategoryProduct`
+-- ----------------------------
+DROP TABLE IF EXISTS `StoreCategoryProduct`;
+CREATE TABLE `StoreCategoryProduct` (
+  `storeCategoryProductID` int(11) NOT NULL,
+  `storeCategoryID` int(11) DEFAULT NULL COMMENT '店铺拍品分类ID',
+  `productID` int(11) DEFAULT NULL COMMENT '拍品ID',
+  PRIMARY KEY (`storeCategoryProductID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+-- ----------------------------
+-- Records of StoreCategoryProduct
 -- ----------------------------
