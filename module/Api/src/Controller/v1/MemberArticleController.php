@@ -21,6 +21,17 @@ class MemberArticleController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberArticles);
     }
 
+    public function detailAction(){
+        $memberArticleID = $this->postData['memberArticleID'];
+        $where = array(
+            'memberArticleID' => $memberArticleID
+        );
+
+        $memberArticle = $this->memberArticleModel->select($where)->current();
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberArticle);
+    }
+
     public function addAction(){
         $this->memberArticleModel->insert($this->postData);
 

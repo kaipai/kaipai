@@ -50,7 +50,12 @@ class LoginController extends Api{
     }
 
     public function regAction(){
+        $data = $this->postData;
+        $memberInfoData = $data;
+        $this->memberModel->insert($data);
+        $this->memberInfoModel->insert($memberInfoData);
 
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function resetPwdAction(){

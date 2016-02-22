@@ -22,4 +22,12 @@ class SpecialController extends Api{
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $specialInfo);
     }
+
+    public function addAction(){
+        $data = $this->postData;
+
+        $this->specialModel->insert($data);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
 }
