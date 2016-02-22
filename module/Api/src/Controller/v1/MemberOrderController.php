@@ -21,5 +21,13 @@ class MemberOrderController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberOrders);
     }
 
+    public function addAction(){
+        $orderData = array();
+
+        $this->memberOrderModel->insert($orderData);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
 
 }
