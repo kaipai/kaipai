@@ -9,9 +9,9 @@ class CommentController extends Api{
     public function listAction(){
         $select = $this->commentModel->getSelect();
         $paginator = $this->commentModel->paginate($select);
-        $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
+        $paginator->setCurrentPageNumber($this->pageNum);
         $paginator->setItemCountPerPage($this->limit);
-        $comments = $paginator->getCurrentItems()->toArray();
+        $comments = $paginator->getCurrentItems();
         $commentsCount = $paginator->getTotalItemCount();
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('comments' => $comments, 'commentsCount' => $commentsCount));
@@ -19,7 +19,11 @@ class CommentController extends Api{
     }
 
     public function addAction(){
-        $this->commentModel->insert($this->postData);
+        $data = array(
+            'commentTitle' => $this->postData['commentTitle'],
+            'commentContent' => $this->postData['commentContent'],
+        );
+        $this->commentModel->insert($data);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }

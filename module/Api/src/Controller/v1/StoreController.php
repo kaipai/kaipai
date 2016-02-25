@@ -10,12 +10,13 @@ class StoreController extends Api{
 
     public function listAction(){
         $where = array();
-        $where['type'] = $this->postData['type'];
+        if(!empty($this->postData['type'])) $where['type'] = $this->postData['type'];
         $select = $this->storeModel->getSelect();
+        $select->where($where);
         $paginator = $this->storeModel->paginate($select);
         $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
         $paginator->setItemCountPerPage($this->limit);
-        $dataRows = $paginator->getCurrentItems()->toArray();
+        $dataRows = $paginator->getCurrentItems();
         $dataTotalCount = $paginator->getTotalItemCount();
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
@@ -41,7 +42,7 @@ class StoreController extends Api{
         $where = array(
             'storeID' => $this->postData['storeID']
         );
-        $categories = $this->storeModel->getCategories($where);
+        $categories = $this->storeCategoryModel->getList($where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $categories);
     }

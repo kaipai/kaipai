@@ -19,6 +19,7 @@ class Controller extends AbstractActionController{
     protected $postData;
     protected $controllerName;
     protected $actionName;
+    protected $pageNum;
     protected $offset;
     protected $limit;
     protected $order;
@@ -44,8 +45,12 @@ class Controller extends AbstractActionController{
         $this->postData = $this->request->getPost()->toArray();
         $this->controllerName = $this->route->getParam('__CONTROLLER__');
         $this->actionName = $this->route->getParam('action');
-        $this->offset = $this->postData['offset'];
+        $this->pageNum = $this->postData['pageNum'];
         $this->limit = $this->postData['limit'];
+        if(!empty($this->pageNum) && !empty($this->limit)){
+            $this->offset = ($this->pageNum - 1) * $this->limit;
+        }
+
         $this->order = $this->postData['order'];
         $this->sort = $this->postData['sort'];
 

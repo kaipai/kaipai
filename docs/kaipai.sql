@@ -2,21 +2,21 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50534
+Source Server Version : 50532
 Source Host           : localhost:3306
 Source Database       : kaipai
 
 Target Server Type    : MYSQL
-Target Server Version : 50534
+Target Server Version : 50532
 File Encoding         : 65001
 
-Date: 2016-02-21 14:09:09
+Date: 2016-02-25 18:14:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `Ad`
+-- Table structure for Ad
 -- ----------------------------
 DROP TABLE IF EXISTS `Ad`;
 CREATE TABLE `Ad` (
@@ -25,16 +25,18 @@ CREATE TABLE `Ad` (
   `position` varchar(20) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '广告位置',
   `alt` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '广告文字',
   `type` tinyint(1) DEFAULT '1' COMMENT '广告类型【1：轮播】',
+  `status` tinyint(1) DEFAULT '1' COMMENT '广告状态',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`adID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Ad
 -- ----------------------------
+INSERT INTO `Ad` VALUES ('1', null, 'index', null, '1', '1', '2016-02-23 17:28:42');
 
 -- ----------------------------
--- Table structure for `Article`
+-- Table structure for Article
 -- ----------------------------
 DROP TABLE IF EXISTS `Article`;
 CREATE TABLE `Article` (
@@ -43,30 +45,33 @@ CREATE TABLE `Article` (
   `articleName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '文章名称',
   `articleContent` text COLLATE utf8_general_mysql500_ci COMMENT '文章内容',
   `type` tinyint(4) DEFAULT '1' COMMENT '文章类型',
+  `status` tinyint(1) DEFAULT '1' COMMENT '文章状态',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`articleID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Article
 -- ----------------------------
+INSERT INTO `Article` VALUES ('1', '1', '11341', '14134', '1', '1', '2016-02-23 17:33:55');
 
 -- ----------------------------
--- Table structure for `ArticleCategory`
+-- Table structure for ArticleCategory
 -- ----------------------------
 DROP TABLE IF EXISTS `ArticleCategory`;
 CREATE TABLE `ArticleCategory` (
   `articleCategoryID` int(11) NOT NULL AUTO_INCREMENT COMMENT '文章分类ID',
   `categoryName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '分类名称',
   PRIMARY KEY (`articleCategoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of ArticleCategory
 -- ----------------------------
+INSERT INTO `ArticleCategory` VALUES ('1', '3314');
 
 -- ----------------------------
--- Table structure for `Artist`
+-- Table structure for Artist
 -- ----------------------------
 DROP TABLE IF EXISTS `Artist`;
 CREATE TABLE `Artist` (
@@ -79,14 +84,15 @@ CREATE TABLE `Artist` (
   `productions` text COLLATE utf8_general_mysql500_ci COMMENT '作品欣赏',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`artistID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Artist
 -- ----------------------------
+INSERT INTO `Artist` VALUES ('1', '12313', null, null, null, null, null, '2016-02-23 17:36:45');
 
 -- ----------------------------
--- Table structure for `AuctionLog`
+-- Table structure for AuctionLog
 -- ----------------------------
 DROP TABLE IF EXISTS `AuctionLog`;
 CREATE TABLE `AuctionLog` (
@@ -104,7 +110,7 @@ CREATE TABLE `AuctionLog` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `AuctionMember`
+-- Table structure for AuctionMember
 -- ----------------------------
 DROP TABLE IF EXISTS `AuctionMember`;
 CREATE TABLE `AuctionMember` (
@@ -113,18 +119,19 @@ CREATE TABLE `AuctionMember` (
   `memberID` int(11) DEFAULT NULL COMMENT '用户ID',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`auctionMemberID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of AuctionMember
 -- ----------------------------
+INSERT INTO `AuctionMember` VALUES ('1', '1', '1', '2016-02-24 18:04:38');
 
 -- ----------------------------
--- Table structure for `Comment`
+-- Table structure for Comment
 -- ----------------------------
 DROP TABLE IF EXISTS `Comment`;
 CREATE TABLE `Comment` (
-  `commentID` int(11) NOT NULL COMMENT '用户评论',
+  `commentID` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户评论',
   `commenterName` varchar(25) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '留言者姓名',
   `memberID` int(11) DEFAULT NULL COMMENT '用户ID',
   `commentTitle` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '留言标题',
@@ -132,14 +139,16 @@ CREATE TABLE `Comment` (
   `replyContent` varchar(512) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '回复内容',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`commentID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Comment
 -- ----------------------------
+INSERT INTO `Comment` VALUES ('1', '1231', '1', '13123', '31323', '313da', '2016-02-23 17:45:41');
+INSERT INTO `Comment` VALUES ('2', null, null, '1', '1', null, '2016-02-23 17:47:47');
 
 -- ----------------------------
--- Table structure for `Member`
+-- Table structure for Member
 -- ----------------------------
 DROP TABLE IF EXISTS `Member`;
 CREATE TABLE `Member` (
@@ -148,30 +157,34 @@ CREATE TABLE `Member` (
   `password` varchar(32) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '密码',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`memberID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Member
 -- ----------------------------
+INSERT INTO `Member` VALUES ('1', '111', '698d51a19d8a121ce581499d7b701668', '2016-02-23 17:03:48');
 
 -- ----------------------------
--- Table structure for `MemberArticle`
+-- Table structure for MemberArticle
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberArticle`;
 CREATE TABLE `MemberArticle` (
   `memberArticleID` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户文章ID',
+  `memberID` int(11) DEFAULT NULL COMMENT '用户ID',
   `memberArticleName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '用户文章名称',
   `memberArticleContent` text COLLATE utf8_general_mysql500_ci COMMENT '用户文章内容',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`memberArticleID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of MemberArticle
 -- ----------------------------
+INSERT INTO `MemberArticle` VALUES ('1', '1', '21313', '312313', '2016-02-23 17:50:21');
+INSERT INTO `MemberArticle` VALUES ('2', '1', '1', '1', '2016-02-23 18:10:37');
 
 -- ----------------------------
--- Table structure for `MemberArticleComment`
+-- Table structure for MemberArticleComment
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberArticleComment`;
 CREATE TABLE `MemberArticleComment` (
@@ -187,7 +200,7 @@ CREATE TABLE `MemberArticleComment` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `MemberArticleMark`
+-- Table structure for MemberArticleMark
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberArticleMark`;
 CREATE TABLE `MemberArticleMark` (
@@ -203,7 +216,7 @@ CREATE TABLE `MemberArticleMark` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `MemberInfo`
+-- Table structure for MemberInfo
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberInfo`;
 CREATE TABLE `MemberInfo` (
@@ -217,30 +230,33 @@ CREATE TABLE `MemberInfo` (
   `selfDesc` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '个人描述',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`memberID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of MemberInfo
 -- ----------------------------
+INSERT INTO `MemberInfo` VALUES ('1', 'xxx', null, null, null, null, null, null, '2016-02-23 17:03:48');
 
 -- ----------------------------
--- Table structure for `MemberMessage`
+-- Table structure for MemberMessage
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberMessage`;
 CREATE TABLE `MemberMessage` (
-  `messageID` int(11) NOT NULL COMMENT '站内信ID',
+  `messageID` int(11) NOT NULL AUTO_INCREMENT COMMENT '站内信ID',
   `memberID` int(11) DEFAULT NULL COMMENT '用户ID',
   `content` varchar(512) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '站内信内容',
+  `status` tinyint(1) DEFAULT '1' COMMENT '消息状态',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`messageID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of MemberMessage
 -- ----------------------------
+INSERT INTO `MemberMessage` VALUES ('1', '1', '2424', '2', '2016-02-23 18:32:31');
 
 -- ----------------------------
--- Table structure for `MemberOrder`
+-- Table structure for MemberOrder
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberOrder`;
 CREATE TABLE `MemberOrder` (
@@ -252,14 +268,17 @@ CREATE TABLE `MemberOrder` (
   `productSnapshot` text COLLATE utf8_general_mysql500_ci COMMENT '拍品快照',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`orderID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of MemberOrder
 -- ----------------------------
+INSERT INTO `MemberOrder` VALUES ('1', '1602241124061755', '1602241124061756', '1', '1', '{\"productID\":\"1\",\"stroreID\":\"1\",\"productName\":\"pppp\",\"listImg\":null,\"detailImgs\":null,\"productDetail\":null,\"productCategoryID\":\"1\",\"productAuthor\":null,\"productCreationTime\":null,\"productTheme\":null,\"productSize\":null,\"productMaterial\":null,\"productMount\":null,\"startPrice\":null,\"currPrice\":\"444.00\",\"deliveryPrice\":null,\"depositPrice\":null,\"auctionCount\":\"0\",\"startTime\":null,\"endTime\":null,\"auctionStatus\":\"0\",\"auctionPerPrice\":null,\"coverDelivery\":\"0\",\"refundInDays\":\"0\",\"certificateCard\":\"0\",\"authorAuth\":\"0\",\"artistID\":null,\"instime\":\"2016-02-24 17:03:41\"}', '2016-02-24 18:24:06');
+INSERT INTO `MemberOrder` VALUES ('2', '1602241125267113', '1602241125267114', '1', '1', '{\"productID\":\"1\",\"stroreID\":\"1\",\"productName\":\"pppp\",\"listImg\":null,\"detailImgs\":null,\"productDetail\":null,\"productCategoryID\":\"1\",\"productAuthor\":null,\"productCreationTime\":null,\"productTheme\":null,\"productSize\":null,\"productMaterial\":null,\"productMount\":null,\"startPrice\":null,\"currPrice\":\"444.00\",\"deliveryPrice\":null,\"depositPrice\":null,\"auctionCount\":\"0\",\"startTime\":null,\"endTime\":null,\"auctionStatus\":\"0\",\"auctionPerPrice\":null,\"coverDelivery\":\"0\",\"refundInDays\":\"0\",\"certificateCard\":\"0\",\"authorAuth\":\"0\",\"artistID\":null,\"instime\":\"2016-02-24 17:03:41\"}', '2016-02-24 18:25:26');
+INSERT INTO `MemberOrder` VALUES ('3', '1602250239075150', '1602250239075158', '1', null, 'false', '2016-02-25 09:39:07');
 
 -- ----------------------------
--- Table structure for `MemberOrderDelivery`
+-- Table structure for MemberOrderDelivery
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberOrderDelivery`;
 CREATE TABLE `MemberOrderDelivery` (
@@ -279,7 +298,7 @@ CREATE TABLE `MemberOrderDelivery` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `MemberPayDetail`
+-- Table structure for MemberPayDetail
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberPayDetail`;
 CREATE TABLE `MemberPayDetail` (
@@ -294,9 +313,12 @@ CREATE TABLE `MemberPayDetail` (
 -- ----------------------------
 -- Records of MemberPayDetail
 -- ----------------------------
+INSERT INTO `MemberPayDetail` VALUES ('1602241124061756', '444.00', null, null, '2016-02-24 18:24:06');
+INSERT INTO `MemberPayDetail` VALUES ('1602241125267114', '444.00', null, null, '2016-02-24 18:25:26');
+INSERT INTO `MemberPayDetail` VALUES ('1602250239075158', null, null, null, '2016-02-25 09:39:07');
 
 -- ----------------------------
--- Table structure for `MemberProductInterest`
+-- Table structure for MemberProductInterest
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberProductInterest`;
 CREATE TABLE `MemberProductInterest` (
@@ -305,14 +327,15 @@ CREATE TABLE `MemberProductInterest` (
   `memberID` int(11) DEFAULT NULL COMMENT '用户ID',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`productInterestID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of MemberProductInterest
 -- ----------------------------
+INSERT INTO `MemberProductInterest` VALUES ('1', '1', '1', '2016-02-24 18:11:05');
 
 -- ----------------------------
--- Table structure for `MemberStoreInterest`
+-- Table structure for MemberStoreInterest
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberStoreInterest`;
 CREATE TABLE `MemberStoreInterest` (
@@ -321,14 +344,15 @@ CREATE TABLE `MemberStoreInterest` (
   `storeID` int(11) DEFAULT NULL COMMENT '商家ID',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`storeInterestID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of MemberStoreInterest
 -- ----------------------------
+INSERT INTO `MemberStoreInterest` VALUES ('1', '1', '1', '2016-02-24 18:15:58');
 
 -- ----------------------------
--- Table structure for `MemberZone`
+-- Table structure for MemberZone
 -- ----------------------------
 DROP TABLE IF EXISTS `MemberZone`;
 CREATE TABLE `MemberZone` (
@@ -345,7 +369,7 @@ CREATE TABLE `MemberZone` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `MobileVerifyCode`
+-- Table structure for MobileVerifyCode
 -- ----------------------------
 DROP TABLE IF EXISTS `MobileVerifyCode`;
 CREATE TABLE `MobileVerifyCode` (
@@ -356,14 +380,15 @@ CREATE TABLE `MobileVerifyCode` (
   `isUsed` tinyint(4) DEFAULT '0' COMMENT '是否使用过',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`codeID`)
-) ENGINE=MyISAM AUTO_INCREMENT=70288 DEFAULT CHARSET=utf8 COMMENT='手机验证码';
+) ENGINE=MyISAM AUTO_INCREMENT=70289 DEFAULT CHARSET=utf8 COMMENT='手机验证码';
 
 -- ----------------------------
 -- Records of MobileVerifyCode
 -- ----------------------------
+INSERT INTO `MobileVerifyCode` VALUES ('70288', null, '61357', '1456219050', '0', '2016-02-23 17:17:30');
 
 -- ----------------------------
--- Table structure for `PaynotifyLog`
+-- Table structure for PaynotifyLog
 -- ----------------------------
 DROP TABLE IF EXISTS `PaynotifyLog`;
 CREATE TABLE `PaynotifyLog` (
@@ -381,7 +406,7 @@ CREATE TABLE `PaynotifyLog` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `Product`
+-- Table structure for Product
 -- ----------------------------
 DROP TABLE IF EXISTS `Product`;
 CREATE TABLE `Product` (
@@ -389,7 +414,7 @@ CREATE TABLE `Product` (
   `stroreID` int(11) DEFAULT NULL COMMENT '店铺ID',
   `productName` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '拍品名称',
   `listImg` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '列表图片',
-  `detailImgs` varchar(1024) COLLATE utf8_general_mysql500_ci DEFAULT NULL,
+  `detailImgs` varchar(1024) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '详情图片',
   `productDetail` text COLLATE utf8_general_mysql500_ci COMMENT '产品介绍',
   `productCategoryID` int(11) DEFAULT NULL COMMENT '拍品分类ID',
   `productAuthor` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '作品作者',
@@ -414,14 +439,15 @@ CREATE TABLE `Product` (
   `artistID` int(11) DEFAULT NULL COMMENT '艺术家ID',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`productID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Product
 -- ----------------------------
+INSERT INTO `Product` VALUES ('1', '1', 'pppp', null, null, null, '1', null, null, null, null, null, null, null, '444.00', null, null, '0', null, null, '0', null, '0', '0', '0', '0', null, '2016-02-24 17:03:41');
 
 -- ----------------------------
--- Table structure for `ProductCategory`
+-- Table structure for ProductCategory
 -- ----------------------------
 DROP TABLE IF EXISTS `ProductCategory`;
 CREATE TABLE `ProductCategory` (
@@ -429,14 +455,15 @@ CREATE TABLE `ProductCategory` (
   `categoryName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '分类名称',
   `sort` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`productCategoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of ProductCategory
 -- ----------------------------
+INSERT INTO `ProductCategory` VALUES ('1', '111', null);
 
 -- ----------------------------
--- Table structure for `ProductCategoryFilter`
+-- Table structure for ProductCategoryFilter
 -- ----------------------------
 DROP TABLE IF EXISTS `ProductCategoryFilter`;
 CREATE TABLE `ProductCategoryFilter` (
@@ -444,14 +471,15 @@ CREATE TABLE `ProductCategoryFilter` (
   `productCategoryID` int(11) DEFAULT NULL COMMENT '产品分类ID',
   `filterName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '筛选名称',
   PRIMARY KEY (`productCategoryFilterID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of ProductCategoryFilter
 -- ----------------------------
+INSERT INTO `ProductCategoryFilter` VALUES ('1', '1', 'qwe');
 
 -- ----------------------------
--- Table structure for `ProductCategoryFilterOption`
+-- Table structure for ProductCategoryFilterOption
 -- ----------------------------
 DROP TABLE IF EXISTS `ProductCategoryFilterOption`;
 CREATE TABLE `ProductCategoryFilterOption` (
@@ -459,14 +487,15 @@ CREATE TABLE `ProductCategoryFilterOption` (
   `productCategoryFilterID` int(11) DEFAULT NULL COMMENT '产品分类筛选ID',
   `optionName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '筛选选项名称',
   PRIMARY KEY (`productCategoryFilterOptionID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of ProductCategoryFilterOption
 -- ----------------------------
+INSERT INTO `ProductCategoryFilterOption` VALUES ('1', '1', 'qfwq');
 
 -- ----------------------------
--- Table structure for `ProductFilterOption`
+-- Table structure for ProductFilterOption
 -- ----------------------------
 DROP TABLE IF EXISTS `ProductFilterOption`;
 CREATE TABLE `ProductFilterOption` (
@@ -475,14 +504,15 @@ CREATE TABLE `ProductFilterOption` (
   `productCategoryFilterID` int(11) DEFAULT NULL COMMENT '产品分类筛选ID',
   `productCategoryFilterOptionID` int(11) DEFAULT NULL COMMENT '产品分类选项ID',
   PRIMARY KEY (`productFilterOptionID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of ProductFilterOption
 -- ----------------------------
+INSERT INTO `ProductFilterOption` VALUES ('1', '1', '1', '1');
 
 -- ----------------------------
--- Table structure for `SiteSetting`
+-- Table structure for SiteSetting
 -- ----------------------------
 DROP TABLE IF EXISTS `SiteSetting`;
 CREATE TABLE `SiteSetting` (
@@ -497,28 +527,47 @@ CREATE TABLE `SiteSetting` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `Special`
+-- Table structure for SmsLog
+-- ----------------------------
+DROP TABLE IF EXISTS `SmsLog`;
+CREATE TABLE `SmsLog` (
+  `logID` int(11) NOT NULL AUTO_INCREMENT,
+  `mobile` char(11) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '接收手机号',
+  `content` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '短信内容',
+  `status` tinyint(1) DEFAULT NULL COMMENT '发送状态',
+  `apiResult` varchar(255) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT 'api请求结果',
+  PRIMARY KEY (`logID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+
+-- ----------------------------
+-- Records of SmsLog
+-- ----------------------------
+INSERT INTO `SmsLog` VALUES ('1', '111', '61357', '0', '[螺丝帽]-40,WRONG_MOBILE');
+
+-- ----------------------------
+-- Table structure for Special
 -- ----------------------------
 DROP TABLE IF EXISTS `Special`;
 CREATE TABLE `Special` (
   `specialID` int(11) NOT NULL AUTO_INCREMENT COMMENT '专场id',
   `specialName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '专场名称',
   `specialProductCategoryID` int(11) DEFAULT NULL COMMENT '专场拍品分类ID',
-  `specialImg` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '拍品图片',
+  `specialImg` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '专场图片',
   `productCount` int(11) DEFAULT NULL COMMENT '拍品数量',
   `startTime` int(11) DEFAULT NULL COMMENT '开始时间',
   `endTime` int(11) DEFAULT NULL COMMENT '结束时间',
   `storeID` int(11) DEFAULT NULL COMMENT '选送商家ID',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`specialID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Special
 -- ----------------------------
+INSERT INTO `Special` VALUES ('1', 'eee', null, null, null, null, null, '1', '2016-02-24 17:51:47');
 
 -- ----------------------------
--- Table structure for `SpecialProduct`
+-- Table structure for SpecialProduct
 -- ----------------------------
 DROP TABLE IF EXISTS `SpecialProduct`;
 CREATE TABLE `SpecialProduct` (
@@ -529,14 +578,15 @@ CREATE TABLE `SpecialProduct` (
   `isRecommend` tinyint(4) DEFAULT '0' COMMENT '是否是本场推荐',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`specialProductID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of SpecialProduct
 -- ----------------------------
+INSERT INTO `SpecialProduct` VALUES ('1', '1', '1', null, '0', '2016-02-24 18:02:59');
 
 -- ----------------------------
--- Table structure for `Store`
+-- Table structure for Store
 -- ----------------------------
 DROP TABLE IF EXISTS `Store`;
 CREATE TABLE `Store` (
@@ -550,37 +600,42 @@ CREATE TABLE `Store` (
   `isRecommend` tinyint(4) DEFAULT '0' COMMENT '是否是推荐店铺',
   `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`storeID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of Store
 -- ----------------------------
+INSERT INTO `Store` VALUES ('1', 'ttttttttttt', null, null, null, null, null, '0', '2016-02-24 17:03:28');
 
 -- ----------------------------
--- Table structure for `StoreCategory`
+-- Table structure for StoreCategory
 -- ----------------------------
 DROP TABLE IF EXISTS `StoreCategory`;
 CREATE TABLE `StoreCategory` (
-  `storeCategoryID` int(11) NOT NULL,
+  `storeCategoryID` int(11) NOT NULL AUTO_INCREMENT,
+  `storeID` int(11) DEFAULT NULL COMMENT '店铺ID',
   `storeCategoryName` varchar(50) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '店铺拍品分类',
   PRIMARY KEY (`storeCategoryID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of StoreCategory
 -- ----------------------------
+INSERT INTO `StoreCategory` VALUES ('1', '1', '1e1e');
+INSERT INTO `StoreCategory` VALUES ('3', '1', '2');
 
 -- ----------------------------
--- Table structure for `StoreCategoryProduct`
+-- Table structure for StoreCategoryProduct
 -- ----------------------------
 DROP TABLE IF EXISTS `StoreCategoryProduct`;
 CREATE TABLE `StoreCategoryProduct` (
-  `storeCategoryProductID` int(11) NOT NULL,
+  `storeCategoryProductID` int(11) NOT NULL AUTO_INCREMENT,
   `storeCategoryID` int(11) DEFAULT NULL COMMENT '店铺拍品分类ID',
   `productID` int(11) DEFAULT NULL COMMENT '拍品ID',
   PRIMARY KEY (`storeCategoryProductID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci;
 
 -- ----------------------------
 -- Records of StoreCategoryProduct
 -- ----------------------------
+INSERT INTO `StoreCategoryProduct` VALUES ('1', '1', '1');

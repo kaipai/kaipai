@@ -4,17 +4,17 @@ namespace Api\Model;
 use COM\Model;
 class MemberArticle extends Model{
 
-    public function getList($where = array(), $offset = 0, $limit = 1){
+    public function getList($where = array(), $order = null, $offset = null, $limit = null){
         $select = $this->getSelect();
-        $select->from(array('a' => 'MemberArticle'))
-            ->join(array('b' => 'MemberInfo'), 'a.memberID = b.memberID')
+        $select->join(array('b' => 'MemberInfo'), 'MemberArticle.memberID = b.memberID', array('nickName'))
             ->where($where)
-            ->limit($limit)
-            ->offset($offset);
-        $paginator = $this->memberArticleModel->paginate($select);
+            ->offset($offset)
+            ->limit($limit);
+
+        $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber(ceil($offset / $limit) + 1);
         $paginator->setItemCountPerPage($limit);
-        $memberArticles = $paginator->getCurrentItems()->toArray();
+        $memberArticles = $paginator->getCurrentItems();
         $memberArticlesCount = $paginator->getTotalItemCount();
 
         return array('memberArticles' => $memberArticles, 'memberArticlesCount' => $memberArticlesCount);

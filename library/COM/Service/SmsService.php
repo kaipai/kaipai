@@ -29,10 +29,10 @@ class SmsService implements ServiceManagerAwareInterface
             return 'select send type';
         }
         $logData = array(
-            'Mobile' => $mobile,
-            'Content' => $content,
-            'Status' => $status,
-            'ApiResult' => $apiResult,
+            'mobile' => $mobile,
+            'content' => $content,
+            'status' => $status,
+            'apiResult' => $apiResult,
         );
         $this->sm->get('Base\Model\SmsLog')->insert($logData);
         return $res;

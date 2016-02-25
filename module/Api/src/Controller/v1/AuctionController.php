@@ -7,7 +7,7 @@ use COM\Controller\Api;
 class AuctionController extends Api{
 
     public function attendAction(){
-        $memberID = $this->postData['memberID'];
+        $memberID = $this->memberInfo['memberID'];
         $productID = $this->postData['productID'];
 
         $data = array(

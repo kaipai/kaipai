@@ -14,6 +14,7 @@ use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\TableGateway\Feature\EventFeature;
 use Zend\Db\TableGateway\Feature\FeatureSet;
 use Zend\Filter\Word\UnderscoreToDash;
+use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\ServiceManager;
@@ -240,15 +241,12 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
      *
      * @overwrite
      */
-    public function getList($where = array(), $order = null, $offset = null, $pageSize = null)
+    public function getList($where = array(), $order = null, $offset = null, $limit = null)
     {
         $select = $this->getSelect();
-        $select->from($this->table)
-            ->where($where)
-            ->offset(intval($offset))
-            ->limit(intval($pageSize));
+        $select->where($where);
         if($offset) $select->offset(intval($offset));
-        if($pageSize) $select->limit(intval($pageSize));
+        if($limit) $select->limit(intval($limit));
         if ($order) $select->order($order);
 
         return $this->selectWith($select)->toArray();

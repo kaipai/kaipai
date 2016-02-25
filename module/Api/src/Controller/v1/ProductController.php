@@ -10,15 +10,15 @@ class ProductController extends Api{
     public function listAction(){
         $productCategoryID = $this->postData['productCategoryID'];
         $productCategoryFilterOptionID = $this->postData['productCategoryFilterOptionID'];
-        $where = arary();
+        $where = array();
         if(!empty($productCategoryID)){
-            $where['productCategoryID'] = $productCategoryID;
+            $where['b.productCategoryID'] = $productCategoryID;
         }
         if(!empty($productCategoryFilterOptionID)){
-            $where['productCategoryFilterOptionID'] = $productCategoryFilterOptionID;
+            $where['productFilterOption.productCategoryFilterOptionID'] = $productCategoryFilterOptionID;
         }
 
-        $products = $this->productModel->getList($where, $this->offset, $this->limit);
+        $products = $this->productModel->getList($where, null, $this->offset, $this->limit);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $products);
     }
@@ -26,8 +26,7 @@ class ProductController extends Api{
     public function detailAction(){
         $productID = $this->postData['productID'];
         $select = $this->productModel->getSelect();
-        $select->from(array('a' => 'Product'))
-            ->join(array('b' => 'ProductCategory'), 'a.productCategoryID = b.productCategoryID', 'categoryName');
+        $select->join(array('b' => 'ProductCategory'), 'Product.productCategoryID = b.productCategoryID', 'categoryName');
         $select->where(array('productID' => $productID));
         $productDetail = $this->productModel->selectWith($select)->current();
 

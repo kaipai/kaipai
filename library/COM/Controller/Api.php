@@ -14,9 +14,7 @@ class Api extends Controller{
 
         $this->version = $this->route->getParam('version');
 
-        $signature = strtolower($this->postData['Signature']);
-        if(empty($signature) || (getenv('APP_ENV') != 'test' && $signature != $this->genSignature())){
-        }
+        $this->checkLogin(self::FRONT_PLATFORM);
     }
 
     public function __get($name){
@@ -25,7 +23,7 @@ class Api extends Controller{
         if($isModel !== false){
             return $this->sm->get('Api\Model\\' . ucfirst(substr($name, 0, -5)));
         }elseif($isService !== false){
-            return $this->sm->get('COM\Service\\' . ucfirst(substr($name, 0, -7)));
+            return $this->sm->get('COM\Service\\' . ucfirst($name));
         }
     }
 }

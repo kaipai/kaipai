@@ -8,9 +8,16 @@ class SpecialController extends Api{
 
     public function listAction(){
         $where = array();
-        $specials = $this->specialModel->getList($where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $specials);
+        $select = $this->specialModel->getSelect();
+        $select->where($where);
+        $paginator = $this->specialModel->paginate($select);
+        $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
+        $paginator->setItemCountPerPage($this->limit);
+        $dataRows = $paginator->getCurrentItems();
+        $dataTotalCount = $paginator->getTotalItemCount();
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
 
     }
 
@@ -29,5 +36,34 @@ class SpecialController extends Api{
         $this->specialModel->insert($data);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function delAction(){
+        $where = array(
+            'specialID' => $this->postData['specialID']
+        );
+
+        $this->specialModel->delete($where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function productAction(){
+        $specialID = $this->postData['specialID'];
+        $where = array(
+            'SpecialProduct.specialID' => $specialID
+        );
+        $select = $this->specialProductModel->getSelect();
+        $select->columns(array());
+        $select->join(array('b' => 'Product'), 'SpecialProduct.productID = b.productID');
+        $select->where($where);
+
+        $paginator = $this->specialProductModel->paginate($select);
+        $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
+        $paginator->setItemCountPerPage($this->limit);
+        $dataRows = $paginator->getCurrentItems();
+        $dataTotalCount = $paginator->getTotalItemCount();
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
     }
 }

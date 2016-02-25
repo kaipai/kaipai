@@ -13,9 +13,9 @@ class MemberArticleController extends Api{
 
     public function listAction(){
         $where = array(
-            'memberID' => $this->memberInfo['memberID']
+            'MemberArticle.memberID' => $this->memberInfo['memberID']
         );
-        $memberArticles = $this->memberArticleModel->getList($where, $this->offset, $this->limit);
+        $memberArticles = $this->memberArticleModel->getList($where, null, $this->offset, $this->limit);
 
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberArticles);
@@ -33,7 +33,12 @@ class MemberArticleController extends Api{
     }
 
     public function addAction(){
-        $this->memberArticleModel->insert($this->postData);
+        $data = array(
+            'memberArticleName' => $this->postData['memberArticleName'],
+            'memberArticleContent' => $this->postData['memberArticleContent'],
+            'memberID' => $this->memberInfo['memberID'],
+        );
+        $this->memberArticleModel->insert($data);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }

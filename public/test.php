@@ -1,5 +1,5 @@
-<form id="requestForm" action="http://local.com/myzf/public/api/v1/login/do-login" target="output_frame" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="form-horizontal ng-pristine ng-valid">
-    <input type="text" name="memberName" value="111" placeholder="memberName" />
-    <input type="text" name="password" value="aaa" placeholder="password" />
+<form id="requestForm" action="http://local.com/myzf/public/api/v1/member-order/list" target="output_frame" enctype="multipart/form-data" method="post" accept-charset="utf-8" class="form-horizontal ng-pristine ng-valid">
+    <input type="hidden" name="pageNum" value="1" />
+    <input type="hidden" name="limit" value="1" />
     <input type="submit" value="submit" />
 </form>

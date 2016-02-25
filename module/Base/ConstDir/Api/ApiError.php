@@ -12,4 +12,8 @@ class ApiError{
     const PARAMETER_MISSING_MSG = '参数缺失';
     const DATA_INSERT_FAILED = -104;
     const DATA_INSERT_FAILED_MSG = '数据插入失败';
+    const TWICE_PASSWORD_NOT_SIMILAR = -105;
+    const TWICE_PASSWORD_NOT_SIMILAR_MSG = '两次输入的密码不一致';
+    const VERIFY_CODE_INVALID = -106;
+    const VERIFY_CODE_INVALID_MSG = '验证码验证失败';
 }

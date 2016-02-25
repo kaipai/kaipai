@@ -13,16 +13,15 @@ class LoginController extends Api{
     public function doLoginAction(){
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
-        $verifyCode = $this->postData['verifyCode'];
+        /*$verifyCode = $this->postData['verifyCode'];
         $smsCode = $this->mobileVerifyCodeModel->select(array('mobile' => $mobile, 'expireTime > ?' => time()))->current();
         if(empty($verifyCode) || $verifyCode != $smsCode){
             return $this->response(ApiError::VERIFY_CODE_AUTH_FAILED, ApiError::VERIFY_CODE_AUTH_FAILED_MSG);
-        }
+        }*/
 
         $select = $this->memberModel->getSelect();
-        $select->from(array('a' => 'Member'))
-            ->join(array('b' => 'MemberInfo'), 'a.memberID = b.memberID')
-            ->where(array('a.mobile' => $mobile, 'a.password' => $this->memberModel->genPwd($password)));
+        $select->join(array('b' => 'MemberInfo'), 'Member.memberID = b.memberID')
+            ->where(array('Member.mobile' => $mobile, 'Member.password' => $this->memberModel->genPwd($password)));
 
         $memberInfo = $this->memberModel->selectWith($select)->current();
 
@@ -38,7 +37,7 @@ class LoginController extends Api{
 
     public function getVerifyCodeAction(){
         $mobile = $this->postData['mobile'];
-        $verifyCode = $this->memberModel->getVerifyCode();
+        $verifyCode = $this->mobileVerifyCodeModel->getVerifyCode();
         $sms = str_replace(Sms::VERIFY_CODE_MSG, '{$verifyCode}', $verifyCode);
         $this->smsService->sendSms($mobile, $sms);
         $data = array(
@@ -50,9 +49,24 @@ class LoginController extends Api{
     }
 
     public function regAction(){
-        $data = $this->postData;
-        $memberInfoData = $data;
+        $password = $this->postData['password'];
+        $confirmPassword = $this->postData['confirmPassword'];
+        if($password != $confirmPassword){
+            return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
+        }
+        $verifyCode = $this->mobileVerifyCodeModel->select(array('mobile' => $this->postData['mobile'], 'expireTime > ?' => time()))->current();
+        if($verifyCode != $this->postData['verifyCode']){
+            return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
+        }
+        $data = array(
+            'mobile' => $this->postData['mobile'],
+            'password' => $this->memberModel->genPwd($password),
+        );
         $this->memberModel->insert($data);
+        $memberID = $this->memberModel->getLastInsertValue();
+        $memberInfoData = array(
+            'memberID' => $memberID
+        );
         $this->memberInfoModel->insert($memberInfoData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
