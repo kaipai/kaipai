@@ -16,4 +16,6 @@ class ApiError{
     const TWICE_PASSWORD_NOT_SIMILAR_MSG = '两次输入的密码不一致';
     const VERIFY_CODE_INVALID = -106;
     const VERIFY_CODE_INVALID_MSG = '验证码验证失败';
+    const MOBILE_VALIDATE_FAILED = -107;
+    const MOBILE_VALIDATE_FAILED_MSG = '手机号格式不正确';
 }

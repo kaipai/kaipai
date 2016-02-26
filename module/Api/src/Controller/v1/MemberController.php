@@ -45,7 +45,11 @@ class MemberController extends Api{
             'memberID' => $this->memberInfo['memberID']
         );
         $set = $this->postData;
-
+        $purview = array();
+        foreach($set as $k => $v) {
+            if (!in_array($k, $purview)) unset($set[$k]);
+        }
+        if(empty($set)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         $this->memberInfoModel->update($set, $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);

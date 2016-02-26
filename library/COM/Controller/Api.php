@@ -2,6 +2,7 @@
 namespace COM\Controller;
 
 use Base\ConstDir\Api\ApiError;
+use Base\ConstDir\Regexp;
 use COM\Controller;
 use Base\ConstDir\Redis;
 
@@ -25,5 +26,9 @@ class Api extends Controller{
         }elseif($isService !== false){
             return $this->sm->get('COM\Service\\' . ucfirst($name));
         }
+    }
+
+    protected function validateMobile($mobile){
+        return preg_match(Regexp::MOBILE_VALIDATE, $mobile);
     }
 }

@@ -8,7 +8,7 @@ use COM\Controller\Api;
 class MemberArticleController extends Api{
 
     public function init(){
-        if(empty($this->memberInfo)) return $this->_return(ApiError::NEED_LOGININ, ApiError::NEED_LOGIN_MSG);
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
     }
 
     public function listAction(){

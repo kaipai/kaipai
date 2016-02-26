@@ -4,6 +4,7 @@ namespace Api\Controller\v1;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\Api\Sms;
+use Base\ConstDir\Regexp;
 use Base\Functions\Utility;
 use COM\Controller\Api;
 use Zend\Authentication\Storage\Session;
@@ -13,11 +14,8 @@ class LoginController extends Api{
     public function doLoginAction(){
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
-        /*$verifyCode = $this->postData['verifyCode'];
-        $smsCode = $this->mobileVerifyCodeModel->select(array('mobile' => $mobile, 'expireTime > ?' => time()))->current();
-        if(empty($verifyCode) || $verifyCode != $smsCode){
-            return $this->response(ApiError::VERIFY_CODE_AUTH_FAILED, ApiError::VERIFY_CODE_AUTH_FAILED_MSG);
-        }*/
+        if(empty($mobile) || empty($password)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
 
         $select = $this->memberModel->getSelect();
         $select->join(array('b' => 'MemberInfo'), 'Member.memberID = b.memberID')
@@ -37,6 +35,8 @@ class LoginController extends Api{
 
     public function getVerifyCodeAction(){
         $mobile = $this->postData['mobile'];
+        if(empty($mobile)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
         $verifyCode = $this->mobileVerifyCodeModel->getVerifyCode();
         $sms = str_replace(Sms::VERIFY_CODE_MSG, '{$verifyCode}', $verifyCode);
         $this->smsService->sendSms($mobile, $sms);
@@ -49,8 +49,12 @@ class LoginController extends Api{
     }
 
     public function regAction(){
+        $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
         $confirmPassword = $this->postData['confirmPassword'];
+        if(empty($mobile) || empty($password) || empty($confirmPassword)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
+
         if($password != $confirmPassword){
             return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
         }
@@ -59,7 +63,7 @@ class LoginController extends Api{
             return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
         }
         $data = array(
-            'mobile' => $this->postData['mobile'],
+            'mobile' => $mobile,
             'password' => $this->memberModel->genPwd($password),
         );
         $this->memberModel->insert($data);
@@ -76,6 +80,10 @@ class LoginController extends Api{
         $mobile = $this->postData['mobile'];
         $verifyCode = $this->postData['verifyCode'];
         $newPwd = $this->postData['newPwd'];
+
+        if(empty($mobile) || empty($verifyCode) || empty($newPwd)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
+
         $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
         if($verifyCode == $smsVeriyfCode){
             $set = array(

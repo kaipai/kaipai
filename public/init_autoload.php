@@ -12,7 +12,8 @@ if(defined('ZF2')){
             'Zend\Loader\StandardAutoloader'    =>  array(
                 'autoregister_zf'   =>  true,
                 'namespaces' => array(
-                    'COM' => LIB . '/COM'
+                    'COM' => LIB . '/COM',
+                    'Pingpp' => LIB . '/COM/Service/pingpp-php/lib',
                 )
             )
         ));

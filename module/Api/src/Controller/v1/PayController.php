@@ -126,23 +126,23 @@ class PayController extends Controller
     }
 
     public function aliReturnAction(){
-        return $this->_return(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function unionReturnAction(){
-        return $this->_return(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function merchantPayAction(){
         $unitePayID = $this->params('unitePayID');
-        if(empty($unitePayID)) return $this->_return(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(empty($unitePayID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
 
         try{
             $form = $this->sm->get('COM\Service\PayMod\MerchantPay')->doPay($unitePayID);
             $this->response->setContent($form);
             return $this->response;
         }catch (\Exception $e){
-            return $this->_return($e->getCode(), $e->getMessage());
+            return $this->response($e->getCode(), $e->getMessage());
         }
     }
 
