@@ -74,6 +74,20 @@ class Controller extends AbstractActionController{
         return $this->response;
     }
 
+    protected function adminResponse($data = array()){
+        $headers = array(
+            'Access-Control-Allow-Origin: *',
+            'Access-Control-Allow-Headers: Content-type',
+            'Content-type:application/json;charset=utf-8'
+        );
+        $this->response->getHeaders()->addHeaders($headers);
+
+        if(!empty($data)) $response['data'] = $data;
+
+        $this->response->setContent(json_encode($response, JSON_UNESCAPED_UNICODE));
+        return $this->response;
+    }
+
     /**
      * 验证登录
      * @param $platform

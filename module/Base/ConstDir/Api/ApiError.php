@@ -18,4 +18,8 @@ class ApiError{
     const VERIFY_CODE_INVALID_MSG = '验证码验证失败';
     const MOBILE_VALIDATE_FAILED = -107;
     const MOBILE_VALIDATE_FAILED_MSG = '手机号格式不正确';
+    const DATA_DELETE_FAILED = -108;
+    const DATA_DELETE_FAILED_MSG = '数据删除失败';
+    const DATA_UPDATE_FAILED = -109;
+    const DATA_UPDATE_FAILED_MSG = '数据更新失败';
 }

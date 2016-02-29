@@ -19,7 +19,7 @@ class LoginController extends Api{
 
         $select = $this->memberModel->getSelect();
         $select->join(array('b' => 'MemberInfo'), 'Member.memberID = b.memberID')
-            ->where(array('Member.mobile' => $mobile, 'Member.password' => $this->memberModel->genPwd($password)));
+            ->where(array('Member.mobile' => $mobile, 'Member.password' => $this->memberModel->genPassword($password)));
 
         $memberInfo = $this->memberModel->selectWith($select)->current();
 
@@ -64,7 +64,7 @@ class LoginController extends Api{
         }
         $data = array(
             'mobile' => $mobile,
-            'password' => $this->memberModel->genPwd($password),
+            'password' => $this->memberModel->genPassword($password),
         );
         $this->memberModel->insert($data);
         $memberID = $this->memberModel->getLastInsertValue();
@@ -87,7 +87,7 @@ class LoginController extends Api{
         $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
         if($verifyCode == $smsVeriyfCode){
             $set = array(
-                'password' => $this->memberModel->genPwd($newPwd),
+                'password' => $this->memberModel->genPassword($newPwd),
             );
             $this->memberModel->update($set, array('mobile' => $mobile));
         }
