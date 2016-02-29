@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50532
 File Encoding         : 65001
 
-Date: 2016-02-26 16:58:20
+Date: 2016-02-29 18:15:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,6 +34,23 @@ CREATE TABLE `Ad` (
 -- Records of Ad
 -- ----------------------------
 INSERT INTO `Ad` VALUES ('1', null, 'index', null, '1', '1', '2016-02-23 17:28:42');
+
+-- ----------------------------
+-- Table structure for Admins
+-- ----------------------------
+DROP TABLE IF EXISTS `Admins`;
+CREATE TABLE `Admins` (
+  `adminID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) DEFAULT NULL COMMENT '登录名',
+  `passwd` char(32) DEFAULT NULL COMMENT '密码',
+  `status` enum('ENABLE','DISABLE') DEFAULT 'ENABLE' COMMENT '可用状态',
+  `instime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`adminID`)
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8 COMMENT='管理员表';
+
+-- ----------------------------
+-- Records of Admins
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for Article
