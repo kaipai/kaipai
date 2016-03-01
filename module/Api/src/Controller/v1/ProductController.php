@@ -18,7 +18,7 @@ class ProductController extends Api{
             $where['productFilterOption.productCategoryFilterOptionID'] = $productCategoryFilterOptionID;
         }
 
-        $products = $this->productModel->getList($where, null, $this->offset, $this->limit);
+        $products = $this->productFilterOptionModel->getList($where, null, $this->offset, $this->limit);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $products);
     }
