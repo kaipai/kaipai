@@ -9,7 +9,7 @@ class Product extends Model{
 
         $select = $this->getSelect();
         $select->columns(array())
-            ->join(array('b' => 'product'), 'productFilterOption.productID = b.productID')
+            ->join(array('b' => 'Product'), 'productFilterOption.productID = b.productID')
             ->where($where)
             ->offset($offset)
             ->limit($limit);
