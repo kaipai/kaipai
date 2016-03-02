@@ -32,7 +32,7 @@ class AdminController extends Admin{
 
     public function addAction(){
         $username = $this->request->getPost("username");
-        $passwd = $this->request->getPost("password");
+        $passwd = $this->request->getPost("passwd");
         if(empty($username) || empty($passwd)){
             return $this->response(AdminError::PARAMETER_MISSING, AdminError::PARAMETER_MISSING_MSG);
         }
@@ -59,7 +59,7 @@ class AdminController extends Admin{
     }
 
     public function updateAction(){
-        $newPasswd = $this->request->getPost("password");
+        $newPasswd = $this->request->getPost("passwd");
         $adminID = $this->request->getPost("adminID");
         if(empty($newPasswd) || empty($adminID)) return $this->response(AdminError::PARAMETER_MISSING, AdminError::PARAMETER_MISSING_MSG);
         if(strlen($newPasswd) < 6){
@@ -68,7 +68,7 @@ class AdminController extends Admin{
 
         $updateData = array();
         if(!empty($newPasswd)){
-            $updateData['passwd'] = $this->getPasswd($newPasswd);
+            $updateData['passwd'] = $this->adminModel->genPassword($newPasswd);
         }
         try{
             $this->adminModel->update($updateData,array("AdminID" => $adminID));

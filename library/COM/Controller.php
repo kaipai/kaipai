@@ -82,9 +82,7 @@ class Controller extends AbstractActionController{
         );
         $this->response->getHeaders()->addHeaders($headers);
 
-        if(!empty($data)) $response['data'] = $data;
-
-        $this->response->setContent(json_encode($response, JSON_UNESCAPED_UNICODE));
+        $this->response->setContent(json_encode($data, JSON_UNESCAPED_UNICODE));
         return $this->response;
     }
 
@@ -150,6 +148,16 @@ class Controller extends AbstractActionController{
             return false;
         }
         return $data;
+    }
+
+    public function __get($name){
+        $isModel = stripos($name, 'Model');
+        $isService = stripos($name, 'Service');
+        if($isModel !== false){
+            return $this->sm->get('Api\Model\\' . ucfirst(substr($name, 0, -5)));
+        }elseif($isService !== false){
+            return $this->sm->get('COM\Service\\' . ucfirst($name));
+        }
     }
 
 }
