@@ -71,7 +71,7 @@ class AdminController extends Admin{
             $updateData['passwd'] = $this->adminModel->genPassword($newPasswd);
         }
         try{
-            $this->adminModel->update($updateData,array("AdminID" => $adminID));
+            $this->adminModel->update($updateData,array("adminID" => $adminID));
             return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
         }catch (\Exception $e){
             return $this->response(AdminError::DATA_UPDATE_FAILED, AdminError::DATA_UPDATE_FAILED_MSG);
@@ -86,7 +86,7 @@ class AdminController extends Admin{
         }
 
         try{
-            $this->adminModel->delete(array("AdminID" => $adminID));
+            $this->adminModel->delete(array("adminID" => $adminID));
             return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
         }catch (\Exception $e){
             return $this->response(AdminError::DATA_DELETE_FAILED, AdminError::DATA_DELETE_FAILED_MSG);
