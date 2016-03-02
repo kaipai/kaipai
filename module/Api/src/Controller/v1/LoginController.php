@@ -59,7 +59,7 @@ class LoginController extends Api{
             return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
         }
         $verifyCode = $this->mobileVerifyCodeModel->select(array('mobile' => $this->postData['mobile'], 'expireTime > ?' => time()))->current();
-        if($verifyCode != $this->postData['verifyCode']){
+        if($verifyCode != $this->postData['verifyCode'] && 0){
             return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
         }
         $data = array(
