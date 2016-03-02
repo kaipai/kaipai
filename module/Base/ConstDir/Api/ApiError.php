@@ -22,4 +22,6 @@ class ApiError{
     const DATA_DELETE_FAILED_MSG = '数据删除失败';
     const DATA_UPDATE_FAILED = -109;
     const DATA_UPDATE_FAILED_MSG = '数据更新失败';
+    const PASSWORD_LT_SIX_WORDS = -110;
+    const PASSWORD_LT_SIX_WORDS_MSG = '密码小于6位';
 }
