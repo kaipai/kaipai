@@ -9,7 +9,7 @@
 <script>
     $('#table-javascript').bootstrapTable({
         method: 'get',
-        url: '/admin/product/list',
+        url: '/admin/special/list',
         cache: false,
         toolbar:"#toolbar",
         height: "auto",
@@ -24,81 +24,54 @@
         clickToSelect: true,
         columns: [
             {
-                field: 'productID',
-                title: '拍品ID',
+                field: 'specialID',
+                title: '专场ID',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
             },
             {
-                field: 'productName',
-                title: '拍品名称',
+                field: 'specialName',
+                title: '专场名称',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
             },
             {
-                field: 'listImg',
-                title: '拍品列表图片',
+                field: 'specialProductCategoryID',
+                title: '专场拍品分类',
+                align: 'center',
+                valign: 'middle',
+                width:200
+
+            },{
+                field: 'specialImg',
+                title: '专场图片',
+                align: 'center',
+                valign: 'middle',
+                width:200
+
+            },{
+                field: 'productCount',
+                title: '专场拍品数量',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
             },
             {
-                field: 'detailImgs',
-                title: '拍品详情图片',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
-                field: 'startPrice',
-                title: '起拍价',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
-                field: 'currPrice',
-                title: '当前价格',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
-                field: 'deliveryPrice',
-                title: '运费',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
-                field: 'depositPrice',
-                title: '保证金',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
-                field: 'auctionCount',
-                title: '出价次数',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
                 field: 'startTime',
-                title: '起拍时间',
+                title: '专场开始时间',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
-            },{
+            },
+            {
                 field: 'endTime',
-                title: '结束时间',
+                title: '专场结束时间',
                 align: 'center',
                 valign: 'middle',
                 width:200

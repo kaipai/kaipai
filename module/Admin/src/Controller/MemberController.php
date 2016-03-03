@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
 class MemberController extends Admin{
@@ -12,26 +12,33 @@ class MemberController extends Admin{
     }
 
     public function listAction(){
-        $members = $this->memberModel->getList();
+        $offset = $this->request->getQuery('offset', $this->offset);
+        $limit = $this->request->getQuery('limit', $this->limit);
+        $where = array();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $members);
+        $data = array();
+
+        $data['total'] = $this->memberInfoModel->getCount($where);
+
+        $data['rows'] = $this->memberInfoModel->getList($where, "memberID desc", $offset, $limit);
+
+        return $this->adminResponse($data);
     }
 
-    public function addAction(){
-        $memberData = $this->postData;
-        $this->memberModel->insert($memberData);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
 
-    public function updateAction(){
-        $memberID = $this->postData['memberID'];
-        $set = $this->postData;
-        $where = array(
-            'memberID' => $memberID
-        );
-        $this->memberModel->update($set, $where);
+    public function delAction(){
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        $adminID = $this->request->getPost("adminID");
+        if(empty($adminID)){
+            return $this->response(AdminError::PARAMETER_MISSING, AdminError::PARAMETER_MISSING_MSG);
+        }
+
+        try{
+            $this->adminModel->delete(array("adminID" => $adminID));
+            return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
+        }catch (\Exception $e){
+            return $this->response(AdminError::DATA_DELETE_FAILED, AdminError::DATA_DELETE_FAILED_MSG);
+        }
     }
 }

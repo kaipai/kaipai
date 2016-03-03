@@ -3,7 +3,7 @@ namespace Admin\Controller;
 
 use COM\Controller\Admin;
 use Base\ConstDir\BaseConst;
-use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Admin\AdminSuccess;
 
 class StoreController extends Admin{
 
@@ -13,27 +13,17 @@ class StoreController extends Admin{
     }
 
     public function listAction(){
-        $stores = $this->storeModel->getList();
+        $offset = $this->request->getQuery('offset', $this->offset);
+        $limit = $this->request->getQuery('limit', $this->limit);
+        $where = array();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $stores);
-    }
+        $data = array();
 
-    public function addAction(){
-        $storeData = $this->postData;
-        $this->storeModel->insert($storeData);
+        $data['total'] = $this->storeModel->getCount($where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
+        $data['rows'] = $this->storeModel->getList($where, "storeID desc", $offset, $limit);
 
-    public function updateAction(){
-        $storeID = $this->postData['storeID'];
-        $set = $this->postData;
-        $where = array(
-            'storeID' => $storeID
-        );
-        $this->storeModel->update($set, $where);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->adminResponse($data);
     }
 
 }

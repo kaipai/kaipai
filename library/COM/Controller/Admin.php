@@ -13,6 +13,8 @@ class Admin extends Controller{
         }else{
             if($this->checkLogin(self::ADMIN_PLATFORM)){
                 $this->layout('adminLayout');
+                $this->layout()->setVariable('controllerName', $this->controllerName);
+                $this->layout()->setVariable('actionName', $this->actionName);
             }else{
                 $this->redirect()->toUrl('/admin/index/login');
             }

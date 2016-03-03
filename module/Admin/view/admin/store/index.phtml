@@ -9,7 +9,7 @@
 <script>
     $('#table-javascript').bootstrapTable({
         method: 'get',
-        url: '/admin/member/list',
+        url: '/admin/store/list',
         cache: false,
         toolbar:"#toolbar",
         height: "auto",
@@ -24,74 +24,44 @@
         clickToSelect: true,
         columns: [
             {
-                field: 'memberID',
-                title: '账号ID',
+                field: 'storeID',
+                title: '店铺ID',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
             },
             {
-                field: 'mobile',
-                title: '手机号',
+                field: 'storeName',
+                title: '店铺名',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
             },
             {
-                field: 'nickName',
-                title: '昵称',
+                field: 'storeSignature',
+                title: '店铺签名',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
             },{
-                field: 'signature',
-                title: '签名',
+                field: 'storeDesc',
+                title: '店铺简介',
+                align: 'center',
+                valign: 'middle',
+                width:200
+
+            },{
+                field: 'storeBanner',
+                title: '店铺招牌',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
             },
             {
-                field: 'avatar',
-                title: '头像',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },
-            {
-                field: 'email',
-                title: 'email',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
-                field: 'qq',
-                title: 'qq',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
-                field: 'wechat',
-                title: '微信',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },
-            {
-                field: 'selfDesc',
-                title: '自我介绍',
-                align: 'center',
-                valign: 'middle',
-                width:200
-
-            },{
                 field: 'instime',
                 title: '新增时间',
                 align: 'center',

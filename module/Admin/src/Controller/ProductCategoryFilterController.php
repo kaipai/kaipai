@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
 class ProductCategoryFilterController extends Admin{
@@ -14,14 +14,14 @@ class ProductCategoryFilterController extends Admin{
     public function listAction(){
         $productCategoryFilters = $this->productCategoryFilterModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $productCategoryFilters);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG, $productCategoryFilters);
     }
 
     public function addAction(){
         $productCategoryFilterData = $this->postData;
         $this->productCategoryFilterModel->insert($productCategoryFilterData);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function updateAction(){
@@ -32,7 +32,7 @@ class ProductCategoryFilterController extends Admin{
         );
         $this->productCategoryFilterModel->update($set, $where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
 
 }

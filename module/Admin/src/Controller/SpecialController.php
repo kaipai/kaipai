@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
 class SpecialController extends Admin{
@@ -12,27 +12,17 @@ class SpecialController extends Admin{
     }
 
     public function listAction(){
-        $specials = $this->specialModel->getList();
+        $offset = $this->request->getQuery('offset', $this->offset);
+        $limit = $this->request->getQuery('limit', $this->limit);
+        $where = array();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $specials);
-    }
+        $data = array();
 
-    public function addAction(){
-        $specialData = $this->postData;
-        $this->specialModel->insert($specialData);
+        $data['total'] = $this->specialModel->getCount($where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
+        $data['rows'] = $this->specialModel->getList($where, "specialID desc", $offset, $limit);
 
-    public function updateAction(){
-        $specialID = $this->postData['specialID'];
-        $set = $this->postData;
-        $where = array(
-            'specialID' => $specialID
-        );
-        $this->specialModel->update($set, $where);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->adminResponse($data);
     }
 
 }

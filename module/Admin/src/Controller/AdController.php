@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
 class AdController extends Admin{
@@ -11,16 +11,24 @@ class AdController extends Admin{
     }
 
     public function listAction(){
-        $ads = $this->adModel->getList();
+        $offset = $this->request->getQuery('offset', $this->offset);
+        $limit = $this->request->getQuery('limit', $this->limit);
+        $where = array();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $ads);
+        $data = array();
+
+        $data['total'] = $this->adModel->getCount($where);
+
+        $data['rows'] = $this->adModel->getList($where, "adID desc", $offset, $limit);
+
+        return $this->adminResponse($data);
     }
 
     public function addAction(){
         $adData = $this->postData;
         $this->adModel->insert($adData);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function updateAction(){
@@ -29,7 +37,7 @@ class AdController extends Admin{
         $where = array('adID' => $adID);
 
         $this->adModel->update($set, $where);
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function delAction(){
@@ -38,7 +46,7 @@ class AdController extends Admin{
         );
 
         $this->adModel->delete($where);
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
 
 }

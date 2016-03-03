@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
 class ProductController extends Admin{
@@ -12,26 +12,17 @@ class ProductController extends Admin{
     }
 
     public function listAction(){
-        $products = $this->producModel->getList();
+        $offset = $this->request->getQuery('offset', $this->offset);
+        $limit = $this->request->getQuery('limit', $this->limit);
+        $where = array();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $products);
+        $data = array();
+
+        $data['total'] = $this->productModel->getCount($where);
+
+        $data['rows'] = $this->productModel->getList($where, "productID desc", $offset, $limit);
+
+        return $this->adminResponse($data);
     }
 
-    public function addAction(){
-        $productData = $this->postData;
-        $this->productModel->insert($productData);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
-
-    public function updateAction(){
-        $productID = $this->postData['productID'];
-        $set = $this->postData;
-        $where = array(
-            'productID' => $productID
-        );
-        $this->productModel->update($set, $where);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
 }

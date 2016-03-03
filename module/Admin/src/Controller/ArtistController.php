@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
 class ArtistController extends Admin{
@@ -14,14 +14,14 @@ class ArtistController extends Admin{
     public function listAction(){
         $artists = $this->artistModel->getList();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $artists);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG, $artists);
     }
 
     public function addAction(){
         $artistData = $this->postData;
         $this->artistModel->insert($artistData);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function updateAction(){
@@ -32,7 +32,7 @@ class ArtistController extends Admin{
         );
         $this->articleModel->update($set, $where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
 
 

@@ -13,9 +13,8 @@ class MemberOrder extends Model{
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber(ceil($offset / $limit) + 1);
         $paginator->setItemCountPerPage($limit);
-        $memberOrders = $paginator->getCurrentItems();
+        $memberOrders = $paginator->getCurrentItems()->getArrayCopy();
         $memberOrdersCount = $paginator->getTotalItemCount();
-
         return array('memberOrders' => $memberOrders, 'memberOrdersCount' => $memberOrdersCount);
 
     }

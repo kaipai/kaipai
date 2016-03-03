@@ -1,0 +1,53 @@
+<div id="toolbar" class="fixed-table-toolbar col-lg-offset-2">
+    <div class="form-inline" role="form">
+    </div>
+</div>
+<div class="fixed-table-body" style="min-height: 1000px;margin-bottom: 60px;">
+    <table id="table-javascript" class="bootstrap_table"></table>
+</div>
+
+<script>
+    $('#table-javascript').bootstrapTable({
+        method: 'get',
+        url: '/admin/faq/list',
+        cache: false,
+        toolbar:"#toolbar",
+        height: "auto",
+        striped: true,
+        pagination: true,
+        pageSize: 10,
+        pageList: [10, 25, 50, 100, 200],
+        search: true,
+        showColumns: true,
+        showRefresh: true,
+        sidePagination: 'server',
+        clickToSelect: true,
+        columns: [
+            {
+                field: 'faqID',
+                title: '问题ID',
+                align: 'center',
+                valign: 'middle',
+                width:200
+
+            },
+            {
+                field: 'question',
+                title: '问题',
+                align: 'center',
+                valign: 'middle',
+                width:200
+
+            },
+            {
+                field: 'reply',
+                title: '回复',
+                align: 'center',
+                valign: 'middle',
+                width:200
+
+            }
+        ]
+    });
+
+</script>

@@ -14,7 +14,7 @@ class MemberArticle extends Model{
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber(ceil($offset / $limit) + 1);
         $paginator->setItemCountPerPage($limit);
-        $memberArticles = $paginator->getCurrentItems();
+        $memberArticles = $paginator->getCurrentItems()->getArrayCopy();
         $memberArticlesCount = $paginator->getTotalItemCount();
 
         return array('memberArticles' => $memberArticles, 'memberArticlesCount' => $memberArticlesCount);
