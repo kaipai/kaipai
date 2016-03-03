@@ -6,6 +6,18 @@ use Zend\Debug\Debug;
 
 class Utility
 {
+    public static function recreateIndex($source, $fieldName, $multi = false)
+    {
+        $data = array();
+        foreach ($source as $k => $item) {
+            if (isset($item[$fieldName])) {
+                ($multi == false) ? $data[$item[$fieldName]] = $source[$k] : $data[$item[$fieldName]][] = $source[$k];
+            }
+
+        }
+        return $data;
+    }
+
     public static function dump($var, $willDie = false)
     {
         Debug::dump($var, null, true);

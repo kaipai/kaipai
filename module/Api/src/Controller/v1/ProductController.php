@@ -5,6 +5,8 @@ use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller\Api;
+use Pingpp\Util\Util;
+
 class ProductController extends Api{
 
     public function listAction(){
@@ -36,6 +38,18 @@ class ProductController extends Api{
     public function categoryAction(){
 
         $categories = $this->productCategoryModel->getList();
+        $categoryFilters = $this->productCategoryFilterModel->getList();
+        $categoryFilterOptions = $this->productCategoryFilterOptionModel->getList();
+
+        $categories = Utility::recreateIndex($categories, 'productCategoryID');
+        $categoryFilters = Utility::recreateIndex($categoryFilters, 'productCategoryFilterID');
+        $categoryFilterOptions = Utility::recreateIndex($categoryFilterOptions, 'productCategoryFilterOptionID');
+        foreach($categoryFilterOptions as $k => $v){
+            $categoryFilters[$v['productCategoryFilterID']]['options'][$k] = $v;
+        }
+        foreach($categoryFilters as $k => $v){
+            $categories[$v['productCategoryID']]['filters'][$k] = $v;
+        }
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $categories);
     }
