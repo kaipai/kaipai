@@ -8,7 +8,7 @@ use Base\ConstDir\Redis;
 
 class Api extends Controller{
     protected $version;
-    protected $sessionVerifyCode;
+    protected $sessionVerifyCode = 'smsPicVerifyCode';
     public function preDispatch()
     {
         parent::preDispatch();

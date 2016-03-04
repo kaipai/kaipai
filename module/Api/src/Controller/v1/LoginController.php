@@ -40,8 +40,13 @@ class LoginController extends Api{
 
     public function getVerifyCodeAction(){
         $mobile = $this->postData['mobile'];
+        $picVerifyCode = $this->postData['picVerifyCode'];
+
         if(empty($mobile)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
+        if(md5($picVerifyCode) != $_SESSION[$this->sessionVerifyCode]){
+            return $this->response(ApiError::REG_PIC_VERIFY_CODE_FAILED, ApiError::REG_PIC_VERIFY_CODE_FAILED_MSG);
+        }
         $verifyCode = $this->mobileVerifyCodeModel->getVerifyCode();
         $sms = str_replace('{$verifyCode}', $verifyCode, Sms::VERIFY_CODE_MSG);
         $this->smsService->sendSms($mobile, $sms);

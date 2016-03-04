@@ -28,5 +28,7 @@ class ApiError{
     const MEMBER_EXIST_NICK_NAME_MSG = '该昵称已被使用';
     const MEMBER_EXIST_MOBILE = -112;
     const MEMBER_EXIST_MOBILE_MSG = '该手机号已被使用';
+    const REG_PIC_VERIFY_CODE_FAILED = -113;
+    const REG_PIC_VERIFY_CODE_FAILED_MSG = '图片验证码错误';
 
 }
