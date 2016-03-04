@@ -46,6 +46,7 @@ class LoginController extends Api{
         $sms = str_replace('{$verifyCode}', $verifyCode, Sms::VERIFY_CODE_MSG);
         $this->smsService->sendSms($mobile, $sms);
         $data = array(
+            'mobile' => $mobile,
             'verifyCode' => $verifyCode,
             'expireTime' => time(),
         );
