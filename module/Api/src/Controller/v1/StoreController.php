@@ -47,5 +47,17 @@ class StoreController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $categories);
     }
 
+    public function categoryAddAction(){
+        $storeCategoryName = $this->request->getPost('storeCategoryName');
+        if(empty($storeCategoryName)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        $data = array(
+            'storeID' => $this->memberInfo['storeID'],
+            'storeCategoryName' => $storeCategoryName
+        );
+        $this->storeCategoryModel->insert($data);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
 
 }

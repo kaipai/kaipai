@@ -133,13 +133,13 @@ return array(
      * @description 短信发送配置
      */
     'sms'   =>  array(
-        'type'  =>  1,//1-螺丝帽发送短信，2-云片发送短信
+        'type'  =>  2,//1-螺丝帽发送短信，2-云片发送短信
         'luosimao'   =>array(
             'name' => '螺丝帽',
         ),
         'yunpian'   =>  array(
             'url' => 'http://yunpian.com/v1/sms/send.json',
-            'apikey' => '44855ae8924a8984bc83d24603fa039b',
+            'apikey' => '07ff99c0e23377493fb218e9c63c7fa6',
             'name' => '云片',
         ),
     ),

@@ -38,7 +38,7 @@ class LoginController extends Api{
         if(empty($mobile)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
         $verifyCode = $this->mobileVerifyCodeModel->getVerifyCode();
-        $sms = str_replace(Sms::VERIFY_CODE_MSG, '{$verifyCode}', $verifyCode);
+        $sms = str_replace('{$verifyCode}', $verifyCode, Sms::VERIFY_CODE_MSG);
         $this->smsService->sendSms($mobile, $sms);
         $data = array(
             'verifyCode' => $verifyCode,
@@ -52,6 +52,7 @@ class LoginController extends Api{
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
         $confirmPassword = $this->postData['confirmPassword'];
+        $nickName = $this->postData['nickName'];
         if(empty($mobile) || empty($password) || empty($confirmPassword)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
         if(strlen($password) < 6) return $this->response(ApiError::PASSWORD_LT_SIX_WORDS, ApiError::PASSWORD_LT_SIX_WORDS_MSG);
@@ -61,6 +62,20 @@ class LoginController extends Api{
         $verifyCode = $this->mobileVerifyCodeModel->select(array('mobile' => $this->postData['mobile'], 'expireTime > ?' => time()))->current();
         if($verifyCode != $this->postData['verifyCode'] && 0){
             return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
+        }
+        $where = array(
+            'nickName' => $nickName
+        );
+        $existMember = $this->memberInfoModel->select($where)->current();
+        if(!empty($existMember)){
+            return $this->response(ApiError::MEMBER_EXIST_NICK_NAME, ApiError::MEMBER_EXIST_NICK_NAME_MSG);
+        }
+        $where = array(
+            'mobile' => $mobile
+        );
+        $existMember = $this->memberInfoModel->select($where)->current();
+        if(!empty($existMember)){
+            return $this->response(ApiError::MEMBER_EXIST_MOBILE, ApiError::MEMBER_EXIST_MOBILE_MSG);
         }
         $data = array(
             'mobile' => $mobile,

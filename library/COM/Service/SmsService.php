@@ -100,6 +100,7 @@ class SmsService implements ServiceManagerAwareInterface
         while (!feof($fp)) {
             $data .= fgets($fp, 4096);
         }
+        var_dump($data);
         return json_decode($data, true);
     }
 }

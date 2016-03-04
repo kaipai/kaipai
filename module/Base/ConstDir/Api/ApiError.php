@@ -24,4 +24,9 @@ class ApiError{
     const DATA_UPDATE_FAILED_MSG = '数据更新失败';
     const PASSWORD_LT_SIX_WORDS = -110;
     const PASSWORD_LT_SIX_WORDS_MSG = '密码小于6位';
+    const MEMBER_EXIST_NICK_NAME = -111;
+    const MEMBER_EXIST_NICK_NAME_MSG = '该昵称已被使用';
+    const MEMBER_EXIST_MOBILE = -112;
+    const MEMBER_EXIST_MOBILE_MSG = '该手机号已被使用';
+
 }
