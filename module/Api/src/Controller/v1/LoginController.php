@@ -8,6 +8,7 @@ use Base\ConstDir\Regexp;
 use Base\Functions\Utility;
 use COM\Controller\Api;
 use Zend\Authentication\Storage\Session;
+use Zend\Session\Storage\SessionStorage;
 
 class LoginController extends Api{
 
@@ -118,6 +119,12 @@ class LoginController extends Api{
             $this->memberModel->update($set, array('mobile' => $mobile));
         }
 
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function logoutAction(){
+        $session = new SessionStorage(self::FRONT_PLATFORM);
+        $session->clear();
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 }
