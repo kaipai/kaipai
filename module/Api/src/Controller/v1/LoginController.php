@@ -25,8 +25,12 @@ class LoginController extends Api{
         $memberInfo = $this->memberModel->selectWith($select)->current();
 
         if(!empty($memberInfo)){
-            $session = new Session(self::FRONT_PLATFORM);
-            $session->write($memberInfo);
+            $token = $this->tokenModel->select(array('memberID' => $memberInfo['memberID']))->current();
+            if(empty($token)){
+                $token = array('memberID' => $memberInfo['memberID'], 'token' => uniqid());
+                $this->tokenModel->insert($token);
+            }
+            $memberInfo['token'] = $token['token'];
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberInfo);
         }else{
             return $this->response(ApiError::LOGIN_FAILED, ApiError::LOGIN_FAILED_MSG);
@@ -122,9 +126,4 @@ class LoginController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
-    public function logoutAction(){
-        $session = new SessionStorage(self::FRONT_PLATFORM);
-        $session->clear();
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
 }

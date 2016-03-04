@@ -55,4 +55,13 @@ class MemberController extends Api{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
+    public function logoutAction(){
+        try{
+            $this->tokenModel->delete(array('memberID' => $this->memberInfo['MemberID']));
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        }catch(\Exception $e){
+            return $this->response(ApiError::DATA_UPDATE_FAILED, ApiError::DATA_UPDATE_FAILED_MSG);
+        }
+    }
+
 }
