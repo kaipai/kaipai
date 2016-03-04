@@ -62,7 +62,7 @@ class SmsService implements ServiceManagerAwareInterface
         curl_setopt($ch, CURLOPT_HEADER, FALSE);
 
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_USERPWD, 'api:key-e86b81168a3c73755857c1c4c581977e');
+        curl_setopt($ch, CURLOPT_USERPWD, 'api:key-');
 
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, array('mobile' => $mobile, 'message' => $content . "【蚂蚁车管家】"));
@@ -100,7 +100,6 @@ class SmsService implements ServiceManagerAwareInterface
         while (!feof($fp)) {
             $data .= fgets($fp, 4096);
         }
-        var_dump($data);
         return json_decode($data, true);
     }
 }

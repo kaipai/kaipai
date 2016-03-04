@@ -33,6 +33,11 @@ class LoginController extends Api{
 
     }
 
+    public function getPicVerifyCodeAction(){
+        $imgService = $this->sm->get('COM\Service\ImageService');
+        $imgService->buildImageVerify(4, 1, 'gif', 48, 24, $this->sessionVerifyCode);
+    }
+
     public function getVerifyCodeAction(){
         $mobile = $this->postData['mobile'];
         if(empty($mobile)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
