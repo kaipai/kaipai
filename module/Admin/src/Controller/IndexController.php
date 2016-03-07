@@ -15,19 +15,28 @@ class IndexController extends Admin{
         if(!empty($this->postData)){
             $adminName = $this->postData['adminName'];
             $password = $this->postData['password'];
-            if($adminName == 'admin' && $password == '123456'){
-                $adminLoginInfo = array(
-                    'adminName' => $adminName,
-                    'password' => $password
-                );
-
+            $where = array(
+                'username' => $adminName,
+                'passwd' => $this->adminModel->genPassword($password),
+            );
+            $adminLoginInfo = $this->adminModel->select($where)->current();
+            if(!empty($adminLoginInfo)){
                 $session = new Session(self::ADMIN_PLATFORM);
                 $session->write($adminLoginInfo);
-                $this->redirect()->toUrl('/admin/index/index');
+                return $this->redirect()->toUrl('/admin/index/index');
+            }else{
+                $this->view->setVariable('error', '用户名或密码错误');
             }
+
         }
 
 
         return $this->view;
+    }
+
+    public function logoutAction(){
+        $session = new Session(self::ADMIN_PLATFORM);
+        $session->clear();
+        return $this->redirect()->toUrl('/admin/index/login');
     }
 }

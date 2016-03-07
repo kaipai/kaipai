@@ -4,7 +4,7 @@ namespace Admin\Controller;
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
-class ArticleController extends Admin{
+class ArticleCategoryController extends Admin{
 
     public function indexAction(){
 
@@ -12,9 +12,25 @@ class ArticleController extends Admin{
     }
 
     public function listAction(){
-        $articleCategories = $this->articleCategoryModel->getList();
+        $offset = $this->request->getQuery('offset', $this->offset);
+        $limit = $this->request->getQuery('limit', $this->limit);
+        $where = array();
 
-        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG, $articleCategories);
+        $data = array();
+
+        $data['total'] = $this->articleCategoryModel->getCount($where);
+
+        $data['rows'] = $this->articleCategoryModel->getList($where, "articleCategoryID desc", $offset, $limit);
+
+        return $this->adminResponse($data);
+
+    }
+
+    public function getAction(){
+        $articleCategoryID = $this->postData['articleCategoryID'];
+        $articleInfo = $this->articleCategoryModel->select(array('articleCategoryID' => $articleCategoryID))->current();
+
+        return $this->adminResponse($articleInfo);
     }
 
     public function addAction(){
@@ -41,5 +57,6 @@ class ArticleController extends Admin{
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
+
 
 }

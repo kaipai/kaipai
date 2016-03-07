@@ -1,5 +1,6 @@
 <div id="toolbar" class="fixed-table-toolbar col-lg-offset-2">
     <div class="form-inline" role="form">
+        <a  class="btn btn-primary" href="/admin/article/add-view"><i class="fa fa-pencil"></i>新增</a>
     </div>
 </div>
 <div class="fixed-table-body" style="min-height: 1000px;margin-bottom: 60px;">
@@ -53,7 +54,24 @@
                 align: 'center',
                 valign: 'middle',
                 width:200
+            }, {
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                formatter:operateFormatter,
+                width:200
+
             }]
     });
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a title="编辑" href="/admin/article/add-view?articleID=' + row.articleID + '"><i class="glyphicon glyphicon-edit"></i></a>',
+            '<a title="删除" href="javascript:void(0)" class=" remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
+            ' cbody="确认删除文章' + row.articleName + '吗？" url="/admin/<?=$this->layout()->controllerName;?>/del" method="post" params="articleID='+ row.articleID +'">'+
+            '<i class="glyphicon glyphicon-remove"></i>'+
+            '</a>'
+        ].join('');
+    }
 
 </script>

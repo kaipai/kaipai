@@ -15,6 +15,7 @@ class Admin extends Controller{
                 $this->layout('adminLayout');
                 $this->layout()->setVariable('controllerName', $this->controllerName);
                 $this->layout()->setVariable('actionName', $this->actionName);
+                $this->layout()->setVariable('adminName', $this->adminInfo['username']);
             }else{
                 $this->redirect()->toUrl('/admin/index/login');
             }

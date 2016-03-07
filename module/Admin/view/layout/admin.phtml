@@ -100,7 +100,7 @@
                     </ul>
                 </li>
 
-                <li class="menu-list <?php if (in_array($controllerName, array('article', 'member-article'))) { ?> nav-active<?php } ?>">
+                <li class="menu-list <?php if (in_array($controllerName, array('article', 'article-category', 'member-article'))) { ?> nav-active<?php } ?>">
                     <a href="#"><i class="fa fa-group"></i><span class=""></span>文章管理</a>
                     <ul class="sub-menu-list nav nav-second-level">
 
@@ -108,7 +108,7 @@
                             <a href="/admin/article/index"  class="text-success">文章列表</a>
                         </li>
                         <li class="<?php if ($controllerName == 'article' && $actionName == 'category') { ?> active<?php } ?>">
-                            <a href="/admin/article/category"  class="text-success">文章分类</a>
+                            <a href="/admin/article-category/index"  class="text-success">文章分类</a>
                         </li>
                         <li class="<?php if ($controllerName == 'member-article' && $actionName == 'index') { ?> active<?php } ?>">
                             <a href="/admin/member-article/index"  class="text-success">个人空间文章列表</a>
@@ -162,7 +162,7 @@
                 <ul class="notification-menu">
                     <li>
                         <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <?php echo 'adminname';?>
+                            <?php echo $adminName;;?>
                             <span class="caret"></span>
                         </a>
 

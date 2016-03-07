@@ -1,0 +1,154 @@
+<div id="toolbar" class="fixed-table-toolbar col-lg-offset-2">
+    <div class="form-inline" role="form">
+        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#add_modal"><i class="fa fa-pencil"></i>新增</button>
+    </div>
+</div>
+<div class="fixed-table-body" style="min-height: 1000px;margin-bottom: 60px;">
+    <table id="table-javascript" class="bootstrap_table"></table>
+</div>
+
+<!-- Add Modal Start -->
+<div class="row">
+    <div class="modal form-modal fade" id="add_modal" tabindex="-1" role="dialog" aria-labelledby="add_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="add_modal_label">添加文章分类</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" method="post" action="/admin/<?php echo $this->layout()->controllerName; ?>/add">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="add_desc" class="col-sm-2 col-md-2 control-label">文章分类名称</label>
+                                        <div class="col-sm-10 col-md-10">
+                                            <input type="text" class="form-control" name="categoryName">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!-- btn-block可以在非PC上获取更好的体验 -->
+                    <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                    <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Modal End -->
+
+<!-- edit Modal Start -->
+<div class="row">
+    <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="add_modal_label">编辑文章分类</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" method="post" action="/admin/<?php echo $this->layout()->controllerName; ?>/update">
+                        <input type="hidden" name="articleCategoryID" id="articleCategoryID" />
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label for="add_desc" class="col-sm-2 col-md-2 control-label">文章分类名称</label>
+                                        <div class="col-sm-10 col-md-10">
+                                            <input type="text" class="form-control" name="categoryName" id="categoryName">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <!-- btn-block可以在非PC上获取更好的体验 -->
+                    <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                    <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- edit Modal End -->
+
+<script>
+    $('#table-javascript').bootstrapTable({
+        method: 'get',
+        url: '/admin/article-category/list',
+        cache: false,
+        toolbar:"#toolbar",
+        height: "auto",
+        striped: true,
+        pagination: true,
+        pageSize: 10,
+        pageList: [10, 25, 50, 100, 200],
+        search: true,
+        showColumns: true,
+        showRefresh: true,
+        sidePagination: 'server',
+        clickToSelect: true,
+        columns: [
+            {
+                field: 'articleCategoryID',
+                title: '文章分类ID',
+                align: 'center',
+                valign: 'middle',
+                width:200
+
+            },
+            {
+                field: 'categoryName',
+                title: '分类名称',
+                align: 'center',
+                valign: 'middle',
+                width:200
+
+            }, {
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                formatter:operateFormatter,
+                width:200
+
+            }]
+    });
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a title="编辑" href="javascript:;"  class="col-md-4" rid="' + row.articleCategoryID + '" data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-edit"></i></a>',
+            '<a href="javascript:;" class="remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
+            ' cbody="确认删除该条记录吗？" url="/admin/article-category/del" method="post" params="articleCategoryID='+ row.articleCategoryID +'" title=\"Apk hash删除\">'+
+            '<i class="glyphicon glyphicon-remove"></i>'+
+            '</a>'
+        ].join('');
+    }
+
+    $('#edit_modal').on("show.bs.modal",function(e){
+        var btn = $(e.relatedTarget);
+        var id = btn.attr('rid');
+
+        $.ajax({
+            url : '/admin/<?php echo $this->layout()->controllerName; ?>/get',
+            method : 'post',
+            data : {
+                articleCategoryID : id
+            },
+            dataType : 'json',
+            success : function(data){
+                $("#articleCategoryID").val(data.articleCategoryID);
+                $("#categoryName").val(data.categoryName);
+            }
+        });
+
+    });
+
+</script>

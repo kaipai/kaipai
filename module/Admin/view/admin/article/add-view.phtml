@@ -1,0 +1,54 @@
+<?php
+echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.config.js');
+echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.all.js');
+echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
+?>
+<div class="wrapper">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <?php echo (isset($articleInfo['articleID'])) ? '编辑文章ID:' . $articleInfo['articleID'] : '新增文章页面'; ?>
+                <a class="text-right" style="float:right;" href="<?php echo '/admin/' . $this->layout()->controllerName . '/index' ?>">返回</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="container mtop40" style="margin-bottom: 50px; height: auto;">
+                <form class="form-horizontal" action="/admin/article/<?= (isset($articleInfo)) ? "update" : "add"; ?>" method="post">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">文章名称</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="articleName" value="<?= (isset($articleInfo['articleName'])) ? $articleInfo['articleName'] : ''; ?>" placeholder="文章名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">文章分类</label>
+                        <div class="col-sm-4">
+                            <select class="form-control input-sm m-bot15" name="articleCategoryID">
+                                <?php foreach ($categories as $v){ ?>
+                                    <option value="<?php echo $v['articleCategoryID']; ?>" <?php if(isset($articleInfo['articleCategoryID']) && $v['articleCategoryID'] == $articleInfo['articleCategoryID']){echo 'selected';} ?>><?php echo $v['categoryName']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">文章内容</label>
+                        <div class="col-sm-4">
+                            <script id="editor" name="articleContent" type="text/plain" style="width:700px;height:300px;"><?= (isset($articleInfo['articleContent'])) ? $articleInfo['articleContent'] : ''; ?></script>
+
+                        </div>
+                    </div>
+                    <input type="hidden" name="articleID" value="<? if(isset($articleInfo['articleID'])) echo $articleInfo['articleID']; ?>"/>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a class="btn btn-primary editModal" onclick="">确定</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ue = UE.getEditor('editor');
+</script>
