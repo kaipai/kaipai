@@ -507,6 +507,7 @@ class ImageService implements ServiceManagerAwareInterface{//类定义开始
     public function output($im, $type = 'gif', $filename = '') {
         ob_clean();
         header("Content-type: image/" . $type);
+        header("Access-Control-Allow-Origin: *");
         $ImageFun = 'image' . $type;
         if (empty($filename)) {
             if (!$ImageFun($im)) {
