@@ -39,6 +39,7 @@ class LoginController extends Api{
     }
 
     public function getPicVerifyCodeAction(){
+        session_start();
         $imgService = $this->sm->get('COM\Service\ImageService');
         $imgService->buildImageVerify(4, 1, 'gif', 48, 24, $this->sessionVerifyCode);
         var_dump($_SESSION);
@@ -46,6 +47,7 @@ class LoginController extends Api{
     }
 
     public function getVerifyCodeAction(){
+        session_start();
         $mobile = $this->postData['mobile'];
         $picVerifyCode = $this->postData['picVerifyCode'];
 
