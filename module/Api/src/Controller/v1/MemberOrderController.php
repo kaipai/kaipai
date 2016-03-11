@@ -95,7 +95,7 @@ class MemberOrderController extends Api{
         );
         $this->memberDeliveryModel->insert($data);
         $memberDeliveryID = $this->memberDeliveryModel->getLastInsertValue();
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberDeliveryID);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('memberDeliveryID' => $memberDeliveryID));
     }
 
     public function setMemberDeliveryAction(){
