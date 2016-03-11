@@ -41,6 +41,7 @@ class LoginController extends Api{
     public function getPicVerifyCodeAction(){
         $imgService = $this->sm->get('COM\Service\ImageService');
         $imgService->buildImageVerify(4, 1, 'gif', 48, 24, $this->sessionVerifyCode);
+        var_dump($_SESSION);
         exit;
     }
 
@@ -50,6 +51,7 @@ class LoginController extends Api{
 
         if(empty($mobile)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
+        var_dump($_SESSION);
         if(md5($picVerifyCode) != $_SESSION[$this->sessionVerifyCode]){
             return $this->response(ApiError::REG_PIC_VERIFY_CODE_FAILED, ApiError::REG_PIC_VERIFY_CODE_FAILED_MSG);
         }
