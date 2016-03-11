@@ -45,7 +45,7 @@ class MemberController extends Api{
             'memberID' => $this->memberInfo['memberID']
         );
         $set = $this->postData;
-        $purview = array();
+        $purview = array('selfDesc', 'wechat', 'avatar', 'email', 'qq', 'signature');
         foreach($set as $k => $v) {
             if (!in_array($k, $purview)) unset($set[$k]);
         }
