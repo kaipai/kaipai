@@ -2,9 +2,9 @@
 namespace Api\Controller\v1;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
-use COM\Controller;
+use COM\Controller\Api;
 
-class NotificationController extends Controller{
+class NotificationController extends Api{
     public function init(){
         if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
     }
