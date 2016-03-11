@@ -78,8 +78,8 @@ class LoginController extends Api{
         if($password != $confirmPassword){
             return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
         }
-        $verifyCode = $this->mobileVerifyCodeModel->select(array('mobile' => $this->postData['mobile'], 'expireTime > ?' => time()))->current();
-        if($verifyCode['verifyCode'] != $this->postData['verifyCode']){
+        $verifyCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
+        if($verifyCode != $this->postData['verifyCode']){
             return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
         }
         $where = array(
@@ -122,10 +122,14 @@ class LoginController extends Api{
         $mobile = $this->postData['mobile'];
         $verifyCode = $this->postData['verifyCode'];
         $newPwd = $this->postData['newPwd'];
+        $confirmNewPwd = $this->postData['confirmNewPwd'];
 
-        if(empty($mobile) || empty($verifyCode) || empty($newPwd)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(empty($mobile) || empty($verifyCode) || empty($newPwd) || empty($confirmNewPwd)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
-
+        if(strlen($newPwd) < 6) return $this->response(ApiError::PASSWORD_LT_SIX_WORDS, ApiError::PASSWORD_LT_SIX_WORDS_MSG);
+        if($newPwd != $confirmNewPwd){
+            return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
+        }
         $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
         if($verifyCode == $smsVeriyfCode){
             $set = array(
