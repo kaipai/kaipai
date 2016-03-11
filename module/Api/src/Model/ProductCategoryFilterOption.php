@@ -3,7 +3,9 @@ namespace Api\Model;
 
 use COM\Model;
 class ProductCategoryFilterOption extends Model{
-    public function getList($where = array()){
+
+
+    public function getCategoryFilters($where = array()){
         $select = $this->getSelect();
         $select->join(array('b' => 'ProductCategoryFilter'), 'ProductCategoryFilterOption.productCategoryFilterID = b.productCategoryFilterID')
             ->where($where);
@@ -15,7 +17,6 @@ class ProductCategoryFilterOption extends Model{
         }
 
         return $categoryFilters;
-
     }
 
 }
