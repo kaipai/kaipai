@@ -60,7 +60,7 @@ class MemberOrderController extends Api{
             'memberID' => $this->memberInfo['memberID'],
             'orderID' => $orderID,
         );
-        $existDelivery = $this->memberOrderDelivery->select($where)->current();
+        $existDelivery = $this->memberOrderDeliveryModel->select($where)->current();
         $set = array(
             'deliveryTypeID' => $deliveryTypeID,
             'deliveryNum' => $deliveryNum
