@@ -41,6 +41,7 @@ class LoginController extends Api{
     public function getPicVerifyCodeAction(){
         $imgService = $this->sm->get('COM\Service\ImageService');
         $imgService->buildImageVerify(4, 1, 'gif', 48, 24, $this->sessionVerifyCode);
+        exit;
     }
 
     public function getVerifyCodeAction(){
