@@ -46,6 +46,7 @@ class LoginController extends Api{
     }
 
     public function getVerifyCodeAction(){
+        session_start();
         $mobile = $this->postData['mobile'];
         $picVerifyCode = $this->postData['picVerifyCode'];
 
