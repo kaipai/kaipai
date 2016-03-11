@@ -12,7 +12,7 @@ class MobileVerifyCode extends Model{
 
     public function getLastVerifyCode($mobile = null)
     {
-        $verifyCodeRecord = $this->mobileVerifyCodeModel->select(array('mobile' => $mobile, 'ExpireTime > ?' => time()))->current();
+        $verifyCodeRecord = $this->select(array('mobile' => $mobile, 'ExpireTime > ?' => time()))->current();
 
         return $verifyCodeRecord['verifyCode'];
     }
