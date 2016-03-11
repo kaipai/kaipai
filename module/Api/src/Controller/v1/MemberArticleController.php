@@ -40,8 +40,8 @@ class MemberArticleController extends Api{
             'memberID' => $this->memberInfo['memberID'],
         );
         $this->memberArticleModel->insert($data);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        $memberArticleID = $this->memberArticleModel->getLastInsertValue();
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('memberArticleID' => $memberArticleID));
     }
 
     public function delAction(){
