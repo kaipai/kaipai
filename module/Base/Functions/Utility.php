@@ -135,4 +135,36 @@ class Utility
         }
         return md5($signature);
     }
+
+    public static function keyFilter($source, $keys){
+        $result = array();
+        if(empty($source)){
+            return $result;
+        }
+        if(!empty($keys)){
+            foreach($source as $k => $v){
+                if(is_array($v) && is_numeric($k)){
+                    foreach($v as $sk => $sv){
+                        if(in_array($sk, $keys)){
+                            $tmp[$sk] = $sv;
+                        }
+                    }
+                    if(!empty($tmp)){
+                        $result[] = $tmp;
+                    }
+                }else{
+                    if(in_array($k, $keys)) {
+                        $tmp2[$k] = $v;
+                    }
+                }
+            }
+            if(!empty($tmp2)){
+                $result[] = $tmp2;
+            }
+        }else{
+            return $source;
+        }
+
+        return $result;
+    }
 }

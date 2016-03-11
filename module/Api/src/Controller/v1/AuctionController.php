@@ -54,7 +54,7 @@ class AuctionController extends Api{
         $this->auctionLogModel->insert($logData);
         $this->productModel->update(array('currPrice' => $currPrice), array('productID' => $productID));
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('currPrice' => $currPrice));
 
     }
 
