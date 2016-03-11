@@ -6,8 +6,7 @@ class ProductCategoryFilter extends Model{
 
     public function getList($where = array()){
         $select = $this->getSelect();
-        $select->from(array('a' => 'ProductCategoryFilterOption'))
-            ->join(array('b' => 'ProductCategoryFilter'), 'a.productCategoryFilterID = b.productCategoryFilterID')
+        $select->join(array('b' => 'ProductCategoryFilter'), 'ProductCategoryFilterOption.productCategoryFilterID = b.productCategoryFilterID')
             ->where($where);
         $tmp = $this->productCategoryFilterOptionModel->selectWith($select)->toArray();
         $categoryFilters = array();
