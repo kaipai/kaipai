@@ -18,7 +18,7 @@ class IndexController extends Api{
         $result = $fileService->upload($this->request);
         if(!empty($result)) $result = json_decode($result, true);
         $imgPath = !empty($result[0]['path']) ? $result[0]['path'] : '';
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $imgPath);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('imgPath' => $imgPath));
     }
 
 }

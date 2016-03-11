@@ -24,7 +24,8 @@ class MemberArticleController extends Api{
     public function detailAction(){
         $memberArticleID = $this->postData['memberArticleID'];
         $where = array(
-            'memberArticleID' => $memberArticleID
+            'memberArticleID' => $memberArticleID,
+            'memberID' => $this->memberInfo['memberID']
         );
 
         $memberArticle = $this->memberArticleModel->select($where)->current();
@@ -45,7 +46,8 @@ class MemberArticleController extends Api{
 
     public function delAction(){
         $where = array(
-          'memberArticleID' => $this->postData['memberArticleID'],
+            'memberArticleID' => $this->postData['memberArticleID'],
+            'memberID' => $this->memberInfo['memberID'],
         );
         $this->memberArticleModel->delete($where);
 
