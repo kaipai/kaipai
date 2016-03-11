@@ -52,9 +52,9 @@ class LoginController extends Api{
 
         if(empty($mobile)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
-        /*if(md5($picVerifyCode) != $_SESSION[$this->sessionVerifyCode]){
+        if(md5($picVerifyCode) != $_SESSION[$this->sessionVerifyCode]){
             return $this->response(ApiError::REG_PIC_VERIFY_CODE_FAILED, ApiError::REG_PIC_VERIFY_CODE_FAILED_MSG);
-        }*/
+        }
         $verifyCode = $this->mobileVerifyCodeModel->getVerifyCode();
         $sms = str_replace('{$verifyCode}', $verifyCode, Sms::VERIFY_CODE_MSG);
         $this->smsService->sendSms($mobile, $sms);
@@ -72,14 +72,14 @@ class LoginController extends Api{
         $password = $this->postData['password'];
         $confirmPassword = $this->postData['confirmPassword'];
         $nickName = $this->postData['nickName'];
-        if(empty($mobile) || empty($password) || empty($confirmPassword)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(empty($mobile) || empty($password) || empty($confirmPassword) || empty($nickName)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
         if(strlen($password) < 6) return $this->response(ApiError::PASSWORD_LT_SIX_WORDS, ApiError::PASSWORD_LT_SIX_WORDS_MSG);
         if($password != $confirmPassword){
             return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
         }
         $verifyCode = $this->mobileVerifyCodeModel->select(array('mobile' => $this->postData['mobile'], 'expireTime > ?' => time()))->current();
-        if($verifyCode != $this->postData['verifyCode'] && 0){
+        if($verifyCode != $this->postData['verifyCode']){
             return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
         }
         $where = array(
@@ -107,7 +107,15 @@ class LoginController extends Api{
         );
         $this->memberInfoModel->insert($memberInfoData);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        $token = array('memberID' => $memberID, 'token' => uniqid());
+        $this->tokenModel->insert($token);
+        $memberInfo = array(
+            'token' => $token['token'],
+            'memberID' => $memberID,
+            'nickName' => $nickName
+        );
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberInfo);
     }
 
     public function resetPwdAction(){
