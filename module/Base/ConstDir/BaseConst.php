@@ -30,4 +30,9 @@ class BaseConst
     const NOTIFICATION_TYPE_AUCTION = 2;
     const NOTIFICATION_TYPE_ORDER = 3;
     const NOTIFICATION_TYPE_COMMENT = 4;
+
+    const PAY_DETAIL_STATUS_PAID = 1;
+    const PAY_DETAIL_STATUS_NOT_PAID = 0;
+    const ORDER_STATUS_PAID = 1;
+    const ORDER_STATUS_NOT_PAID = 0;
 }

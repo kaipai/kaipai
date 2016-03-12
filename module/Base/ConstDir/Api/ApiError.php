@@ -30,5 +30,9 @@ class ApiError{
     const MEMBER_EXIST_MOBILE_MSG = '该手机号已被使用';
     const REG_PIC_VERIFY_CODE_FAILED = -113;
     const REG_PIC_VERIFY_CODE_FAILED_MSG = '图片验证码错误';
+    const ORDER_HAVE_PAID = -114;
+    const ORDER_HAVE_PAID_MSG = '该订单已付款';
+    const ORDER_TRANSACTION_FAILED = -115;
+    const ORDER_TRANSACTION_FAILED_MSG = '订单事务处理失败';
 
 }

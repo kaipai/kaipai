@@ -32,17 +32,17 @@ class PayController extends Controller
             $tradeStatus = $request->getPost("trade_status");
             if ($tradeStatus == 'TRADE_FINISHED' || $tradeStatus == 'TRADE_SUCCESS' || $tradeStatus == 'WAIT_SELLER_SEND_GOODS') {
                 try{
-                    $payDetail = $this->sm->get('Api\Model\MemberPayDetail')->select(array('UnitePayID' => $outTradeNo))->current();
-                    if($payDetail['WaitPayMoney'] != $this->request->getPost('total_fee') || $payDetail['PayStatus'] != BaseConst::PAY_STATUS_WAIT_PAY) throw new \Exception('fail');
+                    $payDetail = $this->memberPayDetailModel->select(array('unitePayID' => $outTradeNo))->current();
+                    if($payDetail['payMoney'] != $this->request->getPost('total_fee') || $payDetail['payStatus'] != BaseConst::PAY_DETAIL_STATUS_NOT_PAID) throw new \Exception('fail');
                     $this->sm->get("COM\Service\PayMod\AliPay")->notify($outTradeNo);
                     $requestUri = $_SERVER['REQUEST_URI'];
                     $data = array(
-                        'Money' => $this->request->getPost('total_fee'),
-                        'PayNotifyInfo' => $requestUri,
-                        'PostData' => json_encode($this->request->getPost()),
-                        'UnitePayID' => $outTradeNo,
+                        'money' => $request->getPost('total_fee'),
+                        'payNotifyInfo' => $requestUri,
+                        'postData' => json_encode($request->getPost()),
+                        'unitePayID' => $outTradeNo,
                     );
-                    $this->sm->get('Api\Model\PayNotifyLog')->insert($data);
+                    $this->payNotifyLogModel->insert($data);
 
                     $this->response->setContent('success');
                 }catch (\Exception $e){
@@ -65,17 +65,17 @@ class PayController extends Controller
         if ($unionPay->Verify($this->request->getPost())) {
             try{
                 $paidMoney = $this->request->getPost('txnAmt') / 100;
-                $payDetail = $this->sm->get('Api\Model\MemberPayDetail')->select(array('UnitePayID' => $this->request->getPost('orderId')))->current();
-                if($payDetail['WaitPayMoney'] != $paidMoney || $payDetail['PayStatus'] != BaseConst::PAY_STATUS_WAIT_PAY) throw new \Exception('fail');
+                $payDetail = $this->memberPayDetailModel->select(array('unitePayID' => $this->request->getPost('orderId')))->current();
+                if($payDetail['payMoney'] != $paidMoney || $payDetail['payStatus'] != BaseConst::PAY_DETAIL_STATUS_NOT_PAID) throw new \Exception('fail');
                 $this->sm->get('COM\Service\PayMod\UnionPay')->notify($this->request->getPost('orderId'));
                 $requestUri = $_SERVER['REQUEST_URI'];
                 $data = array(
-                    'Money' => $paidMoney,
-                    'PayNotifyInfo' => $requestUri,
-                    'PostData' => json_encode($this->request->getPost()),
-                    'UnitePayID' => $this->request->getPost('orderId'),
+                    'money' => $paidMoney,
+                    'payNotifyInfo' => $requestUri,
+                    'postData' => json_encode($this->request->getPost()),
+                    'unitePayID' => $this->request->getPost('orderId'),
                 );
-                $this->sm->get('Api\Model\PayNotifyLog')->insert($data);
+                $this->payNotifyLogModel->insert($data);
                 $this->response->setContent('success');
             }catch(\Exception $e){
                 $this->response->setContent('fail');
@@ -87,43 +87,6 @@ class PayController extends Controller
         return $this->response;
     }
 
-    public function merchantNotifyAction()
-    {
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        $isJavaNotify = stripos(strtolower($userAgent), 'java');
-        $checkSign = $this->sm->get('COM\Service\PayMod\MerchantPay')->checkSign($_SERVER['QUERY_STRING']);
-        if ($checkSign && $this->request->getQuery("Succeed") == 'Y' && $isJavaNotify !== false) {
-
-            $payModel = $this->sm->get("Api\Model\MemberPayDetail");
-            $payDetail = $payModel->select(array('UnitePayID' => $this->request->getQuery('MerchantPara')))->current();
-
-            if ($payDetail['PayStatus'] == BaseConst::PAY_STATUS_WAIT_PAY) {
-                try{
-                    if($payDetail['WaitPayMoney'] != $this->request->getQuery('Amount')) throw new \Exception('fail');
-                    $this->sm->get('COM\Service\PayMod\MerchantPay')->notify($this->request->getQuery('MerchantPara'));
-                    $requestUri = $_SERVER['REQUEST_URI'];
-                    $data = array(
-                        'Money' => $this->request->getQuery('Amount'),
-                        'PayNotifyInfo' => $requestUri,
-                        'PostData' => json_encode($this->request->getPost()),
-                        'UnitePayID' => $this->request->getQuery('MerchantPara'),
-                    );
-                    $this->sm->get('Api\Model\PayNotifyLog')->insert($data);
-                    $this->response->setContent('success');
-                }catch(\Exception $e){
-                    $this->response->setContent('fail');
-                }
-            }else{
-                $this->response->setContent('fail');
-            }
-
-        } else {
-            $this->response->setContent('fail');
-        }
-
-        return $this->response;
-
-    }
 
     public function aliReturnAction(){
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -131,19 +94,6 @@ class PayController extends Controller
 
     public function unionReturnAction(){
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
-
-    public function merchantPayAction(){
-        $unitePayID = $this->params('unitePayID');
-        if(empty($unitePayID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
-
-        try{
-            $form = $this->sm->get('COM\Service\PayMod\MerchantPay')->doPay($unitePayID);
-            $this->response->setContent($form);
-            return $this->response;
-        }catch (\Exception $e){
-            return $this->response($e->getCode(), $e->getMessage());
-        }
     }
 
 }
