@@ -16,7 +16,7 @@ class StoreController extends Api{
         $paginator = $this->storeModel->paginate($select);
         $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
         $paginator->setItemCountPerPage($this->limit);
-        $dataRows = $paginator->getCurrentItems();
+        $dataRows = $paginator->getCurrentItems()->getArrayCopy();
         $dataTotalCount = $paginator->getTotalItemCount();
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
@@ -32,32 +32,38 @@ class StoreController extends Api{
     }
 
     public function addAction(){
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        unset($this->postData['token']);
+        $this->postData['memberID'] = $this->memberInfo['memberID'];
         $this->storeModel->insert($this->postData);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        $storeID = $this->storeModel->getLastInsertValue();
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('storeID' => $storeID));
 
     }
 
-    public function categoryAction(){
+    public function updateAction(){
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        unset($this->postData['token']);
         $where = array(
-            'storeID' => $this->postData['storeID']
+            'memberID' => $this->memberInfo['memberID'],
+        );
+        $this->storeModel->update($this->postData, $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function categoryAction(){
+        $storeID = $this->postData['storeID'];
+        if(empty($storeID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        $where = array(
+            'storeID' => $storeID
         );
         $categories = $this->storeCategoryModel->getList($where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $categories);
     }
 
-    public function categoryAddAction(){
-        $storeCategoryName = $this->request->getPost('storeCategoryName');
-        if(empty($storeCategoryName)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
-        $data = array(
-            'storeID' => $this->memberInfo['storeID'],
-            'storeCategoryName' => $storeCategoryName
-        );
-        $this->storeCategoryModel->insert($data);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
 
 
 }

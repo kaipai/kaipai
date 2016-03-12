@@ -1,6 +1,7 @@
 <?php
 namespace Api\Controller\v1;
 
+use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use COM\Controller\Api;
 
@@ -14,7 +15,7 @@ class SpecialController extends Api{
         $paginator = $this->specialModel->paginate($select);
         $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
         $paginator->setItemCountPerPage($this->limit);
-        $dataRows = $paginator->getCurrentItems();
+        $dataRows = $paginator->getCurrentItems()->getArrayCopy();
         $dataTotalCount = $paginator->getTotalItemCount();
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
@@ -22,25 +23,48 @@ class SpecialController extends Api{
     }
 
     public function detailAction(){
+        $specialID = $this->postData['specialID'];
+        if(empty($specialID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         $where = array(
-            'specialID' => $this->postData['specialID']
+            'specialID' => $specialID,
         );
+
         $specialInfo = $this->specialModel->fetch($where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $specialInfo);
     }
 
     public function addAction(){
-        $data = $this->postData;
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        unset($this->postData['token']);
+        $this->postData['storeID'] = $this->memberInfo['storeID'];
+        $this->specialModel->insert($this->postData);
+        $specialID = $this->specialModel->getLastInsertValue();
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('specialID' => $specialID));
+    }
 
-        $this->specialModel->insert($data);
+    public function updateAction(){
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        unset($this->postData['token']);
+        $specialID = $this->postData['specialID'];
+        if(empty($specialID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        $where = array(
+            'specialID' => $specialID,
+            'storeID' => $this->memberInfo['storeID'],
+        );
+        $this->specialModel->update($this->postData, $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function delAction(){
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        unset($this->postData['token']);
+        $specialID = $this->postData['specialID'];
+        if(empty($specialID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         $where = array(
-            'specialID' => $this->postData['specialID']
+            'specialID' => $specialID,
+            'storeID' => $this->memberInfo['storeID'],
         );
 
         $this->specialModel->delete($where);
@@ -50,6 +74,7 @@ class SpecialController extends Api{
 
     public function productAction(){
         $specialID = $this->postData['specialID'];
+        if(empty($specialID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         $where = array(
             'SpecialProduct.specialID' => $specialID
         );
@@ -61,7 +86,7 @@ class SpecialController extends Api{
         $paginator = $this->specialProductModel->paginate($select);
         $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
         $paginator->setItemCountPerPage($this->limit);
-        $dataRows = $paginator->getCurrentItems();
+        $dataRows = $paginator->getCurrentItems()->getArrayCopy();
         $dataTotalCount = $paginator->getTotalItemCount();
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));

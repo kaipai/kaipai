@@ -1,6 +1,7 @@
 <?php
 namespace Api\Controller\v1;
 
+use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
@@ -12,12 +13,20 @@ class ProductController extends Api{
     public function listAction(){
         $productCategoryID = $this->postData['productCategoryID'];
         $productCategoryFilterOptionID = $this->postData['productCategoryFilterOptionID'];
+        $storeID = $this->postData['storeID'];
+        $storeCategoryID = $this->postData['storeCategoryID'];
         $where = array();
         if(!empty($productCategoryID)){
             $where['b.productCategoryID'] = $productCategoryID;
         }
         if(!empty($productCategoryFilterOptionID)){
-            $where['productFilterOption.productCategoryFilterOptionID'] = $productCategoryFilterOptionID;
+            $where['ProductFilterOption.productCategoryFilterOptionID'] = $productCategoryFilterOptionID;
+        }
+        if(!empty($storeID)){
+            $where['b.storeID'] = $storeID;
+        }
+        if(!empty($storeCategoryID)){
+            $where['b.storeCategoryID'] = $storeCategoryID;
         }
 
         $products = $this->productFilterOptionModel->getList($where, null, $this->offset, $this->limit);
@@ -51,7 +60,35 @@ class ProductController extends Api{
             $categories[$v['productCategoryID']]['filters'][$k] = $v;
         }
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $categories);
+        $result = array();
+        foreach($categories as $k => $v){
+            $tmp = array();
+            if(!empty($v['filters'])){
+                foreach($v['filters'] as $sk => $sv){
+                    $tmp2 = array();
+                    if(!empty($sv['options'])){
+                        foreach($sv['options'] as $ssk => $ssv){
+                            $tmp2 = array(
+                                'optionID' => $ssk,
+                                'optionName' => $ssv['optionName'],
+                            );
+                        }
+                    }
+                    $tmp[] = array(
+                        'filterID' => $sk,
+                        'filterName' => $sv['filterName'],
+                        'options' => $tmp2
+                    );
+                }
+            }
+            $result[] = array(
+                'categoryID' => $k,
+                'categoryName' => $v['categoryName'],
+                'filters' => $tmp,
+            );
+        }
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $result);
     }
 
     public function categoryFilterAction(){
@@ -63,26 +100,42 @@ class ProductController extends Api{
             );
         }
 
-        $filters = $this->productCategoryFilterModel->getList($where);
+        $filters = $this->productCategoryFilterOptionModel->getCategoryFilters($where);
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $filters);
     }
 
     public function addAction(){
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        unset($this->postData['token']);
+        $this->postData['storeID'] = $this->memberInfo['storeID'];
         $this->productModel->insert($this->postData);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        $productID = $this->productModel->getLastInsertValue();
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('productID' => $productID));
     }
 
     public function updateAction(){
-        $where = array();
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        unset($this->postData['token']);
+        $productID = $this->postData['productID'];
+        if(empty($productID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        $where = array(
+            'productID' => $productID,
+            'storeID' => $this->memberInfo['storeID'],
+        );
+        unset($this->postData['productID']);
         $this->productModel->update($this->postData, $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function delAction(){
+        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        unset($this->postData['token']);
+        $productID = $this->postData['productID'];
+        if(empty($productID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         $where = array(
-            'productID' => $this->postData['productID']
+            'productID' => $productID,
+            'storeID' => $this->memberInfo['storeID'],
         );
 
         $this->productModel->delete($where);
