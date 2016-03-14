@@ -39,4 +39,15 @@ class IndexController extends Admin{
         $session->clear();
         return $this->redirect()->toUrl('/admin/index/login');
     }
+
+    public function uploadAction(){
+        $fileService = $this->sm->get('COM\Service\FileService');
+        $result = $fileService->upload($this->request);
+        if(!empty($result)) $result = json_decode($result, true);
+        $imgPath = !empty($result[0]['path']) ? $result[0]['path'] : '';
+
+        $data['path'] = $imgPath;
+
+        return $this->adminResponse($data);
+    }
 }
