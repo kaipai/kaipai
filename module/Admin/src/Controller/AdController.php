@@ -2,6 +2,7 @@
 namespace Admin\Controller;
 
 use Base\ConstDir\Admin\AdminSuccess;
+use Base\ConstDir\BaseConst;
 use COM\Controller\Admin;
 
 class AdController extends Admin{
@@ -26,9 +27,23 @@ class AdController extends Admin{
 
     public function addAction(){
         $adData = $this->postData;
+        unset($adData['adID']);
         $this->adModel->insert($adData);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function addViewAction(){
+        $adID = $this->request->getQuery('adID');
+        if(!empty($adID)){
+            $adInfo = $this->adModel->select(array('adID' => $adID))->current();
+            $this->view->setVariable('adInfo', $adInfo);
+        }
+
+        $positions = BaseConst::$adPositions;
+        $this->view->setVariable('positions', $positions);
+
+        return $this->view;
     }
 
     public function updateAction(){

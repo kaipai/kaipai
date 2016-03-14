@@ -2,15 +2,12 @@
 namespace Base\ConstDir;
 class BaseConst
 {
-    const AD_POSITION_BANNER = 'banner';
-    const AD_POSITION_INDEX_ARTIST = 'index_artist';
-    const AD_POSITION_INDEX_RECOMMEND = 'index_recommend';
-    const AD_POSITION_INDEX_AD1 = 'index_ad1';
-    const AD_POSITION_INDEX_AD2 = 'index_ad2';
-    const AD_POSITION_INDEX_AD3 = 'index_ad3';
-    const AD_POSITION_PRODUCT_TOP_LEFT = 'product_top_left';
-    const AD_POSITION_PRODUCT_TOP_RIGHT = 'product_top_right';
-    const AD_POSITION_PRODUCT_BOTTOM = 'product_bottom';
+    static $adPositions = array(
+        1 => '首页banner',
+        2 => '首页第二排广告位',
+        3 => '首页第三排左侧广告位',
+        4 => '首页第三排右侧广告位',
+    );
     const ARTICLE_INDEX_LEFT = 1;
     const ARTICLE_INDEX_RIGHT = 2;
     const ARTICLE_CONTACT = 3;
