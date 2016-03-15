@@ -103,7 +103,9 @@ class LoginController extends Api{
         $this->memberModel->insert($data);
         $memberID = $this->memberModel->getLastInsertValue();
         $memberInfoData = array(
-            'memberID' => $memberID
+            'memberID' => $memberID,
+            'nickName' => $nickName,
+            'mobile' => $mobile,
         );
         $this->memberInfoModel->insert($memberInfoData);
 
