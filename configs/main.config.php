@@ -5,6 +5,7 @@ return array(
         'Base',
         'Api',
         'Admin',
+        'Front',
     ),
 
     // These are various options for the listeners attached to the ModuleManager

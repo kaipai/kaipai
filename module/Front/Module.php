@@ -1,10 +1,8 @@
 <?php
 
-namespace Api;
+namespace Front;
 
 use Zend\ModuleManager\Feature\DependencyIndicatorInterface;
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
 
 class Module implements DependencyIndicatorInterface
 {

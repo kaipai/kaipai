@@ -1,10 +1,8 @@
 <?php
 namespace COM\Controller;
 
-use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Regexp;
 use COM\Controller;
-use Base\ConstDir\Redis;
 
 class Api extends Controller{
     protected $version;

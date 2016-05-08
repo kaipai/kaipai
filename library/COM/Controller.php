@@ -94,14 +94,16 @@ class Controller extends AbstractActionController{
     protected function checkLogin($platform = self::FRONT_PLATFORM){
 
         if($platform == self::FRONT_PLATFORM){
-            $token = $this->postData['token'];
+            /*$token = $this->postData['token'];
             if (!empty($token)){
                 $tokenInfo = $this->tokenModel->select(array('token' => $token))->current();
                 if(!empty($tokenInfo)){
                     $this->memberInfo = $this->memberInfoModel->select(array('memberID' => $tokenInfo['memberID']))->current();
                 }
 
-            }
+            }*/
+            $loginSession = new Session($platform, null,null);
+            $this->memberInfo = $session = $loginSession->read();
 
         }else{
             $loginSession = new Session($platform, null,null);
