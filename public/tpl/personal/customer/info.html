@@ -1,0 +1,76 @@
+<div class="title" ng-bind="curTit"></div>
+
+<div class="jbzl">
+	
+	<div class="jbzln">
+		<dl>
+			<dt>
+				<div id="hidden_0">上传头像</div>
+				<img src="/dist/img/upload/touxiang.jpg">
+				<form id="pic_Form">
+					<input id="Id_Upload" name="file" type="file" accept="image/*" onchange="fileChange(this);" style="opacity:0;margin-top:-60px;width:0px;height:0px;" />
+				</form>
+			</dt>
+			<dd class="dd_0"> <b>xiaowan</b> <i> </i>
+				晚上好！
+			</dd>
+			<dd> <strong>资料完整度：</strong>
+				<div class="progress">
+					<span style="width:80%;">80%</span>
+				</div>
+			</dd>
+			<dd> <strong>账户安全级别： <em class="yellow">中</em></strong>  <i class="i_0"><img src="/dist/img/personal/jbzl_5.png"></i>
+			</dd>
+		</dl>
+		<div class="jbzl_x">
+			<form id="form_Info" method="post" novalidate="novalidate">
+				<ul>
+					<li>
+						<p> <em>*</em>
+							昵称：
+						</p>
+						<input name="UserNick" type="text" class="in_1" originalname="xiaowan" value="xiaowan"></li>
+					<li>
+						<p>真实姓名：</p>
+						<input name="CustomerName" type="text" class="in_1" value="热武器\"></li>
+					<li>
+						<p>身份证：</p>
+						<input name="IdentityCardNo" type="text" class="in_1" value=""></li>
+					<li style="margin-top:-20px;margin-left:95px">
+						<span>用于提升账号的安全性和信任级别</span>
+					</li>
+					<li>
+						<p>性别：</p>
+						&nbsp;&nbsp;
+						<input name="Gender" type="radio" value="1"  />
+						&nbsp;男&nbsp;&nbsp;
+						<input name="Gender" type="radio" value="0"  />
+						&nbsp;女&nbsp;&nbsp;
+						<input name="Gender" type="radio" value="3" checked />
+						&nbsp;保密
+					</li>
+					<li>
+						<p>生日：</p>
+						<input name="Birthday" value="1980-1-23"
+                               class="Wdate" style="border:#dadada solid 1px;width:153px"
+                               onfocus="WdatePicker({ readOnly: true, startDate: '1980-01-01', maxDate: '%y-%M-%d' })" />
+					</li>
+					<li>
+						<p>
+							<em>*</em>
+							邮箱：
+						</p>
+						<input id="Id_Email" name="Email" type="text" class="in_1" value="admin@jxweb.org" />
+					</li>
+					<li style="margin-top:-20px;margin-left:95px">
+						<span>温馨提示：请填写有效的邮箱地址，以便接受艺术网的通知及订单信息，建议使用QQ、hotmail等邮箱</span>
+					</li>
+					<li class="li_3">
+						<input id="addsubmit" type="button" value="提交">
+						<input id="Id_reset" type="button" class="in_4" value="重置"></li>
+				</ul>
+				
+			</form>
+		</div>
+	</div>
+</div>

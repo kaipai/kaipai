@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>车管家商家后台地图</title>
+</head>
+<style>
+body{background:#f5f5f5;}
+.map a{ color:#333;}
+.map{ padding:20px 0;margin:0;}
+.map li{ background: #fff;border-bottom:1px dashed #ccc;margin:0;padding:8px 10px;}
+.map li:hover{ background-color:#ecedee; cursor:pointer;}
+.map dl{margin:0;padding:0;overflow: hidden;}
+.map dt{ width:100%;color:#414141;font:14px "Microsoft YaHei";}
+.map dd{float:left;height:24px;margin:0;padding:0;}
+.map dd a{display:inline-block;color:#666;font-size:12px;text-decoration:none;margin-right: 12px;}
+.map dd a:hover{color:#999;}
+.map .title{font:18px/32px "Microsoft YaHei";  color:#f60;margin:0;}
+.map dt, .map dd{}
+.clearfix:after{content:'.';display:block;height:0;clear:both;visibility:hidden}
+.clearfix{display:inline-block;}
+*html .clearfix{height:1%}
+.clearfix{display:block;}
+</style>
+<body>
+
+  <div class="list">   
+    <ul class="map">      
+      <li class="clearfix">
+        <p class="title">车管家后台管理系统</p>
+        <dl>
+            <dt>静态地址</dt>
+            <dd><a href="login.html" target="_blank">登录页面</a></dd>
+            <dd><a href="list.html" target="_blank">list页面</a></dd>
+            <dd><a href="modifypwd.html" target="_blank">修改密码</a></dd>
+            
+        </dl>
+        <dl>
+            <dt>动态地址</dt>
+            <dd><a href="/supplier/trade/login" target="_blank">登录页面</a></dd>
+            <dd><a href="/supplier/trade/list" target="_blank">list页面</a></dd>
+        </dl>
+
+        <dl>
+          <dt>表格操作</dt>
+          <dd><a href="tab.html" target="_blank">表格操作</a></dd>
+        </dl>
+
+      </li>  
+    </ul>
+    
+  </div>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+<meta charset="utf-8">
+<title>站内提醒</title>
+<script src="jquery.js"></script>
+<link rel="stylesheet" href="style/common.css">
+<script type="text/javascript" src="js/jquery.wysiwyg.js"></script>
+<script type="text/javascript" src="js/default.js"></script>
+
+<link rel="stylesheet" href="style/jquery.wysiwyg.css">
+<link rel="stylesheet" href="style/default.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="style/style.css">
+</head>
+<script type="text/javascript">
+$(function(){
+  //alert(1);
+
+  $('#qqq').wysiwyg({
+        controls:"bold,italic,|,undo,redo,image"
+      });
+})
+</script>
+<body>
+  <div class="toper">
+    <div class="center">
+        <div class="mlinknav">
+            <a ui-sref="main">开拍网首页</a>
+        </div>
+        <div class="uinfonav"  ng-if="hasLogin">
+            <div id="logorout">
+                <span>您好!</span>
+                <div class="user_name">
+                    <a class="nameA" ui-sref="indexPersonal"  ng-bind="nickName"></a>
+                    <div id="toperNav">
+                        <a ui-sref="listOrderPersonal" >我的订单</a>
+                        <a ui-sref="collectionAuctionlistPersonal" >我的收藏</a>
+                        <a  ui-sref="mybalanceCustomerPersonal" >我的余额</a>
+                        <a ui-sref="feedbackListPersonal" >意见反馈</a>
+                        <a href="javascript:" ng-click="loginOut()">安全退出</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="footprint" href="">收藏本站</a>
+
+        </div>
+
+        <div class="uinfonav" ng-if="!hasLogin">
+            <span id="logorout" style="font-size:14px">
+                <a class="register" rel="nofollow" ui-sref="userRegister">免费注册</a>
+                <a target="_self" rel="nofollow" ui-sref="userLogin">用户登录</a>
+               <!-- <a href="#">商家中心</a> -->
+         
+        </span>
+        |
+        <a class="footprint" href="">收藏本站</a>
+    </div>
+
+</div>
+</div>
+<div class="header">
+<div class="center">
+    <a href="#" class="logonav">
+        <img src="images/logo.png" />
+    </a>
+    <div class="searchnav">
+        <form style=" height:35px;" action="/paimai/search/all/">
+            <input type="text" class="ipt" name="t" id="txtKw" value="输入关键词/名称" />
+            <a href="javascript:;" class="btn paimaisearchbtn">搜索</a>
+        </form>
+        <div class="hotlink">
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+        </div>
+    </div>
+</div>
+</div>
+<div class="menuer">
+<div class="center">
+    <div class="mlist">
+        <a ui-sref="main" >首页</a>
+        <a ui-sref="goodList" >所有自由拍</a>
+        |
+        <a ui-sref="goodList" >国画</a>
+        ·
+        <a ui-sref="goodList" >书法</a>
+        ·
+        <a ui-sref="goodList" >金石篆刻</a>
+        ·
+        <a ui-sref="goodList" >古玩杂项</a>
+        ·
+        <a ui-sref="goodList" >古典陶瓷</a>
+        ·
+        <a ui-sref="goodList" >宗教文化</a>
+        ·
+        <a ui-sref="goodList" >西画雕塑</a>
+        ·
+        <a ui-sref="goodList" >奢侈品</a>
+        ·
+        <a ui-sref="goodList" >宝石翡翠</a>
+    </div>
+</div>
+</div>
+<!--End头部-->
+<!--main开始-->
+<div class="kp_main">
+    <div class="center " >
+       <!-- left部分 -->
+       <div class="kp_left">
+          <div class="kp_biaot">
+              <p class="kp_p">站内提醒 (<span class="kp_tixxm">3</span>)</p>
+              <ul class="kp_ul mt10">
+                <a href=""><li>站内通知</li></a>
+                <a href=""><li>拍卖提醒</li></a>
+                <a href=""><li>订单提醒</li></a>
+                <a href=""><li>留言板提醒</li></a>
+              </ul>
+              <p class="kp_tixing">* 网站公告永久保存查询。拍卖提醒查询仅提供最近三天，订单提醒查询仅提供最近一个月信息</p>
+          </div>
+          
+       </div>
+       <!-- right部分 -->
+       <div class="kp_right kp_back">
+         <ul>
+           <li>您所竞买的拍品“吴山明《行书对联》”已成功竞得，请至您的的已购拍品列表中查询。并请于48小时内付款，逾期将自动关闭交易。（2016-1-19 22:00）</li>
+           <li>您所关注的拍品“金恩楠《鹿鸣》”拍卖结束，竞价失败。（2016-1-12 20:40）</li>
+           <li>您所关注的拍品“方国梁《室雅》”将在20分钟后结束拍卖。（2016-1-12 20:40）</li>
+         </ul>
+           
+
+
+           
+           
+       </div>
+
+       
+    </div>
+</div>
+
+
+
+<!-- bottom 开始 -->
+<div class="botNav">
+    <div class="center">
+        <div class="botnav-item botnav-item1">
+            <h4>
+                <span>诚实信用</span>
+                <em>对拍品的如实描述，卖家的承诺服务</em>
+            </h4>
+            <dl>
+                <dt>竞买者保障</dt>
+                <dd><a href="#">·关于拍品</a></dd>
+                <dd><a href="#">·关于拍卖</a></dd>
+                <dd><a href="#">·关于售后</a></dd>
+                <dd><a href="#">·其它保障</a></dd>
+
+            </dl>
+        </div>
+        <div class="erweima fl">
+            <p>开拍网公众号</p>
+            <span>“开拍网”</span>
+        </div>
+        <div class="botnav-item botnav-item2">
+            <h4>
+                <span>双向交流</span>
+                <em>专业服务，阳光竞拍</em>
+            </h4>
+            <dl>
+                <dt>个人 | 商家入驻</dt>
+                <dd><a href="#">·入驻规则</a></dd>
+                <dd><a href="#">·保证金问题</a></dd>
+                <dd><a href="#">·诚信问题</a></dd>
+                <dd><a href="#">·其它</a></dd>
+
+            </dl>
+        </div>
+        <div class="botnav-item botnav-item3">
+            <h4>
+                <span>售后无忧</span>
+                <em>明白承诺，周到服务</em>
+            </h4>
+            <dl>
+                <dt>关于我们</dt>
+                <dd><a href="#">·免责声明</a></dd>
+                <dd><a href="#">·版权声明</a></dd>
+                <dd><a href="#">·联系我们</a></dd>
+                <dd><a href="#">·关于开拍</a></dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="footer">
+
+    <div class="footernav center">
+        <a href="#">首页</a><em>|</em>
+        <a href="#">国画</a><em>|</em>
+        <a href="#">书法</a><em>|</em>
+        <a href="#">金石篆刻</a><em>|</em>
+        <a href="#">古玩杂项</a><em>|</em>
+        <a href="#">古典陶瓷</a><em>|</em>
+        <a href="#">西画雕塑</a><em>|</em>
+        <a href="#">宗教文化</a><em>|</em>
+        <a href="#">奢侈品</a><em>|</em>
+        <a href="#">宝石翡翠</a><em>|</em>
+        <a href="#">联系我们</a>
+        <p>
+            公司地址: 浙江省杭州市下城区朝晖路179号嘉汇大厦2号楼5层  电话: 0571-85819321 18867538398   邮箱: kaipai123@sina.com<br>
+版权所有 © 杭州易开拍网络科技有限公司  浙ICP备13004819号-1   网址: www.kaipai123.com
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

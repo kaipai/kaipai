@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>商家后台系统</title>  
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="/css/common.min.css" />
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="/css/list.min.css" />  
+  <script type="text/javascript" src="/js/lib/sea.js"></script>
+  
+  
+  <script type="text/javascript">
+    seajs.config({
+      base: "/js/lib/",
+      alias: {
+        "jquery": "jquery.min.js",        
+        'handlebars': 'handlebars.js'
+      },
+      map: [
+        [ /^(.*\/public\/.*\.(?:css|js))(?:.*)$/i, '$1?20150706' ]
+      ]
+    })
+    seajs.use("/js/trade/main");
+  </script>
+</head>
+
+<body>
+<div class="pub-top">
+  <div class="wrap">
+    <div class="pub-top-mobile fl"><a href="###">手机车蚂蚁</a></div>
+    <div class="pub-top-home fl"><a href="http://www.cmyz63.com">返回车蚂蚁首页</a></div>
+    <div class="fr"><a href="http://biz.cmyz63.com/login.php?act=out">退出登录</a></div>
+  </div>
+</div>
+<div class="biz_nav bgwrite">
+  <div class="clear"></div>
+  <div class="wrap">
+    <div class="biz_logo fl"> <img src="http://img.cmyz63.com/version6/header/biz_logo.png"> </div>
+    <ul class="biz_navlist">
+      <li ><a href="http://biz.cmyz63.com/?act=index">工作台</a></li>
+      <li class="cur"><a href="http://biz.cmyz63.com/order.php?act=signoff">订单管理</a></li>
+      <!--<li ><a href="http://biz.cmyz63.com/case.php?act=index">受理中心</a></li>-->
+      <li ><a href="http://biz.cmyz63.com/voucher.php?act=index">体验券</a></li>
+      <li ><a href="http://biz.cmyz63.com/income.php?act=index">财务管理</a></li>
+      <li ><a href="http://biz.cmyz63.com/set.php?act=index">店铺设置</a></li>
+    </ul>
+  </div>
+</div>
+<div class="clear"></div><!--主体位置-->
+<div class="biz_bigimg">
+  <div class="biz_avatar fl"> <img src="/img/cefc.jpg" /> </div>
+  <div class="biz_bigimg_info pr fl">
+    <div class="biz_bigimg_info_top"> 
+      <span class="biz_bigimg_info_tit fl ">cnoption 汽车会所</span> 
+      <span class="xingxing fl ml10 mr10"> 
+        <span style=" width:72%;"></span> 
+      </span> 
+      <a href="http://biz.cmyz63.com/explain.php?act=supplierLevel">&lt;&lt; 商家等级制度说明 &gt;&gt;</a>
+      <a href="http://biz.cmyz63.com/explain.php?act=fee">&lt;&lt; 服务费制度说明 &gt;&gt;</a> 
+    </div>
+    <div class="clear"></div>
+    <div class="biz_bigimg_info_num">
+      <span><em>4</em>笔服务成功的订单</span>
+        <span><em>0</em>笔订单已签收  等待服务</span>
+    </div>
+    <div class="biz_bigimg_info_price">
+      <div class="meb_notice">
+        通告：最新【洗车+打蜡】活动，请做好接待服务！
+      </div>        
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="wrap">
+  <div class="biz_index_box2">    
+    <div class="biz_order_tip clearfix">
+      <div class="fl">
+        <span>手动验单(s开头验证码)&nbsp;&nbsp;</span>
+        <input class="pub-input biz_order_inputyzm" placeholder="请输入服务验证码" data-required="required" type="text" name="scode"/>
+        <a class="pub-btn-middle-orange"  id="scheck">确认</a>
+      </div>
+      <div class="fl">
+        <div class="select-area w180 ml240" id="J_select_area"> 
+          
+        </div>
+      </div>
+    </div> 
+    <div class="biz-order-list" id="J_orderList">
+      <div class="j_nodata"></div>
+      <script id="J_orderTpl" type="text/x-handlebars-template">
+
+        {{#each data}}
+          <div class="appointment finish">
+            <div class="appoint_title">
+              <span>订单编号：<em>{{SupplierID}}</em></span>
+              <span>预约时间：<em>无</em></span>
+              <div class="bz_icon fr" soid="22878">没有预约</div>            
+            </div>
+            {{debug}} {{debug name}}
+            <div class="appoint_content">
+                <div class="content_left">                    
+                    
+                    <span class="name"><a href="/controller/action/{{goodsId}}">{{ProductSnapshot.title}}</a></span>
+                    <span class="name">{{ProductSnapshot.Car.Brand}}&nbsp;&nbsp;&nbsp;{{ProductSnapshot.Car.Year}} {{ProductSnapshot.Car.Series}} {{ProductSnapshot.Car.name}}<font color="#fa5f19">(请以实际车为准)</font></span>
+                </div>
+                <div class="content_service" style="width:145px;">
+                  服务完成<br>
+                    <span style="color:#666;font-size:12px;line-height:18px;">{{ServiceTime}}</span>
+                </div>
+                <div class="content_service" style="width:145px;padding-top:15px;color:#666;line-height:25px;">
+                  未评价
+                </div>
+                <div class="content_right" style="width:190px;">
+                  <div class="money" style="margin-top:30px;">{{HongChong}}</div>
+                </div>
+            </div>
+          </div>
+        {{/each}}
+      </script>
+      
+    </div>
+    <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
+  </div>
+</div>
+
+
+
+
+</body>
+</html>

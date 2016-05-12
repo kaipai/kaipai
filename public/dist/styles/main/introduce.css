@@ -1,0 +1,68 @@
+@charset "UTF-8";
+.contL {
+  margin: 8px 0 20px 8px;
+  _margin: 0;
+  box-shadow: 0 0 10px 0 #909090;
+  background: #FFF url(/dist/img/account/s_16.jpg) no-repeat 10px 20px;
+  width: 230px;
+  font-family: "微软雅黑";
+  padding-bottom: 20px; }
+  .contL h4 {
+    line-height: 30px;
+    border-bottom: 1px solid #cfcccc;
+    width: 173px;
+    text-align: center;
+    font-family: "微软雅黑";
+    font-size: 18px;
+    color: #333;
+    margin: 23px 0 15px 40px;
+    font-weight: 400; }
+  .contL dl {
+    width: 173px;
+    margin-left: 40px;
+    line-height: 36px; }
+  .contL dd {
+    border-bottom: 1px solid #f2f2f2;
+    padding-left: 20px;
+    font-size: 14px; }
+  .contL a {
+    color: #333; }
+  .contL a:hover, .contL .active a {
+    color: #cc0000;
+    background: url(/dist/img/account/s_24.jpg) no-repeat right center;
+    padding-right: 30px;
+    text-decoration: none; }
+
+.contR {
+  margin: 8px 8px 40px 0;
+  _margin: 0;
+  box-shadow: 0 0 10px 0 #909090;
+  width: 920px;
+  background: #FFF;
+  padding-bottom: 20px; }
+
+.contRM {
+  border-bottom: 1px solid #cfcccc;
+  margin: 13px 38px 0 15px;
+  line-height: 40px; }
+
+.contRM h4 {
+  background: url(../../images/aboutus/s_19.jpg) no-repeat left center;
+  font-family: "微软雅黑";
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  padding-left: 10px;
+  margin-left: 5px; }
+
+.contRM span {
+  color: #dad4d4;
+  margin-left: 10px; }
+
+.conList {
+  margin: 15px 25px 0 25px;
+  line-height: 30px;
+  font-size: 14px;
+  font-family: "微软雅黑"; }
+
+/*# sourceMappingURL=../maps/main/introduce.css.map */

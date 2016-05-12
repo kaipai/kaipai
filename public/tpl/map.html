@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<link rel="stylesheet" type="text/css" href="dist/styles/common/common.css">
+<style type="text/css">
+	.mapbox{ border-bottom: 1px dashed #ccc; margin-bottom: 30px; width: 100%;}
+	.mapbox dt{ width: 100%; height: 32px; line-height: 32px; font-size: 16px; width: 100%;}
+	.mapbox dd{ padding-top: 10px; width: 100px; float: left; height: 26px; line-height: 26px; font-size: 12px;}
+</style>
+<body>
+	 
+<div class="wrap ">
+	<dl class="mapbox clearfix">
+		<dt class='clearfix'>页面</dt>
+		<dd><a ui-sref="userRegister">注册</a></dd>
+		<dd><a ui-sref="userLogin">登录</a></dd>
+		<dd><a ui-sref="goodList">商品列表</a></dd>
+		<dd><a ui-sref="goodDetial({productID:1})">商品详情</a></dd>
+		<dd><a ui-sref="zhuanchangMain">拍卖专场</a></dd>
+		<dd><a ui-sref="zhuanchangList({'id':14})">专场列表</a></dd>
+	</dl>
+	<dl class="mapbox clearfix">
+		<dt class='clearfix'>组件</dt>
+		<dd><a ui-sref="uiShow">图片展示</a></dd>
+		
+	</dl>
+	
+</div>
+</body>
+</html>

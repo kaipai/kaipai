@@ -1,0 +1,88 @@
+
+    <div class="logTop">
+        <div class="w1000">
+            <div class="topLogo">
+                <a href="/" target="_blank">
+                    <img src="/dist/img/common/logo.png"></a>
+                <h1>登录</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="logcont">
+
+        <div class="w1000 clearfix">
+            <div class="leftImg fl">
+                <img src="/dist/img/account/logimg.jpg"></div>
+            <div class="login fr">
+                <h2>账户登录</h2>
+                <form  method="post">
+                    <span style="color: red;" ng-bind='globalErrTip' >
+                        99
+                    </span>
+                    <div class="inputBox"> <i class="phone"></i>
+                        <input name="mobile" ng-model="curObj.mobile" placeholder="手机号码" type="text" value="" />    
+                    </div>
+                    
+                    <div class="inputBox"> <i class="key"></i>
+                        <input name="Password" ng-model="curObj.password" placeholder="输入密码" type="password" />    
+                    </div>
+                    
+                    <p>
+                        <label>
+                            <input data-val="true"  name="RememberMe" type="checkbox" value="true" />    
+                           
+                            下次自动登录
+                        </label>
+                        <a ui-sref="userForgetpwd">忘记密码？</a>
+                    </p>
+                    <input id="loginForm" type="submit" ng-click="doLogin()" class="submit" value="登录">   
+                </form>
+                <h5>
+                    没有账号？
+                    <a ui-sref="userRegister">免费注册>></a>
+                </h5>
+                <div class="xtj_hzzh">
+                    <p>使用合作网站账号登录：</p>
+                    <div>
+                        <a class="i_01" href="/personal/account/qqlogin/">QQ</a>
+
+                        <a class="i_03" href="/personal/account/alipaylogin/">微信</a>
+                        <a class="i_04" style="border-right:none;" href="/personal/account/weibologin/">新浪微博</a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>
+            <a href="#/aboutus/">关于我们</a>
+            |
+            <a href="#/aboutus/contactus/">联系我们</a>
+            |
+            <a href="#/aboutus/copyright/">版权声明</a>
+            |
+            <a href="#/aboutus/hr/">人才招聘</a>
+            |
+            <a href="#/aboutus/advertising/">广告业务</a>
+            |
+            <a href="#/aboutus/disclaimer/">免责声明</a>
+            |
+            <a href="#/aboutus/protection/">隐私政策</a>
+            |
+            <a href="#/aboutus/links/">友情链接</a>
+            |
+            <a href="#/aboutus/complaints/">客户投诉</a>
+            |
+            <a href="#/aboutus/help/">帮助中心</a>
+            |
+            <a href="#/aboutus/sitemap/">网站地图</a>
+            |
+            <a href="#/aboutus/aboutchannel/">频道简介</a>
+            <br>    
+            中国艺术网(www.yishu.com) 版权所有 Copyright Reserved 2000-2014电信与信息服务业务经营许可证 沪ICP备14002523号
+        </p>
+    </div>

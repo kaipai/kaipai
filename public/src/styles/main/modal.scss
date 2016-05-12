@@ -1,0 +1,22 @@
+body{margin:0px;padding:0px;font-size:12px;font-family:'微软雅黑',arial;-webkit-text-size-adjust:none;background:#f8f8f8; color: #666;}/*20151106*/
+form,ul,li,p,h1,h2,h3,h4,h5,h6,dl,dd,dt{margin:0;padding:0;}
+input,select{font-size:12px;line-height:16px;}
+img{border:0;}ul,li{list-style-type:none;}
+table { border-collapse: collapse;border-spacing: 0;width: 100%;}
+th, td, caption {vertical-align: middle; text-indent:8px;}
+a,a:link,a:visited{color:#6d6e71;text-decoration:none;}
+a:hover{color:#d31f31;}
+.xtj-addyhk .xtj-mined-bgs {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5) none repeat scroll 0 0; z-index: 10;}
+.xtj-addyhk .xtj-addyhk-top .default_con{  overflow-y: auto; padding: 0 20px 20px 20px; margin-right: -40px;}
+.xtj-addyhk .xtj-addyhk-top .default_con li{ width:200px; height:120px; position: relative; border:solid 2px #e1e1e1; float:left; padding: 10px; margin: 0 20px 20px 0; }
+.xtj-addyhk .xtj-addyhk-top .default_con li .default_header{height:30px; overflow: hidden; padding-bottom: 5px; line-height:30px; border-bottom: dashed 1px #ddd;}
+.xtj-addyhk .xtj-addyhk-top .default_con li .default_header h3{display: inline; float: left; font-weight: normal;}
+.xtj-addyhk .xtj-addyhk-top .default_con li .default_header span{float: right;}
+.xtj-addyhk .xtj-addyhk-top .default_con li .address{margin-top: 10px; line-height: 24px;}
+.xtj-addyhk .xtj-addyhk-top .default_con li.default_border{ border: 2px solid #c60018;}
+.xtj-addyhk .xtj-addyhk-top .default_con li .xtj-balance-selected{ position:absolute; right:-2px; bottom:-2px; background:url(../images/xtj/xtjbalance_01.png) no-repeat; width:26px; height:24px;}
+.xtj-addyhk .xtj-addyhk-top .payment_con{ overflow-y: auto; padding: 0 20px; margin-right: -40px;}
+.xtj-addyhk .xtj-addyhk-top .payment_con li{ width: 200px; height: 70px; position: relative; text-align: center; float: left; margin: 0 20px 20px 0; border:solid 2px #e1e1e1; }
+.xtj-addyhk .xtj-addyhk-top .payment_con li img{ width: 190px;  margin-top: 6px;}
+.xtj-addyhk .xtj-addyhk-top .payment_con li.default_border{ border: 2px solid #c60018;}
+.xtj-addyhk .xtj-addyhk-top .payment_con li .xtj-balance-selected{ position:absolute; right:-2px; bottom:-2px; background:url(../images/xtj/xtjbalance_01.png) no-repeat; width:26px; height:24px;}

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>通用</title>
+	<link rel="stylesheet" href="style/common.css">
+    <link rel="stylesheet" href="style/style.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.datePicker-min.js"></script>
+    <script type="text/javascript">
+$(document).ready(function(){
+
+	$(".datepicker").datePicker({
+		inline:true,
+		selectMultiple:false
+	});
+	
+	$("#datepicker").datePicker({
+		clickInput:true
+	});
+	
+});
+</script>
+</head>
+<body>
+	<div class="toper">
+    <div class="center">
+        <div class="mlinknav">
+            <a ui-sref="main">开拍网首页</a>
+        </div>
+        <div class="uinfonav"  ng-if="hasLogin">
+            <div id="logorout">
+                <span>您好!</span>
+                <div class="user_name">
+                    <a class="nameA" ui-sref="indexPersonal"  ng-bind="nickName"></a>
+                    <div id="toperNav">
+                        <a ui-sref="listOrderPersonal" >我的订单</a>
+                        <a ui-sref="collectionAuctionlistPersonal" >我的收藏</a>
+                        <a  ui-sref="mybalanceCustomerPersonal" >我的余额</a>
+                        <a ui-sref="feedbackListPersonal" >意见反馈</a>
+                        <a href="javascript:" ng-click="loginOut()">安全退出</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="footprint" href="">收藏本站</a>
+
+        </div>
+
+        <div class="uinfonav" ng-if="!hasLogin">
+            <span id="logorout" style="font-size:14px">
+                <a class="register" rel="nofollow" ui-sref="userRegister">免费注册</a>
+                <a target="_self" rel="nofollow" ui-sref="userLogin">用户登录</a>
+               <!-- <a href="#">商家中心</a> -->
+         
+        </span>
+        |
+        <a class="footprint" href="">收藏本站</a>
+    </div>
+
+</div>
+</div>
+<div class="header">
+<div class="center">
+    <a href="#" class="logonav">
+        <img src="images/logo.png" />
+    </a>
+    <div class="searchnav">
+        <form style=" height:35px;" action="/paimai/search/all/">
+            <input type="text" class="ipt" name="t" id="txtKw" value="输入关键词/名称" />
+            <a href="javascript:;" class="btn paimaisearchbtn">搜索</a>
+        </form>
+        <div class="hotlink">
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+        </div>
+    </div>
+</div>
+</div>
+<div class="menuer">
+<div class="center">
+    <div class="mlist">
+        <a ui-sref="main" >首页</a>
+        <a ui-sref="goodList" >所有自由拍</a>
+        |
+        <a ui-sref="goodList" >国画</a>
+        ·
+        <a ui-sref="goodList" >书法</a>
+        ·
+        <a ui-sref="goodList" >金石篆刻</a>
+        ·
+        <a ui-sref="goodList" >古玩杂项</a>
+        ·
+        <a ui-sref="goodList" >古典陶瓷</a>
+        ·
+        <a ui-sref="goodList" >宗教文化</a>
+        ·
+        <a ui-sref="goodList" >西画雕塑</a>
+        ·
+        <a ui-sref="goodList" >奢侈品</a>
+        ·
+        <a ui-sref="goodList" >宝石翡翠</a>
+    </div>
+</div>
+</div>
+<!--End头部-->
+<div class="wrap pt0">
+    <div class="select_list">
+        <div class="select_l">
+            <p class="f16 canl_t">按日期搜索专场</p>
+            <div class="datepicker"></div>
+        </div>
+        <div class="select_r">
+            <ul class="select_cho">
+                <li><span>[国 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a><a href="">.佛教用品</a><a href="">.红宝石</a><a href="">.金属器</a></li>
+                <li><span>[奢&nbsp; 侈 品]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+                <li><span>[宗教文化]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="show_mot">
+        <span class="show_tim">2015年12月10日 <font>[显示网站所有专场]</font></span>
+        <!-- <span class="show_w">
+            <a><i class="show_icon"></i>图片显示</a> | 
+            <a class="pl10"><i class="show_icon1"></i>列表显示</a>
+        </span> -->
+    </div>
+    <div class="show_con">
+        <dl class="show_de">
+            <dt>
+                <ul>
+                    <li><a href="">近现代民画家书法专场</a></li>
+                    <li><span>拍卖时间</span> 2015/12/10 10:00 ~ 12/30 22:00</li>
+                    <li><span>选送商家</span> 开源拍卖 共365个拍卖品</li>
+                </ul>
+            </dt>
+            <dd>
+                <p><img src="images/show_pic.jpg" height="208" width="464"></p>
+                <ul>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl class="show_de">
+            <dt>
+                <ul>
+                    <li><a href="">近现代民画家书法专场</a></li>
+                    <li><span>拍卖时间</span> 2015/12/10 10:00 ~ 12/30 22:00</li>
+                    <li><span>选送商家</span> 开源拍卖 共365个拍卖品</li>
+                </ul>
+            </dt>
+            <dd>
+                <p><img src="images/show_pic.jpg" height="208" width="464"></p>
+                <ul>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl class="show_de">
+            <dt>
+                <ul>
+                    <li><a href="">近现代民画家书法专场</a></li>
+                    <li><span>拍卖时间</span> 2015/12/10 10:00 ~ 12/30 22:00</li>
+                    <li><span>选送商家</span> 开源拍卖 共365个拍卖品</li>
+                </ul>
+            </dt>
+            <dd>
+                <p><img src="images/show_pic.jpg" height="208" width="464"></p>
+                <ul>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl class="show_de">
+            <dt>
+                <ul>
+                    <li><a href="">近现代民画家书法专场</a></li>
+                    <li><span>拍卖时间</span> 2015/12/10 10:00 ~ 12/30 22:00</li>
+                    <li><span>选送商家</span> 开源拍卖 共365个拍卖品</li>
+                </ul>
+            </dt>
+            <dd>
+                <p><img src="images/show_pic.jpg" height="208" width="464"></p>
+                <ul>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                    <li><img src="images/show_s_pic.jpg"></li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="botNav">
+    <div class="center">
+        <div class="botnav-item botnav-item1">
+            <h4>
+                <span>诚实信用</span>
+                <em>对拍品的如实描述，卖家的承诺服务</em>
+            </h4>
+            <dl>
+                <dt>竞买者保障</dt>
+                <dd><a href="#">·关于拍品</a></dd>
+                <dd><a href="#">·关于拍卖</a></dd>
+                <dd><a href="#">·关于售后</a></dd>
+                <dd><a href="#">·其它保障</a></dd>
+
+            </dl>
+        </div>
+        <div class="erweima fl">
+            <p>开拍网公众号</p>
+            <span>“开拍网”</span>
+        </div>
+        <div class="botnav-item botnav-item2">
+            <h4>
+                <span>双向交流</span>
+                <em>专业服务，阳光竞拍</em>
+            </h4>
+            <dl>
+                <dt>个人 | 商家入驻</dt>
+                <dd><a href="#">·入驻规则</a></dd>
+                <dd><a href="#">·保证金问题</a></dd>
+                <dd><a href="#">·诚信问题</a></dd>
+                <dd><a href="#">·其它</a></dd>
+
+            </dl>
+        </div>
+        <div class="botnav-item botnav-item3">
+            <h4>
+                <span>售后无忧</span>
+                <em>明白承诺，周到服务</em>
+            </h4>
+            <dl>
+                <dt>关于我们</dt>
+                <dd><a href="#">·免责声明</a></dd>
+                <dd><a href="#">·版权声明</a></dd>
+                <dd><a href="#">·联系我们</a></dd>
+                <dd><a href="#">·关于开拍</a></dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="footer">
+
+    <div class="footernav center">
+        <a href="#">首页</a><em>|</em>
+        <a href="#">国画</a><em>|</em>
+        <a href="#">书法</a><em>|</em>
+        <a href="#">金石篆刻</a><em>|</em>
+        <a href="#">古玩杂项</a><em>|</em>
+        <a href="#">古典陶瓷</a><em>|</em>
+        <a href="#">西画雕塑</a><em>|</em>
+        <a href="#">宗教文化</a><em>|</em>
+        <a href="#">奢侈品</a><em>|</em>
+        <a href="#">宝石翡翠</a><em>|</em>
+        <a href="#">联系我们</a>
+        <p>
+            公司地址: 浙江省杭州市下城区朝晖路179号嘉汇大厦2号楼5层  电话: 0571-85819321 18867538398   邮箱: kaipai123@sina.com<br>
+版权所有 © 杭州易开拍网络科技有限公司  浙ICP备13004819号-1   网址: www.kaipai123.com
+        </p>
+    </div>
+</div>
+</body>
+</html>

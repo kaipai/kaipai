@@ -1,16 +1,12 @@
 <?php
 
 return array(
-    'controller_plugins' => array(
-        'invokables' => array(
-        )
-    ),
     'router' => array(
         'routes' => array(
-            'front' => array(
+            'base' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route' => '/front',
+                    'route' => '/',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Front\Controller',
                         'controller' => 'Index',
@@ -21,7 +17,7 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/[:controller][/:action]',
+                            'route' => '[:controller][/:action]',
                             'constraints' => array(
                                 '__NAMESPACE__' => 'Front\Controller',
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',

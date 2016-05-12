@@ -1,0 +1,135 @@
+<div class="right-tit">
+	<span>订单详情</span>
+</div>
+<div class="suborder">
+	<div class="OrderDetails_1">
+		<h5>订单概况</h5>
+		<p>订单号：816031519921 &nbsp;&nbsp;&nbsp;2016-03-15 23:05:34</p>
+		<p>状态：已提交</p>
+		<p>
+			收货信息：万仁刚,150*****643,浙江省临安江干区
+			<a class="modify_btn red"  href="javascript:void(0)" ng-click="selectaddress(
+			)">修改</a>
+			|
+			<a class="red" href="javascript:void(0);" onclick="payment('816031519921')">去付款</a>
+		</p>
+		<p>
+			支付方式：支付宝
+			<a class="modify_btn red" ng-click="selectpayment()" id="modifypayment" href="javascript:void(0)">修改</a>
+			|
+			<a class="red" href="javascript:void(0);" onclick="payment('816031519921')">去付款</a>
+		</p>
+		<p>
+			订单操作：
+			<a class="red" href="javascript:void(0);" onclick="cancel('816031519921')">取消订单</a>
+		</p>
+
+	</div>
+	<div class="table_xg">
+		<h5>商品清单</h5>
+		<div class="table_xg_n">
+			<table border="0">
+				<tr style="background:#effbf3;height:30px;">
+					<td width="50" class="borderl">商品编号</td>
+					<td width="180" class="border2">商品名称</td>
+					<td width="80">价格（元）</td>
+					<td width="60">数量</td>
+					<td width="70" class="borderr">小计（元）</td>
+				</tr>
+				<tr style="height:90px;">
+					<td>1273486</td>
+					<td class="borderl">
+						<a ui-sref="goodDetial({productID:1})" title="扬州工 和田玉青玉 如意平安摆件  4365g " target="_blank">
+							<img style="width:70px;" class="product" src="/dist/img/upload/img2.jpg" />
+						</a>
+						<a ui-sref="goodDetial({productID:1})" title="扬州工 和田玉青玉 如意平安摆件  4365g " target="_blank">
+							<span>扬州工 和田玉青玉 如意平安摆件  4365g</span>
+						</a>
+					</td>
+					<td>￥3,800.00</td>
+					<td>1</td>
+					<td class="borderr">￥3,800.00</td>
+				</tr>
+
+				<div class="clear"></div>
+				<tr style="height: 52px;">
+					<td colspan="2" style="text-align:left; padding-left:18px;">总金额：3800.00元&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					<td colspan="3"> <font color="#ad0015">应付金额： <strong>3800.00元</strong></font> 
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+</div>
+<div class="xtj-addyhk" id="selectpayment" style="display: none;">
+
+    <div class="xtj-addyhk-top">
+        
+        <ul class="payment_con">
+            <li data-payid="1" style="cursor:pointer">
+                <img src="/dist/img/common/xtjbalance_03.jpg">
+                <div class="xtj-balance-selected" style="display: none"></div>
+            </li>
+            <li data-payid="6" style="cursor:pointer">
+                <img src="/dist/img/common/xtjbalance_02.jpg">
+                <div class="xtj-balance-selected" style="display: none"></div>
+            </li>
+            <li data-payid="10" style="cursor:pointer">
+                <img src="/dist/img/common/xtjbalance_04.jpg">
+                <div class="xtj-balance-selected" style="display: none"></div>
+            </li>
+            <li data-payid="8" style="cursor:pointer">
+                <img src="/dist/img/common/xtjbalance_05.jpg">
+                <div class="xtj-balance-selected" style="display: none"></div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+        <p style="text-align:center; margin-bottom:20px;"><a id="paysubmit" class="xtj-addyhk-btn">确认</a></p>
+    </div>
+</div>
+
+<div class="xtj-addyhk" id="selectaddress" style="display:none;">
+
+	<div class="xtj-addyhk-top">
+
+		<ul class="default_con">
+			<li data-addressid="8363" style="cursor:pointer">
+				<div class="default_header">
+					<h3>万仁刚</h3>
+					<span>15068116643</span>
+				</div>
+				<div class="address">
+					<p>浙江省 杭州 临安 江干区</p>
+				</div>
+				<div class="xtj-balance-selected" style="display: none"></div>
+			</li>
+			<li data-addressid="8363" style="cursor:pointer">
+				<div class="default_header">
+					<h3>万仁刚</h3>
+					<span>15068116643</span>
+				</div>
+				<div class="address">
+					<p>浙江省 杭州 临安 江干区</p>
+				</div>
+				<div class="xtj-balance-selected" style="display: none"></div>
+			</li>
+			<li data-addressid="8363" style="cursor:pointer">
+				<div class="default_header">
+					<h3>万仁刚</h3>
+					<span>15068116643</span>
+				</div>
+				<div class="address">
+					<p>浙江省 杭州 临安 江干区</p>
+				</div>
+				<div class="xtj-balance-selected" style="display: none"></div>
+			</li>
+			
+
+		</ul>
+		<div class="clear"></div>
+		<p style="text-align:center; margin-bottom:20px;">
+			<a id="shipsubmit"  class="xtj-addyhk-btn">确认</a>
+		</p>
+	</div>
+</div>

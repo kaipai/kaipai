@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>通用</title>
+	<link rel="stylesheet" href="style/common.css">
+    <link rel="stylesheet" href="style/style.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.datePicker-min.js"></script>
+    <script type="text/javascript">
+$(document).ready(function(){
+
+	$(".datepicker").datePicker({
+		inline:true,
+		selectMultiple:false
+	});
+	
+	$("#datepicker").datePicker({
+		clickInput:true
+	});
+	
+});
+</script>
+</head>
+<body>
+	<div class="toper">
+    <div class="center">
+        <div class="mlinknav">
+            <a ui-sref="main">开拍网首页</a>
+        </div>
+        <div class="uinfonav"  ng-if="hasLogin">
+            <div id="logorout">
+                <span>您好!</span>
+                <div class="user_name">
+                    <a class="nameA" ui-sref="indexPersonal"  ng-bind="nickName"></a>
+                    <div id="toperNav">
+                        <a ui-sref="listOrderPersonal" >我的订单</a>
+                        <a ui-sref="collectionAuctionlistPersonal" >我的收藏</a>
+                        <a  ui-sref="mybalanceCustomerPersonal" >我的余额</a>
+                        <a ui-sref="feedbackListPersonal" >意见反馈</a>
+                        <a href="javascript:" ng-click="loginOut()">安全退出</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="footprint" href="">收藏本站</a>
+
+        </div>
+
+        <div class="uinfonav" ng-if="!hasLogin">
+            <span id="logorout" style="font-size:14px">
+                <a class="register" rel="nofollow" ui-sref="userRegister">免费注册</a>
+                <a target="_self" rel="nofollow" ui-sref="userLogin">用户登录</a>
+               <!-- <a href="#">商家中心</a> -->
+         
+        </span>
+        |
+        <a class="footprint" href="">收藏本站</a>
+    </div>
+
+</div>
+</div>
+<div class="header">
+<div class="center">
+    <a href="#" class="logonav">
+        <img src="images/logo.png" />
+    </a>
+    <div class="searchnav">
+        <form style=" height:35px;" action="/paimai/search/all/">
+            <input type="text" class="ipt" name="t" id="txtKw" value="输入关键词/名称" />
+            <a href="javascript:;" class="btn paimaisearchbtn">搜索</a>
+        </form>
+        <div class="hotlink">
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+        </div>
+    </div>
+</div>
+</div>
+<div class="menuer">
+<div class="center">
+    <div class="mlist">
+        <a ui-sref="main" >首页</a>
+        <a ui-sref="goodList" >所有自由拍</a>
+        |
+        <a ui-sref="goodList" >国画</a>
+        ·
+        <a ui-sref="goodList" >书法</a>
+        ·
+        <a ui-sref="goodList" >金石篆刻</a>
+        ·
+        <a ui-sref="goodList" >古玩杂项</a>
+        ·
+        <a ui-sref="goodList" >古典陶瓷</a>
+        ·
+        <a ui-sref="goodList" >宗教文化</a>
+        ·
+        <a ui-sref="goodList" >西画雕塑</a>
+        ·
+        <a ui-sref="goodList" >奢侈品</a>
+        ·
+        <a ui-sref="goodList" >宝石翡翠</a>
+    </div>
+</div>
+</div>
+<!--End头部-->
+    <div id="flashBg" style="background-color:#5d5f5c;">
+	<div id="flashLine">
+		<div id="flash">
+			<a href="" target="_blank" id="flash1" style="display: block; "><img src="images/banner_pw.jpg"  height="370"></a>
+			<a href="" target="_blank" id="flash2" style="display: none; "><img src="images/banner_pw.jpg"  height="370"></a>
+			<a href="" target="_blank" id="flash3"  style="display: none; "><img src="images/banner_pw.jpg" height="370"></a>
+			<div class="flash_bar">
+				<div class="dq" id="f1" onclick="changeflash(1)"></div>
+				<div class="no" id="f2" onclick="changeflash(2)"></div>
+				<div class="no" id="f3" onclick="changeflash(3)"></div>
+			</div>
+		</div>
+	</div>
+        <div class="date_spe">
+            <p class="f16 spe_d_t">按日期搜索专场</p>
+            <div class="datepicker"></div>
+        </div>
+</div>
+
+    <div class="exc_rank spe_title">
+        <div class="wrap2">
+            <span class="spe_name">进入专场分类</span> | <a href=""><font>●</font> 国画</a><a href=""><font>●</font> 国画</a><a href=""><font>●</font> 国画</a><a href=""><font>●</font> 国画</a><a href=""><font>●</font> 国画</a><a href=""><font>.</font> 国画</a>
+        </div>
+    </div>
+    <div class="spe_name_list">
+        <div class="wrap2">
+            <div class="spe_name_l"><a href="">今日专场<i></i></a><a href="">明日专场<i></i></a><a href="" class="active">正在预展<i></i></a></div>
+            <div class="spe_name_r"><img src="images/banner_pw.jpg" height="120"></div>
+        </div>
+    </div>
+    <div class="wrap4">
+        <div class="spe_con">
+            <div class="spe_con_l">
+                <dl class="spe_con_list">
+                    <dd>
+                        <h4><a href="">近现代书画家超值专场</a></h4>
+                        <p class="spe_str"><span>选送商家</span> 消息画廊</p>
+                        <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
+                        <ul class="mt20">
+                            <li class="spe_pri"><span>658</span><br />次围观</li>
+                            
+                        </ul>
+                    </dd>
+                    <dt><img src="images/p_icon.gif" height="260" width="570"></dt>
+                </dl>
+
+                <dl class="spe_con_list">
+                    <dd>
+                        <h4><a href="">近现代书画家超值专场</a></h4>
+                        <p class="spe_str"><span>选送商家</span> 消息画廊</p>
+                        <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
+                        <ul class="mt20">
+                            <li class="spe_pri"><span>658</span><br />次围观</li>
+                            
+                        </ul>
+                    </dd>
+                    <dt><img src="images/p_icon.gif" height="260" width="570"></dt>
+                </dl>
+
+                <dl class="spe_con_list">
+                    <dd>
+                        <h4><a href="">近现代书画家超值专场</a></h4>
+                        <p class="spe_str"><span>选送商家</span> 消息画廊</p>
+                        <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
+                        <ul class="mt20">
+                            <li class="spe_pri"><span>658</span><br />次围观</li>
+                            
+                        </ul>
+                    </dd>
+                    <dt><img src="images/p_icon.gif" height="260" width="570"></dt>
+                </dl>
+
+
+                <dl class="spe_con_list">
+                    <dd class="ztCalss2">
+                        <h4><a href="">近现代书画家超值专场</a></h4>
+                        <p class="spe_str"><span>选送商家</span> 消息画廊</p>
+                        <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
+                        <ul class="mt20">
+                            <li class="spe_pri"><span>658</span><br />次围观</li>
+                            
+                        </ul>
+                    </dd>
+                    <dt><img src="images/p_icon.gif" height="260" width="570"></dt>
+                </dl>
+               
+            </div>
+            <div class="spe_con_r">
+                <h3 class="spe_r_t">热推店铺街</h3>
+                <div class="spe_r_con">
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <dl>
+                        <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
+                        <dd>授权专营名家书法</dd>
+                    </dl>
+                    <p class="spe_r_more"><a href="">更多热铺 ...</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="page"><a href="" class="page_next"><</a><a href="">1</a><a href="">2</a><a href="">3</a><a href="">4</a><a href="">5</a> ........... <a href="" class="page_next">></a> &nbsp;<span>共21页 到<input type="text" class="spe_in"> 页 <button class="spe_page_btn">确定</button></span></div>
+    </div>
+<div class="wrap4">
+   <div class="wrap2">
+        <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">当前价 <span>￥1600</span></li>
+          <li class="lh32">距结束 8小时30分20秒</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong>68</strong><br />次围观</font></li>
+        </ul>
+         <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">当前价 <span>￥1600</span></li>
+          <li class="lh32">距结束 8小时30分20秒</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong>68</strong><br />次围观</font></li>
+        </ul>
+         <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">当前价 <span>￥1600</span></li>
+          <li class="lh32">距结束 8小时30分20秒</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong>68</strong><br />次围观</font></li>
+        </ul>
+         <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">当前价 <span>￥1600</span></li>
+          <li class="lh32">距结束 8小时30分20秒</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong>68</strong><br />次围观</font></li>
+        </ul>
+       <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
+          <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br />次围观</font></li>
+        </ul>
+       <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
+          <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br />次围观</font></li>
+        </ul>
+       <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
+          <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br />次围观</font></li>
+        </ul>
+       <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
+          <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br />次围观</font></li>
+        </ul>
+       <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
+          <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br />次围观</font></li>
+        </ul>
+       <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
+          <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br />次围观</font></li>
+        </ul>
+       <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
+          <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br />次围观</font></li>
+        </ul>
+       <ul class="exc_list mt20">
+          <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
+          <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
+          <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+          <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br />次围观</font></li>
+        </ul>
+    </div>
+    
+</div>
+
+<div class="botNav">
+    <div class="center">
+        <div class="botnav-item botnav-item1">
+            <h4>
+                <span>诚实信用</span>
+                <em>对拍品的如实描述，卖家的承诺服务</em>
+            </h4>
+            <dl>
+                <dt>竞买者保障</dt>
+                <dd><a href="#">·关于拍品</a></dd>
+                <dd><a href="#">·关于拍卖</a></dd>
+                <dd><a href="#">·关于售后</a></dd>
+                <dd><a href="#">·其它保障</a></dd>
+
+            </dl>
+        </div>
+        <div class="erweima fl">
+            <p>开拍网公众号</p>
+            <span>“开拍网”</span>
+        </div>
+        <div class="botnav-item botnav-item2">
+            <h4>
+                <span>双向交流</span>
+                <em>专业服务，阳光竞拍</em>
+            </h4>
+            <dl>
+                <dt>个人 | 商家入驻</dt>
+                <dd><a href="#">·入驻规则</a></dd>
+                <dd><a href="#">·保证金问题</a></dd>
+                <dd><a href="#">·诚信问题</a></dd>
+                <dd><a href="#">·其它</a></dd>
+
+            </dl>
+        </div>
+        <div class="botnav-item botnav-item3">
+            <h4>
+                <span>售后无忧</span>
+                <em>明白承诺，周到服务</em>
+            </h4>
+            <dl>
+                <dt>关于我们</dt>
+                <dd><a href="#">·免责声明</a></dd>
+                <dd><a href="#">·版权声明</a></dd>
+                <dd><a href="#">·联系我们</a></dd>
+                <dd><a href="#">·关于开拍</a></dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="footer">
+
+    <div class="footernav center">
+        <a href="#">首页</a><em>|</em>
+        <a href="#">国画</a><em>|</em>
+        <a href="#">书法</a><em>|</em>
+        <a href="#">金石篆刻</a><em>|</em>
+        <a href="#">古玩杂项</a><em>|</em>
+        <a href="#">古典陶瓷</a><em>|</em>
+        <a href="#">西画雕塑</a><em>|</em>
+        <a href="#">宗教文化</a><em>|</em>
+        <a href="#">奢侈品</a><em>|</em>
+        <a href="#">宝石翡翠</a><em>|</em>
+        <a href="#">联系我们</a>
+        <p>
+            公司地址: 浙江省杭州市下城区朝晖路179号嘉汇大厦2号楼5层  电话: 571-85819321 18867538398   邮箱: kaipai123@sina.com<br>
+版权所有 © 杭州易开拍网络科技有限公司  浙ICP备13004819号-1   网址: www.kaipai123.com
+        </p>
+    </div>
+</div>
+    <script type="text/javascript">
+var currentindex=1;
+$("#flashBg").css("background-color",$("#flash1").attr("name"));
+function changeflash(i){	
+	currentindex=i;
+	for(j=1;j<=3;j++){
+		if(j==i){
+			$("#flash"+j).fadeIn("normal");
+			$("#flash"+j).css("display","block");
+			$("#f"+j).removeClass();
+			$("#f"+j).addClass("dq");
+			$("#flashBg").css("background-color",$("#flash"+j).attr("name"));
+		}else{
+			$("#flash"+j).css("display","none");
+			$("#f"+j).removeClass();
+			$("#f"+j).addClass("no");
+		}
+	}
+}
+function startAm(){
+	timerID = setInterval("timer_tick()",3000);
+}
+function stopAm(){
+	clearInterval(timerID);
+}
+function timer_tick(){
+	currentindex=currentindex>=3?1:currentindex+1;
+	changeflash(currentindex);
+}
+$(document).ready(function(){
+	$(".flash_bar div").mouseover(function(){
+		stopAm();
+	}).mouseout(function(){
+		startAm();
+	});
+	startAm();
+});
+</script>
+
+</body>
+</html>

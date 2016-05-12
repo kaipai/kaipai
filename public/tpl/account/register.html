@@ -1,0 +1,160 @@
+
+    <div class="logTop">
+        <div class="w1000">
+            <div class="topLogo">
+                <a href="/" target="_blank">
+                    <img src="/dist/img/common/logo.png"></a>
+                <h1>注册</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="logcont">
+
+        <div id="masker"></div>
+        <div id="agreement-content" class="comm-jump-column">
+            <div class="title">
+                <h3>中国艺术网用户注册协议</h3>
+                <span class="close">╳</span>
+            </div>
+            <div class="jump-content"></div>
+            <div class="red-btn close">同意并继续</div>
+        </div>
+
+        <div id="reg_begin" class="findPassword reg-bodybg" style=" display:block;">
+            <div class="w1000 clearfix">
+                <form id="reg_beginForm" method="post" novalidate="novalidate">
+                    <div class="xtj-cloum">
+                        <p>
+                            <span>昵称：</span>
+                            <div class="inputBox"> <i class="name"></i> <em class="name"></em>
+                                <input autocomplete="off" id="Nick" name="Nick" placeholder="输入昵称" type="text" value="" />    
+                            </div>
+                        </p>
+                    </div>
+                    <div class="xtj-cloum">
+                        <p>
+                            <span>手机号码：</span>
+                            <div class="inputBox"> <i class="phone"></i> <em class="phone"></em>
+                                <input autocomplete="off" ng-model="curObj.mobile" name="UserName" placeholder="手机号码,港澳台号码请加上区号" type="text" value="" />    
+                            </div>
+                        </p>
+                    </div>
+                    <div class="xtj-cloum">
+                        <p>
+                            <span>验证码：</span>
+                            <div class="inputBox" style=" border: none;">
+                                <input autocomplete="off"  name="ImageValidateCode" placeholder="请输入验证码" style="width: 142px; border:solid 1px #ddd; margin-right:5px;" type="text" ng-model="curObj.picVerifyCode" />    
+                                <img alt="点击切换"  style="width: 100px; height:32px; cursor:pointer; float:left; border:solid 1px #ddd;" onclick="this.src='http://114.55.36.109/api/v1/login/get-pic-verify-code?rnd=' + Math.random();"  src="http://114.55.36.109/api/v1/login/get-pic-verify-code"></div>
+                        </p>
+                    </div>
+                    <div class="xtj-cloum">
+                <p id="mcode">
+                    <span>短信验证码：</span>
+
+                    <input autocomplete="off" class="input" id="ValidateCode" name="ValidateCode" placeholder="输入验证码" style="margin-left:-4px" type="text" value="" />
+                    <a class="btn_getcode" id="btn_getcode" ng-click="checkSendFun()"  href="javascript:;" >发送验证码</a>
+                </p>
+            </div>
+
+                    <div class="xtj-cloum">
+                        <p>
+                            <span>登录密码：</span>
+                            <div class="inputBox">
+                                <i class="key"></i>
+                                <em class="key"></em>
+                                <input autocomplete="off" id="Password" name="Password" placeholder="输入密码" type="password" />    
+                            </div>
+                        </p>
+                    </div>
+                    <div class="xtj-cloum">
+                        <p class="small">
+                            <span>&nbsp;</span>
+                            <label>
+                                <input id="check" type="checkbox">    
+                                我已经阅读并同意
+                                <a href="javascript:;">《开拍网用户服务条款》</a>
+                                
+                            </label>
+                        </p>
+                    </div>
+                    <div class="xtj-cloum">
+                        <p>
+                            <span>&nbsp;</span>
+                            <input type="button" id="regeter" class="submit" value="立即注册"></p>
+                    </div>
+                    <div class="xtj-cloum">
+                        <p style="line-height:40px">
+                            <span>&nbsp;</span>
+                            已有账号？
+                            <a class="blue" ui-sref="userLogin">立即登录>></a>
+                        </p>
+                    </div>
+                   
+                </form>
+                  
+            </div>
+        </div>
+        <div id="reg_success" class="findPassword reg-bodybg" style="display:none;">
+            <div class="w1000 clearfix">
+                <!-- 注册成功start -->    
+                <div class="registerSuc">
+                    <div class="sucImg">
+                        <img src="/dist/img/account/success.png" />    
+                    </div>
+                    <div class="sucFont">恭喜您注册成功！</div>
+                    <div class="sucTip">
+                        <p>
+                            100元现金券24小时内到帐
+                            <a href="/personal/assets/mybalance/">我的资产</a>
+                            ，每天上万件1元起拍的
+                        </p>
+                        <p>
+                            商品等着你&nbsp;&nbsp;&nbsp;
+                            <a href="http://www.yishu.com/paimai/" target="_blank">去逛逛>></a>
+                        </p>
+                    </div>
+                    <div class="QR">
+                        <div class="qrCode">
+                            <img src="/dist/img/common/QRcode.jpg" />    
+                        </div>
+                        <div class="qrFont">
+                            <p>【艺术网服务号】</p>
+                            <p>关注微信服务号，获取实时出价通知，中意宝贝不容错过～</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 注册成功end --> 
+                </div>
+        </div>
+        
+    </div>
+    <div class="footer">
+        <p>
+            <a href="#/aboutus/">关于我们</a>
+            |
+            <a href="#/aboutus/contactus/">联系我们</a>
+            |
+            <a href="#/aboutus/copyright/">版权声明</a>
+            |
+            <a href="#/aboutus/hr/">人才招聘</a>
+            |
+            <a href="#/aboutus/advertising/">广告业务</a>
+            |
+            <a href="#/aboutus/disclaimer/">免责声明</a>
+            |
+            <a href="#/aboutus/protection/">隐私政策</a>
+            |
+            <a href="#/aboutus/links/">友情链接</a>
+            |
+            <a href="#/aboutus/complaints/">客户投诉</a>
+            |
+            <a href="#/aboutus/help/">帮助中心</a>
+            |
+            <a href="#/aboutus/sitemap/">网站地图</a>
+            |
+            <a href="#/aboutus/aboutchannel/">频道简介</a>
+            <br>    
+            中国艺术网(www.yishu.com) 版权所有 Copyright Reserved 2000-2014电信与信息服务业务经营许可证 沪ICP备14002523号
+        </p>
+    </div>

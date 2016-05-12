@@ -1,0 +1,89 @@
+
+    <div class="logTop">
+        <div class="w1000">
+            <div class="topLogo">
+                <a href="/" target="_blank">
+                    <img src="/dist/img/common/logo.png"></a>
+                <h1>找回密码</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="logcont">
+        <div class="w1000 clearfix">
+            <div class="findPassword">
+                <h2>找回密码</h2>
+                <form id="for_beginForm" method="post" >
+                    <div class="xtj-cloum">
+                        <p>
+                            <span> <b>*</b>
+                                手机号码：
+                            </span>
+                            <div class="inputBox">
+                                <input  name="UserName" ng-model="curObj.mobile" placeholder="请输入手机号码" type="text" />    
+                            </div>
+                        </p>
+                    </div>
+                    <div class="xtj-cloum">
+                        <p>
+                            <span> <b>*</b>
+                                验证码：
+                            </span>
+                            <div class="inputBox" style=" border: none;">
+                                <input ng-model="curObj.ValidCode"  name="ImageValidateCode" placeholder="请输入验证码" style="width: 140px; border:solid 1px #ddd; margin-right:5px;" type="text" value="" />    
+                                <img alt="点击切换" onclick="this.src='http://114.55.36.109/api/v1/login/get-pic-verify-code?rnd=' + Math.random();"  style="width: 100px; height:32px; cursor:pointer; float:left; border:solid 1px #ddd;" src="http://114.55.36.109/api/v1/login/get-pic-verify-code"></div>
+                        </p>
+                    </div>
+                    <div class="xtj-cloum">
+                        <p>
+                            <span>
+                                <b>*</b>
+                                短信验证码：
+                            </span>
+
+                            <input  class="input"   placeholder="输入验证码" style="margin-left:-4px" type="text" ng-model="curObj.ValidDataCode"/>    
+                            <a class="btn_getcode" id="btn_getcode" ng-click="checkSendFun()"  href="javascript:;" >发送验证码</a>
+
+                        </p>
+                    </div>
+                    <div class="xtj-cloum">
+                        <p>
+                            <span>&nbsp;</span>
+                            <input ng-click='submitFun()' type="button" class="submit" value="验证">    
+                            <a class="back" ui-sref="userLogin">返回登录>></a>
+                        </p>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>
+            <a href="#/aboutus/">关于我们</a>
+            |
+            <a href="#/aboutus/contactus/">联系我们</a>
+            |
+            <a href="#/aboutus/copyright/">版权声明</a>
+            |
+            <a href="#/aboutus/hr/">人才招聘</a>
+            |
+            <a href="#/aboutus/advertising/">广告业务</a>
+            |
+            <a href="#/aboutus/disclaimer/">免责声明</a>
+            |
+            <a href="#/aboutus/protection/">隐私政策</a>
+            |
+            <a href="#/aboutus/links/">友情链接</a>
+            |
+            <a href="#/aboutus/complaints/">客户投诉</a>
+            |
+            <a href="#/aboutus/help/">帮助中心</a>
+            |
+            <a href="#/aboutus/sitemap/">网站地图</a>
+            |
+            <a href="#/aboutus/aboutchannel/">频道简介</a>
+            <br>    
+            中国艺术网(www.yishu.com) 版权所有 Copyright Reserved 2000-2014电信与信息服务业务经营许可证 沪ICP备14002523号
+        </p>
+    </div>

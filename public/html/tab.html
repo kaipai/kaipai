@@ -1,0 +1,46 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>商家后台登录系统</title>  
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="/css/common.css" />
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="/css/login.css" />  
+  <script type="text/javascript" src="/js/lib/sea.js"></script>
+  <script type="text/javascript" src="/js/lib/bootstrap-table.js"></script>
+  
+  
+  
+  <script type="text/javascript">
+  seajs.config({
+    base: "/js/lib/",
+    alias: {
+      "jquery": "jquery.js",        
+      'handlebars': 'handlebars.js',
+      'straptable': 'bootstrap-table.js'
+    }
+  })
+  seajs.use("/js/trade/table");
+</script>
+</head>
+
+<body>  
+  <link rel="stylesheet" type="text/css" href="/css/login.min.css">
+<link rel="stylesheet" type="text/css" href="/css/font/iconfont.css">
+<div class="cgj-table">
+  <table id="table-pagination" data-url="data2.json" data-height="400" data-pagination="true" data-search="true">
+      <thead>
+          <tr>
+              <th data-field="state" data-checkbox="true"></th>
+              <th data-field="id" data-align="right" data-sortable="true">Item ID</th>
+              <th data-field="name" data-align="center" data-sortable="true">Item Name</th>
+              <th data-field="price" data-sortable="true" data-sorter="priceSorter">Item Price</th>
+          </tr>
+      </thead>
+  </table> 
+</div>
+</body>
+  
+
+
+</html>

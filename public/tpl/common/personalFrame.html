@@ -1,0 +1,279 @@
+<link href="/dist/styles/main/personal.min.css" rel="stylesheet"/>
+<script src="/src/js/common/presonalBase.js"></script>
+
+<div class="tops">
+	<div class="w1000">
+		<p class="state fl">
+			<a ui-sref="main" target="_blank">开拍网首页</a>
+
+		</p>
+		<p class="message fr">
+			您好，
+			<span>
+				<a ui-sref="indexPersonal" ng-bind="nickName"></a> <i class="rank1"></i>
+			</span>
+			<a ng-click="loginOut()" href="javascript:">[退出]</a>
+			<a ui-sref="listOrderPersonal">我的订单</a>
+		</p>
+	</div>
+</div>
+<div class="top">
+	<div class="w1000">
+		<div class="top-logo fl">
+			<a ui-sref="main">
+				<img alt="开拍网" title="开拍网" src="/dist/img/common/logo.png"></a>
+		</div>
+		<div class="topExplain fr">
+			<img src="/dist/img/personal/top3.jpg"></div>
+	</div>
+</div>
+
+<div class="nav">
+	<div class="w1000">
+		<ul>
+			<li>
+				<a ui-sref="main">首页</a>
+			</li>
+			<li>
+				<a ui-sref="indexPersonal">我的开拍</a>
+			</li>
+			<li>
+				<a  href="javascript:;">站内提醒</a>
+			</li>
+
+			<li>
+				<a href="#" target="_blank">帐户设置</a>
+			</li>
+			<li>
+				<a href="#" target="_blank">个人空间</a>
+			</li>
+		</ul>
+
+	</div>
+</div>
+<div class="clear"></div>
+<div class="content clearfix">
+
+	<div class="leftBar fl" id="leftBar">
+
+		<dl  data-route="listOrderPersonal,myauctionOrderPersonal">
+			<dt  style="cursor:pointer"> <i class="icon1"></i> <em class="icon1"></em>
+				订单中心
+				<span></span>
+			</dt>
+			<dd data-route="listOrderPersonal">
+				<a ui-sref="listOrderPersonal" >我的订单</a>
+			</dd>
+			<dd data-route="myauctionOrderPersonal">
+				<a ui-sref="myauctionOrderPersonal" >我要送拍</a>
+			</dd>
+		</dl>
+		<!-- <dl data-route="">
+			<dt class="" style="cursor:pointer">
+				<i class="icon2"></i> <em class="icon2"></em>
+				寄售专区
+				<span></span>
+			</dt>
+			<dd data-route="">
+				<a href="/sales/mysales/" class="">我要寄售</a>
+			</dd>
+			<dd data-route="">
+				<a href="/sales/saleslist/" class="">我的寄售</a>
+			</dd>
+			<dd data-route="">
+				<a href="/sales/salesorder/" class="">寄售订单</a>
+			</dd>
+		</dl> -->
+		<dl  data-route="mybalanceCustomerPersonal">
+			<dt class="" style="cursor:pointer">
+				<i class="icon5"></i>
+				<em class="icon5"></em>
+				我的资产
+				<span></span>
+			</dt>
+			<dd data-route="mybalanceCustomerPersonal">
+				<a ui-sref="mybalanceCustomerPersonal" class="">余额</a>
+			</dd>
+			<!-- <dd>
+				<a href="/assets/myintegral/" class="">积分</a>
+			</dd>
+			<dd>
+				<a href="/assets/mygold/" class="">金币</a>
+			</dd>
+			<dd>
+				<a href="/assets/mycoupon/" class="">优惠券</a>
+			</dd> -->
+		</dl>
+		<dl data-route="collectionAuctionlistPersonal,collectionShoplistPersonal">
+			<dt class="" style="cursor:pointer">
+				<i class="icon7"></i>
+				<em class="icon7"></em>
+				我的收藏
+				<span></span>
+			</dt>
+			<dd data-route="collectionAuctionlistPersonal">
+				<a ui-sref="collectionAuctionlistPersonal" class="">拍品收藏</a>
+			</dd>
+			<dd data-route="collectionShoplistPersonal">
+				<a ui-sref="collectionShoplistPersonal" class="">店铺收藏</a>
+			</dd>
+			<!-- <dd>
+				<a href="/collection/footprint/" class="">我的足迹</a>
+			</dd> -->
+		</dl>
+		
+		<!-- <dl class="">
+			<dt class="" style="cursor:pointer">
+				<i class="icon8"></i>
+				<em class="icon8"></em>
+				售后服务
+				<span></span>
+			</dt>
+			<dd>
+				<a href="/followu/rmalist/" class="">申请退货</a>
+			</dd>
+			<dd>
+				<a href="/followu/rmarecord/" class="">退货记录</a>
+			</dd>
+		</dl> -->
+		<dl data-route="infoCustomerPersonal,passwordCustomerPersonal,mobileCustomerPersonal,addressCustomerPersonal,bankcardCustomerPersonal">
+			<dt class="" style="cursor:pointer">
+				<i class="icon9"></i>
+				<em class="icon9"></em>
+				账户设置
+				<span></span>
+			</dt>
+			<dd data-route="infoCustomerPersonal">
+				<a ui-sref="infoCustomerPersonal" class="">基本资料</a>
+			</dd>
+			<dd data-route="passwordCustomerPersonal">
+				<a ui-sref="passwordCustomerPersonal" class="">修改密码</a>
+			</dd>
+			<dd data-route="mobileCustomerPersonal">
+				<a ui-sref="mobileCustomerPersonal" class="">绑定手机</a>
+			</dd>
+			<dd data-route="addressCustomerPersonal">
+				<a ui-sref="addressCustomerPersonal" class="">收货地址</a>
+			</dd>
+			<dd data-route="bankcardCustomerPersonal">
+				<a ui-sref="bankcardCustomerPersonal" class="">我的银行卡</a>
+			</dd>
+		</dl>
+		<dl data-route="feedbackAddPersonal,feedbackListPersonal">
+			<dt class="" style="cursor:pointer">
+				<i class="icon11"></i>
+				<em class="icon11"></em>
+				意见反馈
+				<span></span>
+			</dt>
+			<dd data-route="feedbackAddPersonal">
+				<a ui-sref="feedbackAddPersonal" class="">我要反馈</a>
+			</dd>
+			<dd data-route="feedbackListPersonal">
+				<a ui-sref="feedbackListPersonal" class="">我的反馈</a>
+			</dd>
+		</dl>
+	</div>
+
+	<!-- 左边栏目end -->
+	<div class="rightBar fr bordernone">
+		<div  ui-view="personalFrame"></div>
+	</div>
+	<!-- 右边栏目end -->
+	<div class="clear"></div>
+	<div class="line"></div>
+</div>
+
+<div class="footer mt20">
+	<div class="w1000">
+		<div class="safeguard">
+			<img src="/dist/img/personal/foot1.jpg"></div>
+		<div class="particular">
+			<dl>
+				<dt>
+					<a ui-sref="aboutService">新手指南</a>
+				</dt>
+				<dd>
+					<a ui-sref="aboutService">· 新手指南</a>
+				</dd>
+				<dd>
+					<a href="">· 会员中心</a>
+				</dd>
+				
+				<dd>
+					<a ui-sref="aboutService">· 保证金介绍</a>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<a href="">服务保障</a>
+				</dt>
+				<dd>
+					<a href="">· 如实描述</a>
+				</dd>
+				<dd>
+					<a href="">· 成交必卖</a>
+				</dd>
+				<dd>
+					<a href="">· 七天退换</a>
+				</dd>
+				<dd>
+					<a href="">· 拍前预展</a>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<a ui-sref="aboutService">帮助中心</a>
+				</dt>
+				
+				<dd>
+					<a ui-sref="aboutService">· 发布拍品</a>
+				</dd>
+			
+			</dl>
+			<div class="code">
+				d
+			</div>
+			<dl class="widther">
+				<dt>
+					<a ui-sref="aboutService">支付方式</a>
+				</dt>
+				<dd>
+					<a ui-sref="aboutService">· 付款须知</a>
+				</dd>
+				<dd>
+					<a ui-sref="aboutService">· 充值提现</a>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<a ui-sref="aboutService">关于我们</a>
+				</dt>
+				<dd>
+					<a ui-sref="aboutService">· 关于我们</a>
+				</dd>
+				<dd>
+					<a ui-sref="aboutService">· 隐私条款</a>
+				</dd>
+				<dd>
+					<a ui-sref="aboutService">· 法律声明</a>
+				</dd>
+			</dl>
+			<dl class="last">
+				<dt>
+					<a ui-sref="aboutService">联系我们</a>
+				</dt>
+				<dd>
+					<a ui-sref="aboutService">· 客服中心</a>
+				</dd>
+				<dd>
+					<a ui-sref="aboutService" >· 商务合作</a>
+				</dd>
+			</dl>
+		</div>
+		<div class="clear"></div>
+		<p class="mt30">
+			Copyright Reserved 2015-2016  开拍网(www.kaipai.com)版权所有　　电信与信息服务业务经营许可证 浙ICP备88888888号
+		</p>
+	</div>
+</div>

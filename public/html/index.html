@@ -1,0 +1,250 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>商家后台系统</title>
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="../css/base.min.css" />
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="../css/biz.min.css" />
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="../css/common.min.css" />  
+  
+  <script type="text/javascript" src="../js/lib/sea.js"></script>  
+
+  <script type="text/javascript">
+    seajs.config({
+      base: "../js/lib/",
+      alias: {
+        "jquery": "jquery.min.js",
+        "jLazyLoad": "jquery.lazyload.js"
+      }
+    })
+    seajs.use("../js/work/main");
+  </script>
+  
+
+</head>
+
+<body>
+<div class="pub-top">
+  <div class="wrap">
+    <div class="pub-top-mobile fl"><a href="###">手机车蚂蚁</a></div>
+    <div class="pub-top-home fl"><a href="http://www.cmyz63.com">返回车蚂蚁首页</a></div>
+    <div class="fr"><a href="http://biz.cmyz63.com/login.php?act=out">退出登录</a></div>
+  </div>
+</div>
+<div class="biz_nav bgwrite">
+  <div class="clear"></div>
+  <div class="wrap">
+    <div class="biz_logo fl"> <img src="http://img.cmyz63.com/version6/header/biz_logo.png"> </div>
+    <ul class="biz_navlist">
+      <li class="cur"><a href="http://biz.cmyz63.com/?act=index">工作台</a></li>
+      <li ><a href="http://biz.cmyz63.com/order.php?act=signoff">订单管理</a></li>
+      <!--<li ><a href="http://biz.cmyz63.com/case.php?act=index">受理中心</a></li>-->
+      <li ><a href="http://biz.cmyz63.com/voucher.php?act=index">体验券</a></li>
+      <li ><a href="http://biz.cmyz63.com/income.php?act=index">财务管理</a></li>
+      <li ><a href="http://biz.cmyz63.com/set.php?act=index">店铺设置</a></li>
+    </ul>
+  </div>
+</div>
+<div class="clear"></div><!--主体位置-->
+<div class="biz_bigimg">
+  <div class="biz_avatar fl"> <img src="http://img.cmyz63.com/upload/public/supplier/1389776746_11.JPG" /> </div>
+  <div class="biz_bigimg_info pr fl">
+    <div class="biz_bigimg_info_top"> 
+    	<span class="biz_bigimg_info_tit fl ">cnoption 汽车会所</span> 
+    	<span class="xingxing fl ml10 mr10"> 
+    		<span style=" width:72%;"></span> 
+    	</span> 
+    	<a href="http://biz.cmyz63.com/explain.php?act=supplierLevel">&lt;&lt; 商家等级制度说明 &gt;&gt;</a>
+    	<a href="http://biz.cmyz63.com/explain.php?act=fee">&lt;&lt; 服务费制度说明 &gt;&gt;</a> 
+    </div>
+    <div class="clear"></div>
+    <div class="biz_bigimg_info_num">
+    	<span><em>4</em>笔服务成功的订单</span>
+        <span><em>0</em>笔订单已签收  等待服务</span>
+    </div>
+    <div class="biz_bigimg_info_price">
+    	<div class="meb_notice">
+        通告：最新【洗车+打蜡】活动，请做好接待服务！
+        </div>
+<!--        <div class="total">
+        	<h2></h2>
+            <h3>账户总金额</h3>
+            <span>
+            	&yen;<em>0</em>
+            </span>
+        </div>
+        <div class="frozen">
+        	<h2></h2>
+            <h3>冻结金额</h3>
+            <span>
+            	&yen;<em>0</em>
+            </span>
+        </div>
+        <div class="get">
+        	<h2></h2>
+            <h3>可提现金额</h3>
+            <span>
+            	<i>&yen;<em>0</em></i>
+            </span>
+        </div>
+        -->
+        
+        
+    </div>
+  </div>
+</div>
+<div class="clear"></div><div class="wrap">
+  <div class="biz_index_box">
+    <!-- <div class="biz_index_li biz_index_con">
+      <div class="biz_index_li_tit"><i></i>手动货物签收</div>
+      <em class="biz_index_li_tip">（建议使用车蚂蚁商家版APP进行签收，轻松扫描二维码即可签收）</em>
+      <div class="biz_index_li_input mt15">
+        <input type="text" placeholder="请输入订单编号确认签收"  class="com_input" name="signoff_code"/>
+        <div class="pub-btn-small-orange" id='signoff'>确认</div>
+      </div>
+    </div>
+    <div class="biz_index_li2 biz_index_con">
+      <div class="biz_index_li_tit"><i></i>手动验单（s开头验证码）</div>
+      <div class="biz_index_li_input mt15">
+        <input type="text" placeholder="请输入服务验证码"  style="width:218px;" class="com_input" name="scode"/>
+        <div class="pub-btn-small-orange" id="scheck">确认</div>
+      </div>
+    </div> -->
+    <div class="biz_index_li3 biz_index_con">
+      <div class="biz_index_li_tit"><i></i>免费体验券验单（c开头验证码）</div>
+      <div class="biz_index_li_input mt15">
+        <input type="text" placeholder="请输入体验券券号"  class="com_input" name="vcode"/>
+        <div class="pub-btn-small-orange" id="vcheck">确认</div>
+      </div>
+    </div>
+    <!--<div class="biz_index_li4 biz_index_con">
+      <div class="biz_index_li_tit"><i></i>受理中心验单</div>
+      <div class="biz_index_li_input mt15">
+        <input type="text" placeholder="请输入受理中心验证码"  class="com_input" name="case_code"/>
+        <div class="pub-btn-small-orange" id="case">确认</div>
+      </div>
+    </div>-->
+  </div>
+</div>
+<script type="text/javascript">
+  jQuery.notice = jQuery.prototype  = function(string,delay,type,callback,bool){
+    var _string = string || "";
+    var _delay = (typeof delay == "number" && delay > 3 ) ? delay : 10;
+    var _type = delay ? delay : 1;
+      if(typeof delay =="string"){
+        _type = ["sucess","warning","error","tip"].indexOf(delay)+1;
+      };
+      if(typeof delay =="number" && delay<=3){
+        _type = delay;
+      };
+    var _callback = callback || null,
+      _bool = bool;
+    ye_msg.open(_string,_delay,_type,_callback,_bool);
+  };
+
+  
+</script>
+
+
+<script type="text/javascript">
+  $(function(){
+  	//签收
+  	$('#signoff').click(function(){
+  		var code = $('input[name=signoff_code]').val();
+  		if(code=='' || code.length!=16){$.notice("请正确核对订单号！",3);return false;}
+  		$.post(urlCmy('index','checkSignoff'), { code: code},
+  		   function(data){
+  			  if(data==4){
+  				  $.notice("签收不成功！请核对商家和订单号！",1);
+  			  }else if(data==7){
+  				  $.notice("请重新登录",3);
+  			  }else if(data==3){
+  				  $.notice("该订单已经被签收！无需再次操作！",3);
+  			  }else{
+  				  $.notice("操作成功！");
+  				  $('input[name=signoff_code]').val('');
+  			  }
+  		});
+  	});	
+  	//体验券码
+  	$('#vcheck').click(function(){
+  		var code = $('input[name=vcode]').val();
+  		if(code=='' || code.length!=8){$.notice("请正确输入体验券券码!",1);return false;}
+  		$.post(urlCmy('index','doServicecode'), { code: code},
+  		   function(data){
+  			  if(data==2){
+  				  $.notice("操作失败！请正确核对体验券券码",1);
+  			  }else if(data==4){
+  				  $.notice("操作失败！该体验券已过期！",3);
+  			  }else if(data==7){
+  				  $.notice("请重新登录",3);
+  			  }else{
+  				  $.notice("体验券使用成功！");
+  				  $('input[name=vcode]').val('')
+  			  }
+  		});
+  	});	
+  	//受理
+  	$('#case').click(function(){
+  		var code = $('input[name=case_code]').val();
+  		if(code=='' || code.length!=9){$.notice("请正确输入受理中心服务验证码!",1);return false;}
+  		$.post(urlCmy('index','checkCase'), { code: code},
+  		   function(data){
+  			  if(data==4 || data==2){
+  				  $.notice("操作失败！请正确填写受理服务验证码",1);
+  			  }else if(data==7){
+  				  $.notice("请重新登录",3);
+  			  }else if(data==3){
+  				  $.notice("此受理中心服务验证码已使用！请使用其他受理中心服务验证码",3);
+  			  }else{
+  				  $.notice("操作成功！");
+  				  $('input[name=case_code]').val('')
+  			  }
+  		});
+  	});	
+  	//服务
+  	$('#scheck').click(function(){
+
+  		var code = $('input[name=scode]').val();
+  		if(code=='' || code.length!=9){$.notice("请正确输入服务验证码!",1);return false;}
+  		$.post(urlCmy('index','checkServiceCode'), {code: code},
+  		   function(data){
+  			   
+  			  if(data==4 || data==2){
+  				  $.notice("操作失败！请正确填写服务验证码",1);
+  			  }else if(data==7){
+  				  $.notice("请重新登录",3);
+  			  }else if(data==3){
+  				  $.notice("此验证码已使用！请使用其他验证码",3);
+  			  }else if(data==5){
+  				  $.notice("该验证码已经过期！",2);
+  			  }else if(data == 8){
+  				$.notice('电子凭证核销失败!', 2);
+  			}else{
+  				  $.notice("操作成功！");
+  				  window.location.href=urlCmy('order','over');
+  			  }
+  		});
+  	});	
+  	
+  })
+
+</script>
+<ul>
+  <li>
+    <a href="" class="item"></a>
+    <p></p>
+  </li>
+</ul>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>

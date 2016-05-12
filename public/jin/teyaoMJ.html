@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>特邀名家</title>
+	<link rel="stylesheet" href="style/common.css">
+    <link rel="stylesheet" href="style/css.css">
+    
+</head>
+<body>
+
+
+<div class="Fixyue" >
+    <div class="Fixclose"><a href=""><img src="images/clo_03.jpg"></a></div>
+    <div class="Fixyue3">付款金额 <span class="Fixyue3num">1000000</span></div>
+    <div class="Fixyue1">
+      <ul>
+        <li class=""> <img src="images/zf_03.png"> 余额支付</li>
+        <li class=""><img src="images/zf_06.png"> 支付宝</li>
+        <li class="fix_mor"><img src="images/zf_12.png"> 微信钱包</li>
+        <li class=""><img src="images/zf_14.png"> 网银支付</li>
+        <li class=""><img src="images/zf_20.png"> 银行汇款</li>
+      </ul>
+    </div>
+    <div class="Fixyue2">确认支付</div>
+    
+     
+</div>
+
+
+
+	<div class="toper">
+    <div class="center">
+        <div class="mlinknav">
+            <a ui-sref="main">开拍网首页</a>
+        </div>
+        <div class="uinfonav"  ng-if="hasLogin">
+            <div id="logorout">
+                <span>您好!</span>
+                <div class="user_name">
+                    <a class="nameA" ui-sref="indexPersonal"  ng-bind="nickName"></a>
+                    <div id="toperNav">
+                        <a ui-sref="listOrderPersonal" >我的订单</a>
+                        <a ui-sref="collectionAuctionlistPersonal" >我的收藏</a>
+                        <a  ui-sref="mybalanceCustomerPersonal" >我的余额</a>
+                        <a ui-sref="feedbackListPersonal" >意见反馈</a>
+                        <a href="javascript:" ng-click="loginOut()">安全退出</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <a class="footprint" href="">收藏本站</a>
+
+        </div>
+
+        <div class="uinfonav" ng-if="!hasLogin">
+            <span id="logorout" style="font-size:14px">
+                <a class="register" rel="nofollow" ui-sref="userRegister">免费注册</a>
+                <a target="_self" rel="nofollow" ui-sref="userLogin">用户登录</a>
+               <!-- <a href="#">商家中心</a> -->
+         
+        </span>
+        |
+        <a class="footprint" href="">收藏本站</a>
+    </div>
+
+</div>
+</div>
+<div class="header">
+<div class="center">
+    <a href="#" class="logonav">
+        <img src="images/logo.png" />
+    </a>
+    <div class="searchnav">
+        <form style=" height:35px;" action="/paimai/search/all/">
+            <input type="text" class="ipt" name="t" id="txtKw" value="输入关键词/名称" />
+            <a href="javascript:;" class="btn paimaisearchbtn">搜索</a>
+        </form>
+        <div class="hotlink">
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+            <a href="#" >和田玉</a>
+        </div>
+    </div>
+</div>
+</div>
+<div class="menuer">
+<div class="center">
+    <div class="mlist">
+        <a ui-sref="main" >首页</a>
+        <a ui-sref="goodList" >所有自由拍</a>
+        |
+        <a ui-sref="goodList" >国画</a>
+        ·
+        <a ui-sref="goodList" >书法</a>
+        ·
+        <a ui-sref="goodList" >金石篆刻</a>
+        ·
+        <a ui-sref="goodList" >古玩杂项</a>
+        ·
+        <a ui-sref="goodList" >古典陶瓷</a>
+        ·
+        <a ui-sref="goodList" >宗教文化</a>
+        ·
+        <a ui-sref="goodList" >西画雕塑</a>
+        ·
+        <a ui-sref="goodList" >奢侈品</a>
+        ·
+        <a ui-sref="goodList" >宝石翡翠</a>
+    </div>
+</div>
+</div>
+<!--End头部-->
+<!--main开始-->
+<div class="kp_main">
+    <div class="center " >
+       <div class="ty_main01">特约名家 > 定制详情</div>
+       <div class="ty_main02">
+           <div class="ty_left">
+              <img src=""> 
+           </div>
+           <div class="ty_center">
+               <div><span class="ty_new">正在进行</span><span>距结束 <span class="ty_col">5</span>天<span class="ty_col">08</span>时<span class="ty_col">30</span>分<span class="ty_col">20</span>秒</span></div>
+               <p class="ty_title">李黎明和（五字以内）</p>
+               <div class="ty_price">
+                 <span class="ty_price1">当前价  <span class="ty_col1">￥</span><span class="ty_price2">2400</span></span>
+                 <span >[<span class="ty_col1">3</span>次成交]</span>
+               </div>
+               <div class="ty_price">
+                  <span class="ty_price1">订金： ￥1.000</span>
+                  <span >剩余数量：2</span>
+               </div>
+               <div class="ty_cont">
+                   订制商品属性特殊，不以个人喜好等原因退换。可自定内容请于订单备注中说明，或联系客服。作品交付根据作者创作时间不定，介意慎拍。
+               </div>
+               <div class="ty_hek">
+                 <div class="ty_hekl">
+                     <div class="ty_lxkf">联系客服</div>
+                     <div class="ty_lxkf1">
+                         <span class="ty_lxkf2"><a href="">关注</a></span><span class="ty_num1">选择数量</span>
+                         <span class="ty_aa">件</span>
+                         <div class="ty_addnum"><input type="text"><button>+</button></div>
+                         
+                     </div>
+
+
+                 </div>
+                 <div class="ty_hekr">订制</div>
+               </div>
+           </div> 
+           <div class="ty_right" >
+               <div class="ty_cjjl"> 成交记录</div>
+               <div style="height:auto">
+                  <table>
+                    <tr class="ty_tabletr"><td width="30%">订制买家</td><td width="30%">出价</td><td width="40%">出价时间</td></tr>
+                    <tr class="ty_tabletd"><td>张灵国</td><td>20000</td><td>12-08 11:16</td></tr>
+                    <tr class="ty_tabletd"><td>张灵国</td><td>20000</td><td>12-08 11:16</td></tr>
+                    <tr class="ty_tabletd"><td>张灵国</td><td>20000</td><td>12-08 11:16</td></tr>
+                    <tr class="ty_tabletd"><td>张灵国</td><td>20000</td><td>12-08 11:16</td></tr>
+                    <tr class="ty_tabletd"><td>张灵国</td><td>20000</td><td>12-08 11:16</td></tr>
+                  </table>
+              </div>
+           </div>  
+       </div>
+       <div class="ty_main03">
+         <ul>
+           <a href=""><li class="ty_act">名家介绍</li></a>
+           <a href=""><li>出价记录（3）</li></a>
+           <a href=""><li>服务保障</li></a>
+           <a href=""><li>保证金须知</li></a>
+         </ul>
+       </div>
+       <div class="ty_main04">
+         <ul>
+           <li class="ty_01">竞拍流程</li>
+           <li >交保证金</li>
+           <li class="ty_03"><img src="images/s_07.jpg"></li>
+           <li >出价竞拍</li>
+           <li class="ty_03"><img src="images/s_07.jpg"></li>
+           <li >竞拍成功</li>
+           <li class="ty_03"><img src="images/s_07.jpg"></li>
+           <li >攥刻请自备印石邮至我司</li>
+           <li class="ty_03"><img src="images/s_07.jpg"></li>
+           <li >等待作者创作</li>
+           <li class="ty_03"><img src="images/s_09.jpg"></li>
+           <li >完成收货</li>
+         </ul>
+       </div>
+       <div class="ty_main05">
+          <div class="ty_zzleft"><img src=""></div>
+          <div class="ty_zzcenter">
+            <ul>
+              <li><span class="ty_aut">李明辉</span><span class="ty_aut1">[中国美院教师、书法学博士、西泠印社社员]</span></li>
+              <li><a href=""><span class="ty_grjl">个人简历</span></a><a href=""><span class="ty_grjl">获奖及著作</span></a><a href=""><span class="ty_grjl">作品欣赏</span></a></li>
+            </ul>
+          </div>
+          <div class="ty_zzright"><img src="images/tp_03.jpg"></div>
+         
+       </div>
+       <div class="ty_main06">
+        <p class="ty_hjiang">个人简历</p>
+        <p class="ty_jianjie1"> 
+            李明恒，毕业于中国美术学院书法系并留校，书法学博士。获首届“国家艺术基金。青年艺术创作人才项目”，浙江省首批“新峰计划”人才。现为中国美术学院教师、西泠印社社员、中国书法家协会会员、浙江省书法家协会攥刻创作委员会委员。
+        </p>
+        <div class="ty_jianjie2"></div>
+
+       </div>
+       <div class="ty_main07">
+         <img src="images/tp_09.jpg">
+       </div>
+       <div class="ty_main08">
+           <p class="ty_hjiang">获奖及著作</p>
+           <div>
+               <p class="ty_hjiang1">获奖:</p>
+               <ul class="ty_hjiang2">
+                 <li>全国第六届篆刻大展三等奖</li>
+                 <li>第五届全浙书法大展金奖</li>
+                 <li>浙江省第二届、第四届篆刻大展金奖</li>
+                 <li>第六届、第八届全浙书法大展银奖</li>
+                 <li>“万山红遍”浙江书法大展优秀奖(最高奖)</li>
+                 <li>“万山红遍”浙江篆亥吠展银奖</li>
+                 <li>第三、四、五届浙江省青年书法篆刻大展银奖</li>
+               </ul>
+           </div>
+           <div>
+               <p class="ty_hjiang1">参展:</p>
+               <ul class="ty_hjiang2">
+                 <li>国际书艺动向中日韩书法名家展(首尔、大邱 )</li>
+                 <li>全国第五局篆刻艺术大展</li>
+                 <li>全匡第七届篆刻艺术大展</li>
+                 <li>“浙江书法六十拜”浙江书法精英展</li>
+                 <li>中韩国际篆刻交流展</li>
+               </ul>
+           </div>
+           <div>
+               <p class="ty_hjiang1">机构收藏:</p>
+               <ul class="ty_hjiang2">
+                 <li>应邀为上海世博会杭州馆创作大型书法作品两件并被收藏</li>
+                 <li>篆刻作品被浙江美术馆攻藏</li>
+                 <li>书法作品《行草<禅悦>手卷》被中国美术学院收藏</li>
+                 <li>篆刻作品《印屏》被叶一苇艺术馆收藏</li>
+               </ul>
+           </div>
+           <div>
+               <p class="ty_hjiang1">论文:</p>
+               <ul class="ty_hjiang2">
+                 <li>《关士苏轼尺犊书法的两个问题—以<渡海帖>为例》</li>
+                 <li>《赵孟頫<道德经>浅议》</li>
+                 <li>《中日艺术教育博士研究生培养比较》</li>
+                 <li>篆刻作品《印屏》被叶一苇艺术馆收藏</li>
+               </ul>
+           </div>
+           <div>
+               <p class="ty_hjiang1">著作:</p>
+               <ul class="ty_hjiang2">
+                 <li>《新峰计划书家档案李明桓》</li>
+                 <li>《李明桓篆刻选集》</li>
+                 <li>《普唐二王书系字典》</li>
+               </ul>
+           </div>
+           <p class="ty_hjiang1">| 艺术评价 |</p>
+           <p class="ty_jianjie1"> 
+              收藏为什么选择李明桓？李明桓有以下几个特点:1、学术优势一中国美院科班出身，为国美书法专业成立50余年来首位保送的硕士研究生，现在是书法学溥土。专业优秀，基础扎实，书法篆刻都受过系统
+学术训练，有着优秀的创作能力和学术研究水准，且互为补充，良性发展态势显著;2,平台优势—研究
+生毕业后即留校任教，学院背景的艺术家无疑是艺术品市场的宠儿，且为西冷印社最年轻社员之一，也是
+江省青年创作骨干，2013年成为首批省级“新峰人才，既具学院背景，又有社会平台，长线发展空间广阔; 3,价格优势一一无论是与纵向与横向的艺术家相比，其作品性价比极高，投资价值巨大，现有价格正
+处于稳步攀升阶段，随着其自身价值的提升与市场的追捧，升值潜力巨大。给予以上优势，相信李明桓老师
+的发展值得藏家期待。
+
+          </p>
+       </div>
+       <div class="ty_main09">
+           作品欣赏
+       </div>
+       <div class="ty_main10">
+         <ul>
+           <li><img src="images/tp_13.jpg">
+               <br>不俗即仙骨<br>多情乃佛心
+           </li>
+           <li><img src="images/tp_15.jpg">
+              <br>安居吉兮
+           </li>
+           <li><img src="images/tp_17.jpg">
+              <br>烟云供养
+           </li>
+           <li><img src="images/tp_19.jpg">
+              <br>福寿延长
+           </li>
+
+           <li><img src="images/tp_13.jpg">
+              <br>流水能西
+           </li>
+           <li><img src="images/tp_15.jpg">
+              <br>真趣 
+           </li>
+           <li><img src="images/tp_17.jpg">
+              <br>观自在
+           </li>
+           <li><img src="images/tp_19.jpg">
+              <br>长乐无极
+           </li>
+         </ul>
+       </div>
+
+
+    </div>
+</div>
+
+
+<div class="botNav">
+    <div class="center">
+        <div class="botnav-item botnav-item1">
+            <h4>
+                <span>诚实信用</span>
+                <em>对拍品的如实描述，卖家的承诺服务</em>
+            </h4>
+            <dl>
+                <dt>竞买者保障</dt>
+                <dd><a href="#">·关于拍品</a></dd>
+                <dd><a href="#">·关于拍卖</a></dd>
+                <dd><a href="#">·关于售后</a></dd>
+                <dd><a href="#">·其它保障</a></dd>
+
+            </dl>
+        </div>
+        <div class="erweima fl">
+            <p>开拍网公众号</p>
+            <span>“开拍网”</span>
+        </div>
+        <div class="botnav-item botnav-item2">
+            <h4>
+                <span>双向交流</span>
+                <em>专业服务，阳光竞拍</em>
+            </h4>
+            <dl>
+                <dt>个人 | 商家入驻</dt>
+                <dd><a href="#">·入驻规则</a></dd>
+                <dd><a href="#">·保证金问题</a></dd>
+                <dd><a href="#">·诚信问题</a></dd>
+                <dd><a href="#">·其它</a></dd>
+
+            </dl>
+        </div>
+        <div class="botnav-item botnav-item3">
+            <h4>
+                <span>售后无忧</span>
+                <em>明白承诺，周到服务</em>
+            </h4>
+            <dl>
+                <dt>关于我们</dt>
+                <dd><a href="#">·免责声明</a></dd>
+                <dd><a href="#">·版权声明</a></dd>
+                <dd><a href="#">·联系我们</a></dd>
+                <dd><a href="#">·关于开拍</a></dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="footer">
+
+    <div class="footernav center">
+        <a href="#">首页</a><em>|</em>
+        <a href="#">国画</a><em>|</em>
+        <a href="#">书法</a><em>|</em>
+        <a href="#">金石篆刻</a><em>|</em>
+        <a href="#">古玩杂项</a><em>|</em>
+        <a href="#">古典陶瓷</a><em>|</em>
+        <a href="#">西画雕塑</a><em>|</em>
+        <a href="#">宗教文化</a><em>|</em>
+        <a href="#">奢侈品</a><em>|</em>
+        <a href="#">宝石翡翠</a><em>|</em>
+        <a href="#">联系我们</a>
+        <p>
+            公司地址: 浙江省杭州市下城区朝晖路179号嘉汇大厦2号楼5层  电话: 0571-85819321 18867538398   邮箱: kaipai123@sina.com<br>
+版权所有 © 杭州易开拍网络科技有限公司  浙ICP备13004819号-1   网址: www.kaipai123.com
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

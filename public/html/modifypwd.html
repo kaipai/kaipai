@@ -1,0 +1,106 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>商家后台登录系统</title>  
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="/css/common.css" />
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="/css/list.css" />
+  <link charset="utf-8" rel="stylesheet" media="screen" type="text/css" href="/css/login.css" />
+  <link rel="stylesheet" type="text/css" href="/css/font/iconfont.css">  
+  <script type="text/javascript" src="/js/lib/sea.js"></script>
+  
+  
+  <script type="text/javascript">
+  seajs.config({
+    base: "/js/lib/",
+    alias: {
+      "jquery": "jquery.js",        
+      'handlebars': 'handlebars.js'
+    }
+  })
+  seajs.use("/js/trade/login");
+</script>
+</head>
+
+<body>  
+
+  <div class="pub-top">
+    <div class="wrap">
+      <div class="pub-top-mobile fl"><a href="###">手机车蚂蚁</a></div>
+      <div class="pub-top-home fl"><a href="http://www.cmyz63.com">返回车蚂蚁首页</a></div>
+      <div class="fr"><a href="http://biz.cmyz63.com/login.php?act=out">退出登录</a></div>
+    </div>
+  </div>
+  <div class="biz_nav bgwrite">
+    <div class="clear"></div>
+    <div class="wrap">
+      <div class="biz_logo fl"> <img src="http://img.cmyz63.com/version6/header/biz_logo.png"> </div>
+      <ul class="biz_navlist">
+        <li ><a href="http://biz.cmyz63.com/?act=index">工作台</a></li>
+        <li class="cur"><a href="http://biz.cmyz63.com/order.php?act=signoff">订单管理</a></li>
+        <!--<li ><a href="http://biz.cmyz63.com/case.php?act=index">受理中心</a></li>-->
+        <li ><a href="http://biz.cmyz63.com/voucher.php?act=index">体验券</a></li>
+        <li ><a href="http://biz.cmyz63.com/income.php?act=index">财务管理</a></li>
+        <li ><a href="http://biz.cmyz63.com/set.php?act=index">店铺设置</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="clear"></div><!--主体位置-->
+  <div class="biz_bigimg">
+    <div class="biz_avatar fl"> <img src="/img/cefc.jpg" /> </div>
+    <div class="biz_bigimg_info pr fl">
+      <div class="biz_bigimg_info_top"> 
+        <span class="biz_bigimg_info_tit fl ">cnoption 汽车会所</span> 
+        <span class="xingxing fl ml10 mr10"> 
+          <span style=" width:72%;"></span> 
+        </span> 
+        <a href="http://biz.cmyz63.com/explain.php?act=supplierLevel">&lt;&lt; 商家等级制度说明 &gt;&gt;</a>
+        <a href="http://biz.cmyz63.com/explain.php?act=fee">&lt;&lt; 服务费制度说明 &gt;&gt;</a> 
+      </div>
+      <div class="clear"></div>
+      <div class="biz_bigimg_info_num">
+        <span><em>4</em>笔服务成功的订单</span>
+          <span><em>0</em>笔订单已签收  等待服务</span>
+      </div>
+      <div class="biz_bigimg_info_price">
+        <div class="meb_notice">
+          通告：最新【洗车+打蜡】活动，请做好接待服务！
+        </div>        
+      </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+
+  <div class="wrap cgj-modify-login">    
+        <div class="biz_index_box2">
+          <div class="biz_info">
+            <div class="title"> <span>修改密码</span> </div>
+            <form id="J_pwform">
+              <div id="J_Message" class="login-msg sl-error error cgj-modify-att">
+                <i class="iconfont">&#xf00b4</i>
+                <p class="error"></p>                  
+              </div>
+              <div id="J_sucMessage" class="login-msg sl-suc suc cgj-modify-att">
+                <i class="iconfont">&#xf00b4</i>
+                <p class="suc"></p>                  
+              </div>
+              <div class="biz_info_con mt30">
+                <div class="biz_info_conli"> <span>请输入旧密码：</span>
+                  <input class="pub-input" type="password" name="old_password" id="J_oldpwd">
+                </div>
+                <div class="biz_info_conli"> <span>请输入新密码：</span>
+                  <input class="pub-input" type="password" name="new_password" id="J_newpwd">
+                </div>
+                <div class="biz_info_conli"> <span>再输入一次：</span>
+                  <input class="pub-input" type="password" name="re_password" id="J_renewpwd">
+                </div>
+                <div class="biz_info_conli"> <span>&nbsp;</span><a id="J_modify_btn" class="pub-btn-middle-orange">确定修改</a> </div>
+              </div>
+            </form>
+          </div>
+        </div>    
+  </div>
+  <div class="clear"></div>
+</body>
+</html>

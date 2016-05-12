@@ -1,0 +1,93 @@
+/* Minification failed. Returning unminified contents.
+(1,809): run-time error CSS1062: Expected semicolon or closing curly-brace, found '+'
+(1,889): run-time error CSS1062: Expected semicolon or closing curly-brace, found '+'
+(1,905): run-time error CSS1062: Expected semicolon or closing curly-brace, found '+'
+ */
+html{height:100%;-overflow-y:scroll;border:0}body{min-height:100%;-height:100%;position:relative;color:#000;background:#ededef;font:12px/15px SimSun}body,h1,h2,h3,h4,h5,h6,p,div,dl,dt,dd,ul,ol,li,form,button,input,textarea,th,td{margin:0;padding:0;border:0}h1,h2,h3,h4,h5,h6,select,input,textarea,button,table{font-size:100%;font-weight:normal}ul,ol,dl{list-style:none}a{text-decoration:none;color:#000}u{text-decoration:none}i,em{font-style:normal}a:hover{text-decoration:underline}a img{border:none}a,select,input,textarea{outline:none}table{border-collapse:collapse;border-spacing:0}th{text-align:left;font-weight:normal}.dpb{display:block;margin:0;padding:0}.fl{float:left}.fr{float:right}.pr{position:relative}.pa{position:absolute}.cb:before,.cb:after{content:"";display:table}.cb:after{clear:both}.cb{+zoom:1}.dib{display:-moz-inline-box;-moz-box-align:center;display:inline-block;+display:inline;+zoom:1;vertical-align:middle}.back{background:none!Important;}.bord{border:none!Important;}.hp{width:100%;}.rall{width:980px;margin:0 auto;}.mininav{height:31px;line-height:31px;}.mininav dd{float:left;}.mininav dt{float:right;}.mininav dt span{font-family:"微软雅黑";font-size:16px;}.navAear{height:80px;}.nav{height:80px;background:url(../../images/aboutus/s_05.jpg) repeat-x;}.nav h2{margin-right:460px;}.navZ{float:left;}.navZ dl dd{float:left;width:92px;height:80px;text-align:center;margin-left:20px;}.navZ dl dd a{font-family:"微软雅黑";font-size:16px;color:#FFF;width:92px;display:block;line-height:80px;height:80px;}.navZ dl dd a:hover{background:url(../../images/aboutus/s_10.jpg) no-repeat center 55px;width:92px;display:block;line-height:80px;height:80px;text-decoration:none;}.content{overflow:hidden;margin-top:15px;}.contR{margin:8px 8px 40px 0;_margin:0;box-shadow:0 0 10px 0 #909090;width:770px;_width:780px;background:#FFF;padding-bottom:20px;}.contRM{border-bottom:1px solid #cfcccc;margin:13px 38px 0 15px;line-height:40px;}.contRM h4{background:url(../../images/aboutus/s_19.jpg) no-repeat left center;font-family:"微软雅黑";font-size:18px;font-weight:500;color:#333;padding-left:10px;margin-left:5px;}.contRM span{color:#dad4d4;margin-left:10px;}
+
+
+
+
+
+.conList{margin:15px 25px 0 25px;line-height:30px;font-size:14px;font-family:"微软雅黑";}
+
+.conList2{margin:15px 0 0 0;line-height:30px;}
+
+
+
+
+
+/*.conList p{text-indent:2em;margin-bottom:10px;}*/
+
+.contL{margin:8px 0 20px 8px;_margin:0;box-shadow:0 0 10px 0 #909090;background:#FFF url(../../images/aboutus/s_16.jpg) no-repeat 10px 20px;width:180px;font-family:"微软雅黑";padding-bottom:20px;}.contL h4{line-height:30px;border-bottom:1px solid #cfcccc;width:123px;text-align:center;font-family:"微软雅黑";font-size:18px;color:#333;margin:23px 0 15px 40px;font-weight:400;}.contL dl{width:123px;margin-left:40px;line-height:36px;}.contL dd{border-bottom:1px solid #f2f2f2;padding-left:20px;font-size:14px;}.contL dd a{color:#333;}.contL dd a:hover{color:#cc0000;background:url(../../images/aboutus/s_24.jpg) no-repeat right center;padding-right:30px;text-decoration:none;}.foot{margin-top:20px;overflow:hidden;background:url(../../images/aboutus/s_28.jpg) repeat-x top;padding-top:10px;}.foot p{line-height:25px;text-align:center;color:#666;}
+
+
+
+
+
+
+
+.tj_top{ background:url(../../images/aboutus/bg_01.jpg) no-repeat 10px top; height:165px; padding-left:320px; padding-top:260px; font-size:16px;font-family:"微软雅黑";}
+
+.tj_02{ background:#fbfbfb; display:inline-block; padding:20px 25px; font-family:"微软雅黑"; font-size:12px}
+
+.tj_02top{ width:100%; height:18px; margin-bottom:20px; display:inline-block;}
+
+.duty{ background:url(../../images/aboutus/i_01.jpg) no-repeat left center; }
+
+.tj_02 dl,.tj_03 dl{ width:100%; display:block;}
+
+.tj_02 dl dt,.tj_03 dl dt{ float:left; width:4%; color:#383838}
+
+.tj_02 dl dd,.tj_03 dl dd{ float:left; width:96%;color:#666666}
+
+.seniority{ background:url(../../images/aboutus/i_02.jpg) no-repeat left center;}
+
+.tj_02 hr{ margin:20px 0px; display:inline-block;}
+
+
+
+.tj_03{ display:inline-block; width:93%; padding:20px 25px; font-family:"微软雅黑"; font-size:12px;line-height:30px; }
+
+.tj_03top{ width:100%; height:43px; display:block; line-height:43px; background-color:#00FF00; position:relative; margin-top:40px; }
+
+.tj_03top hr{ position:absolute; top:23px; right:0}
+
+.tj_03top span{ float:left;font-size:48px; font-weight:bold; font-family:Arial, Helvetica, sans-serif}
+
+.ui{ background:url(../../images/aboutus/i_03.jpg) 60px 20px no-repeat;}
+
+.tj_03 .tj_03c{ width:100%; font-size:14px; font-weight:bold; font-family:"微软雅黑"; margin-top:20px; display:inline-block;}
+
+.magenta{ color:#dc5f7e;}
+
+.purple{ color:#9d6ca4}
+
+.editor{ background:url(../../images/aboutus/i_04.jpg) 186px 20px no-repeat;}
+
+.app{ background:url(../../images/aboutus/i_05.jpg) 110px 20px no-repeat;}
+
+.sea{ color:#268bb9}
+
+.php{ background:url(../../images/aboutus/i_06.jpg) 110px 20px no-repeat}
+
+.naturals{ color:#d06716}
+
+.deepred{ color:#cd0027;}
+
+.adviser{ background:url(../../images/aboutus/i_07.jpg) 227px 20px no-repeat;}
+
+.xtj-about{display:inline-block}
+.xtj-about dl{ width:100%;display:inline-block}
+.xtj-about dl dt{ width:110px; height:156px; border:1px solid #ccc; margin-bottom:10px; float:left; display:table}
+.xtj-about dl dt p{ display:table-cell; vertical-align:middle; text-align:center; color:#333; font-size:16px; font-weight:bold;}
+.xtj-about dl dd{ width:284px; height:156px; border:1px solid #ccc; margin-left:10px; float:left; display:table; margin-bottom:10px;}
+.xtj-about dl dd p{ display:table-cell; vertical-align:middle; padding-left:20px; font-size:12px; color:#676767; line-height:24px;}
+.xtj-about dl dd p span{ font-size:14px; color:#323232; margin-bottom:6px; display:inline-block}
+
+
+
+
+
+
+

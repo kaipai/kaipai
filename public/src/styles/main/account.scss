@@ -1,0 +1,688 @@
+.logTop {
+	width: 100%;
+	height: 128px;
+	.topLogo {
+		padding-top: 35px;
+		float: left
+	}
+	.topLogo img {
+		height: 66px;
+		display: block;
+		float: left
+	}
+	.topLogo h1 {
+		font-size: 24px;
+		line-height: 67px;
+		float: left;
+		font-weight: normal;
+		border-left: 1px solid #bebebe;
+		margin-left: 16px;
+		padding-left: 16px;
+		display: inline-block
+	}
+}
+
+
+.logcont {
+	background: #f0f0f0;
+	width: 100%
+}
+
+#masker {
+	display: none;
+	position: fixed;
+	_position: absolute;
+	_overflow: hidden;
+	left: 0;
+	top: 0;
+	background: #000;
+	z-index: 9990;
+	width: 100%;
+	height: 100%;
+	_height: expression(window.screen.availHeight+"px");
+	opacity: .8
+}
+
+.comm-jump-column {
+	display: none;
+	width: 700px;
+	height: 450px;
+	border: 1px solid #ddd;
+	box-shadow: 0 0 5px #fff;
+	position: fixed;
+	_position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -350px;
+	margin-top: -225px;
+	background: #fff;
+	z-index: 9999
+}
+
+.comm-jump-column .title {
+	padding: 10px 20px;
+	border-bottom: 1px solid #ddd
+}
+
+.comm-jump-column .title h3 {
+	float: left;
+	font-size: 16px
+}
+
+.comm-jump-column .title .close {
+	float: right;
+	font-size: 28px;
+	font-weight: 600;
+	cursor: pointer
+}
+
+.comm-jump-column .title .close:hover {
+	color: #bd0000
+}
+
+.comm-jump-column .jump-content {
+	padding: 20px;
+	border-bottom: 1px solid #ddd;
+	height: 300px;
+	overflow: auto;
+	font-size: 14px;
+	line-height: 25px;
+	font-family: 'simsun'
+}
+
+.comm-jump-column .jump-content p {
+	padding: 5px 0;
+	text-indent: 2em
+}
+
+.comm-jump-column .red-btn {
+	border-radius: 3px;
+	width: 200px;
+	margin: 15px auto;
+	text-align: center;
+	font-size: 18px;
+	padding: 10px 20px
+}
+
+
+.findPassword {
+	background: #fff;
+	padding-bottom: 100px;
+	h2 {
+	font: normal 24px/60px '微软雅黑';
+	color: #666;
+	text-indent: 20px;
+	border-bottom: 1px solid #e3e3e3;
+	margin-bottom: 90px
+}
+
+p {
+	font-size: 14px;
+	color: #666;
+	margin-bottom: 20px;
+	display: inline-block
+}
+
+p.small {
+	font-size: 12px;
+	line-height: 20px
+}
+
+p.small a {
+	color: #1a81bb;
+	padding: 0 5px
+}
+
+p small {
+	font-size: 16px;
+	color: #ff8a00
+}
+
+p span b {
+	color: #ad0015;
+	font-weight: normal
+}
+
+p span {
+	width: 330px;
+	text-align: right;
+	display: inline-block;
+	font-size: 14px
+}
+
+p .input {
+	height: 30px;
+	width: 152px;
+	border: 1px solid #ccc;
+	text-indent: 5px;
+	font: normal 14px/30px '微软雅黑'
+}
+
+p a.yanz {
+	width: 110px;
+	height: 40px;
+	display: inline-block;
+	background: #69a5c7;
+	vertical-align: middle;
+	line-height: 40px;
+	color: #fff;
+	text-align: center;
+	margin-left: 8px
+}
+
+p a.back {
+	color: #1a81bb;
+	padding-left: 10px;
+	font-size: 14px
+}
+
+p a.modPhone {
+	color: #2989c0;
+	margin-left: 20px
+}
+
+p .submit {
+	height: 38px;
+	background: #ad0015;
+	color: #fff;
+	width: 260px;
+	border: 0;
+	font: normal 16px/40px '微软雅黑';
+	cursor: pointer;
+	border-radius: 4px;
+	font-size: 14px
+}
+
+p a.yanzheng {
+	height: 40px;
+	line-height: 40px;
+	width: 110px;
+	background: #ccc;
+	display: inline-block;
+	vertical-align: middle;
+	color: #fff;
+	text-align: center;
+	text-decoration: none
+}
+
+strong {
+	height: 23px;
+	font-weight: normal;
+	background: url(/dist/img/account/logicon2.png) no-repeat 0 0;
+	padding: 0 28px 5px;
+	margin-left: 5px;
+	font-size: 14px;
+	display: none
+}
+
+strong em {
+	font-style: normal;
+	font-weight: normal;
+	display: none;
+	color: #ad0015
+}
+
+strong i {
+	font-style: normal
+}
+
+strong.error {
+	padding: 3px 28px 5px;
+	background: url(/dist/img/account/logicon2.png) no-repeat 0 -67px
+}
+
+strong.error.valid {
+	height: 23px;
+	font-weight: normal;
+	background: url(/dist/img/account/logicon2.png) no-repeat 0 0
+}
+
+strong.wrong i {
+	display: none
+}
+
+strong.wrong em {
+	display: inline
+}
+
+.inputBox {
+	width: 260px;
+	height: 30px;
+	line-height: 30px;
+	border: 1px solid #ddd;
+	display: inline-block;
+	vertical-align: middle;
+	box-sizing: content-box
+}
+
+.inputBox i {
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	float: left;
+	background: url(/dist/img/account/logoicon.png) no-repeat #f5f5f5;
+	display: none
+}
+
+.inputBox i.phone {
+	background-position: 3px -74px
+}
+
+.inputBox i.key {
+	background-position: 3px -155px
+}
+
+.inputBox i.name {
+	background-position: 3px 5px
+}
+
+.inputBox em {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	float: left;
+	background: url(/dist/img/account/logoicon.png) no-repeat #f5f5f5;
+	display: none
+}
+
+.inputBox em.phone {
+	background-position: 3px -114px
+}
+
+.inputBox em.key {
+	background-position: 3px -195px
+}
+
+.inputBox em.name {
+	background-position: 3px -35px
+}
+
+.inputBox input {
+	height: 28px;
+	outline: none;
+	color: #666;
+	width: 220px;
+	float: left;background: #fff;
+	border: 0;
+	display: inline-block;
+	text-indent: 5px;
+	font: normal 14px/30px '微软雅黑'
+}
+
+.password-tit {
+	padding: 30px 0 20px
+}
+
+.password-tit img {
+	display: block;
+	margin: 0 auto
+}
+
+.password-tit ul li {
+	font-size: 16px;
+	width: 120px;
+	float: left;
+	margin-left: 65px;
+	text-align: center;
+	display: inline-block;
+	color: #24a447
+}
+
+.password-tit ul li.two {
+	margin-left: 258px
+}
+
+
+.regSuccsss img {
+	width: 67px;
+	height: 67px;
+	margin: 40px auto 0;
+	display: block
+}
+
+.regSuccsss h3 {
+	color: #ff6b00;
+	font: normal 26px/60px '微软雅黑';
+	text-align: center
+}
+
+.regSuccsss h4 {
+	font: normal 16px/40px '微软雅黑';
+	text-align: center;
+	padding-bottom: 50px
+}
+
+.regSuccsss h4 a {
+	color: #2989a4
+}
+}
+
+
+
+.btn_getcode,.btn_getcode:link,.btn_getcode:visited {
+	height: 32px;
+	line-height: 32px;
+	width: 110px;
+	display: inline-block;
+	vertical-align: middle;
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	font-size: 14px;
+	background: #66adcf;
+}
+.btn_getcode:hover {
+	text-decoration: none
+}
+.btn_code_yz,.btn_code_yz:link,.btn_code_yz:visited {
+	background: #cbcbcb;
+}
+
+.reg-bodybg {
+	background: url(/dist/img/account/body_regBg.png) center center no-repeat #e5cc75;
+	padding: 106px 0
+}
+.footer {
+	height: 240px;background:#f8f8f8;
+	p {
+		text-align: center;
+		line-height: 30px;
+		padding-top: 40px
+	}	
+	 p a {
+		color: #666;
+		padding: 0 10px;
+		transition: .5s
+	}
+	 p a:hover {
+		color: #ad0015
+	}
+}
+/* 注册成功 */
+.registerSuc {
+	width: 573px;
+	height: 498px;
+	margin: 0 auto
+}
+
+.sucImg {
+	width: 100%;
+	height: 90px;
+	overflow: hidden;
+	margin-top: 54px
+}
+
+.sucImg img {
+	width: 86px;
+	height: 86px;
+	display: block;
+	margin: 0 auto
+}
+
+.sucFont {
+	width: 100%;
+	height: 71px;
+	font-family: "微软雅黑";
+	color: #b80100;
+	font-size: 30px;
+	line-height: 71px;
+	text-align: center
+}
+
+.sucTip {
+	width: 100%;
+	height: auto;
+	overflow: hidden
+}
+
+.sucTip p {
+	width: 100%;
+	height: 24px;
+	line-height: 24px;
+	color: #999;
+	font-size: 16px;
+	font-family: "微软雅黑";
+	text-align: center
+}
+
+.sucTip a,.sucTip a:hover {
+	color: #2989a4;
+	text-decoration: none
+}
+
+.QR {
+	width: 488px;
+	height: 191px;
+	border-top: 1px solid #ddd;
+	margin: 32px auto 0 auto
+}
+
+.qrCode {
+	width: 127px;
+	height: 127px;
+	float: left;
+	margin-top: 38px;
+	margin-left: 79px
+}
+
+.qrCode img {
+	width: 127px;
+	height: 127px;
+	display: block
+}
+
+.qrFont {
+	width: 176px;
+	height: auto;
+	overflow: hidden;
+	float: left;
+	margin-top: 38px;
+	margin-left: 25px
+}
+
+.qrFont p:nth-child(1) {
+	font-size: 18px;
+	height: 14px;
+	line-height: 24px;
+	color: #333;
+	text-align: left;
+	font-family: "微软雅黑";
+	margin-top: 8px;
+	margin-left: -7px
+}
+
+.qrFont p:nth-child(2) {
+	font-size: 16px;
+	height: 14px;
+	line-height: 24px;
+	color: #666;
+	text-align: left;
+	font-family: "微软雅黑";
+	margin-top: 14px
+}
+/* 登录 */
+.leftImg {
+	margin-top: 70px
+}
+.login {
+	width: 350px;
+	height: 400px;
+	margin: 70px 0 60px;
+	background: #fff
+}
+
+.login h2 {
+	background: #846d64;
+	font: normal 22px/50px '微软雅黑';
+	text-align: center;
+	color: #fff
+}
+
+.login form {
+	display: block;
+	padding: 20px 36px
+}
+
+.login .inputBox {
+	width: 100%;
+	height: 40px;
+	border: 1px solid #ddd;
+	margin-top: 15px
+}
+
+.login .inputBox i {
+	width: 40px;
+	height: 38px;
+	display: inline-block;
+	float: left;
+	background: url(/dist/img/account/logoicon.png) no-repeat #f5f5f5
+}
+
+.login .inputBox i.phone {
+	background-position: 3px 4px
+}
+
+.login .inputBox i.key {
+	background-position: 3px -155px
+}
+
+.login .inputBox em {
+	width: 40px;
+	height: 38px;
+	display: inline-block;
+	float: left;
+	background: url(/dist/img/account/logoicon.png) no-repeat #f5f5f5;
+	display: none
+}
+
+.login .inputBox em.phone {
+	background-position: 3px -36px
+}
+
+.login .inputBox em.key {
+	background-position: 3px -195px
+}
+
+.login .inputBox input {
+	height: 38px;
+	outline: none;
+	line-height: 38px\9;
+	color: #666;
+	width: 230px;
+	float: left;
+	background: #fff;
+	border: 0;
+	display: inline-block;
+	text-indent: 5px;
+	font: normal 14px/38px '微软雅黑'
+}
+
+.login p {
+	padding-top: 10px;
+	line-height: 36px
+}
+
+.login p span {
+	color: #ad0015
+}
+
+.login p a {
+	float: right;
+	color: #1983b7
+}
+
+.login .submit {
+	width: 100%;
+	height: 40px;
+	background: #ad0015;
+	border: 0;
+	font: normal 16px/40px '微软雅黑';
+	color: #fff;
+	cursor: pointer
+}
+
+.login h5 {
+	font: normal 14px/32px '微软雅黑';
+	text-align: center
+}
+
+.login h5 a {
+	color: #1983b7
+}
+
+
+
+.hide {
+	display: none
+}
+
+.clear {
+	clear: both;
+	height: 0;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	overflow: hidden
+}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0
+}
+
+.xtj_hzzh {
+	background: #fff;
+	display: inline-block;
+	overflow: hidden;
+	padding: 0 36px 20px
+}
+
+.xtj_hzzh p {
+	color: #999;
+	width: 100%;
+	font: 12px/25px '宋体';
+	display: inline-block
+}
+
+.xtj_hzzh div {
+	margin-left: -10px;
+	width: 110%;
+	margin-top: 10px
+}
+
+.xtj_hzzh div a {
+	float: left;
+	padding: 0 10px 0 14px;
+	display: inline-block;
+	color: #666;
+	border-right: 1px solid #ddd;
+	height: 16px;
+	text-decoration: none;
+	line-height: 16px;
+	text-indent: 15px
+}
+
+.xtj_hzzh div a:hover {
+	color: #666
+}
+
+.xtj_hzzh a.i_01 {
+	background: url(/dist/img/account/i_02.jpg) no-repeat 10px center
+}
+
+.xtj_hzzh a.i_01:hover {
+	background: url(/dist/img/account/i_02h.jpg) no-repeat 10px center
+}
+
+
+.xtj_hzzh a.i_04 {
+	background: url(/dist/img/account/i_05.jpg) no-repeat 10px center
+}
+
+.xtj_hzzh a.i_04:hover {
+	background: url(/dist/img/account/i_05h.jpg) no-repeat 10px center
+}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["main/main.scss"],"names":[],"mappings":"AAAO,MAAM,CAAC,CAAC,CAAN;EACP,KAAK,EAAE,GAAI,GADH","file":"main/main.css","sourcesContent":[".about a {\r\n  color: red; }\r\n\r\n"],"sourceRoot":"/source/"}

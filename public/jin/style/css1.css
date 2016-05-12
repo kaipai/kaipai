@@ -1,0 +1,20 @@
+.dz_con{border:1px solid #c3c0c1; padding: 10px; font-size: 16px; font-family: "å¾®è½¯é›…é»‘"; overflow: hidden; margin-top: 10px;color: #333; background: #f5f5f5}
+.dz_left{ float: left; width: 220px; height: 250px; margin-right: 30px}
+.dz_left img{ width: 100%; height: 100%}
+.dz_center{ float: left;width: 630px; margin-right: 30px}
+.dz_tit{ font-size: 26px; line-height: 50px; color: #333}
+.dz_tit1{ height: 60px; line-height: 30px}
+.dz_tit2{ border-bottom:1px dashed #c3c0c1;; overflow: hidden;}
+.dz_tit2 ul li{ float: left;width: 208px; display: inline-block;padding-bottom: 20px;}
+.dz_tit3{ line-height: 30px; margin-top: 10px; height: 84px; overflow: hidden;}
+.dz_right{float: right; widows: 248px;}
+.dz_right01{ margin-top: 20px; font-size: 18px}
+.dz_right02{ display: inline-block;margin-left: 6px;margin-right: 6px; color: #810000; text-align: center; font-size: 26px; font-weight: bold;}
+.dz_r{margin-left: 0px;}
+.dz_right04{ margin-top: 20px}
+.dz_right05{ margin-top: 14px; overflow: hidden;}
+.dz_right06{width: 152px;  background: #810000;  color: #fff; font-size: 26px; text-align: center; display: inline-block; float: left;height: 88px;padding-top: 16px;}
+.dz_right07{width: 90px;  background: #bd6600;  color: #fff;  text-align: center; display: inline-block; float: left;height: 104px;margin-left: 4px;}
+.dz_right08{ font-size: 44px; color: #fff; font-weight: bolder;}
+.dz_right09{ margin-top: 10px}
+.dz_right10{ margin-top: 10px}

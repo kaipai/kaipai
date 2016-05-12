@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>通用</title>
+  <link rel="stylesheet" href="/dist/styles/common/common.css">
+  <link rel="stylesheet" href="style/css1.css">
+  <style>
+  body{background: #fff;}
+   .wrap4{
+    clear: both;
+    background: #fff;
+    overflow: hidden;
+    padding-bottom: 30px; width: 1200px; margin: 0 auto;
+}
+   .exc_list{
+    background: #f5f5f5;
+    width: 258px;
+    padding: 10px 10px 20px;
+    font-size: 16px;
+    color: #222;
+    float: left;
+    margin-right: 15px;
+    border: 1px solid #c5c1be;
+}
+.exc_list li a{
+    color: #222;
+    font-size: 22px;
+    padding-bottom: 10px;
+    font-family: SketchRockwell;
+}
+.exc_list li span{
+    color: #800000;
+    font-size: 24px;
+     font-weight: bold;
+}
+.exc_list li span.exc_q{
+    color: #222 !important;
+    font-size: 20px !important;
+    font-weight: normal !important;
+}
+.lh32{
+    line-height: 32px;
+}
+.exc_list_img{
+    border: 1px solid #908a8a;
+    height:258px;
+    width: 258px;
+    display: table-cell;
+     vertical-align:middle;
+     text-align:center;
+     *display: block;
+     *font-size: 175px;
+     *font-family:Arial;
+    position: relative;
+    top:10px;
+}
+.exc_list_img font{
+    background: #800000;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 6px 15px 10px;
+    font-size: 14px;
+    color: #fff;
+}
+.exc_list_img strong{
+    font-size: 26px;
+}
+.exc_num_bg{
+    background: #61b5d7 !important;
+}
+.exc_strat{
+    color: #61b5d7 !important;
+    font-weight: bold;
+    font-size: 18px;
+}
+.exc_rank{
+    background: #a8a7a2;
+    height:52px;
+    line-height: 52px;
+    font-size: 16px;
+    width: 100%;
+}
+.exc_rank_l{
+    width: 690px;
+    float: left;
+}
+.exc_rank_r{
+    width:460px;
+    float: left;
+    text-align: right;
+}
+.exc_rank_l a{
+    padding: 0px 15px;
+    display: inline-block;
+    margin-right: 10px;
+    background: #eeeef0;
+    color: #222;
+    
+}
+.exc_rank_l a.rank_icon_x{
+    background:#eeeef0 url(/he/images/arrow_up.png) no-repeat 90px center;
+    display: inline-block;
+    padding: 0px 40px 0px 15px;
+    
+}
+.exc_rank_l a.rank_icon_x1{
+    background:#eeeef0 url(/he/images/arrow_up.png) no-repeat 70px center;
+    display: inline-block;
+    padding: 0px 45px 0px 15px;
+    
+}
+.exc_rank_r a{
+    color: #fff;
+    margin-left: 30px;
+}
+.wrap2{
+    width:1200px;
+    margin: 0 auto;
+    clear: both;
+    
+}
+</style>
+</head>
+<body>
+
+  <div class="toper">
+    <div class="center">
+      <div class="mlinknav">
+        <a ui-sref="main">开拍网首页</a>
+      </div>
+      <div class="uinfonav"  ng-if="hasLogin">
+        <div id="logorout">
+          <span>您好!</span>
+          <div class="user_name">
+            <a class="nameA" ui-sref="indexPersonal"  ng-bind="nickName"></a>
+            <div id="toperNav">
+              <a ui-sref="listOrderPersonal" >我的订单</a>
+              <a ui-sref="collectionAuctionlistPersonal" >我的收藏</a>
+              <a  ui-sref="mybalanceCustomerPersonal" >我的余额</a>
+              <a ui-sref="feedbackListPersonal" >意见反馈</a>
+              <a href="javascript:" ng-click="loginOut()">安全退出</a>
+            </div>
+          </div>
+
+        </div>
+
+        <a class="footprint" href="">收藏本站</a>
+
+      </div>
+
+      <div class="uinfonav" ng-if="!hasLogin">
+        <span id="logorout" style="font-size:14px">
+          <a class="register" rel="nofollow" ui-sref="userRegister">免费注册</a>
+          <a target="_self" rel="nofollow" ui-sref="userLogin">用户登录</a>
+          <!-- <a href="#">商家中心</a>
+        -->
+      </span>
+      |
+      <a class="footprint" href="">收藏本站</a>
+    </div>
+
+  </div>
+</div>
+<div class="header">
+  <div class="center">
+    <a href="#" class="logonav">
+      <img src="images/logo.png" />
+    </a>
+    <div class="searchnav">
+      <form style=" height:35px;" action="/paimai/search/all/">
+        <input type="text" class="ipt" name="t" id="txtKw" value="输入关键词/名称" />
+        <a href="javascript:;" class="btn paimaisearchbtn">搜索</a>
+      </form>
+      <div class="hotlink">
+        <a href="#" >和田玉</a>
+        <a href="#" >和田玉</a>
+        <a href="#" >和田玉</a>
+        <a href="#" >和田玉</a>
+        <a href="#" >和田玉</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="menuer">
+  <div class="center">
+    <div class="mlist">
+      <a ui-sref="main" >首页</a>
+      <a ui-sref="goodList" >所有自由拍</a>
+      |
+      <a ui-sref="goodList" >国画</a>
+      ·
+      <a ui-sref="goodList" >书法</a>
+      ·
+      <a ui-sref="goodList" >金石篆刻</a>
+      ·
+      <a ui-sref="goodList" >古玩杂项</a>
+      ·
+      <a ui-sref="goodList" >古典陶瓷</a>
+      ·
+      <a ui-sref="goodList" >宗教文化</a>
+      ·
+      <a ui-sref="goodList" >西画雕塑</a>
+      ·
+      <a ui-sref="goodList" >奢侈品</a>
+      ·
+      <a ui-sref="goodList" >宝石翡翠</a>
+    </div>
+  </div>
+</div>
+<!--End头部-->
+<!--main开始-->
+<div class="kp_main">
+  <div class="sf_banner">
+    <div class="center " >
+
+      <div class="sf_show">
+        <div  class="sf_show_top">
+          <p class="sf_title">茹古涵今中国书画专场</p>
+          <p class="sf_overtime">
+            据结束
+            <span class="sf_shi sf_malt">08</span>
+            <span  class="sf_fen">时</span>
+            <span class="sf_shi">30</span>
+            <span class="sf_fen">分</span>
+            <span class="sf_shi">20</span>
+            <span class="sf_fen">秒</span>
+          </p>
+        </div>
+        <div class="sf_tip">
+          <ul>
+            <li>拍品：65件</li>
+            <li>围观：6690次</li>
+            <li>出价：25次</li>
+          </ul>
+          <div>
+            <span class="sf_spjg">
+              送拍机构：
+              <a href="" class="sf_ys">开源拍卖></a>
+            </span>
+            <span>
+              <a href="">专场更多信息></a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="exc_rank">
+  <div class="wrap2">
+    <div class="exc_rank_l">
+      <a href="">默 &nbsp;认</a>
+      <a href="" class="rank_icon_x">出价次数</a>
+      <a href="" class="rank_icon_x1">价 &nbsp;格</a>
+      <a href="" class="rank_icon_x">关注人数</a>
+    </div>
+    <div class="exc_rank_r">
+      <a href="">站内报错</a>
+      <a href="">报错</a>
+    </div>
+  </div>
+</div>
+<div class="wrap4">
+  <div class="wrap2">
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        当前价
+        <span>￥1600</span>
+      </li>
+      <li class="lh32">距结束 8小时30分20秒</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg"> <font><strong>68</strong>
+          <br />
+          次出价</font> 
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        当前价
+        <span>￥1600</span>
+      </li>
+      <li class="lh32">距结束 8小时30分20秒</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg"> <font><strong>68</strong>
+          <br />
+          次出价</font> 
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        当前价
+        <span>￥1600</span>
+      </li>
+      <li class="lh32">距结束 8小时30分20秒</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font>
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        当前价
+        <span>￥1600</span>
+      </li>
+      <li class="lh32">距结束 8小时30分20秒</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font>
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        起拍价
+        <span class="exc_q">￥1600</span>
+      </li>
+      <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font class="exc_num_bg">
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        起拍价
+        <span class="exc_q">￥1600</span>
+      </li>
+      <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font class="exc_num_bg">
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        起拍价
+        <span class="exc_q">￥1600</span>
+      </li>
+      <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font class="exc_num_bg">
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        起拍价
+        <span class="exc_q">￥1600</span>
+      </li>
+      <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font class="exc_num_bg">
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        起拍价
+        <span class="exc_q">￥1600</span>
+      </li>
+      <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font class="exc_num_bg">
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        起拍价
+        <span class="exc_q">￥1600</span>
+      </li>
+      <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font class="exc_num_bg">
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        起拍价
+        <span class="exc_q">￥1600</span>
+      </li>
+      <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font class="exc_num_bg">
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+    <ul class="exc_list mt20">
+      <li class="lh32">
+        <a href="">民国 李恩济 《多子图》</a>
+      </li>
+      <li class="lh32">
+        起拍价
+        <span class="exc_q">￥1600</span>
+      </li>
+      <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+      <li class="exc_list_img">
+        <img src="/he/images/show_s_pic.jpg">
+        <font class="exc_num_bg">
+          <strong>68</strong>
+          <br />
+          次出价
+        </font>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="botNav">
+  <div class="center">
+    <div class="botnav-item botnav-item1">
+      <h4>
+        <span>诚实信用</span> <em>对拍品的如实描述，卖家的承诺服务</em>
+      </h4>
+      <dl>
+        <dt>竞买者保障</dt>
+        <dd>
+          <a href="#">·关于拍品</a>
+        </dd>
+        <dd>
+          <a href="#">·关于拍卖</a>
+        </dd>
+        <dd>
+          <a href="#">·关于售后</a>
+        </dd>
+        <dd>
+          <a href="#">·其它保障</a>
+        </dd>
+
+      </dl>
+    </div>
+    <div class="erweima fl">
+      <p>开拍网公众号</p>
+      <span>“开拍网”</span>
+    </div>
+    <div class="botnav-item botnav-item2">
+      <h4>
+        <span>双向交流</span> <em>专业服务，阳光竞拍</em>
+      </h4>
+      <dl>
+        <dt>个人 | 商家入驻</dt>
+        <dd>
+          <a href="#">·入驻规则</a>
+        </dd>
+        <dd>
+          <a href="#">·保证金问题</a>
+        </dd>
+        <dd>
+          <a href="#">·诚信问题</a>
+        </dd>
+        <dd>
+          <a href="#">·其它</a>
+        </dd>
+
+      </dl>
+    </div>
+    <div class="botnav-item botnav-item3">
+      <h4>
+        <span>售后无忧</span>
+        <em>明白承诺，周到服务</em>
+      </h4>
+      <dl>
+        <dt>关于我们</dt>
+        <dd>
+          <a href="#">·免责声明</a>
+        </dd>
+        <dd>
+          <a href="#">·版权声明</a>
+        </dd>
+        <dd>
+          <a href="#">·联系我们</a>
+        </dd>
+        <dd>
+          <a href="#">·关于开拍</a>
+        </dd>
+
+      </dl>
+    </div>
+  </div>
+</div>
+<div class="footer">
+
+  <div class="footernav center">
+    <a href="#">首页</a>
+    <em>|</em>
+    <a href="#">国画</a>
+    <em>|</em>
+    <a href="#">书法</a>
+    <em>|</em>
+    <a href="#">金石篆刻</a>
+    <em>|</em>
+    <a href="#">古玩杂项</a>
+    <em>|</em>
+    <a href="#">古典陶瓷</a>
+    <em>|</em>
+    <a href="#">西画雕塑</a>
+    <em>|</em>
+    <a href="#">宗教文化</a>
+    <em>|</em>
+    <a href="#">奢侈品</a>
+    <em>|</em>
+    <a href="#">宝石翡翠</a>
+    <em>|</em>
+    <a href="#">联系我们</a>
+    <p>
+      公司地址: 浙江省杭州市下城区朝晖路179号嘉汇大厦2号楼5层  电话: 0571-85819321 18867538398   邮箱: kaipai123@sina.com
+      <br>
+      版权所有 © 杭州易开拍网络科技有限公司  浙ICP备13004819号-1   网址: www.kaipai123.com
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
