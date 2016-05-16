@@ -163,7 +163,7 @@
                     <dt>关于我们</dt>
                     <dd><a href="#">·免责声明</a></dd>
                     <dd><a href="#">·版权声明</a></dd>
-                    <dd><a href="#">·联系我们</a></dd>
+                    <dd><a href="/index/contact">·联系我们</a></dd>
                     <dd><a href="#">·关于开拍</a></dd>
 
                 </dl>
@@ -173,17 +173,18 @@
     <div class="footer">
 
         <div class="footernav center">
-            <a href="#">首页</a><em>|</em>
-            <a href="#">国画</a><em>|</em>
-            <a href="#">书法</a><em>|</em>
-            <a href="#">金石篆刻</a><em>|</em>
-            <a href="#">古玩杂项</a><em>|</em>
-            <a href="#">古典陶瓷</a><em>|</em>
-            <a href="#">西画雕塑</a><em>|</em>
-            <a href="#">宗教文化</a><em>|</em>
-            <a href="#">奢侈品</a><em>|</em>
-            <a href="#">宝石翡翠</a><em>|</em>
-            <a href="#">联系我们</a>
+            <a href="/">首页</a><em>|</em>
+            <?php
+            $count = 0;
+            foreach($_categories as $v){
+                $count++;
+                ?>
+                <a href="/product/index?productCategoryID=<?php echo $v['productCategoryID']; ?>"><?php echo $v['categoryName']; ?></a>
+                <em>|</em>
+            <?php
+            }
+            ?>
+            <a href="/index/contact">联系我们</a>
 
             <p>
                 公司地址: 浙江省杭州市下城区朝晖路179号嘉汇大厦2号楼5层 电话: 0571-85819321 18867538398 邮箱: kaipai123@sina.com<br>

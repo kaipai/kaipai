@@ -19,4 +19,7 @@ class IndexController extends Front{
         return $this->view;
     }
 
+    public function contactAction(){
+        return $this->view;
+    }
 }

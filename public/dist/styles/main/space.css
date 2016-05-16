@@ -45,8 +45,8 @@
 .space_comment{ margin-top: 14px; overflow: hidden;}
 .space_comment_left{ float: left; width:1014px }
 .space_tex{ width:1014px; height: 140px; border:1px solid #8a857f; background: #fffdee; padding:10px}
-.space_comment_right{ float: left; width: 108px; margin-left: 14px}
-.space_fbcom{ background: #87c4bd; color: #fff; text-align: center;line-height:38px; color: #fff; margin-top:100px; cursor: pointer;}
+.space_comment_right{ float: left; width: 108px; margin-left: 30px}
+.space_fbcom{ background: #87c4bd; color: #fff; text-align: center;line-height:38px; color: #fff; margin-top:125px; cursor: pointer;}
 .space_cominfo{overflow: hidden;border-bottom: 1px dashed #8a857f;padding: 20px 40px}
 .space_cominfo_left{ float: left; width: 910px }
 .space_cominfo_right{ float: right; width: 150px}

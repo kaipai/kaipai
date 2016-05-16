@@ -7,8 +7,25 @@ use COM\Controller\Front;
 
 class MemberZoneController extends Front{
 
-    public function init(){
-        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+
+    public function indexAction(){
+        return $this->view;
+    }
+
+    public function profileAction(){
+        return $this->view;
+    }
+
+    public function articleListAction(){
+        return $this->view;
+    }
+
+    public function articleDetailAction(){
+        return $this->view;
+    }
+
+    public function postArticleAction(){
+        return $this->view;
     }
 
     public function updateAction(){

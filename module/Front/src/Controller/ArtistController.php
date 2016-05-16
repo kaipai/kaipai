@@ -5,6 +5,15 @@ use COM\Controller\Front;
 
 class ArtistController extends Front{
 
+    public function indexAction(){
+
+        return $this->view;
+    }
+
+    public function recommendAction(){
+        return $this->view;
+    }
+
     public function listAction(){
         $artists = $this->artistModel->getList();
 
@@ -14,7 +23,7 @@ class ArtistController extends Front{
 
     public function detailAction(){
         $where = array(
-            'artistID' => $this->postData['artistID'],
+            'artistID' => $this->queryData['artistID'],
         );
         $artistInfo = $this->artistModel->fetch($where);
 

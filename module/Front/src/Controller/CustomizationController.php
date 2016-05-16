@@ -4,6 +4,10 @@ use COM\Controller\Front;
 
 class CustomizationController extends Front{
 
+    public function indexAction(){
+        return $this->view;
+    }
+
     public function listAction(){
         $customizations = $this->customizationModel->getList();
 
@@ -11,8 +15,8 @@ class CustomizationController extends Front{
     }
 
     public function detailAction(){
-        $customizationID = $this->request->getPost('customizationID');
-        if(empty($customizationID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        $customizationID = $this->queryData['customizationID'];
+
 
         $customizationInfo = $this->customizationModel->select(array('customizationID' => $customizationID))->current();
 

@@ -8,6 +8,9 @@ use COM\Controller\Front;
 
 class StoreController extends Front{
 
+    public function indexAction(){
+        return $this->view;
+    }
 
     public function listAction(){
         $where = array();

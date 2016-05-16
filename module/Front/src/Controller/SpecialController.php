@@ -7,6 +7,18 @@ use COM\Controller\Front;
 
 class SpecialController extends Front{
 
+    public function indexAction(){
+        return $this->view;
+    }
+
+    public function todayAction(){
+        return $this->view;
+    }
+
+    public function themeAction(){
+        return $this->view;
+    }
+
     public function listAction(){
         $where = array();
 
@@ -24,14 +36,13 @@ class SpecialController extends Front{
 
     public function detailAction(){
         $specialID = $this->postData['specialID'];
-        if(empty($specialID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         $where = array(
             'specialID' => $specialID,
         );
 
         $specialInfo = $this->specialModel->fetch($where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $specialInfo);
+        return $this->view;
     }
 
     public function addAction(){
