@@ -36,6 +36,7 @@ class ProductController extends Front{
         $isRefundInDays = $this->postData['isRefundInDays'];
         $isCertificateCard = $this->postData['isCertificateCard'];
         $isAuthorAuth = $this->postData['isAuthorAuth'];
+        $productStatus = $this->postData['status'];
         $where = array();
         if(!empty($productCategoryID)){
             $where['b.productCategoryID'] = $productCategoryID;
@@ -70,6 +71,15 @@ class ProductController extends Front{
         if(!empty($isAuthorAuth)){
             $where['b.authorAuth'] = $isAuthorAuth;
         }
+        if(!empty($productStatus) && $productStatus != 'all'){
+            if($productStatus == 'coming'){
+                $where['b.auctionStatus'] = 1;
+            }elseif($productStatus == 'processing'){
+                $where['b.auctionStatus'] = 2;
+            }
+
+        }
+
         if($order == 'default') $order = 'b.productID desc';
         if($order == 'instime') $order = 'b.instime ' . $sort;
         if($order == 'price') $order = 'b.currPrice ' . $sort;
