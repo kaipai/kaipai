@@ -1,0 +1,33 @@
+<ul class="indexPro">
+    <?php
+        foreach($products as $v){
+    ?>
+            <li onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
+                <h3><?php echo $v['productName'] ?></h3>
+
+                <p class="indexPro-price">
+                    当前价 <em>￥<?php echo $v['currPrice'] ?></em>
+                </p>
+
+                <p class="indexPro-time">距结束 8小时30分20秒</p>
+
+                <div class="indexPro-img">
+                    <img src="/dist/img/upload/pro.jpg">
+
+                    <p class="indexPro-num"><em><?php echo $v['auctionCount'] ?></em>
+                        次出价
+                    </p>
+                </div>
+            </li>
+    <?php
+        }
+    ?>
+
+</ul>
+
+<script>
+    $(function(){
+        $('#products-page').html('<?php echo $currPage; ?>/<em id="total-page"><?php echo $productsPage ?></em>');
+
+    })
+</script>

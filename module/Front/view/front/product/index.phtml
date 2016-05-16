@@ -1,0 +1,384 @@
+<?php
+echo $this->headLink()->appendStylesheet($this->basePath() . '/plugins/layer/skin/layer.css')
+?>
+<div class="center">
+    <div class="main-ad-box">
+
+        <div class="mainad left">
+
+            <div class="slideBox">
+                <div class="hd">
+                    <ul>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </div>
+                <div class="bd">
+                    <ul>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad1.jpg"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad2.jpg"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad1.jpg"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad2.jpg"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad3.jpg"/>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+                <a class="prev" href="javascript:void(0)"></a>
+                <a class="next" href="javascript:void(0)"></a>
+
+            </div>
+
+        </div>
+        <div class="mainad right">
+
+            <div class="slideBox">
+                <div class="hd">
+                    <ul>
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </div>
+                <div class="bd">
+                    <ul>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad3.jpg"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad1.jpg"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad1.jpg"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad2.jpg"/>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/" target="_blank">
+                                <img src="/dist/img/upload/ad2.jpg"/>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <a class="prev" href="javascript:void(0)"></a>
+                <a class="next" href="javascript:void(0)"></a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--广告 end-->
+<!--main开始-->
+<div class="kp_main">
+    <div class="center ">
+
+        <!--分类-->
+        <div>
+            <div class="fl_liebie">分类拍品 > <?php echo $categoryInfo['categoryName']; ?></div>
+            <div class="fl_shaixuan">
+                <div class="fl_shaixuan_left">筛选></div>
+                <div class="fl_shaixuan_right">
+                    <?php
+                        foreach($options as $v){
+                    ?>
+                            <ul>
+                                <li class="fl_tc">
+                                    <a href=""></a>
+                                    <?php echo $v['filterName'] ?>
+                                    </a>
+                                </li>
+                                <?php
+                                    if(!empty($v['options'])){
+                                        foreach($v['options'] as $sv) {
+                                ?>
+                                            <li class="fl_li_other">
+                                                <a href=""><?php echo $sv['optionName'] ?></a>
+                                            </li>
+                                <?php
+                                        }
+                                    }
+                                ?>
+                            </ul>
+                    <?php
+                        }
+                    ?>
+                </div>
+            </div>
+            <div class="fl_zhuangtai">
+                <ul>
+                    <li>状态></li>
+                    <li>
+                        <a href="">全部</a>
+                    </li>
+                    <li>
+                        <a href="">正在进行</a>
+                    </li>
+                    <li>
+                        <a href="">即将开始</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sf_jiage">
+                价格区间
+                <input class="mt_input" type="text" placeholder="" id="price-begin">
+                —
+                <input class="mt_input" type="text" placeholder="" id="price-end">
+<span class="sf_btn">
+  <a href="javascript:;" id="price-search-btn">确定</a>
+</span>
+                <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox " id="is-auction-auth">
+                有文物拍卖资质
+                <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox " id="is-cover-delivery">
+                包邮
+                <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox " id="is-refund-in-days">
+                3天包退
+                <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox " id="is-certificate-card">
+                鉴定证书
+                <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox " id="is-author-auth">作者授权
+            </div>
+            <div class="sf_paixu">
+                <ul>
+                    <li>
+                        <a href="javascript:;" id="sort-default">默认</a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" id="sort-instime">
+                            接拍时间
+                            <img src="/yaoqin/images/ss_03.jpg"></a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" id="sort-price">
+                            价格
+                            <img src="/yaoqin/images/ss_03.jpg"></a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" id="sort-interest">关注度</a>
+                    </li>
+
+                    <li class="tpli">
+                        <a href="">
+                            显示图片
+                            <img src="/yaoqin/images/ss_05.jpg"></a>
+                    </li>
+                    <li>
+                        <a href="">
+                            列表显示
+                            <img src="/yaoqin/images/ss_07.jpg"></a>
+                    </li>
+                    <li>
+                        <a href="">合并店铺</a>
+                    </li>
+                    <li class="ym ym1">页码</li>
+                    <li class="ym">
+                        <a href="javascript:;" id="preview-page">
+                            <img src="/yaoqin/images/a_03.jpg"></a>
+                    </li>
+                    <li class="ym" id="products-page">0/<em id="total-page">0</em></li>
+                    <li class="ym">
+                        <a href="javascript:;", id="next-page">
+                            <img src="/yaoqin/images/a_05.jpg"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="center mt20">
+        <div class="index-box clearfix">
+            <div class="indexBox-left fl" id="products">
+
+            </div>
+            <div class="indexBox-right fr">
+                <h2 class="leftBox-tit">店铺一言坊</h2>
+                <ul class="indexBox-right-list">
+                    <?php
+                        foreach($stores as $v){
+                    ?>
+                            <li>
+                                <h3><?php echo $v['storeName']; ?> ></h3>
+
+                                <p class="indexBox-right-info"><?php echo $v['storeSignature']; ?></p>
+                            </li>
+                    <?php
+                        }
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $(".slideBox").slide({
+            mainCell: ".bd ul",
+            autoPlay: true,
+            effect: "left",
+            delayTime: 700
+        });
+
+        var params = {
+            pageNum : 1,
+            limit : 18,
+            order : 'default',
+            sort : 'desc',
+            priceBegin : '',
+            priceEnd : '',
+            isAuctionAuth : 0,
+            isCoverDelivery : 0,
+            isRefundInDays : 0,
+            isCertificateCard : 0,
+            isAuthorAuth : 0
+        }
+        function refresh(params){
+            if($('#is-auction-auth').is(':checked')){
+                params.isAuctionAuth = 1;
+            }else{
+                params.isAuctionAuth = 0;
+            }
+            if($('#is-cover-delivery').is(':checked')){
+                params.isCoverDelivery = 1;
+            }else{
+                params.isCoverDelivery = 0;
+            }
+            if($('#is-refund-in-days').is(':checked')){
+                params.isRefundInDays = 1;
+            }else{
+                params.isRefundInDays = 0;
+            }
+            if($('#is-certificate-card').is(':checked')){
+                params.isCertificateCard = 1;
+            }else{
+                params.isCertificateCard = 0;
+            }
+            if($('#is-author-auth').is(':checked')){
+                params.isAuthorAuth = 1;
+            }else{
+                params.isAuthorAuth = 0;
+            }
+            params.priceBegin = $('#price-begin').val();
+            params.priceEnd = $('#price-end').val();
+            params.productCategoryID = '<?php echo $categoryInfo['productCategoryID']; ?>';
+            $.ajax({
+                type : 'post',
+                url : '/product/list',
+                data : params,
+                success : function(data){
+                    $('#products').html(data);
+                }
+            });
+        }
+
+
+        $('#preview-page').on('click', function(){
+            params.pageNum = params.pageNum - 1;
+            if(params.pageNum > 0) {
+                refresh(params);
+            }else{
+                params.pageNum = 1;
+            }
+        });
+        $('#next-page').on('click', function(){
+
+            params.pageNum = params.pageNum + 1;
+            var totalPage = parseInt($('#total-page').html());
+
+            if(params.pageNum <= totalPage) {
+                refresh(params);
+            }else{
+                params.pageNum = totalPage;
+            }
+        });
+        $('#sort-default').on('click', function(){
+            params.order = 'default';
+            if(params.sort == 'desc') {
+                params.sort = 'asc';
+            }else{
+                params.sort = 'desc';
+            }
+            refresh(params)
+        });
+        $('#sort-instime').on('click', function(){
+            params.order = 'instime';
+            if(params.sort == 'desc') {
+                params.sort = 'asc';
+            }else{
+                params.sort = 'desc';
+            }
+            refresh(params)
+        });
+        $('#sort-price').on('click', function(){
+            params.order = 'price';
+            if(params.sort == 'desc') {
+                params.sort = 'asc';
+            }else{
+                params.sort = 'desc';
+            }
+            refresh(params)
+        });
+        $('#sort-interest').on('click', function(){
+            params.order = 'interest';
+            if(params.sort == 'desc') {
+                params.sort = 'asc';
+            }else{
+                params.sort = 'desc';
+            }
+            refresh(params)
+        });
+        $('#is-auction-auth').on('change', function(){
+            refresh(params)
+        });
+        $('#is-cover-delivery').on('change', function(){
+            refresh(params)
+        });
+        $('#is-refund-in-days').on('change', function(){
+            refresh(params)
+        });
+        $('#is-certificate-card').on('change', function(){
+            refresh(params)
+        });
+        $('#is-author-auth').on('change', function(){
+            refresh(params)
+        });
+        $('#price-search-btn').on('click', function(){
+            refresh(params)
+        });
+        refresh(params);
+    })
+</script>

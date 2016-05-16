@@ -188,9 +188,9 @@ class Model extends AbstractTableGateway implements AdapterAwareInterface, Servi
      * @param array $columns
      * @return $this
      */
-    function setSelectColumns(array $columns)
+    function setColumns(array $columns)
     {
-        $this->selectColumns = $columns;
+        $this->columns = $columns;
         return $this;
     }
 

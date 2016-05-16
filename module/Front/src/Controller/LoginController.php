@@ -9,6 +9,7 @@ use COM\Controller\Front;
 class LoginController extends Front{
 
     public function doLoginAction(){
+        if(empty($this->postData)) return $this->view;
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
         if(empty($mobile) || empty($password)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
@@ -64,6 +65,7 @@ class LoginController extends Front{
     }
 
     public function regAction(){
+        if(empty($this->postData)) return $this->view;
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
         $confirmPassword = $this->postData['confirmPassword'];
@@ -117,6 +119,7 @@ class LoginController extends Front{
     }
 
     public function resetPwdAction(){
+        if(empty($this->postData)) return $this->view;
         $mobile = $this->postData['mobile'];
         $verifyCode = $this->postData['verifyCode'];
         $newPwd = $this->postData['newPwd'];

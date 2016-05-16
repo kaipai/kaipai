@@ -7,12 +7,35 @@ use Base\Functions\Utility;
 use COM\Controller\Front;
 
 class ProductController extends Front{
+    public function indexAction(){
+        $productCategoryID = $this->queryData['productCategoryID'];
+        $categoryInfo = $this->productCategoryModel->select(array('productCategoryID' => $productCategoryID))->current();
+        $options = $this->productCategoryFilterOptionModel->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
+        $stores = $this->storeModel->select()->toArray();
+
+        $this->view->setVariables(array(
+            'categoryInfo' => $categoryInfo,
+            'options' => $options,
+            'stores' => $stores,
+        ));
+        return $this->view;
+    }
 
     public function listAction(){
+        $this->view->setNoLayout();
         $productCategoryID = $this->postData['productCategoryID'];
         $productCategoryFilterOptionID = $this->postData['productCategoryFilterOptionID'];
         $storeID = $this->postData['storeID'];
         $storeCategoryID = $this->postData['storeCategoryID'];
+        $sort = $this->postData['sort'];
+        $order = $this->postData['order'];
+        $priceBegin = $this->postData['priceBegin'];
+        $priceEnd = $this->postData['priceEnd'];
+        $isAuctionAuth = $this->postData['isAuctionAuth'];
+        $isCoverDelivery = $this->postData['isCoverDelivery'];
+        $isRefundInDays = $this->postData['isRefundInDays'];
+        $isCertificateCard = $this->postData['isCertificateCard'];
+        $isAuthorAuth = $this->postData['isAuthorAuth'];
         $where = array();
         if(!empty($productCategoryID)){
             $where['b.productCategoryID'] = $productCategoryID;
@@ -26,20 +49,55 @@ class ProductController extends Front{
         if(!empty($storeCategoryID)){
             $where['b.storeCategoryID'] = $storeCategoryID;
         }
+        if(!empty($priceBegin)){
+            $where['b.currPrice > ?'] = $priceBegin;
+        }
+        if(!empty($priceEnd)){
+            $where['b.currPrice < ?'] = $priceEnd;
+        }
+        if(!empty($isAuctionAuth)){
+            $where['b.auctionAuth'] = $isAuctionAuth;
+        }
+        if(!empty($isCoverDelivery)){
+            $where['b.coverDelivery'] = $isCoverDelivery;
+        }
+        if(!empty($isRefundInDays)){
+            $where['b.refundInDays'] = $isRefundInDays;
+        }
+        if(!empty($isCertificateCard)){
+            $where['b.certificateCard'] = $isCertificateCard;
+        }
+        if(!empty($isAuthorAuth)){
+            $where['b.authorAuth'] = $isAuthorAuth;
+        }
+        if($order == 'default') $order = 'b.productID desc';
+        if($order == 'instime') $order = 'b.instime ' . $sort;
+        if($order == 'price') $order = 'b.currPrice ' . $sort;
+        if($order == 'interest') $order = 'b.interestedCount desc';
 
-        $products = $this->productFilterOptionModel->getList($where, null, $this->offset, $this->limit);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $products);
+        $products = $this->productFilterOptionModel->getList($where, $order, $this->offset, $this->limit);
+
+        $this->view->setVariables(array(
+            'products' => $products['products'],
+            'productsCount' => $products['productsCount'],
+            'productsPage' => ceil($products['productsCount'] / $this->limit),
+            'currPage' => $this->pageNum,
+        ));
+        return $this->view;
     }
 
     public function detailAction(){
-        $productID = $this->postData['productID'];
+        $productID = $this->queryData['productID'];
         $select = $this->productModel->getSelect();
         $select->join(array('b' => 'ProductCategory'), 'Product.productCategoryID = b.productCategoryID', 'categoryName');
         $select->where(array('productID' => $productID));
         $productDetail = $this->productModel->selectWith($select)->current();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $productDetail);
+        $this->view->setVariables(array(
+            'productDetail' => $productDetail
+        ));
+        return $this->view;
     }
 
     public function categoryAction(){

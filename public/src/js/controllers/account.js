@@ -14,13 +14,14 @@ define(['./module'], function(controllers) {
 		});
 		//验证
 		$scope.checkSendFun = function() {
+
 			if (!$.isMobile($scope.curObj.mobile)) {
 				layer.open({
 					type: 0,
 					icon: 2,
 					content: '请输入正确的手机号码',
 					shadeClose: true,
-					time: 2000,
+					time: 2000
 				});
 				return
 			};
@@ -30,10 +31,11 @@ define(['./module'], function(controllers) {
 					icon: 2,
 					content: '验证码不能为空',
 					shadeClose: true,
-					time: 2000,
+					time: 2000
 				});
 				return
 			};
+
 			if ($scope.reSend) {
 				console.log('0000');
 			
@@ -93,7 +95,7 @@ define(['./module'], function(controllers) {
 							type: 0,
 							'icon': 2,
 							content: 'fdsa',
-							time: 2000,
+							time: 2000
 						});
 					}
 				});
@@ -106,7 +108,7 @@ define(['./module'], function(controllers) {
 						icon: 2,
 						content: '请输入正确的手机号码',
 						shadeClose: true,
-						time: 2000,
+						time: 2000
 					});
 					return
 				};
@@ -116,7 +118,7 @@ define(['./module'], function(controllers) {
 						icon: 2,
 						content: '验证码不能为空',
 						shadeClose: true,
-						time: 2000,
+						time: 2000
 					});
 					return
 				};

@@ -14,15 +14,18 @@ class Front extends Controller{
         $this->layout()->setVariable('controllerName', $this->controllerName);
         $this->layout()->setVariable('actionName', $this->actionName);
         $this->layout()->setVariable('adminName', $this->adminInfo['username']);
-        if($this->controllerName == 'index'){
-        }else{
-            if($this->checkLogin(self::FRONT_PLATFORM)){
 
-            }else{
+        $this->checkLogin(self::FRONT_PLATFORM);
 
-            }
+        $categories = $this->productCategoryModel->select()->toArray();
 
-        }
+        $this->layout()->setVariables(array(
+            '_memberInfo' => $this->memberInfo, '_categories' => $categories,
+        ));
+        $this->view->setVariables(array(
+            '_memberInfo' => $this->memberInfo
+        ));
+
     }
 
 

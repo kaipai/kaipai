@@ -15,7 +15,7 @@ class ProductCategoryFilterOption extends Model{
             $categoryFilters[$v['productCategoryFilterID']]['filterName'] = $v['filterName'];
             $categoryFilters[$v['productCategoryFilterID']]['productCategoryFilterID'] = $v['productCategoryFilterID'];
             $categoryFilters[$v['productCategoryFilterID']]['options'][] = array(
-                'optionID' => $v['optionID'],
+                'optionID' => $v['productCategoryFilterOptionID'],
                 'optionName' => $v['optionName'],
             );
         }

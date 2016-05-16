@@ -30,40 +30,43 @@
             <div class="mlinknav">
                 <a href="/">开拍网首页</a>
             </div>
-            <div class="uinfonav" style="display: none;">
-                <div id="logorout">
-                    <span>您好!</span>
+            <?php
+            if(!empty($_memberInfo)){
+            ?>
+                <div class="uinfonav">
+                    <div id="logorout">
+                        <span>您好!</span>
 
-                    <div class="user_name">
-                        <a class="nameA" ui-sref="indexPersonal">用户名</a>
+                        <div class="user_name">
+                            <a class="nameA" ui-sref="indexPersonal"><?php  echo $memberInfo['nickName'] ?></a>
 
-                        <div id="toperNav">
-                            <a ui-sref="listOrderPersonal">我的订单</a>
-                            <a ui-sref="collectionAuctionlistPersonal">我的收藏</a>
-                            <a ui-sref="mybalanceCustomerPersonal">我的余额</a>
-                            <a ui-sref="feedbackListPersonal">意见反馈</a>
-                            <a href="javascript:" ng-click="loginOut()">安全退出</a>
+                            <div id="toperNav">
+                                <a ui-sref="listOrderPersonal">我的订单</a>
+                                <a ui-sref="collectionAuctionlistPersonal">我的收藏</a>
+                                <a ui-sref="mybalanceCustomerPersonal">我的余额</a>
+                                <a ui-sref="feedbackListPersonal">意见反馈</a>
+                                <a href="javascript:" ng-click="loginOut()">安全退出</a>
+                            </div>
                         </div>
+
                     </div>
 
+                    <a class="footprint" href="">收藏本站</a>
+
                 </div>
-
-                <a class="footprint" href="">收藏本站</a>
-
-            </div>
-
-            <div class="uinfonav">
-                    <span id="logorout" style="font-size:14px">
-                        <a class="register" rel="nofollow" ui-sref="userRegister">免费注册</a>
-                        <a target="_self" rel="nofollow" ui-sref="userLogin">用户登录</a>
-                        <a target="_self" rel="nofollow" ui-sref="userLogin">关注拍品</a>
-                        <a target="_self" rel="nofollow" ui-sref="userLogin">我的拍场</a>
-                        <a target="_self" rel="nofollow" ui-sref="userLogin">联系客服</a>
-                </span>
-                |
-                <a class="footprint" href="">收藏本站</a>
-            </div>
-
+            <?php }else{ ?>
+                <div class="uinfonav">
+                        <span id="logorout" style="font-size:14px">
+                            <a class="register" rel="nofollow" ui-sref="userRegister" href="/login/reg">免费注册</a>
+                            <a target="_self" rel="nofollow" ui-sref="userLogin" href="/login/do-login">用户登录</a>
+                            <a target="_self" rel="nofollow" ui-sref="userLogin">关注拍品</a>
+                            <a target="_self" rel="nofollow" ui-sref="userLogin">我的拍场</a>
+                            <a target="_self" rel="nofollow" ui-sref="userLogin">联系客服</a>
+                    </span>
+                    |
+                    <a class="footprint" href="">收藏本站</a>
+                </div>
+            <?php } ?>
         </div>
     </div>
     <div class="header">
@@ -93,23 +96,23 @@
                 <a href="/">首页</a>
                 <a ui-sref="goodList">所有自由拍</a>
                 |
-                <a ui-sref="goodList">国画</a>
-                ·
-                <a ui-sref="goodList">书法</a>
-                ·
-                <a ui-sref="goodList">金石篆刻</a>
-                ·
-                <a ui-sref="goodList">古玩杂项</a>
-                ·
-                <a ui-sref="goodList">古典陶瓷</a>
-                ·
-                <a ui-sref="goodList">宗教文化</a>
-                ·
-                <a ui-sref="goodList">西画雕塑</a>
-                ·
-                <a ui-sref="goodList">奢侈品</a>
-                ·
-                <a ui-sref="goodList">宝石翡翠</a>
+                <?php
+                    $count = 0;
+                    foreach($_categories as $v){
+                        $count++;
+                ?>
+                        <a ui-sref="goodList" href="/product/index?productCategoryID=<?php echo $v['productCategoryID']; ?>"><?php echo $v['categoryName']; ?></a>
+                        <?php
+                            if(count($_categories) != $count){
+                        ?>
+                                ·
+                        <?php
+                            }
+                        ?>
+
+                <?php
+                    }
+                ?>
             </div>
         </div>
     </div>

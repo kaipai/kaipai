@@ -17,6 +17,7 @@ class Controller extends AbstractActionController{
     protected $memberInfo;
     protected $adminInfo;
     protected $postData;
+    protected $queryData;
     protected $controllerName;
     protected $actionName;
     protected $pageNum;
@@ -43,6 +44,7 @@ class Controller extends AbstractActionController{
         $this->route = $event->getRouteMatch();
 
         $this->postData = $this->request->getPost()->toArray();
+        $this->queryData = $this->request->getQuery()->toArray();
         $this->controllerName = $this->route->getParam('__CONTROLLER__');
         $this->actionName = $this->route->getParam('action');
         $this->pageNum = $this->postData['pageNum'];

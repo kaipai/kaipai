@@ -7,7 +7,6 @@ class IndexController extends Front{
 
     public function indexAction(){
 
-
         return $this->view;
     }
 
