@@ -10,7 +10,12 @@ class Front extends Controller{
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->layout('frontLayout');
+        if($this->controllerName == 'member'){
+            $this->layout('frontMemberLayout');
+        }else{
+            $this->layout('frontLayout');
+        }
+
         $this->layout()->setVariable('controllerName', $this->controllerName);
         $this->layout()->setVariable('actionName', $this->actionName);
         $this->layout()->setVariable('adminName', $this->adminInfo['username']);

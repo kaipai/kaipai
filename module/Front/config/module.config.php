@@ -36,7 +36,8 @@ return array(
         'not_found_template' => 'error/404',
         'exception_template' => 'error/index',
         'template_map' => array(
-            'frontLayout' => __DIR__ . '/../view/layout/front.phtml'
+            'frontLayout' => __DIR__ . '/../view/layout/front.phtml',
+            'frontMemberLayout' => __DIR__ . '/../view/layout/member.phtml'
         ),
         'template_path_stack' => array(
             'front' => __DIR__ . '/../view'

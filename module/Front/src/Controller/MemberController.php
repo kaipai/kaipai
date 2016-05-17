@@ -7,9 +7,57 @@ use COM\Controller\Front;
 
 class MemberController extends Front{
 
-    public function init(){
-        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+
+
+    public function indexAction(){
+
+        return $this->view;
     }
+
+    public function addProductAction(){
+        return $this->view;
+    }
+
+    public function addSpecialAction(){
+        return $this->view;
+    }
+
+    public function specialAction(){
+        return $this->view;
+    }
+
+    public function specialProductAction(){
+        return $this->view;
+    }
+
+    public function productAction(){
+        return $this->view;
+    }
+
+    public function settingAction(){
+        return $this->view;
+    }
+
+    public function supplierOrderAction(){
+        return $this->view;
+    }
+
+    public function notificationAction(){
+        return $this->view;
+    }
+
+    public function orderAction(){
+        return $this->view;
+    }
+
+    public function auctionAction(){
+        return $this->view;
+    }
+
+    public function interestSupplierAction(){
+        return $this->view;
+    }
+
 
     public function profileAction(){
         $where = array(

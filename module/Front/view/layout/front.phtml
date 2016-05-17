@@ -2,7 +2,6 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <title ng-bind="globalTit"></title>
     <meta name="keywords" content="开拍网拍卖会,在线竞拍,在线拍卖,网上拍卖,古玩在线拍卖,艺术品拍卖,中国开拍网在线竞拍"/>
     <meta name="description" content="中国开拍网拍卖会是中国最大的专业艺术品在线竞拍网站,为用户提供一个在线艺术品拍卖、古玩拍卖、古董拍卖、钱币拍卖、玉器拍卖、紫砂拍卖、书画拍卖、瓷器拍卖等藏品的拍卖网站,用户可以在线竞拍最新藏品,最新艺术品。"/>
@@ -25,71 +24,7 @@
 </head>
 <body>
 
-    <div class="toper">
-        <div class="center">
-            <div class="mlinknav">
-                <a href="/">开拍网首页</a>
-            </div>
-            <?php
-            if(!empty($_memberInfo)){
-            ?>
-                <div class="uinfonav">
-                    <div id="logorout">
-                        <span>您好!</span>
-
-                        <div class="user_name">
-                            <a class="nameA" ui-sref="indexPersonal"><?php  echo $memberInfo['nickName'] ?></a>
-
-                            <div id="toperNav">
-                                <a ui-sref="listOrderPersonal">我的订单</a>
-                                <a ui-sref="collectionAuctionlistPersonal">我的收藏</a>
-                                <a ui-sref="mybalanceCustomerPersonal">我的余额</a>
-                                <a ui-sref="feedbackListPersonal">意见反馈</a>
-                                <a href="javascript:" ng-click="loginOut()">安全退出</a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <a class="footprint" href="">收藏本站</a>
-
-                </div>
-            <?php }else{ ?>
-                <div class="uinfonav">
-                        <span id="logorout" style="font-size:14px">
-                            <a class="register" rel="nofollow" ui-sref="userRegister" href="/login/reg">免费注册</a>
-                            <a target="_self" rel="nofollow" ui-sref="userLogin" href="/login/do-login">用户登录</a>
-                            <a target="_self" rel="nofollow" ui-sref="userLogin">关注拍品</a>
-                            <a target="_self" rel="nofollow" ui-sref="userLogin">我的拍场</a>
-                            <a target="_self" rel="nofollow" ui-sref="userLogin">联系客服</a>
-                    </span>
-                    |
-                    <a class="footprint" href="">收藏本站</a>
-                </div>
-            <?php } ?>
-        </div>
-    </div>
-    <div class="header">
-        <div class="center">
-            <a href="#" class="logonav">
-                <img src="/dist/img/common/logo.png"/>
-            </a>
-
-            <div class="searchnav">
-                <form style=" height:35px;" action="/paimai/search/all/">
-                    <input type="text" class="ipt" name="t" id="txtKw" value="输入关键词/名称"/>
-                    <a href="javascript:;" class="btn paimaisearchbtn">搜索</a>
-                </form>
-                <div class="hotlink">
-                    <a href="#">和田玉</a>
-                    <a href="#">和田玉</a>
-                    <a href="#">和田玉</a>
-                    <a href="#">和田玉</a>
-                    <a href="#">和田玉</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php echo $this->render('/layout/top');?>
     <div class="menuer">
         <div class="center">
             <div class="mlist">
@@ -118,80 +53,9 @@
     </div>
 
     <?php echo $this->content; ?>
+    <?php echo $this->render('/layout/bottom'); ?>
 
 
-    <div class="botNav">
-        <div class="center">
-            <div class="botnav-item botnav-item1">
-                <h4>
-                    <span>诚实信用</span>
-                    <em>对拍品的如实描述，卖家的承诺服务</em>
-                </h4>
-                <dl>
-                    <dt>竞买者保障</dt>
-                    <dd><a href="#">·关于拍品</a></dd>
-                    <dd><a href="#">·关于拍卖</a></dd>
-                    <dd><a href="#">·关于售后</a></dd>
-                    <dd><a href="#">·其它保障</a></dd>
-
-                </dl>
-            </div>
-            <div class="erweima fl">
-                <p>开拍网公众号</p>
-                <span>“开拍网”</span>
-            </div>
-            <div class="botnav-item botnav-item2">
-                <h4>
-                    <span>双向交流</span>
-                    <em>专业服务，阳光竞拍</em>
-                </h4>
-                <dl>
-                    <dt>个人 | 商家入驻</dt>
-                    <dd><a href="#">·入驻规则</a></dd>
-                    <dd><a href="#">·保证金问题</a></dd>
-                    <dd><a href="#">·诚信问题</a></dd>
-                    <dd><a href="#">·其它</a></dd>
-
-                </dl>
-            </div>
-            <div class="botnav-item botnav-item3">
-                <h4>
-                    <span>售后无忧</span>
-                    <em>明白承诺，周到服务</em>
-                </h4>
-                <dl>
-                    <dt>关于我们</dt>
-                    <dd><a href="#">·免责声明</a></dd>
-                    <dd><a href="#">·版权声明</a></dd>
-                    <dd><a href="/index/contact">·联系我们</a></dd>
-                    <dd><a href="#">·关于开拍</a></dd>
-
-                </dl>
-            </div>
-        </div>
-    </div>
-    <div class="footer">
-
-        <div class="footernav center">
-            <a href="/">首页</a><em>|</em>
-            <?php
-            $count = 0;
-            foreach($_categories as $v){
-                $count++;
-                ?>
-                <a href="/product/index?productCategoryID=<?php echo $v['productCategoryID']; ?>"><?php echo $v['categoryName']; ?></a>
-                <em>|</em>
-            <?php
-            }
-            ?>
-            <a href="/index/contact">联系我们</a>
-
-            <p>
-                公司地址: 浙江省杭州市下城区朝晖路179号嘉汇大厦2号楼5层 电话: 0571-85819321 18867538398 邮箱: kaipai123@sina.com<br>
-                版权所有 © 杭州易开拍网络科技有限公司 浙ICP备13004819号-1 网址: www.kaipai123.com
-            </p>
-        </div>
-    </div>
     <script type="text/javascript">
         $(".date-pop").datepicker({
             showOtherMonths: true,
