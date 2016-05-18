@@ -1,12 +1,18 @@
 <?php
 namespace Front\Controller;
 
+use Base\ConstDir\BaseConst;
 use COM\Controller\Front;
 
 class IndexController extends Front{
 
     public function indexAction(){
 
+        $products = $this->productModel->getRecommendProducts();
+
+        $this->view->setVariables(array(
+            'products' => $products['products'],
+        ));
         return $this->view;
     }
 

@@ -457,6 +457,14 @@ abstract class AbstractTableGateway implements TableGatewayInterface
      */
     public function __get($property)
     {
+        $isModel = stripos($property, 'Model');
+        $isService = stripos($property, 'Service');
+        if($isModel !== false){
+            return $this->sm->get('Api\Model\\' . ucfirst(substr($property, 0, -5)));
+        }elseif($isService !== false){
+            return $this->sm->get('COM\Service\\' . ucfirst($property));
+        }
+
         switch (strtolower($property)) {
             case 'lastinsertvalue':
                 return $this->lastInsertValue;

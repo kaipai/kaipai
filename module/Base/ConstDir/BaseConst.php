@@ -32,4 +32,7 @@ class BaseConst
     const PAY_DETAIL_STATUS_NOT_PAID = 0;
     const ORDER_STATUS_PAID = 1;
     const ORDER_STATUS_NOT_PAID = 0;
+    const AUCTION_STATUS_COMING = 1;
+    const AUCTION_STATUS_PROCESSING = 2;
+    const AUCTION_STATUS_DONE = 3;
 }
