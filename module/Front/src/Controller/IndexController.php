@@ -7,6 +7,7 @@ use COM\Controller\Front;
 class IndexController extends Front{
 
     public function indexAction(){
+        $banners = $this->adModel->select(array('position' => Base))->toArray();
 
         $products = $this->productModel->getRecommendProducts();
 
