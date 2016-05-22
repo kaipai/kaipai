@@ -7,12 +7,27 @@ use COM\Controller\Front;
 class IndexController extends Front{
 
     public function indexAction(){
-        $banners = $this->adModel->select(array('position' => Base))->toArray();
+        $banners = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_BANNER);
+        $indexSecondAd = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_SECOND);
+        $indexThirdLeftAd = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_THIRD_LEFT);
+        $indexThirdRightAd = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_THIRD_RIGHT);
 
+        $stores = $this->storeModel->select(array())->toArray();
         $products = $this->productModel->getRecommendProducts();
+
+        $indexRecommendArticles = $this->articleModel->getIndexRecommendArticles();
+        $indexArticleList = $this->articleModel->getIndexArticleList();
 
         $this->view->setVariables(array(
             'products' => $products['products'],
+            'banners' => $banners,
+            'stores' => $stores,
+            'indexSecondAd' => $indexSecondAd,
+            'indexThirdLeftAd' => $indexThirdLeftAd,
+            'indexThirdRightAd' => $indexThirdRightAd,
+            'indexRecommendArticles' => $indexRecommendArticles,
+            'indexArticleList' => $indexArticleList,
+
         ));
         return $this->view;
     }

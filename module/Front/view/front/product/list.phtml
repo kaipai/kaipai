@@ -27,7 +27,8 @@
 
 <script>
     $(function(){
-        $('#products-page').html('<?php echo $currPage; ?>/<em id="total-page"><?php echo $productsPage ?></em>');
-
+        if($('#products-page').length){
+            $('#products-page').html('<?php echo $currPage; ?>/<em id="total-page"><?php echo $productsPage ?></em>');
+        }
     })
 </script>

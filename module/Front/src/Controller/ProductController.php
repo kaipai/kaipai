@@ -3,6 +3,7 @@ namespace Front\Controller;
 
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller\Front;
 
@@ -13,10 +14,15 @@ class ProductController extends Front{
         $options = $this->productCategoryFilterOptionModel->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
         $stores = $this->storeModel->select()->toArray();
 
+        $leftAds = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_PRODUCT_LIST_LEFT);
+        $rightAds = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_PRODUCT_LIST_RIGHT);
+
         $this->view->setVariables(array(
             'categoryInfo' => $categoryInfo,
             'options' => $options,
             'stores' => $stores,
+            'leftAds' => $leftAds,
+            'rightAds' => $rightAds
         ));
         return $this->view;
     }

@@ -8,6 +8,10 @@ use COM\Controller\Front;
 class SpecialController extends Front{
 
     public function indexAction(){
+        $categoryThemeOptions = $this->productCategoryFilterOptionModel->getThemeOptions();
+        $this->view->setVariables(array(
+            'categoryThemeOptions' => $categoryThemeOptions
+        ));
         return $this->view;
     }
 

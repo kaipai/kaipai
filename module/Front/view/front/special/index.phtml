@@ -1,6 +1,6 @@
 <?php
 echo $this->headLink()->appendStylesheet('/he/style/common.css')->appendStylesheet('/he/style/style.css');
-echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js/jquery.datePicker-min.js');
+echo $this->inlineScript()->setFile($this->basePath() . '/he/js/jquery.datePicker-min.js');
 ?>
 <div class="wrap">
     <div class="select_list">
@@ -13,16 +13,23 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
 
         <div class="select_r">
             <ul class="select_cho">
-                <li><span>[国 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a
-                        href="">.花鸟</a><a href="">.佛教用品</a><a href="">.红宝石</a><a href="">.金属器</a></li>
-                <li><span>[奢&nbsp; 侈 品]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
-                <li><span>[宗教文化]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
-                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
-                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
-                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
-                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
-                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
-                <li><span>[国 &nbsp;画]</span> <a href="">.山水</a><a href="">.人物</a><a href="">.花鸟</a></li>
+                <?php
+                    foreach($categoryThemeOptions as $k => $v){
+                ?>
+                        <li>
+                            <span>[<?php echo $k; ?>]</span>
+                            <?php
+                                foreach($v as $sv){
+                            ?>
+                                    <a href="">.<?php echo $sv['optionName'] ?></a>
+                            <?php
+                                }
+                            ?>
+                        </li>
+                <?php
+                    }
+                ?>
+
             </ul>
         </div>
     </div>
@@ -140,7 +147,10 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
 
         $(".datepicker").datePicker({
             inline:true,
-            selectMultiple:false
+            selectMultiple:false,
+            clickInput: function () {
+                console.log(111);
+            }
         });
 
         $("#datepicker").datePicker({

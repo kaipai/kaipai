@@ -9,40 +9,28 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/plugins/layer/ski
             <div class="slideBox">
                 <div class="hd">
                     <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>2</li>
-                        <li>3</li>
+                        <?php
+                            foreach($leftAds as $v){
+                        ?>
+                                <li></li>
+                        <?php
+                            }
+                        ?>
                     </ul>
                 </div>
                 <div class="bd">
                     <ul>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad1.jpg"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad2.jpg"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad1.jpg"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad2.jpg"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad3.jpg"/>
-                            </a>
-                        </li>
+                        <?php
+                            foreach($leftAds as $v){
+                        ?>
+                                <li>
+                                    <a href="<?php echo $v['url']; ?>" target="_blank">
+                                        <img src="<?php echo $v['img'];?>"/>
+                                    </a>
+                                </li>
+                        <?php
+                            }
+                        ?>
                     </ul>
                 </div>
 
@@ -58,40 +46,28 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/plugins/layer/ski
             <div class="slideBox">
                 <div class="hd">
                     <ul>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>2</li>
-                        <li>3</li>
+                        <?php
+                        foreach($rightAds as $v){
+                        ?>
+                            <li></li>
+                        <?php
+                        }
+                        ?>
                     </ul>
                 </div>
                 <div class="bd">
                     <ul>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad3.jpg"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad1.jpg"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad1.jpg"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad2.jpg"/>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/" target="_blank">
-                                <img src="/dist/img/upload/ad2.jpg"/>
-                            </a>
-                        </li>
+                        <?php
+                        foreach($rightAds as $v){
+                        ?>
+                            <li>
+                                <a href="<?php echo $v['url']; ?>" target="_blank">
+                                    <img src="<?php echo $v['img'];?>"/>
+                                </a>
+                            </li>
+                        <?php
+                        }
+                        ?>
                     </ul>
                 </div>
 

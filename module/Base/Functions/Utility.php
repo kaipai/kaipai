@@ -167,4 +167,8 @@ class Utility
 
         return $result;
     }
+
+    public static function mbCutStr($str, $length = 1){
+        return mb_substr($str, 0, $length, "UTF-8");
+    }
 }

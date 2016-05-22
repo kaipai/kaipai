@@ -3,11 +3,23 @@ namespace Base\ConstDir;
 class BaseConst
 {
     static $adPositions = array(
-        1 => '首页banner',
-        2 => '首页第二排广告位',
-        3 => '首页第三排左侧广告位',
-        4 => '首页第三排右侧广告位',
+        self::AD_POSITION_INDEX_BANNER => '首页banner',
+        self::AD_POSITION_INDEX_SECOND => '首页第二排广告位',
+        self::AD_POSITION_INDEX_THIRD_LEFT => '首页第三排左侧广告位',
+        self::AD_POSITION_INDEX_THIRD_RIGHT => '首页第三排右侧广告位',
+        self::AD_POSITION_PRODUCT_LIST_LEFT => '拍品列表左侧广告位',
+        self::AD_POSITION_PRODUCT_LIST_RIGHT => '拍品列表右侧广告位',
+        self::AD_POSITION_SPECIAL_INDEX => '专场拍卖首页广告位',
     );
+    const AD_POSITION_INDEX_BANNER = 1;
+    const AD_POSITION_INDEX_SECOND = 2;
+    const AD_POSITION_INDEX_THIRD_LEFT = 3;
+    const AD_POSITION_INDEX_THIRD_RIGHT = 4;
+    const AD_POSITION_PRODUCT_LIST_LEFT = 5;
+    const AD_POSITION_PRODUCT_LIST_RIGHT = 6;
+    const AD_POSITION_SPECIAL_INDEX = 7;
+
+
     const ARTICLE_INDEX_LEFT = 1;
     const ARTICLE_INDEX_RIGHT = 2;
     const ARTICLE_CONTACT = 3;

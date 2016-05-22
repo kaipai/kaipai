@@ -57,14 +57,17 @@
 
 
     <script type="text/javascript">
-        $(".date-pop").datepicker({
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            dateFormat: 'yy.mm.dd',
-            onSelect: function (dateText, inst) {
-                console.log(dateText);
-            }
-        });
+        if($('.date-pop').length){
+            $(".date-pop").datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                dateFormat: 'yy.mm.dd',
+                onSelect: function (dateText, inst) {
+                    window.top.location.href = '/special/index?date=' + dateText;
+                }
+            });
+        }
+
     </script>
 
 </body>
