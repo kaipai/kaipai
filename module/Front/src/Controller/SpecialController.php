@@ -9,8 +9,15 @@ class SpecialController extends Front{
 
     public function indexAction(){
         $categoryThemeOptions = $this->productCategoryFilterOptionModel->getThemeOptions();
+        $where = array(
+            'startTime > ?' => time(),
+        );
+        $specials = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit);
+
         $this->view->setVariables(array(
-            'categoryThemeOptions' => $categoryThemeOptions
+            'categoryThemeOptions' => $categoryThemeOptions,
+            'specials' => $specials['data'],
+            'pages' => $specials['pages'],
         ));
         return $this->view;
     }
