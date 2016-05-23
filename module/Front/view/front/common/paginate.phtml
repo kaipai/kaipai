@@ -1,0 +1,16 @@
+<?php
+    var_dump($pages);
+?>
+<div id="paging">
+    <a href="<?php echo $url?>pageNum=<?php echo ($pages->current - 1) < $pages->first ? $pages->first : $pagess->current - 1 ?>" style="width:60px">上一页</a>
+    <?php
+        foreach($pages->pagesInRange as $v){
+    ?>
+            <a href="<?php echo $url ?>pageNum=<?php echo $v; ?>" class="<?php if($v == $pages->current){echo 'selected';} ?>"><?php echo $v; ?></a>
+    <?php
+        }
+    ?>
+    <a href="<?php echo $url?>pageNum=<?php echo ($pages->current + 1) < $pages->last ? $pagess->current + 1 : $pages->last ?>" style="width:60px">下一页</a>
+    <a href="<?php echo $url?>pageNum=<?php echo $pages->last; ?>">尾页</a>
+    <span>共 <?php echo $pages->pageCount;?> 页</span>
+</div>

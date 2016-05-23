@@ -44,4 +44,15 @@ class IndexController extends Front{
     public function contactAction(){
         return $this->view;
     }
+
+    public function hotStoresAction(){
+        $hotStores = $this->storeModel->getHotStores($this->pageNum, 1);
+
+        $this->view->setVariables(array(
+            'hotStores' => $hotStores['data'],
+            'pages' => $hotStores['pages'],
+        ));
+
+        return $this->view;
+    }
 }

@@ -16,4 +16,25 @@ class Store extends Model{
         return $this->selectWith($select)->toArray();
     }
 
+    public function getHotStores($page, $limit){
+        $select = $this->getSelect();
+        $select->where(array('isHot' => 1));
+
+        $paginator = $this->paginate($select);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($limit);
+        $hotStores = $paginator->getCurrentItems()->getArrayCopy();
+        $pages = $paginator->getPages();
+
+
+        $result = array(
+            'data' => $hotStores,
+            'pages' => $pages,
+
+        );
+
+        return $result;
+
+    }
+
 }

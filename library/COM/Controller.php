@@ -47,8 +47,8 @@ class Controller extends AbstractActionController{
         $this->queryData = $this->request->getQuery()->toArray();
         $this->controllerName = $this->route->getParam('__CONTROLLER__');
         $this->actionName = $this->route->getParam('action');
-        $this->pageNum = $this->postData['pageNum'];
-        $this->limit = $this->postData['limit'];
+        $this->pageNum = $this->postData['pageNum'] ? $this->postData['pageNum'] : $this->queryData['pageNum'];
+        $this->limit = $this->postData['limit'] ? $this->postData['limit'] : $this->queryData['limit'];
         if(!empty($this->pageNum) && !empty($this->limit)){
             $this->offset = ($this->pageNum - 1) * $this->limit;
         }
