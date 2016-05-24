@@ -9,9 +9,7 @@
         echo $this->headLink()
             ->appendStylesheet($this->basePath() . '/plugins/layer/skin/layer.css')
             ->appendStylesheet($this->basePath() . '/plugins/jquery-ui/jquery.ui.datepicker.css')
-            ->appendStylesheet($this->basePath() . '/dist/styles/common/common.css')
-            ->appendStylesheet($this->basePath() . '/dist/styles/main/index.css')
-            ->appendStylesheet($this->basePath() . '/dist/styles/main/good.css');
+            ->appendStylesheet($this->basePath() . '/dist/styles/common/common.css');
 
         echo $this->headScript()
             ->appendFile($this->basePath() . '/plugins/jquery/jquery.js')
@@ -61,7 +59,7 @@
             $(".date-pop").datepicker({
                 showOtherMonths: true,
                 selectOtherMonths: true,
-                dateFormat: 'yy.mm.dd',
+                dateFormat: 'yy-mm-dd',
                 onSelect: function (dateText, inst) {
                     window.top.location.href = '/special/index?date=' + dateText;
                 }

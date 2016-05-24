@@ -1,13 +1,13 @@
 <?php
-echo $this->headLink()->appendStylesheet('/he/style/common.css')->appendStylesheet('/he/style/style.css');
-echo $this->inlineScript()->setFile($this->basePath() . '/he/js/jquery.datePicker-min.js');
+echo $this->headLink()->appendStylesheet('/he/style/style.css');
 ?>
 <div class="wrap">
     <div class="select_list">
         <div class="select_l">
-            <p class="f16 canl_t">按日期搜索专场</p>
-
-            <div class="datepicker"></div>
+            <div class="pop-datatit pa">
+                按日期搜索专场
+            </div>
+            <div class="date-pop"></div>
         </div>
 
 
@@ -62,20 +62,3 @@ echo $this->inlineScript()->setFile($this->basePath() . '/he/js/jquery.datePicke
         <?php echo $this->render('/front/common/paginate', array('url' => '/special/index?', 'pages' => $pages)) ?>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function(){
-
-        $(".datepicker").datePicker({
-            inline:true,
-            selectMultiple:false,
-            clickInput: function () {
-                console.log(111);
-            }
-        });
-
-        $("#datepicker").datePicker({
-            clickInput:true
-        });
-
-    });
-</script>
