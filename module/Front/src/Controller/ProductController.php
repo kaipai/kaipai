@@ -105,13 +105,13 @@ class ProductController extends Front{
 
     public function detailAction(){
         $productID = $this->queryData['productID'];
-        $select = $this->productModel->getSelect();
-        $select->join(array('b' => 'ProductCategory'), 'Product.productCategoryID = b.productCategoryID', 'categoryName');
-        $select->where(array('productID' => $productID));
-        $productDetail = $this->productModel->selectWith($select)->current();
-
+        $sourceSpecialID = $this->queryData['sourceSpecialID'];
+        $sourceSpecialInfo = $this->specialModel->select(array('specialID' => $sourceSpecialID))->current();
+        $where = array('productID' => $productID);
+        $productInfo = $this->productModel->fetch($where);
         $this->view->setVariables(array(
-            'productDetail' => $productDetail
+            'productInfo' => $productInfo,
+            'sourceSpecialInfo' => $sourceSpecialInfo,
         ));
         return $this->view;
     }

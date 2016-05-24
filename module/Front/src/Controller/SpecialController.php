@@ -26,7 +26,25 @@ class SpecialController extends Front{
         return $this->view;
     }
 
-    public function themeAction(){
+    public function detailAction(){
+        $specialID = $this->queryData['specialID'];
+        $where = array(
+            'specialID' => $specialID,
+        );
+
+        $specialInfo = $this->specialModel->fetch($where);
+
+        $where = array(
+            'SpecialProduct.specialID' => $specialID
+        );
+        $specialProducts = $this->specialProductModel->getSpecialProducts($where, $this->pageNum, $this->limit);
+
+        $this->view->setVariables(array(
+            'specialInfo' => $specialInfo,
+            'products' => $specialProducts['data'],
+            'pages' => $specialProducts['pages'],
+        ));
+
         return $this->view;
     }
 
@@ -43,17 +61,6 @@ class SpecialController extends Front{
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
 
-    }
-
-    public function detailAction(){
-        $specialID = $this->postData['specialID'];
-        $where = array(
-            'specialID' => $specialID,
-        );
-
-        $specialInfo = $this->specialModel->fetch($where);
-
-        return $this->view;
     }
 
     public function addAction(){

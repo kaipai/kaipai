@@ -1,12 +1,16 @@
+<?php
+echo $this->headLink()
+    ->appendStylesheet('/dist/styles/main/good.css');
+?>
 <div class="center">
     <div class="s-nav">
-        <a>在线竞拍</a>
+        <a href="/">在线竞拍</a>
         &gt;
-        <a>拍卖专场</a>
+        <a href="/special/index">拍卖专场</a>
         &gt;
-        <a href="#">精品典藏 高端艺术品竞拍专场</a>
+        <a href="/special/detail?specialID=<?php echo $sourceSpecialInfo['specialID']; ?>"><?php echo $sourceSpecialInfo['specialName']; ?></a>
         &gt;
-        江西省工艺美术师康剑作品祥和
+        <?php echo $productInfo['productName']; ?>
     </div>
 
     <!--产品详细 start-->
@@ -47,18 +51,27 @@
         <div class="cpxx-c">
             <!--top start-->
             <div class="cpxx-c-top">
-                <h2>卿佩天然琥珀蜜蜡霸气吊坠HP35305-442</h2>
-
+                <h2><?php echo $productInfo['productName'] ?></h2>
                 <div class="cpxx-date">
-                    <span>正在拍卖</span> <i>距结束</i>
+                    <?php
+                        if($productInfo['auctionStatus'] == 2){
+                    ?>
 
-                    <div class="yomibox2" data="2016-05-02 21:59:59"></div>
+                                <span>正在拍卖</span> <i>距结束</i>
 
-                    <!--
-                <span>拍品已结束</span> <i>结束时间 2016/3/1 22:00:00</i>
-                -->
-                    <div class="onlookers">围观人数：39</div>
+                                <div class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?>"></div>
 
+
+                                <div class="onlookers">围观人数：<?php echo $productInfo['interestedCount']; ?></div>
+
+
+                    <?php
+                        }elseif($productInfo['auctionStatus'] == 3){
+                    ?>
+                            <span>拍品已结束</span> <i>结束时间 <?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?></i>
+                    <?php
+                        }
+                    ?>
                 </div>
             </div>
             <!--top end-->
@@ -68,7 +81,7 @@
                     <dt class="present-price">当前价格：</dt>
                     <dd>
                         ￥
-                        <span class="f30">55000</span>
+                        <span class="f30"><?php echo $productInfo['currPrice']; ?></span>
                     </dd>
                 </dl>
 
@@ -87,9 +100,6 @@
                         <input name="设置代理价" type="button" class="d-zx btn" id="agent_biding" value="设置代理价"/>
                     </dd>
                 </dl>
-
-                <!--  <h3 style="text-align:center;line-height:140px;font-size:24px;">拍品已结束</h3>
-            -->
             </div>
             <!--end detailed-price-->
             <div class="cpxx-sjxx">
@@ -521,7 +531,7 @@
     </div>
 </div>
 <?php
-echo $this->headScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
+echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
 ?>
 <script type="text/javascript">
     $(function () {

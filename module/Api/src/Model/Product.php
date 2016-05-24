@@ -18,4 +18,12 @@ class Product extends Model{
         return $this->productFilterOptionModel->getList($where, $order, 0, 18);
     }
 
+    public function fetch($where = array()){
+        $select = $this->getSelect();
+        $select->join(array('b' => 'ProductCategory'), 'Product.productCategoryID = b.productCategoryID', 'categoryName');
+        $select->where($where);
+
+        return $this->selectWith($select)->current();
+    }
+
 }
