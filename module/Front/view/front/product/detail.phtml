@@ -104,17 +104,17 @@ echo $this->headLink()
             <!--end detailed-price-->
             <div class="cpxx-sjxx">
                 <ul>
-                    <li>起拍价：￥55000</li>
+                    <li>起拍价：￥<?php echo $productInfo['startPrice']; ?></li>
                     <li>
                         加价幅度：￥
-                        <span id="specialIncreaseRange">2000</span>
+                        <span id="specialIncreaseRange"><?php echo $productInfo['auctionPerPrice']; ?></span>
                     </li>
-                    <li>拥金：￥500</li>
+                    <li>拥金：￥<?php echo $productInfo['currPrice'] * 0.5; ?></li>
                     <li>保留价：有</li>
                     <li>延时周期：5分/次</li>
                     <li>
                         商家：
-                        <a ui-sref="mainShop({'id':14})" class="blue">开拍珠宝</a>
+                        <a ui-sref="mainShop({'id':14})" class="blue"><?php echo $productInfo['storeName'] ?></a>
                     </li>
                 </ul>
             </div>
