@@ -15,6 +15,21 @@ class MemberController extends Front{
     }
 
     public function addProductAction(){
+        $productCategories = $this->productCategoryModel->select()->toArray();
+
+        $this->view->setVariables(array(
+            'productCategories' => $productCategories
+        ));
+        return $this->view;
+    }
+
+    public function addProductCategoryAction(){
+        $productCategoryID = $this->queryData['productCategoryID'];
+        $options = $this->productCategoryFilterOption->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
+
+        $this->view->setVariables(array(
+            'options' => $options
+        ));
         return $this->view;
     }
 

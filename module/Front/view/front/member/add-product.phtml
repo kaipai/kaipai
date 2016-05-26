@@ -13,43 +13,20 @@ echo $this->headLink()
         <div class="kp_right">
             <div>
                 <span class="bold">所属类目</span>
-                <select class="kp_year1 ml20">
-                    <option value="volvo">国画</option>
-                    <option value="saab">2014</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+                <select class="kp_year1 ml20" id="product-category-sel">
+                    <?php foreach($productCategories as $v){
+                    ?>
+                        <option value="<?php echo $v['productCategoryID']; ?>"><?php echo $v['categoryName'] ?></option>
+                    <?php
+                    } ?>
                 </select>
-                <select class="kp_year1">
-                    <option value="volvo">花鸟</option>
-                    <option value="saab">2014</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select>
+
                 <span class="ind_x">*</span>
                 <span class="ml20"><a href="">类目说明 >></a></span>
             </div>
             <div class="ind_fg">
                 <div><span class="ind_dx">单选</span><span class="ind_dx1">请仔细选择筛选项，以便有更大几率被搜索显示</span></div>
-                <div class="ind_fge1">
-                    <span class="ind_fge">风 格</span>
-                    <input name="y01" type="radio" class="ind_checkbox"/>写意
-                    <input name="y01" type="radio" class="ind_checkbox"/>工笔
-                </div>
-                <div class="ind_fge1">
-                    <span class="ind_fge">高 度</span>
-                    <input name="y02" type="radio" class="ind_checkbox"/> 20-40cm
-                    <input name="y02" type="radio" class="ind_checkbox"/> 20-40cm
-                    <input name="y02" type="radio" class="ind_checkbox"/> 20-40cm
-                    <input name="y02" type="radio" class="ind_checkbox"/> 20-40cm
-                    <input name="y02" type="radio" class="ind_checkbox"/> 20-40cm
-                </div>
-                <div class="ind_fge1">
-                    <span class="ind_fge">形 式</span>
-                    <input name="y03" type="radio" class="ind_checkbox"/> 立轴
-                    <input name="y03" type="radio" class="ind_checkbox"/> 镜片
-                    <input name="y03" type="radio" class="ind_checkbox"/> 镜心
-                    <input name="y03" type="radio" class="ind_checkbox"/> 扇面
-                    <input name="y03" type="radio" class="ind_checkbox"/> 写意
+                <div id="add-product-category">
 
                 </div>
             </div>
@@ -356,6 +333,11 @@ echo $this->headLink()
             fileSingleSizeLimit: 50000 * 1024,
             accept: {}
         });
-    })
+
+        $('#product-category-sel').on('change', function(){
+            var productCategoryID = $(this).val();
+            $('#add-product-category').load('/member/add-product-category?productCategoryID=' + productCategoryID);
+        });
+    });
 
 </script>
