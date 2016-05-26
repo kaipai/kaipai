@@ -1,0 +1,45 @@
+<div class="kp_left">
+    <div class="kp_biaot">
+        <p class="kp_p" id="kpdh">我是买家</p>
+        <ul class="kp_ul mt10" id="kpdh1">
+            <a href="/member/auction">
+                <li <?php if($leftTab == 'auction'){ ?> class="kp_checked" <?php } ?>>正在竞拍</li>
+            </a>
+            <a href="/member/order">
+                <li <?php if($leftTab == 'order'){ ?> class="kp_checked" <?php } ?>>已购拍品</li>
+            </a>
+            <a href="">
+                <li>关注拍品</li>
+            </a>
+            <a href="/member/interest-supplier">
+                <li <?php if($leftTab == 'interest-supplier'){ ?> class="kp_checked" <?php } ?>>关注商家</li>
+            </a>
+            <a href="">
+                <li>买家须知</li>
+            </a>
+        </ul>
+    </div>
+    <div class="kp_biaot">
+        <p class="kp_p">我是商家</p>
+        <ul class="kp_ul mt10">
+            <a href="/member/add-product">
+                <li <?php if($leftTab == 'add-product'){ ?> class="kp_checked" <?php } ?>>发布拍品</li>
+            </a>
+            <a href="/member/product">
+                <li <?php if($leftTab == 'product'){ ?> class="kp_checked" <?php } ?>>拍品仓库</li>
+            </a>
+            <a href="/member/special">
+                <li <?php if($leftTab == 'special'){ ?> class="kp_checked" <?php } ?>>管理专场</li>
+            </a>
+            <a href="/member/supplier-order">
+                <li <?php if($leftTab == 'supplier-order'){ ?> class="kp_checked" <?php } ?>>已售拍品</li>
+            </a>
+            <a href="/member/setting">
+                <li <?php if($leftTab == 'setting'){ ?> class="kp_checked" <?php } ?>>商家设置</li>
+            </a>
+            <a href="/member/auth">
+                <li <?php if($leftTab == 'auth'){ ?> class="kp_checked" <?php } ?>>认证流程</li>
+            </a>
+        </ul>
+    </div>
+</div>

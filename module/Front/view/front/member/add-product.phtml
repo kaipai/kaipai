@@ -8,51 +8,7 @@ echo $this->headLink()
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
-        <div class="kp_left">
-            <div class="kp_biaot">
-                <p class="kp_p" id="kpdh">我是买家</p>
-                <ul class="kp_ul mt10" id="kpdh1">
-                    <a href="">
-                        <li>正在竞拍</li>
-                    </a>
-                    <a href="">
-                        <li>已购拍品</li>
-                    </a>
-                    <a href="">
-                        <li>关注拍品</li>
-                    </a>
-                    <a href="">
-                        <li>关注商家</li>
-                    </a>
-                    <a href="">
-                        <li>买家须知</li>
-                    </a>
-                </ul>
-            </div>
-            <div class="kp_biaot">
-                <p class="kp_p">我是商家</p>
-                <ul class="kp_ul mt10">
-                    <a href="fbPaiPin.html">
-                        <li>发布拍品</li>
-                    </a>
-                    <a href="ppChangKu.html">
-                        <li>拍品仓库</li>
-                    </a>
-                    <a href="glzhuanchang.html">
-                        <li>管理专场</li>
-                    </a>
-                    <a href="ysPaiPin.html">
-                        <li>已售拍品</li>
-                    </a>
-                    <a href="sjSheZhi.html">
-                        <li class="kp_checked">商家设置</li>
-                    </a>
-                    <a href="index.html">
-                        <li>认证流程</li>
-                    </a>
-                </ul>
-            </div>
-        </div>
+        <?php echo $this->render('left', array('leftTab' => 'add-product')); ?>
         <!-- right部分 -->
         <div class="kp_right">
             <div>
@@ -153,9 +109,9 @@ echo $this->headLink()
                 <div class="ind_zpinfo_left"><span class="bold">拍品详情</span>
 
                     <div class="gl_zyi">注：<br>图片宽度限860像素内。如不编辑手机版本，将在移动客户端默认显示缩电脑版。</div>
-                    <div class="ind_dnb"><a href="">电 脑 版</a></div>
+                    <!--<div class="ind_dnb"><a href="">电 脑 版</a></div>
                     <div class="ind_dnb1"><a href="">手 机 版</a></div>
-                    <div class="ind_dnb2"><a href="">立即保存</a></div>
+                    <div class="ind_dnb2"><a href="">立即保存</a></div>-->
                 </div>
                 <div class="ind_zpinfo_right">
                     <div style="width:700px;  background:#fff">

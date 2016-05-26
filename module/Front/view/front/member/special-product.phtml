@@ -1,51 +1,7 @@
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
-        <div class="kp_left">
-            <div class="kp_biaot">
-                <p class="kp_p kpdh">我是买家</p>
-                <ul class="kp_ul mt10 kpdh1">
-                    <a href="">
-                        <li>正在竞拍</li>
-                    </a>
-                    <a href="">
-                        <li>已购拍品</li>
-                    </a>
-                    <a href="">
-                        <li>关注拍品</li>
-                    </a>
-                    <a href="">
-                        <li>关注商家</li>
-                    </a>
-                    <a href="">
-                        <li>买家须知</li>
-                    </a>
-                </ul>
-            </div>
-            <div class="kp_biaot">
-                <p class="kp_p kpdh2">我是商家</p>
-                <ul class="kp_ul mt10">
-                    <a href="fbPaiPin.html">
-                        <li>发布拍品</li>
-                    </a>
-                    <a href="ppChangKu.html">
-                        <li class="kp_checked">拍品仓库</li>
-                    </a>
-                    <a href="glzhuanchang.html">
-                        <li>管理专场</li>
-                    </a>
-                    <a href="ysPaiPin.html">
-                        <li>已售拍品</li>
-                    </a>
-                    <a href="sjSheZhi.html">
-                        <li>商家设置</li>
-                    </a>
-                    <a href="index.html">
-                        <li>认证流程</li>
-                    </a>
-                </ul>
-            </div>
-        </div>
+        <?php echo $this->render('left', array('leftTab' => 'special-product')); ?>
         <!-- right部分 -->
         <div class="kp_right">
             <div class="add_one">

@@ -1,51 +1,7 @@
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
-        <div class="kp_left">
-            <div class="kp_biaot">
-                <p class="kp_p">我是买家</p>
-                <ul class="kp_ul mt10">
-                    <a href="">
-                        <li>我是买家</li>
-                    </a>
-                    <a href="">
-                        <li>我是买家</li>
-                    </a>
-                    <a href="">
-                        <li>我是买家</li>
-                    </a>
-                    <a href="">
-                        <li>我是买家</li>
-                    </a>
-                    <a href="">
-                        <li>我是买家</li>
-                    </a>
-                </ul>
-            </div>
-            <div class="kp_biaot">
-                <p class="kp_p kpdh2">我是买家</p>
-                <ul class="kp_ul mt10">
-                    <a href="fbPaiPin.html">
-                        <li>发布拍品</li>
-                    </a>
-                    <a href="ppChangKu.html">
-                        <li>拍品仓库</li>
-                    </a>
-                    <a href="glzhuanchang.html">
-                        <li>管理专场</li>
-                    </a>
-                    <a href="ysPaiPin.html">
-                        <li class="kp_checked">已售拍品</li>
-                    </a>
-                    <a href="sjSheZhi.html">
-                        <li>商家设置</li>
-                    </a>
-                    <a href="index.html">
-                        <li>认证流程</li>
-                    </a>
-                </ul>
-            </div>
-        </div>
+        <?php echo $this->render('left', array('leftTab' => 'add-special')); ?>
         <!-- right部分 -->
         <div class="kp_right">
             <div>
