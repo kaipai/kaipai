@@ -8,7 +8,7 @@ use COM\Controller\Front;
 class MemberController extends Front{
 
     public function init(){
-        if(empty($this->memberInfo)) $this->redirect()->toUrl('/login/do-login');
+        //if(empty($this->memberInfo)) $this->redirect()->toUrl('/login/do-login');
     }
 
     public function indexAction(){
@@ -49,6 +49,11 @@ class MemberController extends Front{
     }
 
     public function productAction(){
+        $products = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID']), $this->pageNum, $this->limit);
+
+        $this->view->setVariables(array(
+            'products' => $products
+        ));
         return $this->view;
     }
 

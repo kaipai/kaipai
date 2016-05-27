@@ -27,4 +27,20 @@ class Product extends Model{
         return $this->selectWith($select)->current();
     }
 
+    public function getProducts($where, $page, $limit){
+        $select = $this->getSelect();
+        $select->where($where);
+        $select->order('Instime DESC');
+        $paginator = $this->paginate($select, $this->getSql()->getAdapter());
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($limit);
+        $data = $paginator->getCurrentItems()->toArray();
+        $pages = $paginator->getPages();
+        $result = array(
+            'data' => $data,
+            'pages' => $pages,
+        );
+        return $result;
+    }
+
 }
