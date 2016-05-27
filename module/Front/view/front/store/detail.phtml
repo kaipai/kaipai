@@ -1,0 +1,65 @@
+<?php
+echo $this->headLink()->appendStylesheet('/he/style/common.css')->appendStylesheet('/he/style/style.css');
+echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js/jquery.datePicker-min.js');
+?>
+<div class="exc_bann">
+    <div class="wrap1 pt0">
+        <dl class="exc_b_l">
+            <dt><img src="images/logo.png"></dt>
+            <dd>
+                <span><?php echo $storeInfo['sotreName'];?></span> <a href="" class="exc_b">联系卖家</a><br/><?php echo $storeInfo['storeSignature'] ?>
+            </dd>
+        </dl>
+        <div class="exc_code"><img src="images/code.gif"></div>
+    </div>
+</div>
+<div class="exc_rank">
+    <div class="wrap2">
+        <div class="exc_rank_l">
+            <a href="">全 &nbsp;部</a><a href="">正在拍卖</a><a href="">即将拍卖</a><a href="" class="rank_icon_x1">价
+                &nbsp;格</a><a href="" class="rank_icon_x">关注人数</a>
+        </div>
+        <div class="exc_rank_r"><a href="">更改抬头图片</a><a href="">进入店铺设置</a><a href="">站内报错</a></div>
+    </div>
+</div>
+<div class="wrap5">
+    <div class="inner_cls">
+        <span>店内分类</span><a href="" class="inner_f"><font>●</font>山水</a><a href=""
+                                                                           class="inner_f"><font>●</font>人物</a><a
+            href="" class="inner_f"><font>●</font>花鸟</a> <font class="fr innder_ab"><a href="">关于我</a>&nbsp;&nbsp;&nbsp;
+        </font>
+    </div>
+</div>
+<div class="exc_tj">
+    <div class="wrap2">
+        <h3>店铺精选</h3>
+        <?php
+            foreach($storeRecommendProducts as $v){
+        ?>
+                <ul class="exc_list">
+                    <li class="lh32"><a href=""><?php echo $v['productName'] ?></a></li>
+                    <li class="lh32">当前价 <span>￥<?php echo $v['currPrice'] ?></span></li>
+                    <li class="lh32">距结束 8小时30分20秒</li>
+                    <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong><?php echo $v['auctionCount'] ?></strong><br/>次出价</font></li>
+                </ul>
+        <?php
+            }
+        ?>
+    </div>
+</div>
+<div class="wrap4">
+    <div class="wrap2">
+        <?php
+            foreach($storeProducts as $v){
+        ?>
+                <ul class="exc_list mt20">
+                    <li class="lh32"><a href=""><?php echo $v['productName'] ?></a></li>
+                    <li class="lh32">当前价 <span>￥<?php echo $v['currPrice'] ?></span></li>
+                    <li class="lh32">距结束 8小时30分20秒</li>
+                    <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong><?php echo $v['auctionCount'] ?></strong><br/>次出价</font></li>
+                </ul>
+        <?php
+            }
+        ?>
+    </div>
+</div>

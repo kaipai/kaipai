@@ -27,12 +27,20 @@ class StoreController extends Front{
     }
 
     public function detailAction(){
+        $storeID = $this->queryData['storeID'];
         $where = array(
-            'storeID' => $this->postData['storeID']
+            'storeID' => $storeID
         );
         $storeInfo = $this->storeModel->fetch($where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array($storeInfo));
+        $storeRecommendProducts = $this->productModel->getProducts(array('isStoreRecommend' => 1, 'storeID' => $storeID));
+        $storeProducts = $this->productModel->getProducts(array('isStoreRecommend' => 0, 'storeID' => $storeID));
+        $this->view->setVariables(array(
+            'storeInfo' => $storeInfo,
+            'storeRecommendProducts' => $storeRecommendProducts,
+            'soterProducts' => $storeProducts,
+        ));
+        return $this->view;
     }
 
     public function addAction(){

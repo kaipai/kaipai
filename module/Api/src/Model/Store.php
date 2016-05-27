@@ -37,4 +37,12 @@ class Store extends Model{
 
     }
 
+    public function fetch($where){
+        $select = $this->getSelect();
+
+        $select->where($where);
+
+        return $this->selectWith($select)->current();
+    }
+
 }
