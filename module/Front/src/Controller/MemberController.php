@@ -7,7 +7,9 @@ use COM\Controller\Front;
 
 class MemberController extends Front{
 
-
+    public function init(){
+        if(empty($this->memberInfo)) $this->redirect()->toUrl('/login/do-login');
+    }
 
     public function indexAction(){
 
@@ -24,8 +26,9 @@ class MemberController extends Front{
     }
 
     public function addProductCategoryAction(){
+        $this->view->setNoLayout();
         $productCategoryID = $this->queryData['productCategoryID'];
-        $options = $this->productCategoryFilterOption->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
+        $options = $this->productCategoryFilterOptionModel->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
 
         $this->view->setVariables(array(
             'options' => $options

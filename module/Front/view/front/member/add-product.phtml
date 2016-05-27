@@ -33,7 +33,7 @@ echo $this->headLink()
             <div class="ind_zpinfo">
                 <div class="ind_zpinfo_left ind_zpinfo_leftinfo bold">作品信息</div>
                 <div class="ind_zpinfo_right">
-                    <div class="ind_btm">作者 <input class="zz_input" type="text" placeholder="请输入作者名字"></div>
+                    <div class="ind_btm">作者 <input name="productAuthor" class="zz_input" type="text" placeholder="请输入作者名字"></div>
                     <div class="ind_btm">创作时间/年代 <select class="ind_year">
                             <option value="volvo">2015</option>
                             <option value="saab">2014</option>
@@ -334,10 +334,15 @@ echo $this->headLink()
             accept: {}
         });
 
+
         $('#product-category-sel').on('change', function(){
-            var productCategoryID = $(this).val();
-            $('#add-product-category').load('/member/add-product-category?productCategoryID=' + productCategoryID);
+            addProductCategoryRefresh()
         });
+        function addProductCategoryRefresh(){
+            var productCategoryID = $('#product-category-sel').val();
+            $('#add-product-category').load('/member/add-product-category?productCategoryID=' + productCategoryID);
+        }
+        addProductCategoryRefresh();
     });
 
 </script>
