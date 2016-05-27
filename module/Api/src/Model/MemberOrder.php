@@ -19,6 +19,16 @@ class MemberOrder extends Model{
 
     }
 
+    public function getOrders($where){
+        $select = $this->getSelect();
+        $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName'))
+            ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney'))
+            ->where($where);
+
+        $orders = $this->selectWith($select)->toArray();
+        return $orders;
+    }
+
     public function genBusinessID(){
         return date('ymdhis') . substr(microtime(), 2, 3) . rand(0, 9);
     }

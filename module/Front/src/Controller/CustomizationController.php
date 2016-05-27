@@ -9,17 +9,26 @@ class CustomizationController extends Front{
     }
 
     public function listAction(){
-        $customizations = $this->customizationModel->getList();
+        $customizations = $this->customizationModel->getCustomizations($this->pageNum, $this->limit);
 
+        $this->view->setVariables(array(
+            'customizations' => $customizations['data'],
+            'pages' => $customizations['pages'],
+        ));
         return $this->view;
     }
 
     public function detailAction(){
         $customizationID = $this->queryData['customizationID'];
 
-
-        $customizationInfo = $this->customizationModel->select(array('customizationID' => $customizationID))->current();
-
+        $customizationInfo = $this->customizationModel->fetch(array('customizationID' => $customizationID));
+        $artistInfo = $this->artistModel->select(array('artistID' => $customizationInfo['artistID']))->current();
+        $orders = $this->orderModel->getOrders(array('customizationID' => $customizationInfo['customizationID']));
+        $this->view->setVariables(array(
+            'customizationInfo' => $customizationInfo,
+            'artistInfo' => $artistInfo,
+            'orders' => $orders,
+        ));
         return $this->view;
     }
 
