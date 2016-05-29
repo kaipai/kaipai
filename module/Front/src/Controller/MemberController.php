@@ -81,6 +81,11 @@ class MemberController extends Front{
         return $this->view;
     }
 
+    public function supplierJoinAction(){
+        $this->view->setTemplate('/front/member/supplier-join-step1');
+        return $this->view;
+    }
+
 
     public function profileAction(){
         $where = array(

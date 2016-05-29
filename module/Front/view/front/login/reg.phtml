@@ -1,5 +1,6 @@
 <?php
 echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/account.css');
+
 ?>
 
 <div class="logcont">
@@ -31,7 +32,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                         <span>手机号码：</span>
 
                     <div class="inputBox"><i class="phone"></i> <em class="phone"></em>
-                        <input autocomplete="off" ng-model="curObj.mobile" name="mobile" placeholder="手机号码"
+                        <input id="mobileNum" name="mobile" placeholder="手机号码"
                                type="text" value=""/>
                     </div>
                     </p>
@@ -41,7 +42,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                         <span>验证码：</span>
 
                     <div class="inputBox" style=" border: none;">
-                        <input autocomplete="off" name="picVerifyCode" placeholder="请输入验证码"
+                        <input id="picVerifyCode" name="picVerifyCode" placeholder="请输入验证码"
                                style="width: 142px; border:solid 1px #ddd; margin-right:5px;" type="text"
                                ng-model="curObj.picVerifyCode"/>
                         <img alt="点击切换"
@@ -56,7 +57,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
 
                         <input autocomplete="off" class="input" id="ValidateCode" name="verifyCode"
                                placeholder="输入验证码" style="margin-left:-4px" type="text" value=""/>
-                        <a class="btn_getcode" id="btn_getcode" ng-click="checkSendFun()"
+                        <a class="btn_getcode" id="btn_getcode"
                            href="javascript:;">发送验证码</a>
                     </p>
                 </div>
@@ -136,3 +137,4 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
     </div>
 
 </div>
+<?php echo $this->inlineScript()->appendFile('/dist/js/account.js'); ?>

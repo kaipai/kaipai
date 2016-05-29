@@ -1,0 +1,18 @@
+@charset "UTF-8";
+.jm_main{background: #fff; min-height:575px ; padding-left:35px; padding-top: 50px ;    width: 865px;}
+.jm_sfz{ margin-top: 20px; overflow: hidden;}
+.jm_sfz1{ width: 140px; float: left;}
+.jm_sfz2{ float: left;}
+.jm_sfz2 input{ width: 350px; height: 30px; line-height: 30px; padding-left: 20px}
+.a-upload{/* padding: 4px 10px; */ height: 20px; line-height: 20px; position: relative;cursor: pointer;border: 1px solid #817b7a; overflow: hidden; display: inline-block;background: #cfcfd0;width: 198px;height: 30px;line-height: 30px;text-align: center;}
+.a-upload input{ position: absolute; right: 0px;top:0px ; opacity: 0; cursor: pointer;} 
+.jm_sfz2 .jm_sfz2input{ width: 180px;/* height: 30px; *//* line-height: 30px; */ padding-left: 20px;display: inline-block;margin-top: 0px;}
+.jm_yzm{ width: 100px; height: 30px; line-height: 30px;text-align: center; color: #fff; background:#8ac9c3; margin-left:10px  ; display: inline-block; cursor: pointer;}
+.jm_tj{ width: 132px; height: 32px; line-height: 32px; color: #fff; text-align: center; background: #810000; cursor: pointer; margin-top: 40px}
+.jm_shinfo{ margin-top: 20px; font-size:34px }
+.jm_shinfo1{ margin-top: 20px; }
+.jm_wt{ width: 200px; margin-right: 20px}
+.jm_sfz5{ float: left; width: 130px; height: 78px}
+.jm_sfz5 img{ width: 100%; height: 100%}
+.jm_tj5{ width: 330px; height: 32px; line-height: 32px; color: #fff; text-align: center; background: #810000; cursor: pointer; margin-top: 40px}
+.jm_lef{ margin-left: 30px}
