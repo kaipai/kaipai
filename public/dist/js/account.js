@@ -60,12 +60,12 @@ J_btn_getcode.bind('click', function() {
 	}
 });
 
-$('#register').on('click', function(){
+$('#register').bind('click', function(){
     var nickName = $('#nickName').val();
     var mobile = J_mobile.val();
     var verifyCode = $('#verifyCode').val();
     var password = $('#password').val();
-    var serviceTerm = $('service-term').attr('checked');
+    var serviceTerm = $('#service-term').is(':checked');
     if(!nickName){
         layer.open({
             type : 0,
