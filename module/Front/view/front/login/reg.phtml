@@ -15,7 +15,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
         <div class="red-btn close">同意并继续</div>
     </div>
 
-    <div id="reg_begin" class="findPassword reg-bodybg" style=" display:block;">
+    <div id="reg_begin" class="findPassword reg-bodybg" style="display:block;">
         <div class="w1000 clearfix">
             <form id="reg_beginForm" method="post" novalidate="novalidate" action="/login/reg">
                 <div class="xtj-cloum">
@@ -23,7 +23,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                         <span>昵称：</span>
 
                     <div class="inputBox"><i class="name"></i> <em class="name"></em>
-                        <input autocomplete="off" id="Nick" name="nickName" placeholder="输入昵称" type="text" value=""/>
+                        <input autocomplete="off" id="nickName" name="nickName" placeholder="输入昵称" type="text" value=""/>
                     </div>
                     </p>
                 </div>
@@ -55,7 +55,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                     <p id="mcode">
                         <span>短信验证码：</span>
 
-                        <input autocomplete="off" class="input" id="ValidateCode" name="verifyCode"
+                        <input autocomplete="off" class="input" id="verifyCode" name="verifyCode"
                                placeholder="输入验证码" style="margin-left:-4px" type="text" value=""/>
                         <a class="btn_getcode" id="btn_getcode"
                            href="javascript:;">发送验证码</a>
@@ -69,7 +69,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                     <div class="inputBox">
                         <i class="key"></i>
                         <em class="key"></em>
-                        <input autocomplete="off" id="Password" name="password" placeholder="输入密码" type="password"/>
+                        <input autocomplete="off" id="password" name="password" placeholder="输入密码" type="password"/>
                     </div>
                     </p>
                 </div>
@@ -77,7 +77,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                     <p class="small">
                         <span>&nbsp;</span>
                         <label>
-                            <input id="check" type="checkbox">
+                            <input id="service-term" type="checkbox">
                             我已经阅读并同意
                             <a href="javascript:;">《开拍网用户服务条款》</a>
 
@@ -87,7 +87,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                 <div class="xtj-cloum">
                     <p>
                         <span>&nbsp;</span>
-                        <input type="button" id="regeter" class="submit" value="立即注册"></p>
+                        <input type="button" id="register" class="submit" value="立即注册"></p>
                 </div>
                 <div class="xtj-cloum">
                     <p style="line-height:40px">
