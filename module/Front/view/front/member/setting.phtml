@@ -70,7 +70,7 @@
 
         $('#store-settings-committ').on('click', function(){
             var storeLogo = $('#imghead').attr('src');
-            var storeBrand = $('#imghead1').attr('src');
+            var storeBanner = $('#imghead1').attr('src');
             var recommendImg = $('#imghead2').attr('src');
             var signature = $('#signature').val();
             var storeCategory = $('input[name=storeCategory[]').val();
@@ -84,7 +84,7 @@
                     time: 2000
                 });
             }
-            if(!storeBrand){
+            if(!storeBanner){
                 layer.open({
                     type : 0,
                     icon : 2,
@@ -98,6 +98,12 @@
                 type : 'post',
                 dataType : 'json',
                 data : {
+                    storeLogo : storeLogo,
+                    storeBanner : storeBanner,
+                    recommendImg : recommendImg,
+                    storeSignature : signature,
+                    storeCategory : storeCategory,
+                    storeDesc : storeDesc
 
                 },
                 success : function(data){
