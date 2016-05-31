@@ -4,7 +4,11 @@ namespace Front\Controller;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\Api\Sms;
+use Base\Functions\Utility;
 use COM\Controller\Front;
+use Zend\Authentication\Storage\Session;
+use Zend\Http\Cookies;
+use Zend\Http\Header\SetCookie;
 
 class LoginController extends Front{
 
@@ -12,6 +16,7 @@ class LoginController extends Front{
         if(empty($this->postData)) return $this->view;
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
+        $rememberMe = $this->postData['rememberMe'];
         if(empty($mobile) || empty($password)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
 
@@ -20,14 +25,14 @@ class LoginController extends Front{
             ->where(array('Member.mobile' => $mobile, 'Member.password' => $this->memberModel->genPassword($password)));
 
         $memberInfo = $this->memberModel->selectWith($select)->current();
-
         if(!empty($memberInfo)){
-            $token = $this->tokenModel->select(array('memberID' => $memberInfo['memberID']))->current();
-            if(empty($token)){
-                $token = array('memberID' => $memberInfo['memberID'], 'token' => uniqid());
-                $this->tokenModel->insert($token);
+            $loginSession = new Session(self::FRONT_PLATFORM, null,null);
+            $loginSession->write($memberInfo);
+            if($rememberMe){
+                $autoCode = md5($memberInfo['memberID'] . Utility::getRandCode(6));
+                setcookie('autoCode', $autoCode, strtotime('+1 year'), '/');
+                $this->memberInfoModel->update(array('autoCode' => $autoCode), array('memberID' => $memberInfo['memberID']));
             }
-            $memberInfo['token'] = $token['token'];
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberInfo);
         }else{
             return $this->response(ApiError::LOGIN_FAILED, ApiError::LOGIN_FAILED_MSG);
@@ -140,6 +145,10 @@ class LoginController extends Front{
         }
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function regSuccAction(){
+        return $this->view;
     }
 
 }

@@ -58,7 +58,9 @@ class MemberController extends Front{
     }
 
     public function settingAction(){
-        return $this->view;
+        if(empty($this->postData)) return $this->view;
+
+
     }
 
     public function supplierOrderAction(){

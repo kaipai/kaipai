@@ -101,7 +101,7 @@ $('#register').bind('click', function(){
         layer.open({
             type: 0,
             icon: 2,
-            content: '短信验证码不能为空',
+            content: '密码不能为空',
             shadeClose: true,
             time: 2000
         });
@@ -129,9 +129,76 @@ $('#register').bind('click', function(){
         },
         success : function(data){
             if(data.flag < 0){
-
+                layer.open({
+                    type : 0,
+                    icon : 2,
+                    content : data.msg,
+                    shadeClose: true,
+                    time: 2000
+                });
             }else{
+                location.href = '/login/reg-succ';
+            }
+        }
 
+    });
+});
+
+$('#do-login').bind('click', function(){
+    var mobile = $('input[name=mobile]').val();
+    var password = $('input[name=password]').val();
+    var rememberMe = $('input[name=rememberMe]').is(':checked');
+    if(!mobile){
+        layer.open({
+            type : 0,
+            icon : 2,
+            content : '手机号不能为空',
+            shadeClose: true,
+            time: 2000
+        });
+        return;
+    }
+    if (!re.test(mobile)) {
+        layer.open({
+            type: 0,
+            icon: 2,
+            content: '请输入正确的手机号码',
+            shadeClose: true,
+            time: 2000
+        });
+        return;
+    }
+    if (!password) {
+        layer.open({
+            type: 0,
+            icon: 2,
+            content: '密码不能为空',
+            shadeClose: true,
+            time: 2000
+        });
+        return
+    }
+
+    $.ajax({
+        url : '/login/do-login',
+        type : 'post',
+        dataType : 'json',
+        data : {
+            mobile : mobile,
+            password : password,
+            rememberMe : rememberMe
+        },
+        success : function(data){
+            if(data.flag < 0){
+                layer.open({
+                    type : 0,
+                    icon : 2,
+                    content : data.msg,
+                    shadeClose: true,
+                    time: 2000
+                });
+            }else{
+                location.href = '/';
             }
         }
 

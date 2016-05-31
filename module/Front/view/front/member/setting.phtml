@@ -7,44 +7,32 @@
 
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺标志</div>
-                <div id="preview" class="dianpbai"><img src="images/img_03.jpg"></div>
+                <div id="preview" class="dianpbai"><img src="/images/img_03.jpg"></div>
                 <span><input type="file" onchange="previewImage(this)"/> </span>
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺抬头</div>
-                <div id="preview1" class="dianpbai1"><img src="images/img_06.jpg"></div>
+                <div id="preview1" class="dianpbai1"><img src="/images/img_06.jpg"></div>
                 <span><input type="file" onchange="previewImage1(this)"/> </span>
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">店铺签名</span>
-                <input class="zz_inputqm" type="text" placeholder="">
+                <input class="zz_inputqm" type="text" id="signature" placeholder="">
                 <br> <span class="ind_jrzz"></span> *限35字以内，显示在店铺名称下方
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺推荐<br>栏位底图</div>
-                <div id="preview2" class="dianpbai1"><img src="images/img_06.jpg"></div>
+                <div id="preview2" class="dianpbai1"><img src="/images/img_06.jpg"></div>
                 <span><input type="file" onchange="previewImage2(this)"/> </span>
             </div>
             <div class="mt20">
-                <div class="ind_jrzz bold">拍品分类</div>
-                <select class="ind_dp1">
-                    <option value="volvo">分类一</option>
-                    <option value="saab">2014</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select>
-                <select class="ind_dp1">
-                    <option value="volvo">分类二</option>
-                    <option value="saab">2014</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
-                </select>
-                <a href=""><span class="ind_jia"> &nbsp</span></a>
-                <span class="ind_jia1"><a href="">编辑 >></a></span>
+                <div class="ind_jrzz bold" id="store-categories">拍品分类</div>
 
+
+                <span class="ind_jia" id="add-store-category-btn"> &nbsp</span>
             </div>
             <div class="mt20  ycsd">
-                <span class="ind_jrzz bold" style="float:left">店铺自诉</span>
+                <span class="ind_jrzz bold" style="float:left">店铺自述</span>
 
                 <div><span class="ind_fbxx">发布须知</span><span>不得发布反动，暴恐，色情信息</span></div>
 
@@ -59,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="ind_licj">确认提交</div>
+            <div class="ind_licj" id="store-settings-committ">确认提交</div>
 
 
         </div>
@@ -75,6 +63,54 @@
         $('#qqq').wysiwyg({
             controls:"bold,italic,|,undo,redo,image"
         });
+
+        $('#add-store-category-btn').on('click', function(){
+            $('#store-categories').after('<input type="text" value="" placeholder="分类名称" class="ind_dp1" name="storeCategory[]">');
+        });
+
+        $('#store-settings-committ').on('click', function(){
+            var storeLogo = $('#imghead').attr('src');
+            var storeBrand = $('#imghead1').attr('src');
+            var recommendImg = $('#imghead2').attr('src');
+            var signature = $('#signature').val();
+            var storeCategory = $('input[name=storeCategory[]').val();
+            var storeDesc = $('#qqq').text();
+            if(!storeLogo){
+                layer.open({
+                    type : 0,
+                    icon : 2,
+                    content : '请上传店铺标志',
+                    shadeClose: true,
+                    time: 2000
+                });
+            }
+            if(!storeBrand){
+                layer.open({
+                    type : 0,
+                    icon : 2,
+                    content : '请上传店铺抬头',
+                    shadeClose: true,
+                    time: 2000
+                });
+            }
+            $.ajax({
+                url ; '/member/setting',
+                type : 'post',
+                dataType : 'json',
+                data : {
+
+                },
+                success : function(data){
+                    layer.open({
+                        type : 0,
+                        icon : 2,
+                        content : data.msg,
+                        shadeClose: true,
+                        time: 2000
+                    });
+                }
+            });
+        });
     })
 </script>
 <script type="text/javascript">
@@ -86,8 +122,8 @@
         var div = document.getElementById('preview2');
         if (file.files && file.files[0])
         {
-            div.innerHTML ='<img id=imghead>';
-            var img = document.getElementById('imghead');
+            div.innerHTML ='<img id=imghead2>';
+            var img = document.getElementById('imghead2');
             img.onload = function(){
                 var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
                 img.width  =  rect.width;
@@ -104,8 +140,8 @@
             var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
             file.select();
             var src = document.selection.createRange().text;
-            div.innerHTML = '<img id=imghead>';
-            var img = document.getElementById('imghead');
+            div.innerHTML = '<img id=imghead2>';
+            var img = document.getElementById('imghead2');
             img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
             var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
             status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
@@ -155,8 +191,8 @@
         var div = document.getElementById('preview1');
         if (file.files && file.files[0])
         {
-            div.innerHTML ='<img id=imghead>';
-            var img = document.getElementById('imghead');
+            div.innerHTML ='<img id=imghead1>';
+            var img = document.getElementById('imghead1');
             img.onload = function(){
                 var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
                 img.width  =  rect.width;
@@ -173,8 +209,8 @@
             var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
             file.select();
             var src = document.selection.createRange().text;
-            div.innerHTML = '<img id=imghead>';
-            var img = document.getElementById('imghead');
+            div.innerHTML = '<img id=imghead1>';
+            var img = document.getElementById('imghead1');
             img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
             var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
             status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);

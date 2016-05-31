@@ -37,7 +37,7 @@ class Store extends Model{
 
     }
 
-    public function fetch($where){
+    public function fetch($where = array()){
         $select = $this->getSelect();
 
         $select->where($where);

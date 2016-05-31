@@ -2,6 +2,7 @@
 namespace COM;
 
 use Zend\Db\Sql\Select;
+use Zend\Http\Cookies;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\MvcEvent;
 use Zend\Authentication\Storage\Session;
@@ -104,8 +105,15 @@ class Controller extends AbstractActionController{
                 }
 
             }*/
-            $loginSession = new Session($platform, null,null);
-            $this->memberInfo = $session = $loginSession->read();
+            $autoCode = $_COOKIE['autoCode'];
+
+            if(!empty($autoCode)){
+                $this->memberInfo = $this->memberInfoModel->select(array('autoCode' => $autoCode))->current();
+            }else{
+                $loginSession = new Session($platform, null,null);
+                $this->memberInfo = $session = $loginSession->read();
+            }
+
 
         }else{
             $loginSession = new Session($platform, null,null);
