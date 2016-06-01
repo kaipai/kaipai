@@ -36,7 +36,7 @@ J_btn_getcode.bind('click', function() {
             data : {mobile : mobile, picVerifyCode : picVerifyCode},
             dataType : 'json',
             success : function(data) {
-                if(data.flag < 0){
+                if(data.flag <= 0){
                     flag = 0;
                     layer.open({
                         type: 0,
@@ -128,7 +128,7 @@ $('#register').bind('click', function(){
             password : password
         },
         success : function(data){
-            if(data.flag < 0){
+            if(data.flag <= 0){
                 layer.open({
                     type : 0,
                     icon : 2,
@@ -189,7 +189,9 @@ $('#do-login').bind('click', function(){
             rememberMe : rememberMe
         },
         success : function(data){
-            if(data.flag < 0){
+            if(data.flag > 0){
+                location.href = '/';
+            }else{
                 layer.open({
                     type : 0,
                     icon : 2,
@@ -197,8 +199,7 @@ $('#do-login').bind('click', function(){
                     shadeClose: true,
                     time: 2000
                 });
-            }else{
-                location.href = '/';
+
             }
         }
 

@@ -70,7 +70,20 @@ class MemberController extends Front{
 
     public function settingAction(){
         if(empty($this->postData)) return $this->view;
-        
+
+        try{
+            if(!empty($this->_storeInfo)){
+                $where = array(
+                    'storeID' => $this->_storeInfo['storeID']
+                );
+                $this->storeModel->update($this->postData, $where);
+            }else{
+                $this->storeModel->insert($this->postData);
+            }
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
+        }catch (\Exception $e){
+            return $this->response($e->getCode(), $e->getMessage());
+        }
 
     }
 
