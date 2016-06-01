@@ -29,9 +29,13 @@ class MemberController extends Front{
 
     public function addProductAction(){
         $productCategories = $this->productCategoryModel->select()->toArray();
+        $storeCategory = $this->storeCategoryModel->select(array('storeID' => $this->_storeInfo['storeID']))->toArray();
+        $specials = $this->specialModel->select(array('storeID' => $this->_storeInfo['storeID']))->toArray();
 
         $this->view->setVariables(array(
-            'productCategories' => $productCategories
+            'productCategories' => $productCategories,
+            'storeCategory' => $storeCategory,
+            'specials' => $specials,
         ));
         return $this->view;
     }
@@ -42,7 +46,7 @@ class MemberController extends Front{
         $options = $this->productCategoryFilterOptionModel->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
 
         $this->view->setVariables(array(
-            'options' => $options
+            'options' => $options,
         ));
         return $this->view;
     }
@@ -72,13 +76,22 @@ class MemberController extends Front{
         if(empty($this->postData)) return $this->view;
 
         try{
-            if(!empty($this->_storeInfo)){
-                $where = array(
-                    'storeID' => $this->_storeInfo['storeID']
+            $storeCategory = $this->postData['storeCategory'];
+            unset($this->postData['storeCategory']);
+            $storeID = $this->_storeInfo['storeID'];
+            $where = array(
+                'storeID' => $storeID
+            );
+
+            $this->storeModel->update($this->postData, $where);
+
+            $this->storeCategoryModel->delete(array('storeID' => $storeID));
+            foreach($storeCategory as $v){
+                $tmp = array(
+                    'storeID' => $storeID,
+                    'storeCategoryName' => $v,
                 );
-                $this->storeModel->update($this->postData, $where);
-            }else{
-                $this->storeModel->insert($this->postData);
+                $this->storeCategoryModel->insert($tmp);
             }
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
         }catch (\Exception $e){

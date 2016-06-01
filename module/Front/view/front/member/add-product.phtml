@@ -106,26 +106,35 @@ echo $this->headLink()
                 <div class="">
                     <span class="ind_jrzz bold">店内分类</span>
                     <input name="Fruit" type="radio" class="ind_radio"/>
-                    <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox">
+                    <input type="checkbox" name="storeCategory1" value="checkbox" class="ind_checkbox">
                     <select class="ind_dp1">
-                        <option value="volvo">显示店铺分类</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                        <?php
+                            foreach($storeCategory as $v){
+                        ?>
+                                <option value="<?php echo $v['storeCategoryID']; ?>"><?php echo $v['storeCategoryName']; ?></option>
+                        <?php
+                            }
+                        ?>
                     </select>
-                    <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox">
+                    <input type="checkbox" name="storeCategory2" value="checkbox" class="ind_checkbox">
                     <select class="ind_dp1">
-                        <option value="volvo">显示店铺分类</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                        <?php
+                        foreach($storeCategory as $v){
+                            ?>
+                            <option value="<?php echo $v['storeCategoryID']; ?>"><?php echo $v['storeCategoryName']; ?></option>
+                        <?php
+                        }
+                        ?>
                     </select>
-                    <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox">
+                    <input type="checkbox" name="storeCategory3" value="checkbox" class="ind_checkbox">
                     <select class="ind_dp1">
-                        <option value="volvo">显示店铺分类</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                        <?php
+                        foreach($storeCategory as $v){
+                        ?>
+                            <option value="<?php echo $v['storeCategoryID']; ?>"><?php echo $v['storeCategoryName']; ?></option>
+                        <?php
+                        }
+                        ?>
                     </select>
                 </div>
                 <div class="ind_jrzc">
@@ -133,10 +142,13 @@ echo $this->headLink()
                     <input name="Fruit" type="radio" class="ind_checkbox"/>
                     <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox">
                     <select class="ind_dp1">
-                        <option value="volvo">显示专场名称</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                        <?php
+                            foreach($specials as $v){
+                        ?>
+                                <option value="<?php echo $v['specialID'] ?>"><?php echo $v['specialName']; ?></option>
+                        <?php
+                            }
+                        ?>
                     </select>
 
                 </div>
@@ -183,25 +195,17 @@ echo $this->headLink()
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz"></span>
-                    <input name="fahuodq" type="radio" class="ind_checkbox"/> <select class="ind_dp1">
-                        <option value="volvo">中国</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <input name="fahuodq" type="radio" class="ind_checkbox"/>
+
+                    <select class="ind_dp1" id="country-select">
+                        <option value="1">中国</option>
+                    </select>
+                    <select class="ind_dp1" id="province-select">
+
                     </select>
 
-                    <select class="ind_dp1">
-                        <option value="volvo">省份</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
-                    </select>
+                    <select class="ind_dp1" id="city-select">
 
-                    <select class="ind_dp1">
-                        <option value="volvo">城市</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
                     </select>
                 </div>
                 <div class="mt20">
@@ -343,6 +347,37 @@ echo $this->headLink()
             $('#add-product-category').load('/member/add-product-category?productCategoryID=' + productCategoryID);
         }
         addProductCategoryRefresh();
+
+        $.ajax({
+            url : '/region/list',
+            type : 'post',
+            dataType : 'json',
+            data : {
+                pid : 1
+            },
+            success : function(data){
+                for(var i in data){
+                    $('#province-select').append('<option value="'+ data[i].regionID +'">'+ data[i].name +'</option>');
+                }
+            }
+        });
+        $('#province-select').on('change', function(){
+            var pid = $(this).val();
+            $.ajax({
+                url : '/region/list',
+                type : 'post',
+                dataType : 'json',
+                data : {
+                    pid : pid
+                },
+                success : function(data){
+                    for(var i in data){
+                        $('#city-select').append('<option value="'+ data[i].regionID +'">'+ data[i].name +'</option>');
+                    }
+                }
+            });
+        });
+
     });
 
 </script>
