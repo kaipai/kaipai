@@ -7,8 +7,19 @@ use COM\Controller\Front;
 
 class MemberController extends Front{
 
+    private $_storeInfo;
+
     public function init(){
         //if(empty($this->memberInfo)) $this->redirect()->toUrl('/login/do-login');
+        if(!empty($this->memberInfo['storeID'])){
+            $this->_storeInfo = $this->storeModel->select(array('storeID' => $this->memberInfo['storeID']))->current();
+            $this->layout()->setVariable('_storeInfo', $this->_storeInfo);
+            $this->view->setVariables(array(
+                '_storeInfo' => $this->_storeInfo
+            ));
+        }
+
+
     }
 
     public function indexAction(){
@@ -59,7 +70,7 @@ class MemberController extends Front{
 
     public function settingAction(){
         if(empty($this->postData)) return $this->view;
-
+        
 
     }
 

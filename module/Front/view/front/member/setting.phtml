@@ -4,15 +4,19 @@
         <?php echo $this->render('left', array('leftTab' => 'setting')); ?>
         <!-- right部分 -->
         <div class="kp_right">
-
+            <div class="mt20">
+                <span class="ind_jrzz bold">店铺名称</span>
+                <input class="zz_inputqm" type="text" id="storeName" placeholder="" value="<?php echo !empty($_storeInfo) ? $_storeInfo['storeName'] : ''; ?>">
+                <br> <span class="ind_jrzz"></span>
+            </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺标志</div>
-                <div id="preview" class="dianpbai"><img src="/images/img_03.jpg"></div>
+                <div id="preview" class="dianpbai"><img id="imghead" src="<?php echo !empty($_storeInfo['storeLogo']) ? $_storeInfo['storeLogo'] : '/images/img_03.jpg'?>"></div>
                 <span><input type="file" onchange="previewImage(this)"/> </span>
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺抬头</div>
-                <div id="preview1" class="dianpbai1"><img src="/images/img_06.jpg"></div>
+                <div id="preview1" class="dianpbai1"><img id="imghead1" src="<?php echo !empty($_storeInfo['storeBanner']) ? $_storeInfo['storeBanner'] : '/images/img_06.jpg'?>"></div>
                 <span><input type="file" onchange="previewImage1(this)"/> </span>
             </div>
             <div class="mt20">
@@ -22,7 +26,7 @@
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺推荐<br>栏位底图</div>
-                <div id="preview2" class="dianpbai1"><img src="/images/img_06.jpg"></div>
+                <div id="preview2" class="dianpbai1"><img id="imghead2" src="<?php echo !empty($_storeInfo['recommendImg']) ? $_storeInfo['recommendImg'] : '/images/img_06.jpg'?>"></div>
                 <span><input type="file" onchange="previewImage2(this)"/> </span>
             </div>
             <div class="mt20">
@@ -43,16 +47,13 @@
                 <div style="width:540px; background:#fff; float:left">
 
                       <textarea id="qqq">
+                          <?php echo !empty($_storeInfo['storeDesc']) ? $_storeInfo['storeDesc'] : ''?>
                       </textarea>
                 </div>
             </div>
 
             <div class="ind_licj" id="store-settings-committ">确认提交</div>
-
-
         </div>
-
-
     </div>
 </div>
 
@@ -75,6 +76,16 @@
             var signature = $('#signature').val();
             var storeCategory = $('input[name=storeCategory[]').val();
             var storeDesc = $('#qqq').text();
+            var storeName = $('#storeName').val();
+            if(!storeName){
+                layer.open({
+                    type : 0,
+                    icon : 2,
+                    content : '请填写店铺名称',
+                    shadeClose: true,
+                    time: 2000
+                });
+            }
             if(!storeLogo){
                 layer.open({
                     type : 0,
@@ -94,7 +105,7 @@
                 });
             }
             $.ajax({
-                url ; '/member/setting',
+                url : '/member/setting',
                 type : 'post',
                 dataType : 'json',
                 data : {
@@ -104,7 +115,6 @@
                     storeSignature : signature,
                     storeCategory : storeCategory,
                     storeDesc : storeDesc
-
                 },
                 success : function(data){
                     layer.open({
@@ -128,7 +138,6 @@
         var div = document.getElementById('preview2');
         if (file.files && file.files[0])
         {
-            div.innerHTML ='<img id=imghead2>';
             var img = document.getElementById('imghead2');
             img.onload = function(){
                 var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
@@ -146,7 +155,6 @@
             var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
             file.select();
             var src = document.selection.createRange().text;
-            div.innerHTML = '<img id=imghead2>';
             var img = document.getElementById('imghead2');
             img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
             var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
@@ -163,7 +171,6 @@
         var div = document.getElementById('preview');
         if (file.files && file.files[0])
         {
-            div.innerHTML ='<img id=imghead>';
             var img = document.getElementById('imghead');
             img.onload = function(){
                 var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
@@ -181,7 +188,6 @@
             var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
             file.select();
             var src = document.selection.createRange().text;
-            div.innerHTML = '<img id=imghead>';
             var img = document.getElementById('imghead');
             img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
             var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
@@ -197,7 +203,6 @@
         var div = document.getElementById('preview1');
         if (file.files && file.files[0])
         {
-            div.innerHTML ='<img id=imghead1>';
             var img = document.getElementById('imghead1');
             img.onload = function(){
                 var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
@@ -215,7 +220,6 @@
             var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
             file.select();
             var src = document.selection.createRange().text;
-            div.innerHTML = '<img id=imghead1>';
             var img = document.getElementById('imghead1');
             img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
             var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
