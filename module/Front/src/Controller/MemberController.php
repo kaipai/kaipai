@@ -179,4 +179,19 @@ class MemberController extends Front{
         }
     }
 
+    public function categoryPropertyAction(){
+        $categoryID = $this->queryData['productCategoryID'];
+        $properties = $this->productCategoryPropertyModel->select(array('productCategoryID' => $categoryID))->toArray();
+        $this->view->setVariables(array(
+            'properties' => $properties
+        ));
+
+        return $this->view;
+    }
+
+    public function saveCopyAction(){
+        $data = $this->postData;
+
+    }
+
 }

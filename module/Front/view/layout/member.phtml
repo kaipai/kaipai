@@ -6,26 +6,34 @@
     <meta name="keywords" content="开拍网拍卖会,在线竞拍,在线拍卖,网上拍卖,古玩在线拍卖,艺术品拍卖,中国开拍网在线竞拍"/>
     <meta name="description" content="中国开拍网拍卖会是中国最大的专业艺术品在线竞拍网站,为用户提供一个在线艺术品拍卖、古玩拍卖、古董拍卖、钱币拍卖、玉器拍卖、紫砂拍卖、书画拍卖、瓷器拍卖等藏品的拍卖网站,用户可以在线竞拍最新藏品,最新艺术品。"/>
     <?php
-    echo $this->headLink()
+    $this->headLink()
         ->appendStylesheet('/plugins/layer/skin/layer.css')
         ->appendStylesheet('/dist/styles/common/common.css')
         ->appendStylesheet('/dist/styles/main/personal.css');
-    echo $this->headScript()
+    $this->headScript()
         ->appendFile('/plugins/jquery/jquery.js')
         ->appendFile('/plugins/jquery.lazyload/jquery.lazyload.min.js')
         ->appendFile('/dist/js/common.js')
         ->appendFile('/plugins/jquery-ui/jquery-ui.min.js')
         ->appendFile('/plugins/layer/layer.js');
     if(in_array($actionName, array('add-product', 'setting', 'add-special'))){
-        echo $this->headLink()
+        $this->headLink()
             ->appendStylesheet('/jinren/style/jquery.wysiwyg.css');
-        echo $this->headScript()
+        $this->headScript()
             ->appendFile('/diyUpload/js/webuploader.html5only.min.js')
             ->appendFile('/diyUpload/js/diyUpload.js')
             ->appendFile('/js/jquery.wysiwyg.js')
             ->appendFile('/js/default.js');
     }
-
+    if($actionName == 'add-product'){
+        $this->headLink()
+            ->appendStylesheet('/diyUpload/css/webuploader.css')
+            ->appendStylesheet('/diyUpload/css/diyUpload.css')
+            ->appendStylesheet('/style/jquery.wysiwyg.css')
+            ->appendStylesheet('/style/default.css');
+    }
+    echo $this->headLink();
+    echo $this->headScript();
     ?>
 </head>
 <body>

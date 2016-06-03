@@ -5,10 +5,12 @@
         <div class="ind_fge1">
             <span class="ind_fge"><?php echo $v['filterName']; ?></span>
             <?php
+                $i = 0;
                 foreach($v['options'] as $sv){
             ?>
-                    <input name="y02" type="radio" class="ind_checkbox" option-id="<?php echo $sv['optionID'];  ?>"/> <?php echo $sv['optionName'] ?>
+                    <input <?php echo empty($i) ? 'checked' : ''; ?> name="<?php echo $sv['optionID'] ?>" type="radio" class="product-category-filter ind_checkbox" option-id="<?php echo $sv['optionID'] ?>" /> <?php echo $sv['optionName'] ?>
             <?php
+                    $i++;
                 }
             ?>
         </div>

@@ -34,5 +34,7 @@ class ApiError{
     const ORDER_HAVE_PAID_MSG = '该订单已付款';
     const ORDER_TRANSACTION_FAILED = -115;
     const ORDER_TRANSACTION_FAILED_MSG = '订单事务处理失败';
+    const FILE_UPLOAD_FAILED = -116;
+    const FILE_UPLOAD_FAILED_MSG = '图片上传失败';
 
 }
