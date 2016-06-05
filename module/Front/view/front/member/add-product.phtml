@@ -68,7 +68,7 @@
                     <span class="ind_jrzz bold">店内分类</span>
                     <input checked name="Fruit" type="radio" class="ind_radio" value="1"/>
                     <input type="checkbox" name="storeCategory1" value="checkbox" class="ind_checkbox store-category-chk">
-                    <select class="ind_dp1">
+                    <select class="ind_dp1" id="first-store-category">
                         <?php
                             foreach($storeCategory as $v){
                         ?>
@@ -78,7 +78,7 @@
                         ?>
                     </select>
                     <input type="checkbox" name="storeCategory2" value="checkbox" class="ind_checkbox store-category-chk">
-                    <select class="ind_dp1">
+                    <select class="ind_dp1" id="second-store-category">
                         <?php
                         foreach($storeCategory as $v){
                             ?>
@@ -88,7 +88,7 @@
                         ?>
                     </select>
                     <input type="checkbox" name="storeCategory3" value="checkbox" class="ind_checkbox store-category-chk">
-                    <select class="ind_dp1">
+                    <select class="ind_dp1" id="third-store-category">
                         <?php
                         foreach($storeCategory as $v){
                         ?>
@@ -401,7 +401,7 @@
             });
         });
 
-        function refreshTimeDay(year, month, type = 1){
+        function refreshTimeDay(year, month, type){
             $.ajax({
                 url : '/index/get-day',
                 dataType : 'json',
@@ -484,22 +484,53 @@
             });
             data.productName = $('#product-name').val();
             data.detailImgs = $('#detail-imgs').val();
-            data.productDetail = $('#qqq').text();
+            data.productDetail = $('#qqq').val();
             data.storePlateForm = $('input[name=Fruit]:checked').val();
 
             if(data.storePlateForm == 1){
-                data.storeCategoryID = new Array();
-                $('.store-category-chk:checked').each(function(){
-                    data.storeCategoryID.push($(this).next('select').val());
-                });
+                if($('input[name=storeCategory1]').is(':checked')){
+                    data.firstStoreCategoryID = $('#first-store-category').val();
+                }
+                if($('input[name=storeCategory2]').is(':checked')){
+                    data.secondStoreCategoryID = $('#second-store-category').val();
+                }
+                if($('input[name=storeCategory3]').is(':checked')){
+                    data.thirdStoreCategoryID = $('#third-store-category').val();
+                }
+
             }else if(data.storePlateForm == 2){
                 data.specialID = $('#product-special-id').val();
             }
             data.auctionAuth = $('#auctionAuth').is(':checked');
+            if(data.auctionAuth){
+                data.auctionAuth = 1;
+            }else{
+                data.auctionAuth = 0;
+            }
             data.fidelity = $('#fidelity').is(':checked');
+            if(data.fidelity){
+                data.fidelity = 1;
+            }else{
+                data.fidelity = 0;
+            }
             data.certificateCard = $('#certificateCard').is(':checked');
+            if(data.certificateCard){
+                data.certificateCard = 1;
+            }else{
+                data.certificateCard = 0;
+            }
             data.authorAuth = $('#authorAuth').is(':checked');
+            if(data.authorAuth){
+                data.authorAuth = 1;
+            }else{
+                data.authorAuth = 0;
+            }
             data.refundInDays = $('#refundInDays').is(':checked');
+            if(data.refundInDays){
+                data.refundInDays = 1;
+            }else{
+                data.refundInDays = 0;
+            }
             data.startPrice = $('#start-price').val();
             data.auctionPerPrice = $('#auction-per-price').val();
             if(!$('.commission:checked').hasClass('wu')){
@@ -596,7 +627,22 @@
         });
 
         $('#product-publish-btn').on('click', function(){
+            var data = getProductFormData();
+            $.ajax({
+                url : '/member/save-product',
+                type : 'post',
+                dataType : 'json',
+                data : data,
+                success : function(data){
+                    if(data.flag > 0){
+                        layer.open({
+                            content : '商品添加成功',
+                        });
+                    }else{
 
+                    }
+                }
+            });
         });
     });
 

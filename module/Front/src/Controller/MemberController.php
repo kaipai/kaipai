@@ -4,6 +4,7 @@ namespace Front\Controller;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use COM\Controller\Front;
+use Zend\Db\Sql\Expression;
 
 class MemberController extends Front{
 
@@ -189,9 +190,128 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function saveCopyAction(){
-        $data = $this->postData;
+    public function saveProductAction(){
 
+        $data = $this->postData;
+        $data['storeID'] = $this->_storeInfo['storeID'];
+        $product = $data;
+        unset($product['productCategoryFilters'], $product['productCategoryProperty'], $product['storeCategoryID']);
+        $detailImgs = explode(',', trim($data['detailImgs'], ','));
+        $product['listImg'] = current($detailImgs);
+        $product['detailImgs'] = json_encode($detailImgs);
+        $product['startTime'] = strtotime($product['startTime']);
+        $product['endTime'] = strtotime($product['endTime']);
+        $product['currPrice'] = $product['startPrice'];
+        try{
+            $this->productModel->beginTransaction();
+
+
+
+            $this->productModel->insert($product);
+            $productID = $this->productModel->getLastInsertValue();
+            if(!empty($data['productCategoryFilters'])){
+                $productCategoryFilters = $data['productCategoryFilters'];
+                foreach($productCategoryFilters as $v){
+                    $tmp = array(
+                        'productID' => $productID,
+                        'productCategoryFilterOptionID' => $v,
+                    );
+                    $this->productFilterOptionModel->insert($tmp);
+                }
+            }
+
+            if(!empty($data['productCategoryProperty'])){
+                foreach($data['productCategoryProperty'] as $k => $v){
+                    $tmp = array(
+                        'productID' => $productID,
+                        'productCategoryPropertyID' => $k,
+                        'value' => $v,
+                    );
+                    $this->productPropertyValueModel->insert($tmp);
+                }
+            }
+
+
+            $this->productModel->commit();
+
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('productID' => $productID));
+        }catch (\Exception $e){
+            $this->productModel->rollback();
+            return $this->response($e->getCode(), $e->getMessage());
+        }
+
+    }
+
+    public function addInterestProductAction(){
+        $productID = $this->postData['productID'];
+        try{
+            $this->memberProductInterestModel->beginTransaction();
+            $tmp = array(
+                'productID' => $productID,
+                'memberID' => $this->memberInfo['memberID'],
+            );
+            $this->memberProductInterestModel->insert($tmp);
+            $this->productModel->update(array('interestedCount' => new Expression('interestedCount+1')), array('productID' => $productID));
+            $this->memberProductInterestModel->commit();
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        }catch (\Exception $e){
+            $this->memberProductInterestModel->rollback();
+            return $this->response($e->getCode(), $e->getMessage());
+        }
+    }
+
+    public function removeInterestProductAction(){
+        $productID = $this->postData['productID'];
+        try{
+            $this->memberProductInterestModel->beginTransaction();
+            $tmp = array(
+                'productID' => $productID,
+                'memberID' => $this->memberInfo['memberID'],
+            );
+            $this->memberProductInterestModel->delete($tmp);
+            $this->productModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('productID' => $productID));
+            $this->memberProductInterestModel->commit();
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        }catch (\Exception $e){
+            $this->memberProductInterestModel->rollback();
+            return $this->response($e->getCode(), $e->getMessage());
+        }
+    }
+
+    public function addInterestStoreAction(){
+        $storeID = $this->postData['storeID'];
+        try{
+            $this->memberStoreInterestModel->beginTransaction();
+            $tmp = array(
+                'storeID' => $storeID,
+                'memberID' => $this->memberInfo['memberID'],
+            );
+            $this->memberStoreInterestModel->insert($tmp);
+            $this->storeModel->update(array('interestedCount' => new Expression('interestedCount+1')), array('storeID' => $storeID));
+            $this->memberStoreInterestModel->commit();
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        }catch (\Exception $e){
+            $this->memberStoreInterestModel->rollback();
+            return $this->response($e->getCode(), $e->getMessage());
+        }
+    }
+
+    public function removeInterestStoreAction(){
+        $storeID = $this->postData['storeID'];
+        try{
+            $this->memberStoreInterestModel->beginTransaction();
+            $tmp = array(
+                'storeID' => $storeID,
+                'memberID' => $this->memberInfo['memberID'],
+            );
+            $this->memberStoreInterestModel->delete($tmp);
+            $this->storeModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('storeID' => $storeID));
+            $this->memberStoreInterestModel->commit();
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        }catch (\Exception $e){
+            $this->memberStoreInterestModel->rollback();
+            return $this->response($e->getCode(), $e->getMessage());
+        }
     }
 
 }

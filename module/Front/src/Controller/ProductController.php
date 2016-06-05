@@ -108,11 +108,39 @@ class ProductController extends Front{
         $sourceSpecialID = $this->queryData['sourceSpecialID'];
         $sourceSpecialInfo = $this->specialModel->select(array('specialID' => $sourceSpecialID))->current();
         $where = array('productID' => $productID);
-        $productInfo = $this->productModel->fetch($where);
+        $productInfo = $this->productModel->select($where)->current();
+
+        // properties
+        $select = $this->productPropertyValueModel->getSelect();
+        $select->join(array('b' => 'ProductCategoryProperty'), 'ProductPropertyValue.productCategoryPropertyID = b.productCategoryPropertyID', array('propertyName'));
+        $select->where(array('ProductPropertyValue.productID' => $productID));
+        $properties = $this->productPropertyValueModel->selectWith($select)->toArray();
+        $properties = array_chunk($properties, 2);
+        // detail imgs
+        if(!empty($productInfo['detailImgs'])){
+            $detailImgs = json_decode($productInfo['detailImgs'], true);
+        }
+
+        // auction logs
+        $auctionLogs = $this->auctionLogModel->select(array('productID' => $productID))->toArray();
+
+        //recommend products
+        $recommendProducts = array();
+        if(!empty($sourceSpecialID)){
+            $recommendProducts = $this->productModel->getSpecialRecommendProducts($sourceSpecialID);
+        }else{
+            $recommendProducts = $this->productModel->getStoreRecommendProducts($productInfo['storeID']);
+        }
+
         $this->view->setVariables(array(
             'productInfo' => $productInfo,
+            'properties' => $properties,
+            'detailImgs' => $detailImgs,
             'sourceSpecialInfo' => $sourceSpecialInfo,
+            'auctionLogs' => $auctionLogs,
+            'recommendProducts' => $recommendProducts,
         ));
+
         return $this->view;
     }
 

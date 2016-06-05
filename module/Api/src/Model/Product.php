@@ -3,6 +3,7 @@ namespace Api\Model;
 
 use Base\ConstDir\BaseConst;
 use COM\Model;
+use Zend\Http\Header\Warning;
 
 class Product extends Model{
 
@@ -43,4 +44,21 @@ class Product extends Model{
         return $result;
     }
 
+    public function getSpecialRecommendProducts($specialID){
+        $where = array(
+            'specialID' => $specialID,
+            'isRecommend' => 1
+        );
+        $result = $this->setColumns(array('productName', 'listImg', 'productID', 'currPrice'))->select($where)->toArray();
+        return $result;
+    }
+
+    public function getStoreRecommendProducts($storeID){
+        $where = array(
+            'storeID' => $storeID,
+            'isRecommend' => 1
+        );
+        $result = $this->setColumns(array('productName', 'listImg', 'productID', 'currPrice'))->select($where)->toArray();
+        return $result;
+    }
 }

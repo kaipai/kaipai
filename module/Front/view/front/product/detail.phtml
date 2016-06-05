@@ -19,29 +19,22 @@ echo $this->headLink()
         <div class="zoom-section">
             <div class="zoom-small-image">
                 <div class="xtj-zdzb"></div>
-                <img class="cloudzoom" src="http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12d5c8953.jpg"
+                <img class="cloudzoom" src="<?php echo $productInfo['listImg'] ?>"
                      id="zoom1"
-                     data-cloudzoom="zoomImage: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12d5c8953.jpg',zoomSizeMode:'zoom'"/>
+                     data-cloudzoom="zoomImage: '<?php echo $productInfo['listImg'] ?>',zoomSizeMode:'zoom'"/>
             </div>
             <div class="zoom-desc">
                 <p>
-                    <img class="cloudzoom-gallery zoom-tiny-image"
-                         src="http://res.yufuhui.com/public/upload/paimai/2015-11-30/s/565c12d5c8953.jpg"
-                         alt="江西省工艺美术师康剑作品祥和"
-                         data-cloudzoom="useZoom: '#zoom1', image: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12d5c8953.jpg', zoomImage: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12d5c8953.jpg',zoomSizeMode:'zoom'"/>
-                    <img class="cloudzoom-gallery zoom-tiny-image"
-                         src="http://res.yufuhui.com/public/upload/paimai/2015-11-30/s/565c12df1f031.jpg"
-                         alt="江西省工艺美术师康剑作品祥和"
-                         data-cloudzoom="useZoom: '#zoom1', image: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12df1f031.jpg', zoomImage: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12df1f031.jpg',zoomSizeMode:'zoom'"/>
-                    <img class="cloudzoom-gallery zoom-tiny-image"
-                         src="http://res.yufuhui.com/public/upload/paimai/2015-11-30/s/565c12dd33a06.jpg"
-                         alt="江西省工艺美术师康剑作品祥和"
-                         data-cloudzoom="useZoom: '#zoom1', image: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12dd33a06.jpg', zoomImage: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12dd33a06.jpg',zoomSizeMode:'zoom'"/>
-                    <img class="cloudzoom-gallery zoom-tiny-image"
-                         src="http://res.yufuhui.com/public/upload/paimai/2015-11-30/s/565c12d84371a.jpg"
-                         alt="江西省工艺美术师康剑作品祥和"
-                         data-cloudzoom="useZoom: '#zoom1', image: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12d84371a.jpg', zoomImage: 'http://res.yufuhui.com/public/upload/paimai/2015-11-30/b/565c12d84371a.jpg',zoomSizeMode:'zoom'"/>
-                </p>
+                    <?php
+                    foreach($detailImgs as $v){
+                        ?>
+                        <img class="cloudzoom-gallery zoom-tiny-image"
+                             src="<?php echo $v; ?>"
+                             alt=""
+                             data-cloudzoom="useZoom: '#zoom1', image: '<?php echo $v; ?>', zoomImage: '<?php echo $v; ?>',zoomSizeMode:'zoom'"/>
+                    <?php
+                    }
+                    ?>
             </div>
             <div class="clear"></div>
         </div>
@@ -89,7 +82,7 @@ echo $this->headLink()
                     <dt>出价金额：</dt>
                     <dd>
                         <a href="javascript:void(0)" id="priceReduce" class="cpxx_cleft"></a>
-                        <input class="d-jg" type="text" id="j_addprice" value="57000"/>
+                        <input class="d-jg" type="text" id="j_addprice" value="<?php echo $productInfo['currPrice'] + $productInfo['auctionPerPrice'] ?>"/>
                         <a href="javascript:void(0)" id="priceAdd" class="cpxx_cright"></a>
                     </dd>
                 </dl>
@@ -97,7 +90,7 @@ echo $this->headLink()
                     <dt></dt>
                     <dd class="d-btnnav">
                         <input name="我要出价" type="button" class="d-cj btn" id="my_biding" value="我要出价"/>
-                        <input name="设置代理价" type="button" class="d-zx btn" id="agent_biding" value="设置代理价"/>
+                        <input name="设置代理价" type="button" class="d-zx btn" id="set-agent_biding" value="设置代理价"/>
                     </dd>
                 </dl>
             </div>
@@ -134,8 +127,8 @@ echo $this->headLink()
                 </p>
 
                 <p class="collection">
-                    <a class="collection-p" href="javascript:;" onclick="setcollect(1,1382161);">收藏拍品</a>
-                    <a class="collection-d" href="javascript:;" onclick="setcollect(2,100359);">关注店铺</a>
+                    <a class="collection-p" href="javascript:;" id="interest-product">收藏拍品</a>
+                    <a class="collection-d" href="javascript:;" id="interest-store">关注店铺</a>
                 </p>
             </div>
         </div>
@@ -143,7 +136,7 @@ echo $this->headLink()
         <!--右侧出价记录 start-->
         <div class="cpxx-bidrecord">
             <div class="cpxx-bidrecord-top"><b>出价记录
-                    <span class="red" id="rightbidtotal">(1)</span></b>
+                    <span class="red" id="rightbidtotal">(<?php echo $productInfo['auctionCount'] ?>)</span></b>
             </div>
             <ul id="rightbid">
                 <li style="color:#333">
@@ -152,19 +145,20 @@ echo $this->headLink()
                     <span class="num_03">价格</span>
                     <span class="num_04">时间</span>
                 </li>
-                <li>
-                    <span class="num_01 n_01"></span>
-                    <span class="num_02 font_b">15***226</span>
-                    <span class="num_03 font_b">*****</span>
-                    <span class="num_04 font_b">16/03/01</span>
-                </li>
-                <li>
-                    <span class="num_01 n_01"></span>
-                    <span class="num_02 ">15***226</span>
-                    <span class="num_03 ">*****</span>
-                    <span class="num_04 ">16/03/01</span>
-                </li>
-                <div class="cpxx-ckmore">查看全部出价</div>
+                <?php
+                    foreach($auctionLogs as $v){
+                ?>
+                        <li>
+                            <span class="num_01 n_01"></span>
+                            <span class="num_02 font_b"><?php echo $v['nickName'] ?></span>
+                            <span class="num_03 font_b">*****</span>
+                            <span class="num_04 font_b"><?php echo date('y/m/d', strtotime($v['instime'])) ?></span>
+                        </li>
+                <?php
+                    }
+                ?>
+
+                <!--<div class="cpxx-ckmore">查看全部出价</div>-->
             </ul>
 
         </div>
@@ -179,64 +173,21 @@ echo $this->headLink()
                 相关推荐
             </div>
             <ul class="rnav-list">
-                <li>
-                    <img src="/images/img2.jpg" alt="">
+                <?php
+                    foreach($recommendProducts as $v){
+                ?>
+                        <li>
+                            <img src="<?php echo $v['listImg'] ?>" alt="">
 
-                    <p class="rnav-info">
-                        西冷凶载 李平<br>
-                        《妙造自然》<br>
-                        当前价 <em>￥3000</em>
-                    </p>
-                </li>
-                <li>
-                    <img src="/images/img2.jpg" alt="">
-
-                    <p class="rnav-info">
-                        西冷凶载 李平<br>
-                        《妙造自然》<br>
-                        当前价 <em>￥3000</em>
-                    </p>
-                </li>
-                <li>
-                    <img src="/images/img2.jpg" alt="">
-
-                    <p class="rnav-info">
-                        西冷凶载 李平<br>
-                        《妙造自然》<br>
-                        当前价 <em>￥3000</em>
-                    </p>
-                </li>
-                <li>
-                    <img src="/images/img2.jpg" alt="">
-
-                    <p class="rnav-info">
-                        西冷凶载 李平<br>
-                        《妙造自然》<br>
-                        当前价 <em>￥3000</em>
-                    </p>
-                </li>
-                <li>
-                    <img src="/images/img2.jpg" alt="">
-
-                    <p class="rnav-info">
-                        西冷凶载 李平<br>
-                        《妙造自然》<br>
-                        当前价 <em>￥3000</em>
-                    </p>
-                </li>
-                <li>
-                    <img src="/images/img2.jpg" alt="">
-
-                    <p class="rnav-info">
-                        西冷凶载 李平<br>
-                        《妙造自然》<br>
-                        当前价 <em>￥3000</em>
-                    </p>
-                </li>
-
+                            <p class="rnav-info">
+                                <?php echo $v['productName'] ?><br>
+                                当前价 <em>￥<?php echo $v['currPrice'] ?></em>
+                            </p>
+                        </li>
+                <?php
+                    }
+                ?>
             </ul>
-
-
         </div>
         <!--相关推荐 end-->
 
@@ -313,42 +264,28 @@ echo $this->headLink()
 
 
                         <ul class="detailed-xx-ul">
-                            <li>
-                                <p>
-                                    <span>编号</span>
-                                    1382161
-                                </p>
-
-                                <p>
-                                    <span>存货地</span>
-                                    广东省深圳
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <span>类型</span>
-                                    琥珀
-                                </p>
-
-                                <p>
-                                    <span>重量</span>
-                                    100.87克
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    <span>尺寸</span>
-                                </p>
-
-                                <p>
-                                    <span>创作年代</span>
-                                    现代
-                                </p>
-                            </li>
+                            <?php
+                                foreach($properties as $v){
+                            ?>
+                                    <li>
+                                        <?php
+                                            foreach($v as $sv){
+                                        ?>
+                                                <p>
+                                                    <span><?php echo $sv['propertyName'] ?></span>
+                                                    <?php echo $sv['value'] ?>
+                                                </p>
+                                        <?php
+                                            }
+                                        ?>
+                                    </li>
+                            <?php
+                                }
+                            ?>
                             <div class="dxu-li">
                                 <span class="l">商品简介</span>
 
-                                <div class="r">卿佩天然琥珀蜜蜡霸气吊坠总重：100.87g 尺寸：6.9cm*7.2cm*3.0cm .</div>
+                                <div class="r"><?php echo $productInfo['productDetail'] ?></div>
                             </div>
                         </ul>
                         <!--detailed-xx-ul start-->
@@ -357,9 +294,16 @@ echo $this->headLink()
                             <b>拍品展示</b>
                         </div>
                         <p>
+                            <?php
+                                foreach($detailImgs as $v){
+                            ?>
                             <img
-                                src="http://res.yufuhui.com/public/upload/paimai/2016-01-13/art_a848438e-a8a6-4ee4-994f-7e2ec6a24f63.jpg"
+                                src="<?php echo $v; ?>"
                                 width="800px"></p>
+                            <?php
+                                }
+                            ?>
+
 
                         <p>
                             <br></p>
@@ -377,9 +321,6 @@ echo $this->headLink()
                                 <span class="num_03">价格</span>
                                 <span class="num_04">时间</span>
                             </li>
-                        </ul>
-                        <ul id="bottombid">
-                            <div style="text-align:center;margin-top:20px;">正努力加载中...</div>
                         </ul>
                     </div>
                     <!----出价记录 end-->
@@ -511,7 +452,7 @@ echo $this->headLink()
                     <!--end 竞拍须知-->
 
                     <!--服务保障 start-->
-                    <div class="detailed-service shop-show-item">
+                    <div class="detailed-service shop-show-item" style="display: none;">
                         <div class="detailed-service-top">服务保障</div>
                         <p>
                             <span>售后服务</span>
@@ -544,6 +485,45 @@ echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
             $(this).yomi(_CurrentServerTime, _PageTag)
         });
         initEvent();
+
+        $('#interest-product').on('click', function(){
+            $.ajax({
+                url : '/member/add-interest-product',
+                type : 'post',
+                dataType : 'json',
+                data : {
+                    productID : '<?php echo $productInfo['productID']; ?>'
+                },
+                success : function(data){
+                    if(data.flag > 0){
+                        layer.open({
+
+                        });
+                    }else{
+                        loginPOP();
+                    }
+                }
+            });
+        });
+        $('#interest-store').on('click', function(){
+            $.ajax({
+                url : '/member/add-interest-store',
+                type : 'post',
+                dataType : 'json',
+                data : {
+                    productID : '<?php echo $productInfo['storeID']; ?>'
+                },
+                success : function(data){
+                    if(data.flag > 0){
+                        layer.open({
+
+                        });
+                    }else{
+                        loginPOP();
+                    }
+                }
+            });
+        });
     });
 
     function initEvent() {
@@ -562,4 +542,6 @@ echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
 
         });
     }
+
+
 </script>

@@ -2,6 +2,6 @@
 namespace Api\Model;
 
 use COM\Model;
-class ProductCopy extends Model{
+class StoreProductRepo extends Model{
 
 }

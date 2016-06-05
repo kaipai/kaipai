@@ -1,3 +1,14 @@
+
+//快捷登录
+function loginPOP() {
+    layer.open({
+        skin: 'loginBox',
+        title:'快捷登录',
+        type: 1,
+        content: $('#loginPopBox').html()
+    });
+};
+
 $(function() {
 	$('img.lazy').lazyload({
 		placeholder: "/plugins/jquery.lazyload/img/grey.gif",
