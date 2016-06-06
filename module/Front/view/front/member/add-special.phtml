@@ -12,59 +12,87 @@
             <div class="ind_jrzc  ">
                 <div class="kp_timeon">
                     <span class="bold">拍卖时间</span>
-                    <select class="kp_year">
-                        <option value="volvo">2015</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <select class="kp_year" id="special-start-time-year">
+                        <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
+                        <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
                     </select>
                     <span class="kp_ml8">年</span>
-                    <select class="kp_ml9">
-                        <option value="volvo">12</option>
-                        <option value="saab">11</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <select class="kp_ml9"  id="special-start-time-month">
+                        <?php
+                        for($i = 1; $i <= 12; $i++){
+                            ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <?php
+                        }
+                        ?>
                     </select>
                     <span class="kp_ml8">月</span>
-                    <select class="kp_ml9">
-                        <option value="volvo">31</option>
-                        <option value="saab">30</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <select class="kp_ml9" id="special-start-time-day">
+
                     </select>
                     <span class="kp_ml8">日</span>
-                    <span class="kp_ml5"><input class="kp_input" type="text" placeholder="" value="3200"></span>
+                    <span class="kp_ml5">
+                        <select class="kp_ml9" id="special-start-time-hour">
+                            <?php for($i = 0; $i < 24; $i++){
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
+                            <?php
+                            } ?>
+                        </select>
+                    </span>
                     <span class="kp_ml8">时</span>
-                    <span class="kp_ml5"><input class="kp_input" type="text" placeholder="" value="3200"></span>
+                    <span class="kp_ml5">
+                        <select class="kp_ml9" id="special-start-time-minute">
+                            <?php for($i = 1; $i <= 60; $i++){
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
+                            <?php
+                            } ?>
+                        </select>
+                    </span>
                     <span class="kp_ml8">分</span>
                 </div>
 
                 <div class="kp_timeon">
                     <span class="bold">拍卖时间</span>
-                    <select class="kp_year">
-                        <option value="volvo">2015</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <select class="kp_year" id="special-end-time-year">
+                        <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
+                        <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
                     </select>
                     <span class="kp_ml8">年</span>
-                    <select class="kp_ml9">
-                        <option value="volvo">12</option>
-                        <option value="saab">11</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <select class="kp_ml9" id="special-end-time-month">
+                        <?php
+                        for($i = 1; $i <= 12; $i++){
+                            ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <?php
+                        }
+                        ?>
                     </select>
                     <span class="kp_ml8">月</span>
-                    <select class="kp_ml9">
-                        <option value="volvo">31</option>
-                        <option value="saab">30</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                    <select class="kp_ml9" id="special-end-time-day">
+
                     </select>
                     <span class="kp_ml8">日</span>
-                    <span class="kp_ml5"><input class="kp_input" type="text" placeholder="" value="3200"></span>
+                    <span class="kp_ml5">
+                        <select class="kp_ml9" id="special-end-time-hour">
+                            <?php for($i = 0; $i < 24; $i++){
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
+                            <?php
+                            } ?>
+                        </select>
+                    </span>
                     <span class="kp_ml8">时</span>
-                    <span class="kp_ml5"><input class="kp_input" type="text" placeholder="" value="3200"></span>
+                    <span class="kp_ml5">
+                        <select class="kp_ml9" id="special-end-time-minute">
+                            <?php for($i = 1; $i <= 60; $i++){
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
+                            <?php
+                            } ?>
+                        </select>
+                    </span>
                     <span class="kp_ml8">分</span>
                 </div>
                 <p class="kp_tsinfo1">注：专场拍卖时间固定为日场10:00-22:00，夜场22:00-次日10:00</p>
@@ -72,29 +100,33 @@
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">所属类目</span>
-                <select class="ind_dp1">
-                    <option value="volvo">城市</option>
-                    <option value="saab">2014</option>
-                    <option value="opel">Opel</option>
-                    <option value="audi">Audi</option>
+                <select class="ind_dp1" id="special-product-category-id">
+                    <?php
+                        foreach($productCategories as $v){
+                    ?>
+                            <option value="<?php echo $v['productCategoryID'] ?>"><?php echo $v['categoryName']; ?></option>
+                    <?php
+                        }
+                    ?>
                 </select>
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">专场标题</span>
-                <input class="gl_ppinput" type="text" placeholder="限20字以内">
+                <input class="gl_ppinput" type="text" placeholder="限20字以内" id="special-name">
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">专场海报</span>
-                <input type="file" name="uploadFile" class="gl_sctu"/> 尺寸：1900*300 图片容量不大于1M
+                <div id="preview1" class="hide"><img id="imghead1" src=""></div>
+                <input type="file" name="uploadFile" onchange="previewImage1(this)" class="gl_sctu"/> 尺寸：1900*300 图片容量不大于1M
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">专场首焦</span>
-                <input type="file" name="uploadFile" class="gl_sctu"/> 尺寸：1900*300 图片容量不大于1M
-
+                <div id="preview2" class="hide"><img id="imghead2" src=""></div>
+                <input type="file" name="uploadFile" onchange="previewImage2(this)" class="gl_sctu"/> 尺寸：1900*300 图片容量不大于1M
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">拍品数量</span>
-                <input class="mt_input" type="text" placeholder=""> 个 *限制20-60个
+                <input class="mt_input" type="text" placeholder="" id="product-count-limit"> 个 *限制20-60个
             </div>
             <div class="mt20  ycsd">
                 <span class="ind_jrzz" style="float:left"><span class="bold">专场介绍 </span><br> <p class="gl_zyi">
@@ -105,7 +137,7 @@
                       </textarea>
                 </div>
             </div>
-            <div class="ind_licj">立即创建</div>
+            <div class="ind_licj" id="add-special-btn">立即创建</div>
 
 
         </div>
@@ -122,4 +154,217 @@
             controls:"bold,italic,|,undo,redo,image"
         });
     })
+    function refreshTimeDay(year, month, type){
+        $.ajax({
+            url : '/index/get-day',
+            dataType : 'json',
+            data : {
+                year : year,
+                month : month
+            },
+            type : 'post',
+            success : function(data){
+                if(data.flag > 0){
+                    var options = '';
+                    for(var i = 1; i<= data.data; i++){
+                        options += '<option value="'+ i +'">' + i + '</option>';
+                    }
+                    if(type == 1){
+                        $('#special-start-time-day').html(options);
+                    }else{
+                        $('#special-end-time-day').html(options);
+                    }
+                }
+            }
+        });
+    }
+    refreshTimeDay(<?php echo date('Y'); ?>, 1, 1);
+    refreshTimeDay(<?php echo date('Y'); ?>, 1, 2);
+    $('#special-start-time-year').on('change', function(){
+        var year = $('#special-start-time-year').val();
+        var month = $('#special-start-time-month').val();
+        refreshTimeDay(year, month, 1);
+    });
+    $('#special-start-time-month').on('change', function(){
+        var year = $('#special-start-time-year').val();
+        var month = $('#special-start-time-month').val();
+        refreshTimeDay(year, month, 1);
+    });
+    $('#special-end-time-year').on('change', function(){
+        var year = $('#special-end-time-year').val();
+        var month = $('#special-end-time-month').val();
+        refreshTimeDay(year, month, 2);
+    });
+    $('#special-end-time-month').on('change', function(){
+        var year = $('#special-end-time-year').val();
+        var month = $('#special-end-time-month').val();
+        refreshTimeDay(year, month, 2);
+    });
+    $('#add-special-btn').on('click', function(){
+        var data = {};
+        var specialStartTimeYear = $('#special-start-time-year').val();
+        var specialStartTimeMonth = $('#special-start-time-month').val();
+        var specialStartTimeDay = $('#special-start-time-day').val();
+        var specialStartTimeHour = $('#special-start-time-hour').val();
+        var specialStartTimeMinute = $('#special-start-time-minute').val();
+        data.startTime = specialStartTimeYear + '-' + specialStartTimeMonth + '-' + specialStartTimeDay + ' ' + specialStartTimeHour + ':' + specialStartTimeMinute + ':00';
+        var specialEndTimeYear = $('#special-end-time-year').val();
+        var specialEndTimeMonth = $('#special-end-time-month').val();
+        var specialEndTimeDay = $('#special-end-time-day').val();
+        var specialEndTimeHour = $('#special-end-time-hour').val();
+        var specialEndTimeMinute = $('#special-end-time-minute').val();
+        data.endTime = specialEndTimeYear + '-' + specialEndTimeMonth + '-' + specialEndTimeDay + ' ' + specialEndTimeHour + ':' + specialEndTimeMinute + ':00';
+        data.specialProductCategoryID = $('#special-product-category-id').val();
+        data.specialName = $('#special-name').val();
+        data.specialImg = $('#imghead1').attr('src');
+        data.specialBanner = $('#imghead2').attr('src');
+        data.productCountLimit = $('#product-count-limit').val();
+        data.specialDesc = $('#qqq').val();
+
+        if(!data.specialName){
+            layer.open({
+                content : '请填写专场标题'
+            });
+            return false;
+        }
+
+        if(!data.specialImg){
+            layer.open({
+                content : '请上传专场海报图片'
+            });
+            return false;
+        }
+
+        if(!data.specialBanner){
+            layer.open({
+                content : '请上传专场首焦图片'
+            });
+            return false;
+        }
+
+        if(!data.productCountLimit){
+            layer.open({
+                content : '请填写拍品数量'
+            });
+            return false;
+        }
+
+        if(!data.specialDesc){
+            layer.open({
+                content : '请填写专场介绍'
+            });
+            return false;
+        }
+
+
+        $.ajax({
+            url : '/member/add-special',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(data){
+                if(data.flag > 0){
+                    layer.alert('新增成功', function(){
+                        location.href = '/member/special';
+                    });
+                }else{
+                    layer.open({
+                        content : data.msg
+                    });
+                }
+            }
+        });
+
+
+    });
+
+
+    //图片上传预览    IE是用了滤镜。
+    function previewImage1(file)
+    {
+        var MAXWIDTH  = 260;
+        var MAXHEIGHT = 180;
+        var div = document.getElementById('preview1');
+        if (file.files && file.files[0])
+        {
+            var img = document.getElementById('imghead1');
+            img.onload = function(){
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                img.width  =  rect.width;
+                img.height =  rect.height;
+//                 img.style.marginLeft = rect.left+'px';
+                img.style.marginTop = rect.top+'px';
+            }
+            var reader = new FileReader();
+            reader.onload = function(evt){img.src = evt.target.result;}
+            reader.readAsDataURL(file.files[0]);
+        }
+        else //兼容IE
+        {
+            var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+            file.select();
+            var src = document.selection.createRange().text;
+            var img = document.getElementById('imghead1');
+            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+            div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;"+sFilter+src+"\"'></div>";
+        }
+    }
+
+    //图片上传预览    IE是用了滤镜。
+    function previewImage2(file)
+    {
+        var MAXWIDTH  = 260;
+        var MAXHEIGHT = 180;
+        var div = document.getElementById('preview2');
+        if (file.files && file.files[0])
+        {
+            var img = document.getElementById('imghead2');
+            img.onload = function(){
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                img.width  =  rect.width;
+                img.height =  rect.height;
+//                 img.style.marginLeft = rect.left+'px';
+                img.style.marginTop = rect.top+'px';
+            }
+            var reader = new FileReader();
+            reader.onload = function(evt){img.src = evt.target.result;}
+            reader.readAsDataURL(file.files[0]);
+        }
+        else //兼容IE
+        {
+            var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+            file.select();
+            var src = document.selection.createRange().text;
+            var img = document.getElementById('imghead2');
+            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+            status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+            div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;"+sFilter+src+"\"'></div>";
+        }
+    }
+
+    function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+        var param = {top:0, left:0, width:width, height:height};
+        if( width>maxWidth || height>maxHeight )
+        {
+            rateWidth = width / maxWidth;
+            rateHeight = height / maxHeight;
+
+            if( rateWidth > rateHeight )
+            {
+                param.width =  maxWidth;
+                param.height = Math.round(height / rateWidth);
+            }else
+            {
+                param.width = Math.round(width / rateHeight);
+                param.height = maxHeight;
+            }
+        }
+
+        param.left = Math.round((maxWidth - param.width) / 2);
+        param.top = Math.round((maxHeight - param.height) / 2);
+        return param;
+    }
 </script>

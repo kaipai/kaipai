@@ -3,6 +3,7 @@ namespace Front\Controller;
 
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Api\Sms;
 use Base\ConstDir\BaseConst;
 use COM\Controller\Front;
 
@@ -77,5 +78,22 @@ class IndexController extends Front{
         }catch(\Exception $e){
             return $this->response(ApiError::FILE_UPLOAD_FAILED, ApiError::FILE_UPLOAD_FAILED_MSG);
         }
+    }
+
+    public function getVerifyCodeAction(){
+        $mobile = $this->postData['mobile'];
+
+        if(empty($mobile)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
+        $verifyCode = $this->mobileVerifyCodeModel->getVerifyCode();
+        $sms = str_replace('{$verifyCode}', $verifyCode, Sms::VERIFY_CODE_MSG);
+        $this->smsService->sendSms($mobile, $sms);
+        $data = array(
+            'mobile' => $mobile,
+            'verifyCode' => $verifyCode,
+            'expireTime' => time(),
+        );
+        $this->mobileVerifyCodeModel->insert($data);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 }

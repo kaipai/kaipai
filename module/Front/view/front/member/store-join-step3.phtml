@@ -1,8 +1,8 @@
-<?php echo $this->headLink()->appendStylesheet('/jinren/style/jiameng.css'); ?>
+<link rel="stylesheet" href="/jinren/style/jiameng.css" media="screen" type="text/css" />
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
-        <?php echo $this->render('left', array('leftTab' => 'supplier-join')); ?>
+        <?php echo $this->render('left', array('leftTab' => 'store-join')); ?>
         <!-- right部分 -->
         <div class="kp_right jm_main">
             <div><img src="/jinren/images/jm2_03.jpg"></div>
@@ -10,12 +10,12 @@
 
             <div class="jm_sfz">
                 <div class="jm_sfz1">身份证号码</div>
-                <div class="jm_sfz2 jm_wt">3333*************</div>
-                <div class="jm_sfz5"><img src="/jinren/images/jmimg_07.jpg"></div>
+                <div class="jm_sfz2 jm_wt"><?php echo substr_replace($_storeInfo['idNumber'], '**************', 4) ?></div>
+                <div class="jm_sfz5"><img src="<?php echo $_storeInfo['idPic'] ?>"></div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">绑定手机号</div>
-                <div class="jm_sfz2 jm_wt">130****633</div>
+                <div class="jm_sfz2 jm_wt"><?php echo substr_replace($_storeInfo['storeMobile'], '*****', 3, 5) ?></div>
             </div>
             <div class="jm_tj5">
                 审核已通过，开始使用商家功能

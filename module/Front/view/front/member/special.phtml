@@ -5,7 +5,7 @@
         <!-- right部分 -->
         <div class="kp_right cj_pdbt">
             <div class="add_one">
-                <div class="add_pp_left"><span class="gl_cjzc"><a href="">创建专场 +</a></span></div>
+                <div class="add_pp_left"><span class="gl_cjzc"><a href="/member/add-special">创建专场 +</a></span></div>
                 <div class="add_pp_right11">
                     <table>
                         <tr>
@@ -17,226 +17,127 @@
                     </table>
                 </div>
             </div>
-            <div class="kp_tj">
-                <div class="kp_tj_left  cj_zzjx">
-                    <p>正在进行</p>
-                    <!-- <div class="cj_ad"><a href=""> 提交</a> <a href=""> 编辑</a>  <a href=""> 删除</a></div> -->
-                </div>
-                <div class="kp_tj_right">
-                    <table>
-                        <tr>
-                            <td class="cj_info1" rowspan="3"><img src=""></td>
-                            <td class="cj_info2" colspan="3">
-                                [创建时间] 2015-10-06
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info2" rowspan="2">内容大师的撒发生的方式发鬼地方个</td>
-                            <td class="cj_info3">
-                                36
-                            </td>
-                            <td class="cj_info4">
-                                未开始
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info3">
-                                <a href="">管理拍品</a>
-                            </td>
-                            <td class="cj_info4">
-                                <a href="">查询>></a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+            <?php
+                foreach($specials as $v){
+            ?>
+                    <div class="kp_tj">
 
+                        <?php
+                            if($v['auctionStatus'] == 1){
+                        ?>
+                                <div class="kp_tj_left cj_jjjs">
+                                    <p>即将开始</p>
 
-            <div class="kp_tj">
-                <div class="kp_tj_left">
-                    <p>等待通过</p>
+                                    <p>12月30日 10:00</p>
 
-                    <div class="cj_ad"><a href=""> 删除</a></div>
-                </div>
-                <div class="kp_tj_right">
-                    <table>
-                        <tr>
-                            <td class="cj_info1" rowspan="3"><img src=""></td>
-                            <td class="cj_info2" colspan="3">
-                                [创建时间] 2015-10-06
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info2" rowspan="2">内容大师的撒发生的方式发鬼地方个</td>
-                            <td class="cj_info3">
-                                36
-                            </td>
-                            <td class="cj_info4">
-                                正在审核
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info3">
-                                <a href="">管理拍品</a>
-                            </td>
-                            <td class="cj_info4">
-                                <a href="">查询>></a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+                                    <div class="cj_ad"><a href="javascript:;" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
+                                </div>
+                        <?php
+                            }elseif($v['auctionStatus'] == 2) {
+                                ?>
+                                <div class="kp_tj_left  cj_zzjx">
+                                    <p>正在进行</p>
+                                </div>
+                            <?php
+                            }elseif($v['auctionStatus'] == 3){
+                        ?>
+                                <div class="kp_tj_left cj_yjs">
+                                    <p>已结束</p>
 
+                                    <div class="cj_jtip">拍卖结束时刻后<br>保留72小时</div>
+                                    <div class="cj_ad"><a href="javascript:;" id="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
+                                </div>
+                        <?php
+                            }elseif($v['verifyStatus'] == 1){
+                        ?>
+                                <div class="kp_tj_left">
+                                    <p>等待通过</p>
 
-            <div class="kp_tj">
-                <div class="kp_tj_left cj_jjjs">
-                    <p>即将开始</p>
+                                    <div class="cj_ad"><a href="javascript:;" id="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
+                                </div>
+                        <?php
+                            }elseif(empty($v['auctionStatus'])){
+                        ?>
+                                <div class="kp_tj_left">
+                                    <p>准备提交</p>
 
-                    <p>12月30日 10:00</p>
+                                    <div class="cj_ad"><a href="javascript:;" class="special-verify-btn" special-id="<?php echo $v['specialID'] ?>"> 提交</a> <a href=""> 编辑</a> <a href=""> 删除</a></div>
+                                </div>
+                        <?php
+                            }
+                        ?>
 
-                    <div class="cj_ad"><a href=""> 删除</a></div>
-                </div>
-                <div class="kp_tj_right">
-                    <table>
-                        <tr>
-                            <td class="cj_info1" rowspan="3"><img src=""></td>
-                            <td class="cj_info2" colspan="3">
-                                [创建时间] 2015-10-06
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info2" rowspan="2">内容大师的撒发生内容大师的撒发生的的方式发鬼地方个</td>
-                            <td class="cj_info3">
-                                36
-                            </td>
-                            <td class="cj_info4">
-                                未通过
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info3">
-                                <a href="">管理拍品</a>
-                            </td>
-                            <td class="cj_info4">
-                                <a href="">查询>></a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-
-            <div class="kp_tj">
-                <div class="kp_tj_left cj_yjs">
-                    <p>已结束</p>
-
-                    <div class="cj_jtip">拍卖结束时刻后<br>保留72小时</div>
-                    <div class="cj_ad"><a href=""> 删除</a></div>
-                </div>
-                <div class="kp_tj_right">
-                    <table>
-                        <tr>
-                            <td class="cj_info1" rowspan="3"><img src=""></td>
-                            <td class="cj_info2" colspan="3">
-                                [创建时间] 2015-10-06
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info2" rowspan="2">内容大师的撒发生的方式发鬼地方个</td>
-                            <td class="cj_info3">
-                                36
-                            </td>
-                            <td class="cj_info4">
-                                正在拍卖
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info3">
-                                <a href="">管理拍品</a>
-                            </td>
-                            <td class="cj_info4">
-                                <a href="">查询>></a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-
-            <div class="kp_tj">
-                <div class="kp_tj_left">
-                    <p>准备提交</p>
-
-                    <div class="cj_ad"><a href=""> 提交</a> <a href=""> 编辑</a> <a href=""> 删除</a></div>
-                </div>
-                <div class="kp_tj_right">
-                    <table>
-                        <tr>
-                            <td class="cj_info1" rowspan="3"><img src=""></td>
-                            <td class="cj_info2" colspan="3">
-                                [创建时间] 2015-10-06
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info2" rowspan="2">内容大师的撒发生的内容大师的撒发生的内容大师的撒发生的方式发鬼地方个</td>
-                            <td class="cj_info3">
-                                36
-                            </td>
-                            <td class="cj_info4">
-                                已通过
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info3">
-                                <a href="">管理拍品</a>
-                            </td>
-                            <td class="cj_info4">
-                                <a href="">查询>></a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-
-            <div class="kp_tj ">
-                <div class="kp_tj_left">
-                    <p>准备提交</p>
-
-                    <div class="cj_ad"><a href=""> 提交</a> <a href=""> 编辑</a> <a href=""> 删除</a></div>
-                </div>
-                <div class="kp_tj_right">
-                    <table>
-                        <tr>
-                            <td class="cj_info1" rowspan="3"><img src=""></td>
-                            <td class="cj_info2" colspan="3">
-                                [创建时间] 2015-10-06
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info2" rowspan="2">内容大师的撒发生的方式发鬼地方个</td>
-                            <td class="cj_info3">
-                                36
-                            </td>
-                            <td class="cj_info4">
-                                已通过
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="cj_info3">
-                                <a href="">管理拍品</a>
-                            </td>
-                            <td class="cj_info4">
-                                <a href="">查询>></a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
+                        <div class="kp_tj_right">
+                            <table>
+                                <tr>
+                                    <td class="cj_info1" rowspan="3"><img src="<?php echo $v['specialImg'] ?>"></td>
+                                    <td class="cj_info2" colspan="3">
+                                        [创建时间] <?php echo date('Y-m-d', strtotime($v['instime'])) ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cj_info2" rowspan="2"><?php echo $v['specialName']; ?></td>
+                                    <td class="cj_info3">
+                                        <?php echo $v['productCount']; ?>
+                                    </td>
+                                    <td class="cj_info4">
+                                        <?php
+                                            if(empty($v['verifyStatus'])){
+                                                echo '未开始';
+                                            }elseif($v['verifyStatus'] == 1){
+                                                echo '正在审核';
+                                            }elseif($v['verifyStatus'] == 2){
+                                                echo '已通过';
+                                            }elseif($v['verifyStatus'] == 3){
+                                                echo '未通过';
+                                            }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="cj_info3">
+                                        <a href="/member/special-product?specialID=<?php echo $v['specialID']; ?>">管理拍品</a>
+                                    </td>
+                                    <td class="cj_info4">
+                                        <a href="javascript:;" id="check-verify-status">查询>></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+            <?php
+                }
+            ?>
 
         </div>
 
 
     </div>
 </div>
+
+<script>
+    $(function(){
+        $('.special-verify-btn').on('click', function(){
+            var data = {};
+            data.specialID = $(this).attr('special-id');
+
+            $.ajax({
+                url : '/member/special-verify',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(data){
+                    if(data.flag > 0){
+                        layer.alert('提交成功', function(){
+                            location.href = '/member/special';
+                        });
+                    }else{
+                        layer.open({
+                            content : data.msg
+                        });
+                    }
+                }
+            });
+        });
+    })
+</script>

@@ -2,6 +2,7 @@
 namespace Base\ConstDir\Api;
 
 class ApiError{
+    const COMMON_ERROR = -1;
     const LOGIN_FAILED = -100;
     const LOGIN_FAILED_MSG = '登录验证失败';
     const VERIFY_CODE_AUTH_FAILED = -101;

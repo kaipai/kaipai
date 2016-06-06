@@ -171,4 +171,16 @@ class Utility
     public static function mbCutStr($str, $length = 1){
         return mb_substr($str, 0, $length, "UTF-8");
     }
+
+    public static function saveBaseCodePic($pic){
+        $picPath = '';
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $pic, $result)) {
+            $type = $result[2];
+            $picPath = "/uploads/store-verify/". uniqid() . '.' . $type;
+            $path = BaseRootPath . $picPath;
+            file_put_contents($path, base64_decode(str_replace($result[1], '', $pic)));
+        }
+
+        return $picPath;
+    }
 }

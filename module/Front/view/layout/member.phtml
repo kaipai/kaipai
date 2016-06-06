@@ -16,7 +16,7 @@
         ->appendFile('/dist/js/common.js')
         ->appendFile('/plugins/jquery-ui/jquery-ui.min.js')
         ->appendFile('/plugins/layer/layer.js');
-    if(in_array($actionName, array('add-product', 'setting', 'add-special'))){
+    if(in_array($actionName, array('add-product', 'store-setting', 'add-special'))){
         $this->headLink()
             ->appendStylesheet('/jinren/style/jquery.wysiwyg.css');
         $this->headScript()

@@ -5,32 +5,39 @@
         <!-- right部分 -->
         <div class="kp_right">
             <div class="add_one">
-                <div class="add_pp_left"><span class="gl_cjzc"><a href="">添加拍品 +</a></span></div>
+                <div class="add_pp_left"><span class="gl_cjzc"><a href="/member/add-product?specialID=<?php echo $special['specialID'] ?>">添加拍品 +</a></span></div>
                 <div class="add_pp_right">
-                    <span class="add_x"> 先听球会卡死的哈萨> 拍品列表</span>
-                    <span class="add_x1"><span><a href="">推荐</a></span><span class="add_x2"><a
-                                href="">删除</a></span></span>
+                    <span class="add_x"> <?php echo $v['specialName'] ?>> 拍品列表</span>
+                    <span class="add_x1"><span><a href="javascript:;" special-id="<?php echo $v['specialID'] ?>" id="recommend-special-btn">推荐</a></span><span class="add_x2"><a
+                                href="javascript:;" special-id="<?php echo $v['specialID'] ?>" id="del-special-btn" >删除</a></span></span>
                 </div>
             </div>
             <div class="add_list">
                 <ul>
-                    <li>
-                        <div class="add_lefimg"><img src=""><input type="checkbox" name="checkbox1" value="checkbox"
-                                                                   class="ind_checkbox  add_lefimg01"></div>
-                        <div class=" addlicon">
-                            <p>信息印社 李萍《妙招自然》</p>
+                    <?php
+                        foreach($products as $v){
+                    ?>
+                            <li>
+                                <div class="add_lefimg"><img src="<?php echo $v['listImg'] ?>"><input type="checkbox" name="checkbox1" value="checkbox"
+                                                                           class="ind_checkbox  add_lefimg01"></div>
+                                <div class=" addlicon">
+                                    <p><?php echo $v['productName'] ?></p>
 
-                            <p class="add_qpj">起拍价 <input class="mt_input" type="text" placeholder="" value="1600"> <a
-                                    href="">修改</a></p>
+                                    <p class="add_qpj">起拍价 <input class="mt_input" type="text" placeholder="" value="<?php echo $v['startPrice'] ?>"> <a
+                                            href="javascript:;" class="edit-start-price-btn" product-id="<?php echo $v['productID'] ?>">修改</a></p>
 
-                            <p class="add_qpj10">保留价 <input class="mt_input" type="text" placeholder="" value="1600"> <a
-                                    href="">修改</a></p>
+                                    <p class="add_qpj10">保留价 <input class="mt_input" type="text" placeholder="" value="<?php echo $v['keepPrice']?>"> <a
+                                            href="javascript:;" class="edit-keep-price-btn" product-id="<?php echo $v['productID'] ?>">修改</a></p>
 
-                            <div class="add_qpj"><a href="">取消保留价 </a><span class="add_tjian"><a
-                                        href="">编辑</a></span><span class="add_x2"><a href="">推荐</a></span><span
-                                    class="add_x2"><a href="">删除</a></span></div>
-                        </div>
-                    </li>
+                                    <div class="add_qpj"><a href="javascript:;" class="cancel-keep-price" product-id="<?php echo $v['productID'] ?>>取消保留价 </a><span class="add_tjian"><a
+                                                href="/member/add-product?specialID=<?php echo $special['specialID'] ?>&productID=<?php echo $v['productID'] ?>">编辑</a></span><span class="add_x2"><a href="javascript:;" class="special-recommend-product" product-id="<?php echo $v['productID'] ?>">推荐</a></span><span
+                                            class="add_x2"><a href="javascript:;" class="del-special-product" product-id="<?php echo $v['productID'] ?>">删除</a></span></div>
+                                </div>
+                            </li>
+                    <?php
+                        }
+                    ?>
+
                     <li>
                         <div class="add_lefimg"><img src=""><input type="checkbox" name="checkbox1" value="checkbox"
                                                                    class="ind_checkbox  add_lefimg01"></div>

@@ -1,12 +1,12 @@
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
-        <?php echo $this->render('left', array('leftTab' => 'setting')); ?>
+        <?php echo $this->render('left', array('leftTab' => 'store-setting')); ?>
         <!-- right部分 -->
         <div class="kp_right">
             <div class="mt20">
                 <span class="ind_jrzz bold">店铺名称</span>
-                <input class="zz_inputqm" type="text" id="storeName" placeholder="" value="<?php echo !empty($_storeInfo) ? $_storeInfo['storeName'] : ''; ?>">
+                <input class="zz_inputqm" type="text" id="storeName" placeholder="" value="<?php echo !empty($_storeInfo['storeName']) ? $_storeInfo['storeName'] : ''; ?>">
                 <br> <span class="ind_jrzz"></span>
             </div>
             <div class="mt20">
@@ -21,7 +21,7 @@
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">店铺签名</span>
-                <input class="zz_inputqm" type="text" id="signature" placeholder="">
+                <input class="zz_inputqm" type="text" id="signature" placeholder="" value="<?php echo !empty($_storeInfo['storeSignature']) ? $_storeInfo['storeSignature'] : ''; ?>">
                 <br> <span class="ind_jrzz"></span> *限35字以内，显示在店铺名称下方
             </div>
             <div class="mt20">
@@ -31,7 +31,13 @@
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold" id="store-categories">拍品分类</div>
-
+                <?php
+                    foreach($storeCategories as $v){
+                ?>
+                        <input type="text" value="<?php echo $v['storeCategoryName'] ?>" placeholder="分类名称" class="ind_dp1 storeCategory">
+                <?php
+                    }
+                ?>
 
                 <span class="ind_jia" id="add-store-category-btn"> &nbsp</span>
             </div>
@@ -66,7 +72,7 @@
         });
 
         $('#add-store-category-btn').on('click', function(){
-            $('#store-categories').after('<input type="text" value="" placeholder="分类名称" class="ind_dp1" name="storeCategory[]">');
+            $('#store-categories').after('<input type="text" value="" placeholder="分类名称" class="ind_dp1 storeCategory">');
         });
 
         $('#store-settings-committ').on('click', function(){
@@ -74,8 +80,11 @@
             var storeBanner = $('#imghead1').attr('src');
             var recommendImg = $('#imghead2').attr('src');
             var signature = $('#signature').val();
-            var storeCategory = $('input[name=storeCategory[]').val();
-            var storeDesc = $('#qqq').text();
+            var storeCategory = new Array();
+            $('.storeCategory').each(function(){
+                storeCategory.push($(this).val());
+            });
+            var storeDesc = $('#qqq').val();
             var storeName = $('#storeName').val();
             if(!storeName){
                 layer.open({
@@ -104,28 +113,29 @@
                     time: 2000
                 });
             }
+            var data = {
+                storeLogo : storeLogo,
+                storeBanner : storeBanner,
+                recommendImg : recommendImg,
+                storeSignature : signature,
+                storeCategory : storeCategory,
+                storeDesc : storeDesc,
+                storeName : storeName
+            };
+
             $.ajax({
-                url : '/member/setting',
+                url : '/member/store-setting',
                 type : 'post',
                 dataType : 'json',
-                data : {
-                    storeLogo : storeLogo,
-                    storeBanner : storeBanner,
-                    recommendImg : recommendImg,
-                    storeSignature : signature,
-                    storeCategory : storeCategory,
-                    storeDesc : storeDesc
-                },
+                data : data,
                 success : function(data){
-
                     layer.open({
                         type : 0,
-                        icon : 2,
+                        icon : 1,
                         content : data.msg,
                         shadeClose: true,
                         time: 2000
                     });
-
                 }
             });
         });

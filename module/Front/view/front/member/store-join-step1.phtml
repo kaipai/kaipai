@@ -1,8 +1,8 @@
-<?php echo $this->headLink()->appendStylesheet('/jinren/style/jiameng.css'); ?>
+<link href="/jinren/style/jiameng.css" media="screen" rel="stylesheet" type="text/css">
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
-        <?php echo $this->render('left', array('leftTab' => 'supplier-join')); ?>
+        <?php echo $this->render('left', array('leftTab' => 'store-join')); ?>
         <!-- right部分 -->
         <div class="kp_right jm_main">
             <div><img src="/jinren/images/jm_03.jpg"></div>
@@ -10,7 +10,7 @@
 
             <div class="jm_sfz">
                 <div class="jm_sfz1">身份证号码</div>
-                <div class="jm_sfz2"><input type="text" placeholder="4222222222222222222"></div>
+                <div class="jm_sfz2"><input type="text" placeholder="身份证号码" id="id-number"></div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">身份证图片</div>
@@ -18,7 +18,7 @@
                         <input type="file" name="" onchange="previewImage(this)">上传身份证图片
                     </a>
                 </div>
-                <div class="jm_sfz5 jm_lef" id="preview"><img src="/jinren/images/ewe_03.jpg"></div>
+                <div class="jm_sfz5 jm_lef" id="preview"><img src="/jinren/images/ewe_03.jpg" ></div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">&nbsp</div>
@@ -31,17 +31,17 @@
             <div class="jm_sfz">
                 <div class="jm_sfz1">绑定手机号</div>
                 <div class="jm_sfz2">
-                    <input class="jm_sfz2input" type="text" placeholder="13282111111"> <span> <a
-                            href="">发送验证码>></a></span>
+                    <input class="jm_sfz2input" type="text" placeholder="手机号码" id="store-mobile"> <span> <a
+                            href="javascript:;" id="btn_getcode">发送验证码>></a></span>
                 </div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">&nbsp</div>
                 <div class="jm_sfz2">
-                    <input class="jm_sfz2input" type="text" placeholder="6666"> <span class="jm_yzm"> 绑定</span>
+                    <input class="jm_sfz2input" type="text" placeholder="手机验证码" id="store-mobile-code">
                 </div>
             </div>
-            <div class="jm_tj">
+            <div class="jm_tj" id="submit-verify-btn">
                 提交审核
             </div>
 
@@ -59,8 +59,8 @@
 
         var div = document.getElementById('preview');
         if (file.files && file.files[0]) {
-            div.innerHTML = '<img id=imghead>';
-            var img = document.getElementById('imghead');
+            div.innerHTML = '<img id="id-pic">';
+            var img = document.getElementById('id-pic');
             img.onload = function () {
                 var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
                 img.width = rect.width;
@@ -79,8 +79,8 @@
             var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
             file.select();
             var src = document.selection.createRange().text;
-            div.innerHTML = '<img id=imghead>';
-            var img = document.getElementById('imghead');
+            div.innerHTML = '<img id="id-pic">';
+            var img = document.getElementById('id-pic');
             img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
             var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
             status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
@@ -92,8 +92,8 @@
 
         var div = document.getElementById('preview1');
         if (file.files && file.files[0]) {
-            div.innerHTML = '<img id=imghead>';
-            var img = document.getElementById('imghead');
+            div.innerHTML = '<img id="member-id-pic">';
+            var img = document.getElementById('member-id-pic');
             img.onload = function () {
                 var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
                 img.width = rect.width;
@@ -112,8 +112,8 @@
             var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
             file.select();
             var src = document.selection.createRange().text;
-            div.innerHTML = '<img id=imghead>';
-            var img = document.getElementById('imghead');
+            div.innerHTML = '<img id="member-id-pic">';
+            var img = document.getElementById('member-id-pic');
             img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
             var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
             status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
@@ -141,4 +141,119 @@
         param.top = Math.round((maxHeight - param.height) / 2);
         return param;
     }
+
+    $('#submit-verify-btn').on('click', function(){
+        var data = {};
+        data.idNumber = $('#id-number').val();
+        data.idPic = $('#id-pic').attr('src');
+        data.memberIdPic = $('#member-id-pic').attr('src');
+        data.storeMobile = $('#store-mobile').val();
+        data.storeMobileCode = $('#store-mobile-code').val();
+        if(!data.idNumber){
+            layer.open({
+                content : '请输入身份证号码'
+            });
+            return false;
+        }
+        if(!data.idPic){
+            layer.open({
+                content : '请上传身份证图片'
+            });
+            return false;
+        }
+        if(!data.memberIdPic){
+            layer.open({
+                content : '请上传本人手持身份证图片'
+            });
+            return false;
+        }
+        if(!data.storeMobile){
+            layer.open({
+                content : '请输入绑定手机号'
+            });
+            return false;
+        }
+        if(!data.storeMobileCode){
+            layer.open({
+                content : '请输入手机验证码'
+            });
+            return false;
+        }
+        $.ajax({
+            url : '/member/store-verify',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(data){
+                if(data.flag > 0){
+                    location.href = '/member/store-join';
+                }else{
+                    layer.open({
+                        content : data.msg
+                    });
+                }
+            }
+        });
+    });
+
+    var re = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    var reSend = true;
+    $('#btn_getcode').bind('click', function() {
+        var mobile = $('#store-mobile').val();
+        if (!re.test(mobile)) {
+            layer.open({
+                type: 0,
+                icon: 2,
+
+                content: '请输入正确的手机号码',
+                shadeClose: true,
+                time: 2000
+            });
+            return;
+        };
+        if (reSend) {
+            var flag = 1;
+            $.ajax({
+                url : '/index/get-verify-code',
+                type : 'post',
+                async : false,
+                data : {mobile : mobile},
+                dataType : 'json',
+                success : function(data) {
+                    if(data.flag <= 0){
+                        flag = 0;
+                        layer.open({
+                            type: 0,
+                            icon: 2,
+                            content: data.msg,
+                            shadeClose: true,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+            if(!flag) return;
+            reSend = false; //禁止反复发送
+            var html = '<b>5</b>秒重新获取';
+            $('#btn_getcode').addClass('btn_code_yz');
+            $('#btn_getcode').html(html);
+            regCodeInterval = setInterval(function() {
+                regCodeTimeinterval();
+            }, 1000);
+
+        }
+    });
+
+    function regCodeTimeinterval() {
+        var currTime = $('#btn_getcode').find('b').html();
+        var newTime = parseInt(currTime) - 1;
+        if (newTime) {
+            $('#btn_getcode').find('b').html(newTime);
+        } else {
+            clearInterval(regCodeInterval);
+            $('#btn_getcode').removeClass('btn_code_yz');
+            $('#btn_getcode').html('重新发送');
+            reSend = true;
+        }
+    };
 </script>

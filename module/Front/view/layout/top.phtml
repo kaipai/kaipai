@@ -4,7 +4,7 @@
             <a href="/">开拍网首页</a>
         </div>
         <?php
-        if(!empty($_memberInfo)){
+        /*if(!empty($_memberInfo)){
             ?>
             <div class="uinfonav">
                 <div id="logorout">
@@ -27,11 +27,25 @@
                 <a class="footprint" href="">收藏本站</a>
 
             </div>
-        <?php }else{ ?>
+        <?php }else{*/ ?>
             <div class="uinfonav">
                         <span id="logorout" style="font-size:14px">
-                            <a class="register" rel="nofollow" ui-sref="userRegister" href="/login/reg">免费注册</a>
-                            <a target="_self" rel="nofollow" ui-sref="userLogin" href="/login/do-login">用户登录</a>
+                            <?php
+                            if(!empty($_memberInfo)) {
+                            ?>
+                                <span>您好!</span>
+
+                                <a class="nameA" ui-sref="indexPersonal" href="/member/order"><?php  echo $_memberInfo['nickName'] ?></a>
+
+                            <?php
+                            }else{
+                            ?>
+                                <a class="register" rel="nofollow" ui-sref="userRegister" href="/login/reg">免费注册</a>
+                                <a target="_self" rel="nofollow" ui-sref="userLogin" href="/login/do-login">用户登录</a>
+                            <?php
+                            }
+                            ?>
+
                             <a target="_self" rel="nofollow" ui-sref="userLogin">关注拍品</a>
                             <a target="_self" rel="nofollow" ui-sref="userLogin">我的拍场</a>
                             <a target="_self" rel="nofollow" ui-sref="userLogin">联系客服</a>
@@ -39,7 +53,7 @@
                 |
                 <a class="footprint" href="">收藏本站</a>
             </div>
-        <?php } ?>
+        <?php // } ?>
     </div>
 </div>
 <div class="header">
