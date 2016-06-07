@@ -6,187 +6,223 @@
         <div class="kp_right">
             <div class="kp_tit">
                 <ul>
-                    <li>上架</li>
-                    <li>下架</li>
-                    <li>推荐</li>
-                    <li>设置拍卖时间</li>
-                    <li>删除</li>
+                    <li id="publish-products-batch" style="cursor: pointer;">上架</li>
+                    <li id="withdraw-products-batch" style="cursor: pointer;">下架</li>
+                    <li id="recommend-products-btn" style="cursor: pointer;">推荐</li>
+                    <li id="choose-auction-time-batch" style="cursor: pointer;">设置拍卖时间</li>
+                    <li id="del-products-btn" style="cursor: pointer;">删除</li>
                 </ul>
                 <span class="kp_zzpm">所有正在拍卖</span>
             </div>
             <p class="kp_tsinfo">*直接选择“上架”操作默认为立即上级，自上架时候24小时结束拍卖</p>
+            <?php
+                foreach($products as $v){
+            ?>
+                    <div class="kp_shop" id="product-li-<?php echo $v['productID'] ?>">
+                        <div class="kp_shop_left">
+                            <img src="<?php echo $v['listImg'] ?>">
+                            <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox add_lefimg01 product-item" product-id="<?php echo $v['productID'] ?>">
+                        </div>
+                        <div class="kp_shop_center">
+                            <p class="kp_shop_centerp "><?php echo $v['productName'] ?></p>
 
-            <div class="kp_shop">
-                <div class="kp_shop_left"><img src=""><input type="checkbox" name="checkbox1" value="checkbox"
-                                                             class="ind_checkbox  add_lefimg01"></div>
-                <div class="kp_shop_center">
-                    <p class="kp_shop_centerp ">系列还涉 李萍《妙招自然》</p>
+                            <?php
+                            if($v['auctionStatus'] == 1 || empty($v['auctionStatus'])){
+                            ?>
+                                <div class="kp_name">
+                                    <span>起拍价
+                                        <input product-id="<?php echo $v['productID'] ?>" class="kp_input edit-start-price-btn" type="text" placeholder="" value="<?php echo $v['startPrice'] ?>">  <span>修改</span>
+                                    </span>
+                                    <span class="kp_bliu">保留价
+                                        <input product-id="<?php echo $v['productID'] ?>" class="kp_input edit-keep-price-btn" type="text" placeholder="" value="<?php echo $v['keepPrice'] ?>">  <span>修改</span>
+                                    </span>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                        <div class="kp_shop_center01">
+                            <?php if($v['auctionStatus'] == 1){
+                            ?>
+                                <p>等待上架</p>
 
-                    <div class="kp_name">
-                        <span>起拍价 <input class="kp_input" type="text" placeholder=""
-                                         value="3200">  <span>修改</span></span>
-                        <span class="kp_bliu">保留价 <input class="kp_input" type="text" placeholder=""
-                                                         value="3200">  <span>修改</span></span>
+                                <p><?php echo date('Y-m-d H:i:s', $v['startTime']); ?></p>
+                            <?php
+                            }elseif($v['auctionStatus'] == 2){
+                            ?>
+                                <div class="kp_shop_center01">
+                                    <p class="kp_nmai">正在拍卖</p>
+                                </div>
+                            <?php
+                            }elseif($v['auctionStatus'] == 3){
+                            ?>
+                                <div class="kp_shop_center01">
+                                    <p>已结束</p>
+                                </div>
+                            <?php
+                            } ?>
+
+                        </div>
+                        <div class="kp_shop_right">
+                            <div class="kp_bj">
+                                <span>
+                                    <a href="/member/add-product?productID=<?php echo $v['productID'] ?>">编辑拍品</a>
+                                </span>
+                                <span class="kp_bjsc">
+                                    <a href="javascript:;" class="del-product-btn">删除</a>
+                                </span>
+                            </div>
+                            <div class="kp_bj">
+                                <span>
+                                    <a href="/member/publish-product?productID=<?php echo $v['productID'] ?>">
+                                        <?php
+                                            if($v['publishStatus'] == 1){
+                                                echo '下架';
+                                            }else{
+                                                echo '上架';
+                                            }
+                                        ?>
+                                    </a>
+                                </span>
+                                <span class="kp_bjsc">
+                                    <a is-store-recommend="<?php echo $v['isStoreRecommend']; ?>" href="javascript:;" class="store-recommend-product store-recommend-product-<?php echo $v['productID'] ?>" product-id="<?php echo $v['productID'] ?>"><?php
+                                            if($v['isStoreRecommend']){
+                                                echo '取消推荐';
+                                            }else{
+                                                echo '推荐';
+                                            }
+                                        ?></a>
+                                </span>
+                            </div>
+                            <div class="kp_bj"><a href="javascript:;" class="choose-auction-time">选择拍卖时间>></a></div>
+                        </div>
                     </div>
-                </div>
-                <div class="kp_shop_right">
-                    <div class="kp_bj"><span><a href="">编辑拍品</a></span><span class="kp_bjsc"><a href="">删除</a></span>
-                    </div>
-                    <div class="kp_bj"><span><a href="">上架</a></span><span class="kp_bjsc"><a href="">推荐</a></span>
-                    </div>
-                    <div class="kp_bj"><a href="">选择拍卖时间>></a></div>
-                </div>
-            </div>
+            <?php
+                }
+            ?>
+            <?php
+                echo $this->render('/front/common/paginate', array('url' => '/member/product?', 'pages' => $pages));
+            ?>
             <!-- 定时上架 -->
             <div class="kp_time">
-                <div class="kp_timeon">
-                    <span class="bold">拍卖时间</span>
-                    <select class="kp_year">
-                        <option value="volvo">2015</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                    <span class="kp_ml8">年</span>
-                    <select class="kp_ml9">
-                        <option value="volvo">12</option>
-                        <option value="saab">11</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                    <span class="kp_ml8">月</span>
-                    <select class="kp_ml9">
-                        <option value="volvo">31</option>
-                        <option value="saab">30</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                    <span class="kp_ml8">日</span>
-                    <span class="kp_ml5"><input class="kp_input" type="text" placeholder="" value="3200"></span>
-                    <span class="kp_ml8">时</span>
-                    <span class="kp_ml5"><input class="kp_input" type="text" placeholder="" value="3200"></span>
-                    <span class="kp_ml8">分</span>
-                </div>
-
-                <div class="kp_timeon">
-                    <span class="bold">拍卖时间</span>
-                    <select class="kp_year">
-                        <option value="volvo">2015</option>
-                        <option value="saab">2014</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                    <span class="kp_ml8">年</span>
-                    <select class="kp_ml9">
-                        <option value="volvo">12</option>
-                        <option value="saab">11</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                    <span class="kp_ml8">月</span>
-                    <select class="kp_ml9">
-                        <option value="volvo">31</option>
-                        <option value="saab">30</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
-                    </select>
-                    <span class="kp_ml8">日</span>
-                    <span class="kp_ml5"><input class="kp_input" type="text" placeholder="" value="3200"></span>
-                    <span class="kp_ml8">时</span>
-                    <span class="kp_ml5"><input class="kp_input" type="text" placeholder="" value="3200"></span>
-                    <span class="kp_ml8">分</span>
-                    <span class="kp_dssj"><a href="">定时上架</a></span>
-                </div>
+                <?php echo $this->render('time'); ?>
                 <p class="kp_tsinfo1">注：自由拍卖时间不超过24小时</p>
-
             </div>
-
-
-            <!-- 商品循环 -->
-            <div class="kp_shop">
-                <div class="kp_shop_left"><img src=""><input type="checkbox" name="checkbox1" value="checkbox"
-                                                             class="ind_checkbox  add_lefimg01"></div>
-                <div class="kp_shop_center">
-                    <p class="kp_shop_centerp ">系列还涉 李萍《妙招自然》</p>
-
-                    <div class="kp_name">
-                        <span>起拍价 <input class="kp_input" type="text" placeholder=""
-                                         value="3200">  <span>修改</span></span>
-                        <span class="kp_bliu">保留价 <input class="kp_input" type="text" placeholder=""
-                                                         value="3200">  <span>修改</span></span>
-                    </div>
-                </div>
-                <div class="kp_shop_center01">
-                    <p>等待上架</p>
-
-                    <p>2015-12-29<br>13:00-22:30</p>
-                </div>
-                <div class="kp_shop_right">
-                    <div class="kp_bj"><span><a href="">编辑拍品</a></span><span class="kp_bjsc"><a href="">删除</a></span>
-                    </div>
-                    <div class="kp_bj"><span><a href="">上架</a></span><span class="kp_bjsc"><a href="">推荐</a></span>
-                    </div>
-                    <div class="kp_bj"><a href="">选择拍卖时间>></a></div>
-                </div>
-            </div>
-
-
-            <div class="kp_shop">
-                <div class="kp_shop_left"><img src=""><input type="checkbox" name="checkbox1" value="checkbox"
-                                                             class="ind_checkbox  add_lefimg01"></div>
-                <div class="kp_shop_center">
-                    <p class="kp_shop_centerp">系列还涉 李萍《妙招自然》</p>
-
-                    <div class="kp_name">
-                        <span>起拍价 <input class="kp_input" type="text" placeholder=""
-                                         value="3200">  <span>修改</span></span>
-                        <span class="kp_bliu">保留价 <input class="kp_input" type="text" placeholder=""
-                                                         value="3200">  <span>修改</span></span>
-                    </div>
-                </div>
-                <div class="kp_shop_center01">
-                    <p class="kp_nmai">正在拍卖</p>
-
-                    <p>19:00-[次]1:30</p>
-                </div>
-
-                <div class="kp_shop_right">
-                    <div class="kp_bj"><span><a href="">编辑拍品</a></span><span class="kp_bjsc"><a href="">删除</a></span>
-                    </div>
-                    <div class="kp_bj"></div>
-                    <div class="kp_bj"><a href="">取消保留价>></a></div>
-                </div>
-            </div>
-
-
-            <div class="kp_shop">
-                <div class="kp_shop_left"><img src=""><input type="checkbox" name="checkbox1" value="checkbox"
-                                                             class="ind_checkbox  add_lefimg01"></div>
-                <div class="kp_shop_center">
-                    <p class="kp_shop_centerp">系列还涉 李萍《妙招自然》</p>
-
-                    <div class="kp_name">
-                        <span>起拍价 <input class="kp_input" type="text" placeholder=""
-                                         value="3200">  <span>修改</span></span>
-                        <span class="kp_bliu">保留价 <input class="kp_input" type="text" placeholder=""
-                                                         value="3200">  <span>修改</span></span>
-                    </div>
-                </div>
-                <div class="kp_shop_center01">
-                    <p>已结束</p>
-
-                    <p>成交</p>
-                </div>
-                <div class="kp_shop_right">
-                    <div class="kp_bj"><span><a href="">编辑拍品</a></span><span class="kp_bjsc"><a href="">删除</a></span>
-                    </div>
-                    <div class="kp_bj11">*成交后72小时无编辑自动删除</div>
-                </div>
-            </div>
-
-
         </div>
-
-
     </div>
 </div>
+<script>
+    $(function(){
+        function recommendProduct(params){
+            $.ajax({
+                url : '/member/store-recommend-product',
+                type : 'post',
+                dataType : 'json',
+                data : params,
+                success : function(data){
+                    layer.alert(data.msg);
+                    var tmp;
+                    for(var i in params.productID){
+                        tmp = $('.store-recommend-product-' + params.productID[i]);
+                        if(tmp.html() == '推荐'){
+                            tmp.html('取消推荐');
+                        }else{
+                            tmp.html('推荐');
+                        }
+                    }
+                }
+            });
+        }
+        $('.store-recommend-product').on('click', function(){
+            var data = {};
+            data.isStoreRecommend = 1;
+            data.productID = new Array();
+            data.productID.push($(this).attr('product-id'));
+            if($(this).html() == '取消推荐'){
+                data.isStoreRecommend = 0;
+            }
+            recommendProduct(data);
+        });
+        $('#recommend-products-btn').on('click', function(){
+            var checkedProducts = $('.product-item:checked');
+            if(!checkedProducts.length){
+                layer.alert('请选择拍品');
+                return false;
+            }
+            var data = {};
+            data.isStoreRecommend = 1;
+            data.productID = new Array();
+            var tmp;
+            checkedProducts.each(function(){
+                tmp = $(this).attr('product-id');
+                data.productID.push(tmp);
+            });
+            recommendProduct(data);
+        });
+
+        function delProduct(productID){
+            $.ajax({
+                url : '/member/del-product',
+                type : 'post',
+                dataType : 'json',
+                data : {productID : productID},
+                success : function(data){
+                    layer.alert(data.msg);
+                }
+            });
+        }
+        $('.del-special-product').on('click', function(){
+            var productID = $(this).attr('product-id');
+            delProduct(productID);
+        })
+        $('#del-products-btn').on('click', function(){
+            var checkedProducts = $('.product-item:checked');
+            if(!checkedProducts.length){
+                layer.alert('请选择拍品');
+                return false;
+            }
+
+            var productID = new Array();
+            var tmp;
+            checkedProducts.each(function(){
+                tmp = $(this).attr('product-id');
+                productID.push(tmp);
+                $('#product-li-' + tmp).remove();
+
+            });
+            delProduct(productID);
+        });
+
+        $('.edit-keep-price-btn').on('click', function(){
+            var data = {};
+            data.productID = $(this).attr('product-id');
+            data.keepPrice = $(this).previous('input').val();
+            data.existKeepPrice = 1;
+            $.ajax({
+                url : '/member/save-product',
+                type : 'post',
+                dataType : 'json',
+                data : data,
+                success : function(data){
+                    layer.alert(data.msg);
+                }
+            });
+        });
+        $('.cancel-keep-price').on('click', function(){
+            var data = {};
+            data.productID = $(this).attr('product-id');
+            data.keepPrice = 0;
+            data.existKeepPrice = 0;
+            $.ajax({
+                url : '/member/save-product',
+                type : 'post',
+                dataType : 'json',
+                data : data,
+                success : function(data){
+                    layer.alert(data.msg);
+                }
+            });
+        });
+
+    })
+</script>

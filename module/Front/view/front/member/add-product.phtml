@@ -29,9 +29,10 @@
 
                 </div>
             </div>
-            <div class="ind_ppbt "><span class="bold">拍品标题</span> <input id="product-name" class="ind_ppinput ind_uu" type="text"
-                                                                         placeholder="请输入标题"> <span
-                    class="ind_x"> *</span></div>
+            <div class="ind_ppbt "><span class="bold">拍品标题</span>
+                <input id="product-name" class="ind_ppinput ind_uu" type="text" placeholder="请输入标题">
+                <span class="ind_x"> *</span>
+            </div>
 
             <div class="ind_zpinfo">
                 <div class="ind_zpinfo_left ind_zpinfo_lefta"><span class="bold">拍品图片 </span>
@@ -40,8 +41,26 @@
                 </div>
                 <input type="hidden" id="detail-imgs" />
                 <div id="as"></div>
+                <?php if(!empty($productInfo)){
+                    ?>
 
+                    <div style="width: <?php echo 180 * count($productInfo['detailImgs']); ?>px;" class="parentFileBox">
+                        <ul class="fileBoxUl">
+                            <?php foreach($productInfo['detailImgs'] as $v){
+                                ?>
+                                <li class="">
+                                    <div class="viewThumb">
+                                        <img src="<?php echo $v; ?>">
+                                    </div>
+                                    <div style="display: block;" class="diyCancel product-detail-img" product-id="<?php echo $productInfo['productID'] ?>" pic-val="<?php echo $v; ?>"></div>
+                                </li>
+                            <?php
+                            } ?>
 
+                        </ul>
+                    </div>
+                <?php
+                } ?>
             </div>
             <div class="ind_zpinfo">
                 <div class="ind_zpinfo_left"><span class="bold">拍品详情</span>
@@ -54,7 +73,7 @@
                 <div class="ind_zpinfo_right">
                     <div style="width:700px;  background:#fff">
                 <textarea id="qqq">
-                 
+<?php if(!empty($productInfo)) echo $productInfo['productDetail']; ?>
                   
                 </textarea>
                     </div>
@@ -64,20 +83,20 @@
             <p class="kp_tsinfo1 ">注：【店内分类】与【专场分类】只能选择进入一个。【店铺分类】最多选择三项，不选择进入默认“未分类”</p>
 
             <div class="mt30 ind_dash">
-                <div class="">
+                <div class="" id="store-category-div">
                     <span class="ind_jrzz bold">店内分类</span>
-                    <input checked name="Fruit" type="radio" class="ind_radio" value="1"/>
-                    <input type="checkbox" name="storeCategory1" value="checkbox" class="ind_checkbox store-category-chk">
+                    <input checked name="Fruit" type="radio" class="ind_radio" value="1" id="store-category-radio"/>
+                    <input type="checkbox" name="storeCategory1" value="checkbox" class="ind_checkbox store-category-chk" id="first-store-category-chk" >
                     <select class="ind_dp1" id="first-store-category">
                         <?php
-                            foreach($storeCategory as $v){
-                        ?>
-                                <option value="<?php echo $v['storeCategoryID']; ?>"><?php echo $v['storeCategoryName']; ?></option>
+                        foreach($storeCategory as $v){
+                            ?>
+                            <option value="<?php echo $v['storeCategoryID']; ?>"><?php echo $v['storeCategoryName']; ?></option>
                         <?php
-                            }
+                        }
                         ?>
                     </select>
-                    <input type="checkbox" name="storeCategory2" value="checkbox" class="ind_checkbox store-category-chk">
+                    <input type="checkbox" name="storeCategory2" value="checkbox" class="ind_checkbox store-category-chk" id="second-store-category-chk">
                     <select class="ind_dp1" id="second-store-category">
                         <?php
                         foreach($storeCategory as $v){
@@ -87,11 +106,11 @@
                         }
                         ?>
                     </select>
-                    <input type="checkbox" name="storeCategory3" value="checkbox" class="ind_checkbox store-category-chk">
+                    <input type="checkbox" name="storeCategory3" value="checkbox" class="ind_checkbox store-category-chk" id="third-store-category-chk">
                     <select class="ind_dp1" id="third-store-category">
                         <?php
                         foreach($storeCategory as $v){
-                        ?>
+                            ?>
                             <option value="<?php echo $v['storeCategoryID']; ?>"><?php echo $v['storeCategoryName']; ?></option>
                         <?php
                         }
@@ -100,8 +119,7 @@
                 </div>
                 <div class="ind_jrzc">
                     <span class="ind_jrzz bold">进入专场</span>
-                    <input name="Fruit" type="radio" class="ind_checkbox" value="2"/>
-                    <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox">
+                    <input name="Fruit" type="radio" class="ind_checkbox" value="2" id="join-special-radio" />
                     <select class="ind_dp1"  id="product-special-id">
                         <?php
                             foreach($specials as $v){
@@ -111,7 +129,6 @@
                             }
                         ?>
                     </select>
-
                 </div>
             </div>
 
@@ -127,28 +144,28 @@
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">起拍价</span>
-                    <input class="mt_input" type="text" placeholder="" id="start-price"> 元
+                    <input class="mt_input" type="text" placeholder="" id="start-price" value="0"> 元
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">加价幅度</span>
-                    <input class="mt_input" type="text" placeholder="" id="auction-per-price"> 元
+                    <input class="mt_input" type="text" placeholder="" id="auction-per-price" value="0"> 元
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">佣金</span>
-                    <input name="yogjin" type="radio" class="ind_checkbox commission"/>
-                    <input class="mt_input2" type="text" placeholder="" id="commission"> %
-                    <input checked name="yogjin" type="radio" class="ind_checkbox wu commission"/> 无
+                    <input name="yogjin" type="radio" class="ind_checkbox commission" id="commission-radio"/>
+                    <input class="mt_input2" type="text" placeholder="" id="commission" value="0"> %
+                    <input checked name="yogjin" type="radio" class="ind_checkbox wu commission" id="commission-radio-wu"/> 无
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">保留价</span>
-                    <input name="baoliu" type="radio" class="ind_checkbox keep-price"/>
-                    <input class="mt_input2" type="text" placeholder="" id="keep-price"> 元
-                    <input checked name="baoliu" type="radio" class="ind_checkbox wu keep-price"/> 无
+                    <input name="baoliu" type="radio" class="ind_checkbox keep-price" id="keep-price-radio" />
+                    <input class="mt_input2" type="text" placeholder="" id="keep-price" value="0" > 元
+                    <input checked name="baoliu" type="radio" class="ind_checkbox wu keep-price" id="keep-price-wu" /> 无
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">延时周期</span>
-                    <input name="yogjins" type="radio" class="ind_checkbox delayType" value="1" />5分钟/次
-                    <input checked name="yogjins" type="radio" class="ind_checkbox wu delayType" value="2" />不延时
+                    <input name="yogjins" type="radio" class="ind_checkbox delayType" value="1" id="delayType1"  />5分钟/次
+                    <input checked name="yogjins" type="radio" class="ind_checkbox wu delayType" value="2" id="delayType2"  />不延时
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">发货地区</span>
@@ -165,105 +182,20 @@
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">运费</span>
-                    <input name="yunfei" type="radio" class="ind_checkbox delivery-price"/>
-                    <input class="mt_input2" type="text" placeholder="" id="delivery-price"> 元
-                    <input checked name="yunfei" type="radio" class="ind_checkbox wu delivery-price" /> 包邮
+                    <input name="yunfei" type="radio" class="ind_checkbox delivery-price" id="cover-delivery-radio"/>
+                    <input class="mt_input2" type="text" placeholder="" id="delivery-price" value="0"> 元
+                    <input checked name="yunfei" type="radio" class="ind_checkbox wu delivery-price" id="cover-delivery-wu" /> 包邮
                 </div>
 
             </div>
 
             <div class="ind_jrzc">
                 <span class="ind_ymyl"><a href="javascript:;" id="product-preview-btn">页面预览</a></span><span class="ind_ymyl ind_ymy2"><a
-                        href="" id="save-repo-btn">存入仓库</a></span>
+                        href="javascript:;" id="save-repo-btn">存入仓库</a></span>
             </div>
             <!-- 定时上架 -->
             <div class="ind_jrzc">
-                <div class="kp_timeon">
-                    <span class="bold">拍卖时间</span>
-                    <select class="kp_year" id="auction-start-time-year">
-                        <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
-                        <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
-                    </select>
-                    <span class="kp_ml8">年</span>
-                    <select class="kp_ml9" id="auction-start-time-month">
-                        <?php
-                            for($i = 1; $i <= 12; $i++){
-                        ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                        <?php
-                            }
-                        ?>
-                    </select>
-                    <span class="kp_ml8">月</span>
-                    <select class="kp_ml9" id="auction-start-time-day">
-
-                    </select>
-                    <span class="kp_ml8">日</span>
-                    <span class="kp_ml5">
-                        <select class="kp_ml9" id="auction-start-time-hour">
-                            <?php for($i = 0; $i < 24; $i++){
-                            ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
-                            <?php
-                            } ?>
-                        </select>
-                    </span>
-                    <span class="kp_ml8">时</span>
-                    <span class="kp_ml5">
-                        <select class="kp_ml9" id="auction-start-time-minute">
-                            <?php for($i = 1; $i <= 60; $i++){
-                                ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
-                            <?php
-                            } ?>
-                        </select>
-                    </span>
-                    <span class="kp_ml8">分</span>
-                </div>
-
-                <div class="kp_timeon">
-                    <span class="bold">拍卖时间</span>
-                    <select class="kp_year" id="auction-end-time-year">
-                        <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
-                        <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
-                    </select>
-                    <span class="kp_ml8">年</span>
-                    <select class="kp_ml9" id="auction-end-time-month">
-                        <?php
-                        for($i = 1; $i <= 12; $i++){
-                            ?>
-                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                        <?php
-                        }
-                        ?>
-                    </select>
-                    <span class="kp_ml8">月</span>
-                    <select class="kp_ml9" id="auction-end-time-day">
-
-                    </select>
-                    <span class="kp_ml8">日</span>
-                    <span class="kp_ml5">
-                        <select class="kp_ml9" id="auction-end-time-hour">
-                            <?php for($i = 0; $i < 24; $i++){
-                                ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
-                            <?php
-                            } ?>
-                        </select>
-                    </span>
-                    <span class="kp_ml8">时</span>
-                    <span class="kp_ml5">
-                        <select class="kp_ml9" id="auction-end-time-minute">
-                            <?php for($i = 1; $i <= 60; $i++){
-                                ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
-                            <?php
-                            } ?>
-                        </select>
-                    </span>
-                    <span class="kp_ml8">分</span>
-
-                </div>
+                <?php echo $this->render('time'); ?>
                 <p class="kp_tsinfo1">注：自由拍卖时间不超过48小时,每日上线限5件</p>
 
             </div>
@@ -287,6 +219,151 @@
         $('#qqq').wysiwyg({
             controls:"bold,italic,|,undo,redo,image"
         });
+
+        <?php if(!empty($productInfo)){
+        ?>
+        $('#start-time-year').val(<?php echo $productInfo['startTimeYear'] ?>);
+        $('#start-time-month').val(<?php echo $productInfo['startTimeMonth'] ?>);
+        $('#start-time-hour').val(<?php echo $productInfo['startTimeHour'] ?>);
+        $('#start-time-minute').val('<?php echo $productInfo['startTimeMin'] ?>');
+        $('#end-time-year').val(<?php echo $productInfo['endTimeYear'] ?>);
+        $('#end-time-month').val(<?php echo $productInfo['endTimeMonth'] ?>);
+        $('#end-time-hour').val(<?php echo $productInfo['endTimeHour'] ?>);
+        $('#end-time-minute').val('<?php echo $productInfo['endTimeMin'] ?>');
+
+        $('#product-name').val('<?php echo $productInfo['productName'] ?>');
+        $('#product-category-sel').val(<?php echo $productInfo['productCategoryID'] ?>);
+        $('#detail-imgs').val('<?php echo implode(',', $productInfo['detailImgs']) . ','; ?>');
+
+        <?php if($productInfo['storePlateForm'] == 1){
+        ?>
+            $('#store-category-radio').attr('checked', 'checked');
+            <?php
+                if(!empty($productInfo['firstStoreCategoryID'])){
+            ?>
+                    $('#first-store-category-chk').attr('checked', 'checked');
+                    $('#first-store-category').val(<?php echo $productInfo['firstStoreCategoryID']; ?>);
+            <?php
+                }
+            ?>
+
+            <?php
+                if(!empty($productInfo['secondStoreCategoryID'])){
+            ?>
+                    $('#second-store-category-chk').attr('checked', 'checked');
+                    $('#second-store-category').val(<?php echo $productInfo['secondStoreCategoryID']; ?>);
+            <?php
+                }
+            ?>
+
+            <?php
+                if(!empty($productInfo['thirdStoreCategoryID'])){
+            ?>
+                    $('#third-store-category-chk').attr('checked', 'checked');
+                    $('#third-store-category').val(<?php echo $productInfo['thirdStoreCategoryID']; ?>);
+            <?php
+                }
+            ?>
+        <?php
+        }elseif($productInfo['storePlateForm'] == 2){
+        ?>
+            $('#join-special-radio').attr('checked', 'checked');
+            $('#product-special-id').val(<?php echo $productInfo['specialID']; ?>);
+        <?php
+        }
+        ?>
+        <?php if(!empty($specialID)){
+        ?>
+        $('#store-category-div').remove();
+        <?php
+        } ?>
+
+        <?php
+         if(!empty($productInfo['authorAuth'])){
+         ?>
+            $('#auctionAuth').attr('checked', 'checked');
+        <?php
+         }
+         ?>
+        <?php
+         if(!empty($productInfo['fidelity'])){
+         ?>
+            $('#fidelity').attr('checked', 'checked');
+        <?php
+         }
+         ?>
+        <?php
+         if(!empty($productInfo['certificateCard'])){
+         ?>
+            $('#certificateCard').attr('checked', 'checked');
+        <?php
+         }
+         ?>
+        <?php
+         if(!empty($productInfo['authorAuth'])){
+         ?>
+            $('#authorAuth').attr('checked', 'checked');
+        <?php
+         }
+         ?>
+        <?php
+         if(!empty($productInfo['refundInDays'])){
+         ?>
+            $('#refundInDays').attr('checked', 'checked');
+        <?php
+         }
+         ?>
+
+        $('#start-price').val('<?php echo $productInfo['startPrice'] ?>');
+        $('#auction-per-price').val('<?php echo $productInfo['auctionPerPrice'] ?>');
+        <?php if(!empty($productInfo['commission'])){
+        ?>
+            $('#commission-radio').attr('checked', 'checked');
+            $('#commission').val('<?php echo $productInfo['commission'] ?>');
+        <?php
+        }else{
+        ?>
+            $('#commission-radio-wu').attr('checked', 'checked');
+        <?php
+        } ?>
+        <?php if(!empty($productInfo['existKeepPrice'])){
+        ?>
+            $('#keep-price-radio').attr('checked', 'checked');
+            $('#keep-price').val('<?php echo $productInfo['keep-price'] ?>');
+        <?php
+        }else{
+        ?>
+            $('#keep-price-wu').attr('checked', 'checked');
+        <?php
+        } ?>
+
+        <?php
+        if($productInfo['delayType'] == 1){
+        ?>
+            $('#delayType1').attr('checked', 'checked');
+        <?php
+        }elseif($productInfo['delayType'] == 2){
+        ?>
+            $('#delayType2').attr('checked', 'checked');
+        <?php
+        }
+        ?>
+        <?php if(!empty($productInfo['coverDelivery'])){
+        ?>
+            $('#cover-delivery-wu').attr('checked', 'checked');
+
+        <?php
+        }else{
+        ?>
+            $('#cover-delivery-radio').attr('checked', 'checked');
+            $('#delivery-price').val('<?php echo $productInfo['deliveryPrice'] ?>');
+        <?php
+        } ?>
+
+
+        <?php
+        }
+        ?>
 
         /*
          * 服务器地址,成功返回,失败返回参数格式依照jquery.ajax习惯;
@@ -335,8 +412,30 @@
         });
         function addProductCategoryRefresh(){
             var productCategoryID = $('#product-category-sel').val();
-            $('#add-product-category').load('/member/add-product-category?productCategoryID=' + productCategoryID);
-            $('#category-property-info').load('/member/category-property?productCategoryID=' + productCategoryID);
+            $('#add-product-category').load('/member/add-product-category?productCategoryID=' + productCategoryID, function(){
+                <?php
+                    if(!empty($productCategoryFilterOptions)){
+                        foreach($productCategoryFilterOptions as $v){
+
+                ?>
+                            $('.filter-option-<?php echo $v['productCategoryFilterOptionID'] ?>').attr('checked', 'checked');
+                <?php
+                        }
+                    }
+                ?>
+            });
+            $('#category-property-info').load('/member/category-property?productCategoryID=' + productCategoryID, function(){
+                <?php
+                    if(!empty($productPropertyValues)){
+                        foreach($productPropertyValues as $v){
+
+                ?>
+                            $('.category-property-<?php echo $v['productCategoryPropertyID'] ?>').val('<?php echo $v['value']; ?>');
+                <?php
+                        }
+                    }
+                ?>
+            });
         }
         addProductCategoryRefresh();
 
@@ -357,8 +456,13 @@
                         selected = 'selected';
                     }
                     options += '<option ' + selected + ' value="'+ data.data[i].regionID +'">'+ data.data[i].name +'</option>';
-                    $('#province-select').html(options);
                 }
+                $('#province-select').html(options);
+                <?php if(!empty($productInfo)){
+                ?>
+                    $('#province-select').val(<?php echo $productInfo['deliveryProvinceID'] ?>);
+                <?php
+                } ?>
 
                 $.ajax({
                     url : '/region/list',
@@ -376,8 +480,13 @@
                                 selected = 'selected';
                             }
                             options += '<option ' + selected + ' value="'+ data.data[i].regionID +'">'+ data.data[i].name +'</option>';
-                            $('#city-select').html(options);
                         }
+                        $('#city-select').html(options);
+                        <?php if(!empty($productInfo)){
+                        ?>
+                            $('#province-select').val(<?php echo $productInfo['deliveryCityID'] ?>);
+                        <?php
+                        } ?>
                     }
                 });
             }
@@ -401,52 +510,7 @@
             });
         });
 
-        function refreshTimeDay(year, month, type){
-            $.ajax({
-                url : '/index/get-day',
-                dataType : 'json',
-                data : {
-                    year : year,
-                    month : month
-                },
-                type : 'post',
-                success : function(data){
-                    if(data.flag > 0){
-                        var options = '';
-                        for(var i = 1; i<= data.data; i++){
-                            options += '<option value="'+ i +'">' + i + '</option>';
-                        }
-                        if(type == 1){
-                            $('#auction-start-time-day').html(options);
-                        }else{
-                            $('#auction-end-time-day').html(options);
-                        }
-                    }
-                }
-            });
-        }
-        refreshTimeDay(<?php echo date('Y'); ?>, 1, 1);
-        refreshTimeDay(<?php echo date('Y'); ?>, 1, 2);
-        $('#auction-start-time-year').on('change', function(){
-            var year = $('#auction-start-time-year').val();
-            var month = $('#auction-start-time-month').val();
-            refreshTimeDay(year, month, 1);
-        });
-        $('#auction-start-time-month').on('change', function(){
-            var year = $('#auction-start-time-year').val();
-            var month = $('#auction-start-time-month').val();
-            refreshTimeDay(year, month, 1);
-        });
-        $('#auction-end-time-year').on('change', function(){
-            var year = $('#auction-end-time-year').val();
-            var month = $('#auction-end-time-month').val();
-            refreshTimeDay(year, month, 2);
-        });
-        $('#auction-end-time-month').on('change', function(){
-            var year = $('#auction-end-time-year').val();
-            var month = $('#auction-end-time-month').val();
-            refreshTimeDay(year, month, 2);
-        });
+
         $(document).on('change', '.jinshizhuanke-ticai', function(){
             var val = $(this).val();
             if(val == '拓片'){
@@ -471,6 +535,11 @@
 
         function getProductFormData(){
             var data = {};
+            <?php if(!empty($productInfo)){
+            ?>
+                data.productID = <?php echo $productInfo['productID']; ?>;
+            <?php
+            } ?>
             data.productCategoryID = $('#product-category-sel').val();
             data.productCategoryFilters = new Array();
             $('.product-category-filter:checked').each(function(){
@@ -537,7 +606,10 @@
                 data.commission = $('#commission').val();
             }
             if(!$('.keep-price:checked').hasClass('wu')){
+                data.existKeepPrice = 1;
                 data.keepPrice = $('#keep-price').val();
+            }else{
+                data.existKeepPrice = 0;
             }
             data.delayType = $('.delayType:checked').val();
             data.deliveryCityID = $('#city-select').val();
@@ -547,17 +619,17 @@
             }else{
                 data.coverDelivery = 1;
             }
-            var auctionStartTimeYear = $('#auction-start-time-year').val();
-            var auctionStartTimeMonth = $('#auction-start-time-month').val();
-            var auctionStartTimeDay = $('#auction-start-time-day').val();
-            var auctionStartTimeHour = $('#auction-start-time-hour').val();
-            var auctionStartTimeMinute = $('#auction-start-time-minute').val();
+            var auctionStartTimeYear = $('#start-time-year').val();
+            var auctionStartTimeMonth = $('#start-time-month').val();
+            var auctionStartTimeDay = $('#start-time-day').val();
+            var auctionStartTimeHour = $('#start-time-hour').val();
+            var auctionStartTimeMinute = $('#start-time-minute').val();
             data.startTime = auctionStartTimeYear + '-' + auctionStartTimeMonth + '-' + auctionStartTimeDay + ' ' + auctionStartTimeHour + ':' + auctionStartTimeMinute + ':00';
-            var auctionEndTimeYear = $('#auction-end-time-year').val();
-            var auctionEndTimeMonth = $('#auction-end-time-month').val();
-            var auctionEndTimeDay = $('#auction-end-time-day').val();
-            var auctionEndTimeHour = $('#auction-end-time-hour').val();
-            var auctionEndTimeMinute = $('#auction-end-time-minute').val();
+            var auctionEndTimeYear = $('#end-time-year').val();
+            var auctionEndTimeMonth = $('#end-time-month').val();
+            var auctionEndTimeDay = $('#end-time-day').val();
+            var auctionEndTimeHour = $('#end-time-hour').val();
+            var auctionEndTimeMinute = $('#end-time-minute').val();
             data.endTime = auctionEndTimeYear + '-' + auctionEndTimeMonth + '-' + auctionEndTimeDay + ' ' + auctionEndTimeHour + ':' + auctionEndTimeMinute + ':00';
 
             if(!data.productName){
@@ -623,7 +695,16 @@
         });
 
         $('#save-repo-btn').on('click', function(){
-
+            var data = getProductFormData();
+            $.ajax({
+                url : '/member/save-product',
+                type : 'post',
+                dataType : 'json',
+                data : data,
+                success : function(data){
+                    layer.alert(data.msg);
+                }
+            });
         });
 
         $('#product-publish-btn').on('click', function(){
@@ -634,16 +715,26 @@
                 dataType : 'json',
                 data : data,
                 success : function(data){
-                    if(data.flag > 0){
-                        layer.open({
-                            content : '商品添加成功',
-                        });
-                    }else{
-
-                    }
+                    layer.alert(data.msg);
                 }
             });
         });
+
+        $('.product-detail-img').on('click', function(){
+            var data = {};
+            data.productID = $(this).attr('product-id');
+            data.path = $(this).attr('pic-val');
+            $(this).parent('li').remove();
+            var detailImgs = $('#detail-imgs').val();
+            detailImgs = detailImgs.split(',');
+            for(var i in detailImgs){
+                if(detailImgs[i] == data.path){
+                    detailImgs.splice(i, 1);
+                }
+            }
+
+            $('#detail-imgs').val(detailImgs.join(','));
+        })
     });
 
 </script>

@@ -5,11 +5,11 @@ foreach($properties as $v){
         <?php
             if($v['fieldType'] == 'input'){
         ?>
-                <input product-category-property-id="<?php echo $v['productCategoryPropertyID'] ?>" name="<?php echo $v['productCategoryPropertyID']; ?>" class="zz_input category-property" type="text" placeholder="请输入<?php echo $v['propertyName']; ?>">
+                <input product-category-property-id="<?php echo $v['productCategoryPropertyID'] ?>" name="<?php echo $v['productCategoryPropertyID']; ?>" class="zz_input category-property category-property-<?php echo $v['productCategoryPropertyID'] ?>" type="text" placeholder="请输入<?php echo $v['propertyName']; ?>">
         <?php
             }else{
         ?>
-                <select product-category-property-id="<?php echo $v['productCategoryPropertyID'] ?>" class="<?php echo $v['productCategoryPropertyID'] == 16 ? 'jinshizhuanke-ticai' : ''; ?> ind_year category-property" name="<?php echo $v['productCategoryPropertyID']; ?>">
+                <select product-category-property-id="<?php echo $v['productCategoryPropertyID'] ?>" class="<?php echo $v['productCategoryPropertyID'] == 16 ? 'jinshizhuanke-ticai' : ''; ?> ind_year category-property category-property-<?php echo $v['productCategoryPropertyID'] ?>" name="<?php echo $v['productCategoryPropertyID']; ?>">
                     <?php
                         $options = explode(',', $v['options']);
                         foreach($options as $v){

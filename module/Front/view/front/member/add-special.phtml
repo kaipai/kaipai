@@ -10,91 +10,9 @@
 
             <!-- 定时上架 -->
             <div class="ind_jrzc  ">
-                <div class="kp_timeon">
-                    <span class="bold">拍卖时间</span>
-                    <select class="kp_year" id="special-start-time-year">
-                        <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
-                        <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
-                    </select>
-                    <span class="kp_ml8">年</span>
-                    <select class="kp_ml9"  id="special-start-time-month">
-                        <?php
-                        for($i = 1; $i <= 12; $i++){
-                            ?>
-                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                        <?php
-                        }
-                        ?>
-                    </select>
-                    <span class="kp_ml8">月</span>
-                    <select class="kp_ml9" id="special-start-time-day">
-
-                    </select>
-                    <span class="kp_ml8">日</span>
-                    <span class="kp_ml5">
-                        <select class="kp_ml9" id="special-start-time-hour">
-                            <?php for($i = 0; $i < 24; $i++){
-                                ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
-                            <?php
-                            } ?>
-                        </select>
-                    </span>
-                    <span class="kp_ml8">时</span>
-                    <span class="kp_ml5">
-                        <select class="kp_ml9" id="special-start-time-minute">
-                            <?php for($i = 1; $i <= 60; $i++){
-                                ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
-                            <?php
-                            } ?>
-                        </select>
-                    </span>
-                    <span class="kp_ml8">分</span>
-                </div>
-
-                <div class="kp_timeon">
-                    <span class="bold">拍卖时间</span>
-                    <select class="kp_year" id="special-end-time-year">
-                        <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
-                        <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
-                    </select>
-                    <span class="kp_ml8">年</span>
-                    <select class="kp_ml9" id="special-end-time-month">
-                        <?php
-                        for($i = 1; $i <= 12; $i++){
-                            ?>
-                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                        <?php
-                        }
-                        ?>
-                    </select>
-                    <span class="kp_ml8">月</span>
-                    <select class="kp_ml9" id="special-end-time-day">
-
-                    </select>
-                    <span class="kp_ml8">日</span>
-                    <span class="kp_ml5">
-                        <select class="kp_ml9" id="special-end-time-hour">
-                            <?php for($i = 0; $i < 24; $i++){
-                                ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
-                            <?php
-                            } ?>
-                        </select>
-                    </span>
-                    <span class="kp_ml8">时</span>
-                    <span class="kp_ml5">
-                        <select class="kp_ml9" id="special-end-time-minute">
-                            <?php for($i = 1; $i <= 60; $i++){
-                                ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
-                            <?php
-                            } ?>
-                        </select>
-                    </span>
-                    <span class="kp_ml8">分</span>
-                </div>
+                <?php
+                    echo $this->render('time');
+                ?>
                 <p class="kp_tsinfo1">注：专场拍卖时间固定为日场10:00-22:00，夜场22:00-次日10:00</p>
 
             </div>
@@ -116,12 +34,12 @@
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">专场海报</span>
-                <div id="preview1" class="hide"><img id="imghead1" src=""></div>
+                <div id="preview1" class="dianpbai"><img id="imghead1" src=""></div>
                 <input type="file" name="uploadFile" onchange="previewImage1(this)" class="gl_sctu"/> 尺寸：1900*300 图片容量不大于1M
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">专场首焦</span>
-                <div id="preview2" class="hide"><img id="imghead2" src=""></div>
+                <div id="preview2" class="dianpbai"><img id="imghead2" src=""></div>
                 <input type="file" name="uploadFile" onchange="previewImage2(this)" class="gl_sctu"/> 尺寸：1900*300 图片容量不大于1M
             </div>
             <div class="mt20">
@@ -134,6 +52,9 @@
 
                 <div style="width:540px; background:#fff; float:left">
                       <textarea id="qqq">
+                          <?php if(!empty($specialInfo)){
+                            echo $specialInfo['specialDesc'];
+                          } ?>
                       </textarea>
                 </div>
             </div>
@@ -153,66 +74,46 @@
         $('#qqq').wysiwyg({
             controls:"bold,italic,|,undo,redo,image"
         });
+
+        <?php if(!empty($specialInfo)){
+        ?>
+                $('#start-time-year').val(<?php echo $specialInfo['startTimeYear'] ?>);
+                $('#start-time-month').val(<?php echo $specialInfo['startTimeMonth'] ?>);
+                $('#start-time-hour').val(<?php echo $specialInfo['startTimeHour'] ?>);
+                $('#start-time-minute').val('<?php echo $specialInfo['startTimeMin'] ?>');
+                $('#end-time-year').val(<?php echo $specialInfo['endTimeYear'] ?>);
+                $('#end-time-month').val(<?php echo $specialInfo['endTimeMonth'] ?>);
+                $('#end-time-hour').val(<?php echo $specialInfo['endTimeHour'] ?>);
+                $('#end-time-minute').val('<?php echo $specialInfo['endTimeMin'] ?>');
+                $('#special-product-category-id').val(<?php echo $specialInfo['specialProductCategoryID'] ?>);
+                $('#special-name').val('<?php echo $specialInfo['specialName'] ?>');
+                $('#imghead1').attr('src', '<?php echo $specialInfo['specialImg'] ?>');
+                $('#imghead2').attr('src', '<?php echo $specialInfo['specialBanner'] ?>');
+                $('#product-count-limit').val(<?php echo $specialInfo['productCountLimit'] ?>);
+
+        <?php
+        } ?>
     })
-    function refreshTimeDay(year, month, type){
-        $.ajax({
-            url : '/index/get-day',
-            dataType : 'json',
-            data : {
-                year : year,
-                month : month
-            },
-            type : 'post',
-            success : function(data){
-                if(data.flag > 0){
-                    var options = '';
-                    for(var i = 1; i<= data.data; i++){
-                        options += '<option value="'+ i +'">' + i + '</option>';
-                    }
-                    if(type == 1){
-                        $('#special-start-time-day').html(options);
-                    }else{
-                        $('#special-end-time-day').html(options);
-                    }
-                }
-            }
-        });
-    }
-    refreshTimeDay(<?php echo date('Y'); ?>, 1, 1);
-    refreshTimeDay(<?php echo date('Y'); ?>, 1, 2);
-    $('#special-start-time-year').on('change', function(){
-        var year = $('#special-start-time-year').val();
-        var month = $('#special-start-time-month').val();
-        refreshTimeDay(year, month, 1);
-    });
-    $('#special-start-time-month').on('change', function(){
-        var year = $('#special-start-time-year').val();
-        var month = $('#special-start-time-month').val();
-        refreshTimeDay(year, month, 1);
-    });
-    $('#special-end-time-year').on('change', function(){
-        var year = $('#special-end-time-year').val();
-        var month = $('#special-end-time-month').val();
-        refreshTimeDay(year, month, 2);
-    });
-    $('#special-end-time-month').on('change', function(){
-        var year = $('#special-end-time-year').val();
-        var month = $('#special-end-time-month').val();
-        refreshTimeDay(year, month, 2);
-    });
+
     $('#add-special-btn').on('click', function(){
         var data = {};
-        var specialStartTimeYear = $('#special-start-time-year').val();
-        var specialStartTimeMonth = $('#special-start-time-month').val();
-        var specialStartTimeDay = $('#special-start-time-day').val();
-        var specialStartTimeHour = $('#special-start-time-hour').val();
-        var specialStartTimeMinute = $('#special-start-time-minute').val();
+        <?php if(!empty($specialInfo)){
+
+        ?>
+                data.specialID = <?php echo $specialInfo['specialID'] ?>;
+        <?php
+        } ?>
+        var specialStartTimeYear = $('#start-time-year').val();
+        var specialStartTimeMonth = $('#start-time-month').val();
+        var specialStartTimeDay = $('#start-time-day').val();
+        var specialStartTimeHour = $('#start-time-hour').val();
+        var specialStartTimeMinute = $('#start-time-minute').val();
         data.startTime = specialStartTimeYear + '-' + specialStartTimeMonth + '-' + specialStartTimeDay + ' ' + specialStartTimeHour + ':' + specialStartTimeMinute + ':00';
-        var specialEndTimeYear = $('#special-end-time-year').val();
-        var specialEndTimeMonth = $('#special-end-time-month').val();
-        var specialEndTimeDay = $('#special-end-time-day').val();
-        var specialEndTimeHour = $('#special-end-time-hour').val();
-        var specialEndTimeMinute = $('#special-end-time-minute').val();
+        var specialEndTimeYear = $('#end-time-year').val();
+        var specialEndTimeMonth = $('#end-time-month').val();
+        var specialEndTimeDay = $('#end-time-day').val();
+        var specialEndTimeHour = $('#end-time-hour').val();
+        var specialEndTimeMinute = $('#end-time-minute').val();
         data.endTime = specialEndTimeYear + '-' + specialEndTimeMonth + '-' + specialEndTimeDay + ' ' + specialEndTimeHour + ':' + specialEndTimeMinute + ':00';
         data.specialProductCategoryID = $('#special-product-category-id').val();
         data.specialName = $('#special-name').val();
@@ -264,7 +165,7 @@
             data : data,
             success : function(data){
                 if(data.flag > 0){
-                    layer.alert('新增成功', function(){
+                    layer.alert(data.msg, function(){
                         location.href = '/member/special';
                     });
                 }else{

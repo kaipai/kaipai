@@ -30,7 +30,7 @@
 
                                     <p>12月30日 10:00</p>
 
-                                    <div class="cj_ad"><a href="javascript:;" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
+                                    <div class="cj_ad"><a href="javascript:;" class="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
                                 </div>
                         <?php
                             }elseif($v['auctionStatus'] == 2) {
@@ -45,7 +45,7 @@
                                     <p>已结束</p>
 
                                     <div class="cj_jtip">拍卖结束时刻后<br>保留72小时</div>
-                                    <div class="cj_ad"><a href="javascript:;" id="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
+                                    <div class="cj_ad"><a href="javascript:;" class="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
                                 </div>
                         <?php
                             }elseif($v['verifyStatus'] == 1){
@@ -53,7 +53,7 @@
                                 <div class="kp_tj_left">
                                     <p>等待通过</p>
 
-                                    <div class="cj_ad"><a href="javascript:;" id="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
+                                    <div class="cj_ad"><a href="javascript:;" class="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
                                 </div>
                         <?php
                             }elseif(empty($v['auctionStatus'])){
@@ -61,7 +61,7 @@
                                 <div class="kp_tj_left">
                                     <p>准备提交</p>
 
-                                    <div class="cj_ad"><a href="javascript:;" class="special-verify-btn" special-id="<?php echo $v['specialID'] ?>"> 提交</a> <a href=""> 编辑</a> <a href=""> 删除</a></div>
+                                    <div class="cj_ad"><a href="javascript:;" class="special-verify-btn" special-id="<?php echo $v['specialID'] ?>"> 提交</a> <a href="/member/add-special?specialID=<?php echo $v['specialID'] ?>"> 编辑</a> <a href="javascript:;" class="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
                                 </div>
                         <?php
                             }
@@ -99,7 +99,7 @@
                                         <a href="/member/special-product?specialID=<?php echo $v['specialID']; ?>">管理拍品</a>
                                     </td>
                                     <td class="cj_info4">
-                                        <a href="javascript:;" id="check-verify-status">查询>></a>
+                                        <a href="javascript:;" class="check-verify-status">查询>></a>
                                     </td>
                                 </tr>
                             </table>
@@ -136,6 +136,20 @@
                             content : data.msg
                         });
                     }
+                }
+            });
+        });
+
+        $('.del-special-btn').on('click', function(){
+            var data = {};
+            data.specialID = $(this).attr('special-id');
+            $.ajax({
+                url : '/member/del-special',
+                type : 'post',
+                dataType : 'json',
+                data : data,
+                success : function(data){
+                    layer.alert(data.msg);
                 }
             });
         });

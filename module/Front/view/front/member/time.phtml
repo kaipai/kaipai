@@ -1,0 +1,169 @@
+<div class="kp_timeon">
+    <span class="bold">拍卖时间</span>
+    <select class="kp_year" id="start-time-year">
+        <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
+        <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
+    </select>
+    <span class="kp_ml8">年</span>
+    <select class="kp_ml9" id="start-time-month">
+        <?php
+        for($i = 1; $i <= 12; $i++){
+            ?>
+            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+        <?php
+        }
+        ?>
+    </select>
+    <span class="kp_ml8">月</span>
+    <select class="kp_ml9" id="start-time-day">
+
+    </select>
+    <span class="kp_ml8">日</span>
+                    <span class="kp_ml5">
+                        <select class="kp_ml9" id="start-time-hour">
+                            <?php for($i = 0; $i < 24; $i++){
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
+                            <?php
+                            } ?>
+                        </select>
+                    </span>
+    <span class="kp_ml8">时</span>
+                    <span class="kp_ml5">
+                        <select class="kp_ml9" id="start-time-minute">
+                            <?php for($i = 1; $i <= 60; $i++){
+                                $tmp = $i < 10 ? '0' . $i : $i;
+                                ?>
+                                <option value="<?php echo $tmp; ?>"><?php echo $tmp;?></option>
+                            <?php
+                            } ?>
+                        </select>
+                    </span>
+    <span class="kp_ml8">分</span>
+</div>
+
+<div class="kp_timeon">
+    <span class="bold">拍卖时间</span>
+    <select class="kp_year" id="end-time-year">
+        <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
+        <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
+    </select>
+    <span class="kp_ml8">年</span>
+    <select class="kp_ml9" id="end-time-month">
+        <?php
+        for($i = 1; $i <= 12; $i++){
+            ?>
+            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+        <?php
+        }
+        ?>
+    </select>
+    <span class="kp_ml8">月</span>
+    <select class="kp_ml9" id="end-time-day">
+
+    </select>
+    <span class="kp_ml8">日</span>
+                    <span class="kp_ml5">
+                        <select class="kp_ml9" id="end-time-hour">
+                            <?php for($i = 0; $i < 24; $i++){
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
+                            <?php
+                            } ?>
+                        </select>
+                    </span>
+    <span class="kp_ml8">时</span>
+                    <span class="kp_ml5">
+                        <select class="kp_ml9" id="end-time-minute">
+                            <?php for($i = 1; $i <= 60; $i++){
+                                $tmp = $i < 10 ? '0' . $i : $i;
+                                ?>
+                                <option value="<?php echo $tmp; ?>"><?php echo $tmp;?></option>
+                            <?php
+                            } ?>
+                        </select>
+                    </span>
+    <span class="kp_ml8">分</span>
+
+</div>
+<script>
+$(function(){
+    function refreshTimeDay(year, month, type){
+        $.ajax({
+            url : '/index/get-day',
+            dataType : 'json',
+            data : {
+                year : year,
+                month : month
+            },
+            type : 'post',
+            success : function(data){
+                if(data.flag > 0){
+                    var options = '';
+
+                    for(var i = 1; i<= data.data; i++){
+
+                        options += '<option value="'+ i +'">' + i + '</option>';
+                    }
+                    if(type == 1){
+                        $('#start-time-day').html(options);
+                        <?php
+                            if(!empty($productInfo)){
+                        ?>
+                                $('#start-time-day').val(<?php echo $productInfo['startTimeMonth'] ?>);
+                        <?php
+                            }
+                        ?>
+                        <?php
+                            if(!empty($specialInfo)){
+                        ?>
+                                $('#start-time-day').val(<?php echo $specialInfo['startTimeMonth'] ?>);
+                        <?php
+                            }
+                        ?>
+                    }else{
+                        $('#end-time-day').html(options);
+                        <?php
+                            if(!empty($productInfo)){
+                        ?>
+                                $('#end-time-day').val(<?php echo $productInfo['endTimeMonth'] ?>);
+                        <?php
+                            }
+                        ?>
+                        <?php
+                            if(!empty($specialInfo)){
+                        ?>
+                                $('#end-time-day').val(<?php echo $specialInfo['endTimeMonth'] ?>);
+                        <?php
+                            }
+                        ?>
+                    }
+                }
+            }
+        });
+    }
+    refreshTimeDay(<?php echo date('Y'); ?>, 1, 1);
+    refreshTimeDay(<?php echo date('Y'); ?>, 1, 2);
+    $('#start-time-year').on('change', function(){
+        var year = $('#start-time-year').val();
+        var month = $('#start-time-month').val();
+        refreshTimeDay(year, month, 1);
+    });
+    $('#start-time-month').on('change', function(){
+        var year = $('#start-time-year').val();
+        var month = $('#start-time-month').val();
+        refreshTimeDay(year, month, 1);
+    });
+    $('#end-time-year').on('change', function(){
+        var year = $('#end-time-year').val();
+        var month = $('#end-time-month').val();
+        refreshTimeDay(year, month, 2);
+    });
+    $('#end-time-month').on('change', function(){
+        var year = $('#end-time-year').val();
+        var month = $('#end-time-month').val();
+        refreshTimeDay(year, month, 2);
+    });
+});
+
+</script>

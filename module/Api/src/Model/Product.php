@@ -35,7 +35,7 @@ class Product extends Model{
         $paginator = $this->paginate($select, $this->getSql()->getAdapter());
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);
-        $data = $paginator->getCurrentItems()->toArray();
+        $data = $paginator->getCurrentItems()->getArrayCopy();
         $pages = $paginator->getPages();
         $result = array(
             'data' => $data,

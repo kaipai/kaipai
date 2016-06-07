@@ -172,14 +172,46 @@ class MemberController extends Front{
 
 
     public function addProductAction(){
+        $specialID = $this->queryData['specialID'];
+        $productID = $this->queryData['productID'];
+
+        $productInfo = $this->productModel->select(array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']))->current();
+        if(!empty($productInfo)){
+            $productCategoryFilterOptions = $this->productFilterOptionModel->select(array('productID' => $productID))->toArray();
+            $productPropertyValues = $this->productPropertyValueModel->select(array('productID' => $productID))->toArray();
+            $productInfo['detailImgs'] = json_decode($productInfo['detailImgs'], true);
+            $deliveryCity = $this->regionModel->select(array('regionID' => $productInfo['deliveryCityID']))->current();
+            $productInfo['deliveryProvinceID'] = $deliveryCity['pid'];
+            $startTime = $productInfo['startTime'];
+            $endTime = $productInfo['endTime'];
+            $productInfo['startTimeYear'] = date('Y', $startTime);
+            $productInfo['startTimeMonth'] = date('n', $startTime);
+            $productInfo['startTimeDay'] = date('j', $startTime);
+            $productInfo['startTimeHour'] = date('G', $startTime);
+            $productInfo['startTimeMin'] = date('i', $startTime);
+            $productInfo['endTimeYear'] = date('Y', $endTime);
+            $productInfo['endTimeMonth'] = date('n', $endTime);
+            $productInfo['endTimeDay'] = date('j', $endTime);
+            $productInfo['endTimeHour'] = date('G', $endTime);
+            $productInfo['endTimeMin'] = date('i', $endTime);
+        }
+
         $productCategories = $this->productCategoryModel->select()->toArray();
         $storeCategory = $this->storeCategoryModel->select(array('storeID' => $this->_storeInfo['storeID']))->toArray();
-        $specials = $this->specialModel->select(array('storeID' => $this->_storeInfo['storeID']))->toArray();
+        $specialWhere = array('storeID' => $this->_storeInfo['storeID']);
+        if(!empty($specialID)){
+            $specialWhere = array('specialID' => $specialID);
+        }
+        $specials = $this->specialModel->select($specialWhere)->toArray();
 
         $this->view->setVariables(array(
             'productCategories' => $productCategories,
             'storeCategory' => $storeCategory,
             'specials' => $specials,
+            'specialID' => $specialID,
+            'productInfo' => $productInfo,
+            'productCategoryFilterOptions' => $productCategoryFilterOptions,
+            'productPropertyValues' => $productPropertyValues,
         ));
         return $this->view;
     }
@@ -197,9 +229,26 @@ class MemberController extends Front{
 
     public function addSpecialAction(){
         if(empty($this->postData)){
+            $specialID = $this->queryData['specialID'];
+            $specialInfo = $this->specialModel->select(array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']))->current();
+            if(!empty($specialInfo)){
+                $startTime = $specialInfo['startTime'];
+                $endTime = $specialInfo['endTime'];
+                $specialInfo['startTimeYear'] = date('Y', $startTime);
+                $specialInfo['startTimeMonth'] = date('n', $startTime);
+                $specialInfo['startTimeDay'] = date('j', $startTime);
+                $specialInfo['startTimeHour'] = date('G', $startTime);
+                $specialInfo['startTimeMin'] = date('i', $startTime);
+                $specialInfo['endTimeYear'] = date('Y', $endTime);
+                $specialInfo['endTimeMonth'] = date('n', $endTime);
+                $specialInfo['endTimeDay'] = date('j', $endTime);
+                $specialInfo['endTimeHour'] = date('G', $endTime);
+                $specialInfo['endTimeMin'] = date('i', $endTime);
+            }
             $productCategories = $this->productCategoryModel->select()->toArray();
             $this->view->setVariables(array(
                 'productCategories' => $productCategories,
+                'specialInfo' => $specialInfo,
 
             ));
             return $this->view;
@@ -213,9 +262,19 @@ class MemberController extends Front{
             $this->postData['startTime'] = strtotime($this->postData['startTime']);
             $this->postData['endTime'] = strtotime($this->postData['endTime']);
             $this->postData['storeID'] = $this->_storeInfo['storeID'];
-            $this->specialModel->insert($this->postData);
+            if(!empty($this->postData['specialID'])){
+                $where = array('specialID' => $this->postData['specialID'], 'storeID' => $this->_storeInfo['storeID']);
+                $specialInfo = $this->specialModel->select($where)->current();
+                if(empty($specialInfo)) return $this->response(ApiError::COMMON_ERROR, '专场不存在');
+                unset($this->postData['specialID']);
+                $this->specialModel->update($this->postData, $where);
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
+            }else{
+                $this->specialModel->insert($this->postData);
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功');
+            }
 
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+
         }
 
     }
@@ -239,9 +298,10 @@ class MemberController extends Front{
     public function specialProductAction(){
         $specialID = $this->queryData['specialID'];
         $special = $this->specialModel->select(array('specialID' => $specialID))->current();
-        $products = array();
+        $products = $this->productModel->select()->toArray();
         $this->view->setVariables(array(
-            'special' => $special
+            'special' => $special,
+            'products' => $products,
         ));
         return $this->view;
     }
@@ -250,7 +310,8 @@ class MemberController extends Front{
         $products = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID']), $this->pageNum, $this->limit);
 
         $this->view->setVariables(array(
-            'products' => $products
+            'products' => $products['data'],
+            'pages' => $products['pages'],
         ));
         return $this->view;
     }
@@ -317,18 +378,43 @@ class MemberController extends Front{
         $product = $data;
         unset($product['productCategoryFilters'], $product['productCategoryProperty'], $product['storeCategoryID']);
         $detailImgs = explode(',', trim($data['detailImgs'], ','));
+        if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
         $product['listImg'] = current($detailImgs);
         $product['detailImgs'] = json_encode($detailImgs);
         $product['startTime'] = strtotime($product['startTime']);
         $product['endTime'] = strtotime($product['endTime']);
         $product['currPrice'] = $product['startPrice'];
+        if(!empty($data['productID'])){
+
+            $where = array(
+                'productID' => $product['productID'],
+                'storeID' => $product['storeID']
+            );
+            $productInfo = $this->productModel->select($where)->current();
+            if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
+            if(!empty($productInfo['auctionStatus']) && $productInfo['auctionStatus'] != 1) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
+        }
+
+
         try{
             $this->productModel->beginTransaction();
 
+            if(!empty($productInfo)){
+                unset($product['productID']);
+                $this->productModel->update($product, $where);
+                if(!empty($data['productCategoryFilters'])){
+                    $this->productFilterOptionModel->delete(array('productID' => $where['productID']));
+                }
 
+                if(!empty($data['productCategoryProperty'])){
+                    $this->productPropertyValueModel->delete(array('productID' => $where['productID']));
+                }
+                $productID = $where['productID'];
+            }else{
+                $this->productModel->insert($product);
+                $productID = $this->productModel->getLastInsertValue();
+            }
 
-            $this->productModel->insert($product);
-            $productID = $this->productModel->getLastInsertValue();
             if(!empty($data['productCategoryFilters'])){
                 $productCategoryFilters = $data['productCategoryFilters'];
                 foreach($productCategoryFilters as $v){
@@ -351,10 +437,13 @@ class MemberController extends Front{
                 }
             }
 
-
             $this->productModel->commit();
+            if(!empty($productInfo)){
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功', array('productID' => $productID));
+            }else{
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('productID' => $productID));
+            }
 
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('productID' => $productID));
         }catch (\Exception $e){
             $this->productModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
@@ -400,5 +489,59 @@ class MemberController extends Front{
             return $this->response($e->getCode(), $e->getMessage());
         }
     }
+
+    public function delProductAction(){
+        $productID = $this->postData['productID'];
+        if(!empty($productID)){
+            $this->productModel->update(array('isDel' => 1), array('productID' => $productID));
+        }
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
+    }
+
+    public function recommendProductAction(){
+        $productID = $this->postData['productID'];
+        if(!empty($productID)){
+            $this->productModel->update(array('isSpecialRecommend' => 1), array('productID' => $productID));
+        }
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '推荐成功');
+    }
+
+    public function storeRecommendProductAction(){
+        $productID = $this->postData['productID'];
+        if(!empty($productID)){
+            $this->productModel->update(array('isStoreRecommend' => $this->postData['isStoreRecommend']), array('productID' => $productID));
+        }
+        if($this->postData['isStoreRecommend'] == 1){
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '推荐成功');
+        }else{
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '取消推荐成功');
+        }
+
+    }
+
+    public function delSpecialAction(){
+        $specialID = $this->postData['specialID'];
+        if(!empty($specialID)){
+            $this->specialModel->update(array('isDel' => 1), array('specialID' => $specialID));
+        }
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
+    }
+
+    public function delImgAction(){
+        $productInfo = $this->productModel->select(array('productID' => $this->postData['productID']))->current();
+        if(!empty($productInfo)){
+            $detailImgs = json_decode($productInfo['detailImgs'], true);
+            foreach($detailImgs as $k => $v){
+                if($v == $this->postData['path']){
+                    unset($detailImgs[$k]);
+                }
+            }
+            $detailImgs = json_encode(array_values($detailImgs));
+            $this->productModel->update(array('detailImgs' => $detailImgs), array('productID' => $this->postData['productID']));
+        }
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
+    }
+
 
 }

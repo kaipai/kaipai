@@ -179,6 +179,8 @@ class Utility
             $picPath = "/uploads/store-verify/". uniqid() . '.' . $type;
             $path = BaseRootPath . $picPath;
             file_put_contents($path, base64_decode(str_replace($result[1], '', $pic)));
+        }else{
+            $picPath = $pic;
         }
 
         return $picPath;
