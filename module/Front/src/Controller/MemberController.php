@@ -358,6 +358,8 @@ class MemberController extends Front{
     }
 
     public function storeOrderAction(){
+
+
         return $this->view;
     }
 
@@ -377,13 +379,23 @@ class MemberController extends Front{
         $data['storeID'] = $this->_storeInfo['storeID'];
         $product = $data;
         unset($product['productCategoryFilters'], $product['productCategoryProperty'], $product['storeCategoryID']);
-        $detailImgs = explode(',', trim($data['detailImgs'], ','));
-        if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
-        $product['listImg'] = current($detailImgs);
-        $product['detailImgs'] = json_encode($detailImgs);
-        $product['startTime'] = strtotime($product['startTime']);
-        $product['endTime'] = strtotime($product['endTime']);
-        $product['currPrice'] = $product['startPrice'];
+        if(!empty($data['detailImgs'])){
+            $detailImgs = explode(',', trim($data['detailImgs'], ','));
+            if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
+            $product['listImg'] = current($detailImgs);
+            $product['detailImgs'] = json_encode($detailImgs);
+        }
+
+        if(!empty($product['startTime'])){
+            $product['startTime'] = strtotime($product['startTime']);
+        }
+        if(!empty($product['endTime'])){
+            $product['endTime'] = strtotime($product['endTime']);
+        }
+        if(!empty($product['startPrice'])){
+            $product['currPrice'] = $product['startPrice'];
+        }
+
         if(!empty($data['productID'])){
 
             $where = array(
@@ -541,6 +553,16 @@ class MemberController extends Front{
         }
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
+    }
+
+    public function publishProductAction(){
+        $productID = $this->queryData['productID'];
+        $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
+        $productInfo = $this->productModel->select($where)->current();
+        if(!empty($productInfo)){
+            $this->productModel->update(array('startTime' => time(), 'endTime' => strtotime('+1 day'), 'auctionStatus' => 2), $where);
+        }
+        return $this->redirect()->toUrl('/member/product');
     }
 
 

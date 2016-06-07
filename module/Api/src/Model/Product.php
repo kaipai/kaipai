@@ -29,6 +29,7 @@ class Product extends Model{
     }
 
     public function getProducts($where, $page, $limit){
+        $where = array_merge($where, array('isDel' => 0));
         $select = $this->getSelect();
         $select->where($where);
         $select->order('Instime DESC');

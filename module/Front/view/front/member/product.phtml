@@ -1,3 +1,4 @@
+
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
@@ -31,45 +32,47 @@
                             ?>
                                 <div class="kp_name">
                                     <span>起拍价
-                                        <input product-id="<?php echo $v['productID'] ?>" class="kp_input edit-start-price-btn" type="text" placeholder="" value="<?php echo $v['startPrice'] ?>">  <span>修改</span>
+                                        <input class="kp_input " type="text" placeholder="" value="<?php echo $v['startPrice'] ?>"> <span product-id="<?php echo $v['productID'] ?>" class="edit-start-price-btn" style="cursor: pointer;">修改</span>
                                     </span>
                                     <span class="kp_bliu">保留价
-                                        <input product-id="<?php echo $v['productID'] ?>" class="kp_input edit-keep-price-btn" type="text" placeholder="" value="<?php echo $v['keepPrice'] ?>">  <span>修改</span>
+                                        <input class="kp_input " type="text" placeholder="" value="<?php echo $v['keepPrice'] ?>">  <span product-id="<?php echo $v['productID'] ?>" class="edit-keep-price-btn" style="cursor: pointer;">修改</span>
                                     </span>
                                 </div>
                             <?php
                             }
                             ?>
                         </div>
-                        <div class="kp_shop_center01">
-                            <?php if($v['auctionStatus'] == 1){
-                            ?>
+
+                        <?php
+                        if($v['auctionStatus'] == 1){
+                        ?>
+                            <div class="kp_shop_center01">
                                 <p>等待上架</p>
 
                                 <p><?php echo date('Y-m-d H:i:s', $v['startTime']); ?></p>
-                            <?php
-                            }elseif($v['auctionStatus'] == 2){
-                            ?>
-                                <div class="kp_shop_center01">
-                                    <p class="kp_nmai">正在拍卖</p>
-                                </div>
-                            <?php
-                            }elseif($v['auctionStatus'] == 3){
-                            ?>
-                                <div class="kp_shop_center01">
-                                    <p>已结束</p>
-                                </div>
-                            <?php
-                            } ?>
+                            </div>
+                        <?php
+                        }elseif($v['auctionStatus'] == 2){
+                        ?>
+                            <div class="kp_shop_center01">
+                                <p class="kp_nmai">正在拍卖</p>
+                            </div>
+                        <?php
+                        }elseif($v['auctionStatus'] == 3){
+                        ?>
+                            <div class="kp_shop_center01">
+                                <p>已结束</p>
+                            </div>
+                        <?php
+                        } ?>
 
-                        </div>
                         <div class="kp_shop_right">
                             <div class="kp_bj">
                                 <span>
                                     <a href="/member/add-product?productID=<?php echo $v['productID'] ?>">编辑拍品</a>
                                 </span>
                                 <span class="kp_bjsc">
-                                    <a href="javascript:;" class="del-product-btn">删除</a>
+                                    <a href="javascript:;" class="del-product-btn" product-id="<?php echo $v['productID'] ?>">删除</a>
                                 </span>
                             </div>
                             <div class="kp_bj">
@@ -171,8 +174,9 @@
                 }
             });
         }
-        $('.del-special-product').on('click', function(){
+        $('.del-product-btn').on('click', function(){
             var productID = $(this).attr('product-id');
+            $('#product-li-' + productID).remove();
             delProduct(productID);
         })
         $('#del-products-btn').on('click', function(){
@@ -196,7 +200,7 @@
         $('.edit-keep-price-btn').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
-            data.keepPrice = $(this).previous('input').val();
+            data.keepPrice = $(this).prev('input').val();
             data.existKeepPrice = 1;
             $.ajax({
                 url : '/member/save-product',
