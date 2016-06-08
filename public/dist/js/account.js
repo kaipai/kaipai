@@ -3,7 +3,7 @@ var J_picVerify= $('#picVerifyCode');
 var J_btn_getcode = $('#btn_getcode');
 var reSend = true;
 var re = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-J_btn_getcode.bind('click', function() {
+$(document).on('click', '#btn_getcode', function() {
 	var mobile = J_mobile.val();
     var picVerifyCode = J_picVerify.val();
 	if (!re.test(mobile)) {
@@ -60,7 +60,7 @@ J_btn_getcode.bind('click', function() {
 	}
 });
 
-$('#register').bind('click', function(){
+$(document).on('click', '#register', function(){
     var nickName = $('#nickName').val();
     var mobile = J_mobile.val();
     var verifyCode = $('#verifyCode').val();
@@ -144,10 +144,10 @@ $('#register').bind('click', function(){
     });
 });
 
-$('#do-login').bind('click', function(){
-    var mobile = $('input[name=mobile]').val();
-    var password = $('input[name=password]').val();
-    var rememberMe = $('input[name=rememberMe]').is(':checked');
+$(document).on('click', '#do-login', function(){
+    var mobile = $('input[name=mobile]:visible').val();
+    var password = $('input[name=password]:visible').val();
+    var rememberMe = $('input[name=rememberMe]:visible').is(':checked');
     if(!mobile){
         layer.open({
             type : 0,
@@ -190,7 +190,7 @@ $('#do-login').bind('click', function(){
         },
         success : function(data){
             if(data.flag > 0){
-                location.href = '/';
+                location.href = data.url;
             }else{
                 layer.open({
                     type : 0,

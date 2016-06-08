@@ -59,7 +59,7 @@ class Controller extends AbstractActionController{
 
     }
 
-    protected function response($flag = null, $msg = null, $data = null, $url = null){
+    protected function response($flag = null, $msg = null, $data = null, $url = '/'){
         $headers = array(
             'Access-Control-Allow-Origin: *',
             'Access-Control-Allow-Headers: Content-type',

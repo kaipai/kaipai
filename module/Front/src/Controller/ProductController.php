@@ -125,12 +125,19 @@ class ProductController extends Front{
         $auctionLogs = $this->auctionLogModel->select(array('productID' => $productID))->toArray();
 
         //recommend products
-        $recommendProducts = array();
         if(!empty($sourceSpecialID)){
             $recommendProducts = $this->productModel->getSpecialRecommendProducts($sourceSpecialID);
         }else{
             $recommendProducts = $this->productModel->getStoreRecommendProducts($productInfo['storeID']);
         }
+        if(!empty($this->memberInfo)){
+            $proxyPrice = $this->auctionMemberModel->setColumns(array('proxyPrice'))->select(array('productID' => $productID, 'memberID' => $this->memberInfo['memberID']))->current();
+            if(!empty($proxyPrice)) $proxyPrice = $proxyPrice['proxyPrice'];
+        }
+
+        // 关注信息
+        $interestProduct = $this->memberProductInterestModel->select(array('productID' => $productID, 'memberID' => $this->memberInfo['memberID']))->current();
+        $interestStore = $this->memberStoreInterestModel->select(array('storeID' => $productInfo['storeID'], 'memberID' => $this->memberInfo['memberID'],))->current();
 
         $this->view->setVariables(array(
             'productInfo' => $productInfo,
@@ -139,6 +146,9 @@ class ProductController extends Front{
             'sourceSpecialInfo' => $sourceSpecialInfo,
             'auctionLogs' => $auctionLogs,
             'recommendProducts' => $recommendProducts,
+            'proxyPrice' => $proxyPrice,
+            'interestProduct' => $interestProduct,
+            'interestStore' => $interestStore,
         ));
 
         return $this->view;

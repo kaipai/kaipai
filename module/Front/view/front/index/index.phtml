@@ -1,6 +1,4 @@
-<?php
-echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/index.css');
-?>
+<link rel="stylesheet" href="/dist/styles/main/index.css" media="screen" type="text/css" />
 <div id="slideBoxx" class="slideBoxx">
     <div class="center ">
         <div class="pop-zhuangchang">
@@ -46,10 +44,10 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
 <!-- ad end -->
 <!--end 横屏-->
 <div class="center main-ad-top">
-    <div class="main-tymj left" style="background-image: url('/dist/img/upload/ad1.jpg');">
+    <div class="main-tymj left" style="background-image: url('');cursor: pointer;" onclick="location.href='/customization/index';">
         特约名家
     </div>
-    <div class="main-qltj left ml10" style="background-image : url('/dist/img/upload/ad1.jpg')">
+    <div class="main-qltj left ml10" style="background-image : url('');cursor: pointer;" onclick="location.href='/artist/recommend';">
         潜力推荐
     </div>
     <div class="main-tjgg right">
@@ -214,7 +212,3 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
         </div>
     </div>
 </div>
-
-<script>
-    loginPOP();
-</script>

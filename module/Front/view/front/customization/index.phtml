@@ -1,16 +1,11 @@
+<link rel="stylesheet" href="/dist/styles/main/index.css" media="screen" type="text/css" />
 <div class="mingjia-top">
     <div class="center">
         <h4 class="fl">特邀名家</h4>
 
         <p class="fl">
-            特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家
-            <br>
-            特邀名家特邀名家特邀名家特邀名家特邀名家特邀特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家名家
-            <br>
-            特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家
-            <br>
-            特邀名家特邀名家特邀名家特邀名家特邀名家特邀名家
-            <br></p>
+            <?php echo $_siteSettings['customizationTopText']; ?>
+        </p>
     </div>
 </div>
 <div class="mingjia-nav">
@@ -18,11 +13,13 @@
         <ul>
             <li>专业领域></li>
 
-            <li class="on">国画</li>
-
-            <li>书法</li>
-            <li>篆刻</li>
-            <li>工艺</li>
+            <?php
+            foreach($artistCategories as $v){
+            ?>
+                <li class="<?php echo $artistCategoryID == $v['artistCategoryID'] ? 'on' : ''; ?>" style="cursor: pointer;" onclick="location.href='/customization/index?artistCategoryID=<?php echo $v['artistCategoryID'] ?>'"><?php echo $v['categoryName']; ?></li>
+            <?php
+            }
+            ?>
         </ul>
 
     </div>
@@ -52,25 +49,24 @@
                 </div>
                 <div class="dz_right">
                     <div class="dz_right01"><a href="/customization/detail?customizationID=<?php echo $v['customizationID'] ?>">更多作者介绍内详 >></a></div>
-                    <div class="dz_right04">距结束</div>
-                    <div class="dz_right10">
-                        <span class="dz_right02 dz_r">2</span>
-                        <span class="dz_right03">天</span>
-                        <span class="dz_right02">08</span>
-                        <span class="dz_right03">时</span>
-                        <span class="dz_right02">30</span>
-                        <span class="dz_right03">分</span>
-                        <span class="dz_right02">20</span>
-                        <span class="dz_right03">秒</span>
+                    <?php
+                    if(time() < $v['endTime']) {
+                    ?>
+                        <div class="dz_right04">距结束</div>
+                    <?php
+                    }
+                    ?>
+
+
+                    <div class="dz_right10 yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>">
+
                     </div>
                     <div class="dz_right05">
-                        <a href="">
-                            <div class="dz_right06">
-                                <p>我要</p>
+                        <div class="dz_right06" style="cursor: pointer;" onclick="location.href='/customization/detail?customizationID=<?php echo $v['customizationID'] ?>';">
+                            <p>我要</p>
 
-                                <p>订制</p>
-                            </div>
-                        </a>
+                            <p>订制</p>
+                        </div>
 
                         <div class="dz_right07">
                             <p class="dz_right08"><?php echo $v['boughtCount'] ?></p>
@@ -84,3 +80,11 @@
         }
     ?>
 </div>
+<script>
+    $(function(){
+        $(".yomibox2").each(function () {
+            $(this).yomi(_CurrentServerTime, 'customization-index')
+        });
+    })
+
+</script>

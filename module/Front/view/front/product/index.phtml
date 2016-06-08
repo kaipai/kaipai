@@ -1,6 +1,5 @@
-<?php
-echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/index.css')->appendStylesheet($this->basePath() . '/plugins/layer/skin/layer.css');
-?>
+
+<link rel="stylesheet" href="/dist/styles/main/index.css" media="screen" type="text/css" />
 <div class="center">
     <div class="main-ad-box">
 
@@ -85,13 +84,15 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
 
         <!--分类-->
         <div>
-            <div class="fl_liebie">分类拍品 > <?php echo $categoryInfo['categoryName']; ?></div>
-            <div class="fl_shaixuan">
-                <div class="fl_shaixuan_left">筛选></div>
-                <div class="fl_shaixuan_right">
-                    <?php
+            <?php if(!empty($categoryInfo)){
+            ?>
+                <div class="fl_liebie">分类拍品 > <?php echo $categoryInfo['categoryName']; ?></div>
+                <div class="fl_shaixuan">
+                    <div class="fl_shaixuan_left">筛选></div>
+                    <div class="fl_shaixuan_right">
+                        <?php
                         foreach($options as $v){
-                    ?>
+                            ?>
                             <ul>
                                 <li class="fl_tc">
                                     <a href=""></a>
@@ -99,22 +100,25 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                                     </a>
                                 </li>
                                 <?php
-                                    if(!empty($v['options'])){
-                                        foreach($v['options'] as $sv) {
-                                ?>
-                                            <li class="fl_li_other">
-                                                <a href=""><?php echo $sv['optionName'] ?></a>
-                                            </li>
-                                <?php
-                                        }
+                                if(!empty($v['options'])){
+                                    foreach($v['options'] as $sv) {
+                                        ?>
+                                        <li class="fl_li_other">
+                                            <a href=""><?php echo $sv['optionName'] ?></a>
+                                        </li>
+                                    <?php
                                     }
+                                }
                                 ?>
                             </ul>
-                    <?php
+                        <?php
                         }
-                    ?>
+                        ?>
+                    </div>
                 </div>
-            </div>
+            <?php
+            } ?>
+
             <div class="fl_zhuangtai">
                 <ul>
                     <li>状态></li>

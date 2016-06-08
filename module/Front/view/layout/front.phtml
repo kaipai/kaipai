@@ -53,7 +53,7 @@
 
     <?php echo $this->content; ?>
     <?php echo $this->render('/layout/bottom'); ?>
-
+    <?php echo $this->render('/front/common/login'); ?>
 
     <script type="text/javascript">
         if($('.date-pop').length){
@@ -68,5 +68,5 @@
         }
 
     </script>
-
+    <?php echo $this->inlineScript()->appendFile('/dist/js/account.js'); ?>
 </body>

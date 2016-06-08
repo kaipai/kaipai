@@ -5,7 +5,7 @@ function loginPOP() {
         skin: 'loginBox',
         title:'快捷登录',
         type: 1,
-        content: $('#loginPopBox').html()
+        content: $('#loginPopBox')
     });
 };
 
@@ -50,11 +50,26 @@ var current_url = window.location.href;
             $(_DOM).find(".yomihour").html(nol(hours));
             $(_DOM).find(".yomimin").html(nol(min));
             $(_DOM).find(".yomisec").html(nol(sec));
-            if (range > 0) {
-                $(_DOM).append("<ul class='yomi'><li class='yomiday'></li><li class='split'>天</li><li class='yomihour'></li><li class='split'>时</li><li class='yomimin'></li><li class='split'>分</li><li class='yomisec'></li><li class='split'>秒</li></ul>");
-            } else {
-                $(_DOM).append('<b>拍卖已结束</b>');
+            if(page == 'customization-detail'){
+                if (range > 0) {
+                    $(_DOM).append("<span class='ty_col yomiday'></span>天<span class='ty_col yomihour'></span>时<span class='ty_col yomimin'></span>分<span class='ty_col yomisec'></span>秒");
+                } else {
+                    $(_DOM).append('<b>拍卖已结束</b>');
+                }
+            }else if(page == 'customization-index'){
+                if (range > 0) {
+                    $(_DOM).append("<span class='dz_right02 dz_r yomiday'></span><span class='dz_right03'>天</span><span class='dz_right02 yomihour'></span><span class='split dz_right03'>时</span><span class='yomimin dz_right02'></span><span class='split dz_right03'>分</span><span class='yomisec dz_right02'></span><span class='split dz_right03'>秒</span>");
+                } else {
+                    $(_DOM).append('<b>拍卖已结束</b>');
+                }
+            }else{
+                if (range > 0) {
+                    $(_DOM).append("<ul class='yomi'><li class='yomiday'></li><li class='split'>天</li><li class='yomihour'></li><li class='split'>时</li><li class='yomimin'></li><li class='split'>分</li><li class='yomisec'></li><li class='split'>秒</li></ul>");
+                } else {
+                    $(_DOM).append('<b>拍卖已结束</b>');
+                }
             }
+
         };
         var reflesh = function() {
             var range = data - Math.round((new Date()).getTime() / 1000),

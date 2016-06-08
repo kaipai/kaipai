@@ -12,7 +12,14 @@ class MemberController extends Front{
     private $_storeInfo;
 
     public function init(){
-        if(empty($this->memberInfo)) $this->redirect()->toUrl('/login/do-login');
+        if(empty($this->memberInfo)) {
+            if($this->request->isXmlHttpRequest){
+                return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+            }else{
+                return $this->redirect()->toUrl('/login/do-login');
+            }
+
+        }
         if(!empty($this->memberInfo['storeID'])){
             $this->_storeInfo = $this->storeModel->select(array('storeID' => $this->memberInfo['storeID']))->current();
             $this->layout()->setVariable('_storeInfo', $this->_storeInfo);
@@ -21,7 +28,7 @@ class MemberController extends Front{
             ));
         }
         if((empty($this->_storeInfo) || $this->_storeInfo['verifyStatus'] != 2) && in_array($this->actionName, array('add-product', 'product', 'special', 'store-order', 'setting'))){
-            $this->redirect()->toUrl('/member/store-join');
+            return $this->redirect()->toUrl('/member/store-join');
         }
     }
 
@@ -104,7 +111,7 @@ class MemberController extends Front{
             $this->memberProductInterestModel->insert($tmp);
             $this->productModel->update(array('interestedCount' => new Expression('interestedCount+1')), array('productID' => $productID));
             $this->memberProductInterestModel->commit();
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '关注成功');
         }catch (\Exception $e){
             $this->memberProductInterestModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
@@ -122,7 +129,7 @@ class MemberController extends Front{
             $this->memberProductInterestModel->delete($tmp);
             $this->productModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('productID' => $productID));
             $this->memberProductInterestModel->commit();
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '取消关注成功');
         }catch (\Exception $e){
             $this->memberProductInterestModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
@@ -140,7 +147,7 @@ class MemberController extends Front{
             $this->memberStoreInterestModel->insert($tmp);
             $this->storeModel->update(array('interestedCount' => new Expression('interestedCount+1')), array('storeID' => $storeID));
             $this->memberStoreInterestModel->commit();
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '关注成功');
         }catch (\Exception $e){
             $this->memberStoreInterestModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
@@ -158,7 +165,7 @@ class MemberController extends Front{
             $this->memberStoreInterestModel->delete($tmp);
             $this->storeModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('storeID' => $storeID));
             $this->memberStoreInterestModel->commit();
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '取消关注成功');
         }catch (\Exception $e){
             $this->memberStoreInterestModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
@@ -485,7 +492,7 @@ class MemberController extends Front{
         unset($store['storeMobileCode']);
         $store['idPic'] = Utility::saveBaseCodePic($store['idPic']);
         $store['memberIdPic'] = Utility::saveBaseCodePic($store['memberIdPic']);
-
+        $store['memberID'] = $this->memberInfo['memberID'];
 
 
         try{

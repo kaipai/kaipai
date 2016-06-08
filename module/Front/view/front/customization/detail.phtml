@@ -1,42 +1,31 @@
-<?php
-    echo $this->headLink()->appendStylesheet('/jin/style/common.css')->appendStylesheet('/jin/style/css.css');
-?>
-<div class="Fixyue">
-    <div class="Fixclose"><a href=""><img src="images/clo_03.jpg"></a></div>
-    <div class="Fixyue3">付款金额 <span class="Fixyue3num">1000000</span></div>
-    <div class="Fixyue1">
-        <ul>
-            <li class=""><img src="images/zf_03.png"> 余额支付</li>
-            <li class=""><img src="images/zf_06.png"> 支付宝</li>
-            <li class="fix_mor"><img src="images/zf_12.png"> 微信钱包</li>
-            <li class=""><img src="images/zf_14.png"> 网银支付</li>
-            <li class=""><img src="images/zf_20.png"> 银行汇款</li>
-        </ul>
-    </div>
-    <div class="Fixyue2">确认支付</div>
-</div>
-
+<link rel="stylesheet" href="/jin/style/common.css" media="screen" type="text/css" />
+<link rel="stylesheet" href="/jin/style/css.css" media="screen" type="text/css" />
 <div class="kp_main">
     <div class="center ">
         <div class="ty_main01">特约名家 > 定制详情</div>
         <div class="ty_main02">
             <div class="ty_left">
-                <img src="">
+                <img src="<?php echo $info['listImg'] ?>">
             </div>
             <div class="ty_center">
-                <div><span class="ty_new">正在进行</span><span>距结束 <span class="ty_col">5</span>天<span
-                            class="ty_col">08</span>时<span class="ty_col">30</span>分<span
-                            class="ty_col">20</span>秒</span></div>
-                <p class="ty_title"><?php echo $customizationInfo['title'] ?></p>
+                <div>
+                    <?php if(time() < $info['endTime']){?>
+                        <span class="ty_new">正在进行</span>
+                        <span>距结束</span>
+                    <?php } ?>
+                        <span class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $info['endTime']); ?>"></span>
+
+                </div>
+                <p class="ty_title"><?php echo $info['title'] ?></p>
 
                 <div class="ty_price">
                     <span class="ty_price1">当前价  <span class="ty_col1">￥</span><span
-                            class="ty_price2"><?php echo $customizationInfo['price'] ?></span></span>
-                    <span>[<span class="ty_col1"><?php echo $customizationInfo['boughtCount'] ?></span>次成交]</span>
+                            class="ty_price2"><?php echo $info['price'] ?></span></span>
+                    <span>[<span class="ty_col1"><?php echo $info['boughtCount'] ?></span>次成交]</span>
                 </div>
                 <div class="ty_price">
-                    <span class="ty_price1">订金： ￥1.000</span>
-                    <span>剩余数量：<?php echo $customizationInfo['lastNum'] ?></span>
+                    <span class="ty_price1">订金： ￥<?php echo $info['depositPrice'] ?></span>
+                    <span>剩余数量：<?php echo $info['lastNum'] ?></span>
                 </div>
                 <div class="ty_cont">
                     订制商品属性特殊，不以个人喜好等原因退换。可自定内容请于订单备注中说明，或联系客服。作品交付根据作者创作时间不定，介意慎拍。
@@ -48,15 +37,16 @@
                             <span class="ty_lxkf2"><a href="">关注</a></span><span class="ty_num1">选择数量</span>
                             <span class="ty_aa">件</span>
 
-                            <div class="ty_addnum"><input type="text">
-                                <button>+</button>
+                            <div class="ty_addnum">
+                                <input type="text" value="1" id="customization-count">
+                                <button id="add-customization-count">+</button>
                             </div>
 
                         </div>
 
 
                     </div>
-                    <div class="ty_hekr">订制</div>
+                    <div class="ty_hekr" style="cursor: pointer;" id="buy-customization-btn">订制</div>
                 </div>
             </div>
             <div class="ty_right">
@@ -157,3 +147,30 @@
 
     </div>
 </div>
+
+<?php echo $this->render('/front/common/pay'); ?>
+
+<script>
+    $(function(){
+        $(".yomibox2").each(function () {
+            $(this).yomi(_CurrentServerTime, 'customization-detail')
+        });
+        $('#add-customization-count').on('click', function(){
+            $('#customization-count').val(parseInt($('#customization-count').val()) + 1);
+        });
+        $('#buy-customization-btn').on('click', function(){
+            var depositPrice = <?php echo $info['depositPrice']; ?>;
+            var customizationCount = parseInt($('#customization-count').val());
+            var payPrice = depositPrice * customizationCount;
+
+            layer.open({
+                skin: '',
+                title:'',
+                type: 1,
+                content: $('#pay-div').html()
+            });
+            $('.pay-price:visible').html(payPrice + '元');
+        });
+    })
+
+</script>

@@ -127,8 +127,8 @@ echo $this->headLink()
                 </p>
 
                 <p class="collection">
-                    <a class="collection-p" href="javascript:;" id="interest-product">收藏拍品</a>
-                    <a class="collection-d" href="javascript:;" id="interest-store">关注店铺</a>
+                    <a class="collection-p" href="javascript:;" id="interest-product"><?php echo !empty($interestProduct) ? '取消关注' : '关注拍品';?></a>
+                    <a class="collection-d" href="javascript:;" id="interest-store"><?php echo !empty($interestStore) ? '取消关注' : '关注店铺';?></a>
                 </p>
             </div>
         </div>
@@ -140,7 +140,6 @@ echo $this->headLink()
             </div>
             <ul id="rightbid">
                 <li style="color:#333">
-                    <span class="num_01">&nbsp;</span>
                     <span class="num_02">竞拍人</span>
                     <span class="num_03">价格</span>
                     <span class="num_04">时间</span>
@@ -149,10 +148,9 @@ echo $this->headLink()
                     foreach($auctionLogs as $v){
                 ?>
                         <li>
-                            <span class="num_01 n_01"></span>
                             <span class="num_02 font_b"><?php echo $v['nickName'] ?></span>
-                            <span class="num_03 font_b">*****</span>
-                            <span class="num_04 font_b"><?php echo date('y/m/d', strtotime($v['instime'])) ?></span>
+                            <span class="num_03 font_b"><?php echo $v['auctionPrice'] ?></span>
+                            <span class="num_04 font_b"><?php echo date('m-d H:i', strtotime($v['instime'])) ?></span>
                         </li>
                 <?php
                     }
@@ -237,7 +235,7 @@ echo $this->headLink()
                     <a class="on" href="javascript:void(0)" target="_self">拍品描述</a>
                     <a href="javascript:void(0)" target="_self" class="cjjlxx">
                         出价记录
-                        <span class="red">(0)</span>
+                        <span class="red">(<?php echo $productInfo['auctionCount'] ?>)</span>
                     </a>
                     <a href="javascript:void(0)" target="_self">竞拍须知</a>
                     <a href="javascript:void(0)" target="_self">服务保障</a>
@@ -316,11 +314,27 @@ echo $this->headLink()
                     <div class="detailed-xx-cjjl  shop-show-item">
                         <ul>
                             <li class="bg">
-                                <span class="num_01">状态</span>
-                                <span class="num_02">竞拍人</span>
-                                <span class="num_03">价格</span>
-                                <span class="num_04">时间</span>
+                                <span class="num_02">出价人</span>
+                                <span class="num_03">出价</span>
+                                <span class="num_04">出价时间</span>
                             </li>
+
+                            <?php
+                            foreach($auctionLogs as $v){
+                                ?>
+                                <li>
+                                    <li >
+                                        <span class="num_02"><?php echo $v['nickName'] ?></span>
+                                        <span class="num_03"><?php echo $v['auctionPrice'] ?></span>
+                                        <span class="num_04"><?php echo date('m-d H:i') ?></span>
+                                    </li>
+                                </li>
+                            <?php
+                            }
+                            ?>
+
+
+
                         </ul>
                     </div>
                     <!----出价记录 end-->
@@ -472,6 +486,9 @@ echo $this->headLink()
     </div>
 </div>
 <?php
+echo $this->render('set-proxy-price');
+?>
+<?php
 echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
 ?>
 <script type="text/javascript">
@@ -479,47 +496,142 @@ echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
         //产品详情图片展示
         CloudZoom.quickStart();
         _PageTag = "detail";
-        console.log(_CurrentServerTime);
         $(".yomibox2").each(function () {
-            console.log('dd');
-            $(this).yomi(_CurrentServerTime, _PageTag)
+            $(this).yomi(_CurrentServerTime, _PageTag);
         });
         initEvent();
 
         $('#interest-product').on('click', function(){
+            var obj = $(this);
+            var text = obj.html();
+            var url;
+            var replace;
+            if(text == '关注拍品'){
+                url = '/member/add-interest-product';
+                replace = '取消关注';
+            }else{
+                url = '/member/remove-interest-product';
+                replace = '关注拍品';
+            }
             $.ajax({
-                url : '/member/add-interest-product',
+                url : url,
                 type : 'post',
                 dataType : 'json',
                 data : {
                     productID : '<?php echo $productInfo['productID']; ?>'
                 },
-                success : function(data){
-                    if(data.flag > 0){
-                        layer.open({
-
-                        });
-                    }else{
+                success : function(response){
+                    if(response.flag > 0){
+                        layer.alert(response.msg);
+                        obj.html(replace);
+                    }else if(response.flag == -102){
                         loginPOP();
+                    }else{
+                        layer.alert(response.msg);
                     }
                 }
             });
         });
         $('#interest-store').on('click', function(){
+            var obj = $(this);
+            var text = obj.html();
+            var url;
+            var replace;
+            if(text == '关注店铺'){
+                url = '/member/add-interest-store';
+                replace = '取消关注';
+            }else{
+                url = '/member/remove-interest-store';
+                replace = '关注店铺';
+            }
             $.ajax({
-                url : '/member/add-interest-store',
+                url : url,
                 type : 'post',
                 dataType : 'json',
                 data : {
-                    productID : '<?php echo $productInfo['storeID']; ?>'
+                    storeID : '<?php echo $productInfo['storeID']; ?>'
                 },
-                success : function(data){
-                    if(data.flag > 0){
-                        layer.open({
-
-                        });
-                    }else{
+                success : function(response){
+                    if(response.flag > 0){
+                        layer.alert(response.msg);
+                        obj.html(replace);
+                    }else if(response.flag == -102){
                         loginPOP();
+                    }else{
+                        layer.alert(response.msg);
+                    }
+                }
+            });
+        });
+
+        $('#priceAdd').on('click', function(){
+            var val = parseInt($('#j_addprice').val()) + 1;
+            $('#j_addprice').val(val);
+        });
+        $('#priceReduce').on('click', function(){
+            var val = parseInt($('#j_addprice').val())- 1;
+            $('#j_addprice').val(val);
+        });
+
+        $('#my_biding').on('click', function(){
+            var data = {};
+            data.auctionPrice = $('#j_addprice').val();
+            layer.confirm(
+                '确认出价' + data.auctionPrice + '元吗?',
+                {btn : ['确认', '取消']},
+                function(){
+                    data.productID = <?php echo $productInfo['productID'] ?>;
+                    $.ajax({
+                        url : '/auction/bidding',
+                        dataType : 'json',
+                        type : 'post',
+                        data : data,
+                        success : function(response){
+                            if(response.flag > 0){
+                                layer.alert(response.msg, function(){location.reload();});
+                            }else if(response.flag == -102){
+                                loginPOP();
+                            }else{
+                                layer.alert(response.msg);
+                            }
+
+                        }
+                    });
+                }
+            );
+
+        });
+
+        $('#set-agent_biding').on('click', function(){
+            layer.open({
+                skin: 'loginBox',
+                title:'设置代理价',
+                type: 1,
+                content: $('#set-proxy-price').html()
+            });
+            <?php if(!empty($proxyPrice)){
+            ?>
+                $('input[name=proxy-price]:visible').val('<?php echo $proxyPrice; ?>');
+            <?php
+            } ?>
+
+        });
+        $(document).on('click', '#set-proxy-price-btn', function(){
+            var data = {};
+            data.productID = <?php echo $productInfo['productID'] ?>;
+            data.proxyPrice = $('input[name=proxy-price]:visible').val();
+            $.ajax({
+                url : '/auction/set-proxy-price',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(response){
+                    if(response.flag > 0){
+                        layer.alert(response.msg, function(){location.reload();});
+                    }else if(response.flag == -102){
+                        loginPOP();
+                    }else{
+                        layer.alert(response.msg);
                     }
                 }
             });

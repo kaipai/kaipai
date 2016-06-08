@@ -60,7 +60,7 @@
 .ty_main10 ul li{ float: left; margin-top: 30px; margin-left: 15px; display: inline-block;text-align: center; height: 278px; width: 205px; text-align: center;}
 .ty_main10 ul li img{ max-width: 205px; max-height:200px }
 .ty_addnum{ width: 64px; height: 28px; border:1px solid #c7c7c7; float: right; margin-left: 8px}
-.ty_addnum input{ border:0px; width: 34px; display: inline-block; float: left; height: 26px}
+.ty_addnum input{ border:0px; width: 32px; display: inline-block; float: left; height: 26px}
 .ty_addnum button{ float: left; width: 30px; height: 28px; border: 0px; border-left:1px solid #c7c7c7; cursor: pointer;}
 .ty_lxkf1{margin-top: 8px; line-height: 28px}
 .ty_aa{ float: right; margin-left: 4px}
@@ -76,7 +76,7 @@
 
 
 
-.Fixyue {position: fixed;top: 200px;overflow: hidden;width: 470px;z-index: 22;padding: 20px;right:0px; border: 1px solid #d3d3d3; background: #fff}
+.Fixyue {/*position: fixed;*/top: 200px;overflow: hidden;width: 320px;z-index: 22;padding: 20px;right:0px; border: 1px solid #d3d3d3; background: #fff}
 .Fixyue1 ul li{
    line-height: 60px; display: block;  margin-top:2px ; font-size: 16px  ; height: 60px; background:#f8f8f8 url(../images/zf_16.png) no-repeat scroll 5% center; padding-left: 80px; cursor: pointer;
 }

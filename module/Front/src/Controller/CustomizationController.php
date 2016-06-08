@@ -1,10 +1,21 @@
 <?php
 namespace Front\Controller;
+use Base\ConstDir\Api\ApiError;
 use COM\Controller\Front;
 
 class CustomizationController extends Front{
 
     public function indexAction(){
+        $artistCategoryID = !empty($this->queryData['artistCategoryID']) ? $this->queryData['artistCategoryID'] : 1;
+        $artistCategories = $this->artistCategoryModel->select()->toArray();
+
+        $customizations = $this->customizationModel->getAllCustomizations(array('b.artistCategoryID' => $artistCategoryID));
+
+        $this->view->setVariables(array(
+            'artistCategories' => $artistCategories,
+            'artistCategoryID' => $artistCategoryID,
+            'customizations' => $customizations,
+        ));
         return $this->view;
     }
 
@@ -23,9 +34,9 @@ class CustomizationController extends Front{
 
         $customizationInfo = $this->customizationModel->fetch(array('customizationID' => $customizationID));
         $artistInfo = $this->artistModel->select(array('artistID' => $customizationInfo['artistID']))->current();
-        $orders = $this->orderModel->getOrders(array('customizationID' => $customizationInfo['customizationID']));
+        $orders = $this->memberOrderModel->getOrders(array('customizationID' => $customizationInfo['customizationID']));
         $this->view->setVariables(array(
-            'customizationInfo' => $customizationInfo,
+            'info' => $customizationInfo,
             'artistInfo' => $artistInfo,
             'orders' => $orders,
         ));

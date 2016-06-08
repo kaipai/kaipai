@@ -29,12 +29,24 @@ class Front extends Controller{
 
         $categories = $this->productCategoryModel->select()->toArray();
 
+        $tmp = $this->siteSettingModel->select()->toArray();
+        $siteSettings = array();
+        foreach($tmp as $v){
+            $siteSettings[$v['settingName']] = $v['settingValue'];
+        }
+
         $this->layout()->setVariables(array(
-            '_memberInfo' => $this->memberInfo, '_categories' => $categories,
+            '_memberInfo' => $this->memberInfo,
+            '_categories' => $categories,
+            '_siteSettings' => $siteSettings,
         ));
         $this->view->setVariables(array(
-            '_memberInfo' => $this->memberInfo
+            '_memberInfo' => $this->memberInfo,
+            '_categories' => $categories,
+            '_siteSettings' => $siteSettings,
         ));
+
+
 
     }
 
