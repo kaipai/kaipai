@@ -9,13 +9,13 @@
                 <li <?php if($leftTab == 'order'){ ?> class="kp_checked" <?php } ?>>已购拍品</li>
             </a>
             <a href="/member/interest-product">
-                <li>关注拍品</li>
+                <li <?php if($leftTab == 'interest-product'){ ?> class="kp_checked" <?php } ?>>关注拍品</li>
             </a>
             <a href="/member/interest-store">
                 <li <?php if($leftTab == 'interest-store'){ ?> class="kp_checked" <?php } ?>>关注商家</li>
             </a>
-            <a href="">
-                <li>买家须知</li>
+            <a href="/member/note">
+                <li <?php if($leftTab == 'note'){ ?> class="kp_checked" <?php } ?>>买家须知</li>
             </a>
         </ul>
     </div>

@@ -23,7 +23,7 @@ class AuctionController extends Front{
         );
         $this->auctionMemberModel->insert($data);
 
-        return $this->response(ApiSuccess::COMMON_SUCCES, '加入成功');
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '加入成功');
     }
 
     public function setProxyPriceAction(){

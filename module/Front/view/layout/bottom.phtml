@@ -70,3 +70,35 @@
         </p>
     </div>
 </div>
+
+<script>
+    $(function(){
+        $(document).on('click', '.pay-type-list li', function(){
+            $(this).addClass('selected-pay-type').siblings().removeClass('selected-pay-type');
+        });
+        $(document).on('click', '.confirm-pay:visible', function(){
+            var data = {};
+            data.customizationID = $('.pay-price:visible').attr('pay-customization-id');
+            data.productID = $('.pay-price:visible').attr('pay-product-id');
+            data.customizationCount = $('.pay-price:visible').attr('customization-count');
+            data.payType = $('.selected-pay-type:visible').attr('pay-type');
+            console.log(data);
+            $.ajax({
+                url : '/order/generate',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(response){
+                    if(response.flag > 0){
+                        location.href = response.url;
+                    }else if(response.flag == -102){
+                        loginPOP();
+                    }else{
+                        layer.alert(response.msg);
+                    }
+                }
+
+            });
+        });
+    });
+</script>

@@ -4,83 +4,146 @@
         <?php echo $this->render('left', array('leftTab' => 'order')); ?>
         <!-- right部分 -->
         <div class="kp_right ys_btom">
-            <div class="yg_pp">
-                <div class="yc_pm41">
-                    <span class="yc_pm1n">[订单号] 132346456132123435</span>
-                    <span class="yc_pm2">开源拍卖</span>
-                    <span class="yc_pm3 lxmj1 "><a href="">联系卖家</a></span>
-                    <span class="yc_pm44"><a href="">成交时间</a></span>
-                </div>
-                <div class="yg_ppname">
-                    <div class="yg_ppname_left"><img src=""></div>
-                    <div class="yg_ppname_right">
-                        <div class="yg_ppname_right1">
-                            <div class="yg_ppname1"><p>西泠印社 李平《妙造自然》</p>
-
-                                <p>中国美院书法学博士</p></div>
-                            <div class="yg_ppname2">2015-12-10<br> 22:00</div>
-                        </div>
-                        <div class="yg_ppname3">成交价：5000元 运费：0元 佣金：250元</div>
-                    </div>
-                </div>
-                <div class="yg_addres">
-                    <div class="yg_addres_left">
-                        <div class="yg_addres_left1"><input name="address" type="radio" class="ind_checkbox"/></div>
-                        <div class="yg_addres_left2">
-                            <p class="yg_sjr">收货人：张三 13588838833</p>
-
-                            <p class="yg_sjr">收货地址：浙江省 杭州市 下城区 朝晖路179号嘉惠大厦2-5-5（310000）</p>
-                        </div>
-                    </div>
-                    <div class="yg_addres_right">
-                        <div><a href="">编辑</a></div>
-                        <div><a href="">删除</a></div>
-                    </div>
-                </div>
-                <div class="yg_addres">
-                    <div class="yg_addres_left">
-                        <div class="yg_addres_left1"><input name="address" type="radio" class="ind_checkbox"/></div>
-                        <div class="yg_addres_left2">
-                            <p class="yg_sjr">收货人：张三 13588838833</p>
-
-                            <p class="yg_sjr">收货地址：浙江省 杭州市 下城区 朝晖路179号嘉惠大厦2-5-5（310000）</p>
-                        </div>
-                    </div>
-                    <div class="yg_addres_right">
-                        <div><a href="">编辑</a></div>
-                        <div><a href="">删除</a></div>
-                    </div>
-                </div>
-
-                <div class="yg_addresbtn">添加新地址</div>
-                <div class="yg_bz">
-                    <div class="yc_ly">留言备注</div>
-                    <textarea></textarea>
-                </div>
-                <div class="yg_fk">
-                    付款金额 5000.00 <span class="yg_sfmoney1">实付金额</span><span class="yg_sfmoney">4750.00</span>
-                </div>
-                <div class="yg_zf">
-                    <ul>
-                        <li><img src="images/logoicon.png">余额支付</li>
-                        <li><img src="images/vb_05.png">支付宝</li>
-                        <li class="acted"><img src="images/vb_07.png">微信钱宝</li>
-                        <li><img src="images/vb_20.png">银行汇款</li>
-                        <li><img src="images/vb_21.png">银联支付</li>
-                    </ul>
-                </div>
-
-
+            <div class="ys_top">
+                <ul>
+                    <li onclick="location.href='/member/order';" class="<?php if(empty($orderStatus)){echo 'ys_acted';} ?>">所有订单</a></li>
+                    <li onclick="location.href='/member/order?orderStatus=1';" class="<?php if($orderStatus == 1){echo 'ys_acted';} ?>">待付款</li>
+                    <li onclick="location.href='/member/order?orderStatus=3';" class="<?php if($orderStatus == 3){echo 'ys_acted';} ?>">待发货</li>
+                    <li onclick="location.href='/member/order?orderStatus=4';" class="<?php if($orderStatus == 4){echo 'ys_acted';} ?>">待收货</li>
+                    <li onclick="location.href='/member/order?orderStatus=5';" class="<?php if($orderStatus == 5){echo 'ys_acted';} ?>">已完成</li>
+                    <li class="cancel-order-batch"><img src="/jinren/images/del_03.jpg"></li>
+                    <li class="ys_searhc1"><input id="search-item" value="<?php echo $search; ?>" class="ys_input" type="text" placeholder="输入拍品名称 或 订单号 或 商家"></li>
+                    <li class="ys_searhc" id="search-btn">搜索</li>
+                </ul>
             </div>
-            <div class="yg_qrzf">
-                <a href=""><span class="yg_qrzf1"> 确认支付</span></a>
-                <a href=""><span class="yg_qrzf2"> 稍后付款</span></a>
-
+            <div class="ys_tip1">
+                <span class="ys_span1">拍品</span><span class="ys_span2">买得价</span><span class="ys_span3">订单操作</span><span
+                    class="ys_span3">订单状态</span>
             </div>
+            <?php foreach($orders as $v){
+            ?>
+                <div class="ys_tip2" id="order-item-<?php echo $v['orderID'] ?>">
+                    <div class="ys_tip3">
+                        <div class="ys_tip4">
+                            <span><?php if($v['orderStatus'] > 1){echo '&nbsp';}else{?> <input type="checkbox" name="checkbox1" value="checkbox" order-id="<?php echo $v['orderID'] ?>" class="ind_checkbox order-item"><?php }?><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
+                            <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
+                            <span class="yc_pm2"><?php echo $v['storeID'] ?></span>
+                            <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
+                            <span class="yc_pm4"><a href="">网站申诉</a></span>
+                            <span class="yc_pm5"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
+                        </div>
+                        <div class="ys_tip6">
+                            <div class="yc_imgleft"><img src="<?php echo $v['product']['listImg']; ?>"></div>
+                            <div class="yc_imgleft1">
+                                <p class="yc_imgleft2"><span class="yc_ysname"><?php echo $v['product']['productName'] ?></span> <span class="yc_money"><?php echo $v['productPrice'] ?></span>
+                                </p>
 
-
+                                <div class="yc_ysname1">
+                                    <?php if(!empty($v['commision'])){
+                                    ?>
+                                        <p><span class="yc_ysname">佣金</span> <span class="yc_money"><?php echo $v['commision'] ?></span></p>
+                                    <?php
+                                    } ?>
+                                    <p><span class="yc_ysname">实付</span> <span class="yc_money"><?php echo $v['payMoney'] ?></span></p>
+                                </div>
+                            </div>
+                            <?php
+                            if($v['orderStatus'] == 1){
+                                ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1">等待付款</div>
+                                </div>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="">等待买家付款</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }elseif($v['orderStatus'] == 3){
+                                ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1">等待发货</div>
+                                </div>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="">买家已付款</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }elseif($v['orderStatus'] == 4){
+                                ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1">等待收货</div>
+                                </div>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="">卖家已发货</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }elseif($v['orderStatus'] == 5){
+                                ?>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="">买家已收货</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            <?php
+            } ?>
+            <?php
+                echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/member/order?orderStatus=' . $orderStatus . '&'));
+            ?>
         </div>
-
-
     </div>
 </div>
+
+<script>
+    $(function(){
+        $('#search-btn').on('click', function(){
+            var search = $('#search-item').val();
+            if(!search){
+                layer.alert('请输入搜索内容');
+                return false;
+            }
+            location.href = '/member/order?search=' + search;
+        });
+
+        function cancelOrder(data){
+            $.ajax({
+                url : '/member/cancel-order',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(response){
+                    layer.alert(response.msg);
+                }
+            });
+        }
+
+        $('.cancel-order-btn').on('click', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            $('#order-item-' + data.orderID).remove();
+            cancelOrder(data);
+
+        });
+
+        $('.cancel-orde-batch').on('click', function(){
+            var data = {};
+            data.orderID = new Array();
+            var checkedOrders = $('.order-item-chk:checked');
+            if(!checkedOrders.length){
+                layer.alert('请选择要取消的订单');
+                return false;
+            }
+            checkedOrders.each(function(){
+                var tmpOrderID = $(this).attr('order-id');
+                data.orderID.push(tmpOrderID);
+                $('#order-item-' + tmpOrderID).remove();
+            });
+            cancelOrder(data);
+        });
+    })
+</script>

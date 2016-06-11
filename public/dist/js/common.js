@@ -50,7 +50,13 @@ var current_url = window.location.href;
             $(_DOM).find(".yomihour").html(nol(hours));
             $(_DOM).find(".yomimin").html(nol(min));
             $(_DOM).find(".yomisec").html(nol(sec));
-            if(page == 'customization-detail'){
+            if(page == 'member-auction'){
+                if (range > 0) {
+                    $(_DOM).append("<span class='gz_shi yomiday'></span><span class='gz_shi1'>天</span><span class='gz_shi yomihour'></span><span class='gz_shi1'>时</span><span class='gz_shi yomimin'></span><span class='gz_shi1'>分</span><span class='gz_shi yomisec'></span><span class='gz_shi1'>秒</span>");
+                } else {
+                    $(_DOM).append('<b>拍卖已结束</b>');
+                }
+            }else if(page == 'customization-detail'){
                 if (range > 0) {
                     $(_DOM).append("<span class='ty_col yomiday'></span>天<span class='ty_col yomihour'></span>时<span class='ty_col yomimin'></span>分<span class='ty_col yomisec'></span>秒");
                 } else {

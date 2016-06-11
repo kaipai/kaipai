@@ -4,18 +4,31 @@ namespace Api\Model;
 use COM\Model;
 class MemberOrder extends Model{
 
-    public function getList($where = array(), $order = null, $offset = null, $limit = null){
+    public function getOrderList($where, $page, $limit){
         $select = $this->getSelect();
         $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName'))
-            ->where($where)
-            ->limit($limit)
-            ->offset($offset);
+                ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice'))
+                ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
+                ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName'), 'left')
+                ->where($where);
         $paginator = $this->paginate($select);
-        $paginator->setCurrentPageNumber(ceil($offset / $limit) + 1);
+        $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);
-        $memberOrders = $paginator->getCurrentItems()->getArrayCopy();
-        $memberOrdersCount = $paginator->getTotalItemCount();
-        return array('memberOrders' => $memberOrders, 'memberOrdersCount' => $memberOrdersCount);
+        $data = $paginator->getCurrentItems()->getArrayCopy();
+        $pages = $paginator->getPages();
+        return array('data' => $data, 'pages' => $pages);
+
+    }
+
+    public function getOrderDetail($where){
+        $select = $this->getSelect();
+        $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName'))
+            ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice'))
+            ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
+            ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName'), 'left')
+            ->where($where);
+        $result = $this->selectWith($select)->current();
+        return $result;
 
     }
 

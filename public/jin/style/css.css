@@ -64,27 +64,3 @@
 .ty_addnum button{ float: left; width: 30px; height: 28px; border: 0px; border-left:1px solid #c7c7c7; cursor: pointer;}
 .ty_lxkf1{margin-top: 8px; line-height: 28px}
 .ty_aa{ float: right; margin-left: 4px}
-
-
-
-
-
-
-
-
-
-
-
-
-.Fixyue {/*position: fixed;*/top: 200px;overflow: hidden;width: 320px;z-index: 22;padding: 20px;right:0px; border: 1px solid #d3d3d3; background: #fff}
-.Fixyue1 ul li{
-   line-height: 60px; display: block;  margin-top:2px ; font-size: 16px  ; height: 60px; background:#f8f8f8 url(../images/zf_16.png) no-repeat scroll 5% center; padding-left: 80px; cursor: pointer;
-}
-.Fixyue1 ul li:hover{background:#92c9c3 url(../images/zf_08.png) no-repeat scroll 5% center; }
-.fix_mor{background:#92c9c3 url(../images/zf_08.png) no-repeat scroll 5% center !important;}
-.Fixyue1 ul li img{ margin-right:30px ; float: left;margin-top:5px;}
-.Fixyue2 { background: #810100; text-align: center;color: #fff; line-height: 54px; margin-top: 10px; font-size: 16px; cursor: pointer;}
-.Fixclose{ height: 36px}
-.Fixclose img{ float: right;}
-.Fixyue3{line-height: 50px; height: 50px; font-size: 16px; background: #e6e6e6; padding-left: 20px}
-.Fixyue3num{ font-size: 24px; color:#b50005 ; margin-left: 10px}

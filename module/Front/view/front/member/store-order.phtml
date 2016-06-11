@@ -6,206 +6,147 @@
         <div class="kp_right ys_btom">
             <div class="ys_top">
                 <ul>
-                    <li class="ys_acted">所有订单</a></li>
-                    <li>代付款</li>
-                    <li>代发货</li>
-                    <li>待收货</li>
-                    <li>已完成</li>
-                    <li><img src="images/del_03.jpg"></li>
-                    <li class="ys_searhc1"><input class="ys_input" type="text" placeholder="输入拍品名称 或 订单号 或 商家"></li>
-                    <li class="ys_searhc">搜索</li>
+                    <li onclick="location.href='/member/store-order';" class="<?php if(empty($orderStatus)){echo 'ys_acted';} ?>">所有订单</a></li>
+                    <li onclick="location.href='/member/store-order?orderStatus=1';" class="<?php if($orderStatus == 1){echo 'ys_acted';} ?>">待付款</li>
+                    <li onclick="location.href='/member/store-order?orderStatus=3';" class="<?php if($orderStatus == 3){echo 'ys_acted';} ?>">待发货</li>
+                    <li onclick="location.href='/member/store-order?orderStatus=4';" class="<?php if($orderStatus == 4){echo 'ys_acted';} ?>">待收货</li>
+                    <li onclick="location.href='/member/store-order?orderStatus=5';" class="<?php if($orderStatus == 5){echo 'ys_acted';} ?>">已完成</li>
+                    <li class="cancel-order-batch"><img src="/jinren/images/del_03.jpg"></li>
+                    <li class="ys_searhc1"><input id="search-item" value="<?php echo $search; ?>" class="ys_input" type="text" placeholder="输入拍品名称 或 订单号 或 商家"></li>
+                    <li class="ys_searhc" id="search-btn">搜索</li>
                 </ul>
             </div>
             <div class="ys_tip1">
-                <span class="ys_span1">拍品</span><span class="ys_span2">没得价</span><span class="ys_span3">订单操作</span><span
+                <span class="ys_span1">拍品</span><span class="ys_span2">买得价</span><span class="ys_span3">订单操作</span><span
                     class="ys_span3">订单状态</span>
             </div>
-            <div class="ys_tip2">
-                <div class="ys_tip3">
-                    <div class="ys_tip4">
-                        <span><input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox "> 2015-10-06 </span>
-                        <span class="yc_pm1">[订单号] 132346456132123435</span>
-                        <span class="yc_pm2">开源拍卖</span>
-                        <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
-                        <span class="yc_pm4"><a href="">网站申诉</a></span>
-                        <span class="yc_pm5"><a href="">删除</a></span>
-                    </div>
-                    <div class="ys_tip6">
-                        <div class="yc_imgleft"><img src=""></div>
-                        <div class="yc_imgleft1">
-                            <p class="yc_imgleft2"><span class="yc_ysname">信息印社  李萍《妙招自然》</span> <span class="yc_money">5000.00</span>
-                            </p>
+            <?php foreach($orders as $v){
+                ?>
+                <div class="ys_tip2" id="order-item-<?php echo $v['orderID'] ?>">
+                    <div class="ys_tip3">
+                        <div class="ys_tip4">
+                            <span><?php if($v['orderStatus'] > 1){echo '&nbsp';}else{?> <input type="checkbox" name="checkbox1" value="checkbox" order-id="<?php echo $v['orderID'] ?>" class="ind_checkbox order-item"><?php }?><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
+                            <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
+                            <span class="yc_pm2"><?php echo $v['storeID'] ?></span>
+                            <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
+                            <span class="yc_pm4"><a href="">网站申诉</a></span>
+                            <span class="yc_pm5"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
+                        </div>
+                        <div class="ys_tip6">
+                            <div class="yc_imgleft"><img src="<?php echo $v['product']['listImg']; ?>"></div>
+                            <div class="yc_imgleft1">
+                                <p class="yc_imgleft2"><span class="yc_ysname"><?php echo $v['product']['productName'] ?></span> <span class="yc_money"><?php echo $v['productPrice'] ?></span>
+                                </p>
 
-                            <div class="yc_ysname1">
-                                <p><span class="yc_ysname">佣金</span> <span class="yc_money">5000.00</span></p>
-
-                                <p><span class="yc_ysname">实付</span> <span class="yc_money">5000.00</span></p>
+                                <div class="yc_ysname1">
+                                    <?php if(!empty($v['commision'])){
+                                        ?>
+                                        <p><span class="yc_ysname">佣金</span> <span class="yc_money"><?php echo $v['commision'] ?></span></p>
+                                    <?php
+                                    } ?>
+                                    <p><span class="yc_ysname">实付</span> <span class="yc_money"><?php echo $v['payMoney'] ?></span></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="yc_ddfk yc_imgleft2">
-                            <div class="yc_ddfk1">等待付款</div>
-                        </div>
-                        <div class="yc_ddright yc_imgleft2">
-                            <p class="yc_p"><a href="">等待买家付款</a></p>
-
-                            <p class="yc_p"><a href="">订单详情</a></p>
-
-                            <p class="yc_p1"><a href="">关闭交易</a></p>
+                            <?php
+                            if($v['orderStatus'] == 1){
+                                ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1">等待付款</div>
+                                </div>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="">等待买家付款</a></p>
+                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }elseif($v['orderStatus'] == 3){
+                                ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1 set-delivery-type" order-id="<?php echo $v['orderID']; ?>">请发货</div>
+                                </div>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="">买家已付款</a></p>
+                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }elseif($v['orderStatus'] == 4){
+                                ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1">等待收货</div>
+                                </div>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="">卖家已发货</a></p>
+                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }elseif($v['orderStatus'] == 5){
+                                ?>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="">买家已收货</a></p>
+                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="ys_tip2">
-                <div class="ys_tip3">
-                    <div class="ys_tip4">
-                        <span><input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox "> 2015-10-06 </span>
-                        <span class="yc_pm1">[订单号] 132346456132123435</span>
-                        <span class="yc_pm2">开源拍卖</span>
-                        <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
-                        <span class="yc_pm4"><a href="">网站申诉</a></span>
-                        <span class="yc_pm5"><a href="">删除</a></span>
-                    </div>
-                    <div class="ys_tip6">
-                        <div class="yc_imgleft"><img src=""></div>
-                        <div class="yc_imgleft1">
-                            <p class="yc_imgleft2"><span class="yc_ysname">信息印社  李萍《妙招自然》</span> <span class="yc_money">5000.00</span>
-                            </p>
-
-                            <div class="yc_ysname1">
-                                <p><span class="yc_ysname">佣金</span> <span class="yc_money">5000.00</span></p>
-
-                                <p><span class="yc_ysname">实付</span> <span class="yc_money">5000.00</span></p>
-                            </div>
-                        </div>
-                        <div class="yc_ddfk yc_imgleft2">
-                            <div class="yc_ddfk1">等待收货</div>
-                        </div>
-                        <div class="yc_ddright yc_imgleft2">
-                            <p class="yc_p"><a href="">卖家已发货</a></p>
-
-                            <p class="yc_p"><a href="">订单详情</a></p>
-
-                            <p class="yc_p1"><a href="">关闭交易</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="ys_tip2">
-                <div class="ys_tip3">
-                    <div class="ys_tip4">
-                        <span><input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox "> 2015-10-06 </span>
-                        <span class="yc_pm1">[订单号] 132346456132123435</span>
-                        <span class="yc_pm2">开源拍卖</span>
-                        <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
-                        <span class="yc_pm4"><a href="">网站申诉</a></span>
-                        <span class="yc_pm5"><a href="">删除</a></span>
-                    </div>
-                    <div class="ys_tip6">
-                        <div class="yc_imgleft"><img src=""></div>
-                        <div class="yc_imgleft1">
-                            <p class="yc_imgleft2"><span class="yc_ysname">信息印社  李萍《妙招自然》</span> <span class="yc_money">5000.00</span>
-                            </p>
-
-                            <div class="yc_ysname1">
-                                <p><span class="yc_ysname">佣金</span> <span class="yc_money">5000.00</span></p>
-
-                                <p><span class="yc_ysname">实付</span> <span class="yc_money">5000.00</span></p>
-                            </div>
-                        </div>
-                        <div class="yc_ddfk yc_imgleft2">
-                            <div class="yc_jycg">交易成功</div>
-                        </div>
-                        <div class="yc_ddright yc_imgleft2">
-                            <p class="yc_p"><a href="">买家已收货</a></p>
-
-                            <p class="yc_p"><a href="">订单详情</a></p>
-
-                            <p class="yc_p1"><a href="">交易结束</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="ys_tip2">
-                <div class="ys_tip3">
-                    <div class="ys_tip4">
-                        <span><input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox "> 2015-10-06 </span>
-                        <span class="yc_pm1">[订单号] 132346456132123435</span>
-                        <span class="yc_pm2">开源拍卖</span>
-                        <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
-                        <span class="yc_pm4"><a href="">网站申诉</a></span>
-                        <span class="yc_pm5"><a href="">删除</a></span>
-                    </div>
-                    <div class="ys_tip6">
-                        <div class="yc_imgleft"><img src=""></div>
-                        <div class="yc_imgleft1">
-                            <p class="yc_imgleft2"><span class="yc_ysname">信息印社  李萍《妙招自然》</span> <span class="yc_money">5000.00</span>
-                            </p>
-
-                            <div class="yc_ysname1">
-                                <p><span class="yc_ysname">佣金</span> <span class="yc_money">5000.00</span></p>
-
-                                <p><span class="yc_ysname">实付</span> <span class="yc_money">5000.00</span></p>
-                            </div>
-                        </div>
-                        <div class="yc_ddfk yc_imgleft2">
-                            <div class="yc_ddfk1">请发货</div>
-                        </div>
-                        <div class="yc_ddright yc_imgleft2">
-                            <p class="yc_p"><a href="">买家已付款</a></p>
-
-                            <p class="yc_p"><a href="">订单详情</a></p>
-
-                            <p class="yc_p1"><a href="">关闭交易</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="ys_tip2">
-                <div class="ys_tip3">
-                    <div class="ys_tip4">
-                        <span><input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox "> 2015-10-06 </span>
-                        <span class="yc_pm1">[订单号] 132346456132123435</span>
-                        <span class="yc_pm2">开源拍卖</span>
-                        <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
-                        <span class="yc_pm4"><a href="">网站申诉</a></span>
-                        <span class="yc_pm5"><a href="">删除</a></span>
-                    </div>
-                    <div class="ys_tip6">
-                        <div class="yc_imgleft"><img src=""></div>
-                        <div class="yc_imgleft1">
-                            <p class="yc_imgleft2"><span class="yc_ysname">信息印社  李萍《妙招自然》</span> <span class="yc_money">5000.00</span>
-                            </p>
-
-                            <div class="yc_ysname1">
-                                <p><span class="yc_ysname">佣金</span> <span class="yc_money">5000.00</span></p>
-
-                                <p><span class="yc_ysname">实付</span> <span class="yc_money">5000.00</span></p>
-                            </div>
-                        </div>
-                        <div class="yc_ddfk yc_imgleft2">
-                            <div class="yc_jyjs">交易结束</div>
-                        </div>
-                        <div class="yc_ddright yc_imgleft2">
-                            <p class="yc_p"><a href="">买家已退货</a></p>
-
-                            <p class="yc_p"><a href="">订单详情</a></p>
-
-                            <p class="yc_p1"><a href="">超时/已退货</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+            <?php
+            } ?>
+            <?php
+            echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/member/store-order?orderStatus=' . $orderStatus . '&'));
+            ?>
         </div>
-
-
     </div>
 </div>
+
+<script>
+    $(function(){
+        $('#search-btn').on('click', function(){
+            var search = $('#search-item').val();
+            if(!search){
+                layer.alert('请输入搜索内容');
+                return false;
+            }
+            location.href = '/member/store-order?search=' + search;
+        });
+
+        function cancelOrder(data){
+            $.ajax({
+                url : '/member/store-cancel-order',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(response){
+                    layer.alert(response.msg);
+                }
+            });
+        }
+
+        $('.cancel-order-btn').on('click', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            $('#order-item-' + data.orderID).remove();
+            cancelOrder(data);
+
+        });
+
+        $('.cancel-orde-batch').on('click', function(){
+            var data = {};
+            data.orderID = new Array();
+            var checkedOrders = $('.order-item-chk:checked');
+            if(!checkedOrders.length){
+                layer.alert('请选择要取消的订单');
+                return false;
+            }
+            checkedOrders.each(function(){
+                var tmpOrderID = $(this).attr('order-id');
+                data.orderID.push(tmpOrderID);
+                $('#order-item-' + tmpOrderID).remove();
+            });
+            cancelOrder(data);
+        });
+        $('#set-delivery-type').on('click', function(){
+
+        });
+    })
+</script>

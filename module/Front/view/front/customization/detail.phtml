@@ -75,76 +75,92 @@
         </div>
         <div class="ty_main03">
             <ul>
-                <a href="">
-                    <li class="ty_act">名家介绍</li>
-                </a>
-                <a href="">
-                    <li>出价记录（<?php echo $customization['boughtCount']; ?>）</li>
-                </a>
-                <a href="">
-                    <li>服务保障</li>
-                </a>
-                <a href="">
-                    <li>保证金须知</li>
-                </a>
+                <li class="ty_act" style="cursor: pointer;">名家介绍</li>
+                <li style="cursor: pointer;">成交记录（<?php echo $info['boughtCount']; ?>）</li>
+                <li style="cursor: pointer;">服务保障</li>
+                <li style="cursor: pointer;">保证金须知</li>
             </ul>
         </div>
-        <div class="ty_main04">
-            <ul>
-                <li class="ty_01">竞拍流程</li>
-                <li>交保证金</li>
-                <li class="ty_03"><img src="images/s_07.jpg"></li>
-                <li>出价竞拍</li>
-                <li class="ty_03"><img src="images/s_07.jpg"></li>
-                <li>竞拍成功</li>
-                <li class="ty_03"><img src="images/s_07.jpg"></li>
-                <li>攥刻请自备印石邮至我司</li>
-                <li class="ty_03"><img src="images/s_07.jpg"></li>
-                <li>等待作者创作</li>
-                <li class="ty_03"><img src="images/s_09.jpg"></li>
-                <li>完成收货</li>
-            </ul>
-        </div>
-        <div class="ty_main05">
-            <div class="ty_zzleft"><img src=""></div>
-            <div class="ty_zzcenter">
-                <ul>
-                    <li><span class="ty_aut"><?php echo $artistInfo['artistName'] ?></span><span class="ty_aut1">[<?php echo $artistInfo['shortDesc'] ?>]</span></li>
-                    <li><a href=""><span class="ty_grjl">个人简历</span></a><a href=""><span
-                                class="ty_grjl">获奖及著作</span></a><a href=""><span class="ty_grjl">作品欣赏</span></a></li>
-                </ul>
+        <div id="ty_main03-detail">
+            <div>
+                <div class="ty_main04">
+                    <ul>
+                        <li class="ty_01">竞拍流程</li>
+                        <li>交保证金</li>
+                        <li class="ty_03"><img src="/jin/images/s_07.jpg"></li>
+                        <li>出价竞拍</li>
+                        <li class="ty_03"><img src="/jin/images/s_07.jpg"></li>
+                        <li>竞拍成功</li>
+                        <li class="ty_03"><img src="/jin/images/s_07.jpg"></li>
+                        <li>攥刻请自备印石邮至我司</li>
+                        <li class="ty_03"><img src="/jin/images/s_07.jpg"></li>
+                        <li>等待作者创作</li>
+                        <li class="ty_03"><img src="/jin/images/s_09.jpg"></li>
+                        <li>完成收货</li>
+                    </ul>
+                </div>
+                <div class="ty_main05">
+                    <div class="ty_zzleft"><img src="<?php echo $info['artistAvatar'] ?>"></div>
+                    <div class="ty_zzcenter">
+                        <ul>
+                            <li><span class="ty_aut"><?php echo $artistInfo['artistName'] ?></span><span class="ty_aut1">[<?php echo $artistInfo['shortDesc'] ?>]</span></li>
+                            <li>
+                                <a href="#ge-ren-jian-li"><span class="ty_grjl">个人简历</span></a><a href="#huo-jiang"><span class="ty_grjl">获奖及著作</span></a><a href="#xin-shang"><span class="ty_grjl">作品欣赏</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ty_zzright"><img src="/jin/images/tp_03.jpg"></div>
+
+                </div>
+                <div class="ty_main06" id="ge-ren-jian-li">
+                    <p class="ty_hjiang">个人简历</p>
+
+                    <p class="ty_jianjie1">
+                        <?php echo $artistInfo['artistDetail'] ?>
+                    </p>
+
+                    <div class="ty_jianjie2"></div>
+
+                </div>
+                <!--<div class="ty_main07">
+                    <img src="/jin/images/tp_09.jpg">
+                </div>-->
+                <div class="ty_main08" id="huo-jiang">
+                    <p class="ty_hjiang">获奖及著作</p>
+
+                    <?php
+                        echo $artistInfo['awards'];
+                    ?>
+                </div>
+                <div class="ty_main09" id="xin-shang">
+                    作品欣赏
+                </div>
+                <div class="ty_main10">
+                    <?php echo $artistInfo['productions'] ?>
+                </div>
+
+
             </div>
-            <div class="ty_zzright"><img src="images/tp_03.jpg"></div>
+            <div>
 
+            </div>
+            <div>
+
+                <p>
+                    <span>售后服务</span>
+                    <br>
+                    1. 如果有藏品发错货物等问题，请在48小时内提供照片，我们会及时更换
+                    <br>
+                    2. 收到藏品有任何问题请联系在线客服，我们竭力做到让您满意；
+                    <br>
+                    3. 客服热线：400 878 2221
+                    <br></p>
+            </div>
+            <div>
+
+
+            </div>
         </div>
-        <div class="ty_main06">
-            <p class="ty_hjiang">个人简历</p>
-
-            <p class="ty_jianjie1">
-                <?php echo $artistInfo['artistDetail'] ?>
-            </p>
-
-            <div class="ty_jianjie2"></div>
-
-        </div>
-        <div class="ty_main07">
-            <img src="images/tp_09.jpg">
-        </div>
-        <div class="ty_main08">
-            <p class="ty_hjiang">获奖及著作</p>
-
-            <?php
-                echo $artistInfo['awards'];
-            ?>
-        </div>
-        <div class="ty_main09">
-            作品欣赏
-        </div>
-        <div class="ty_main10">
-            <?php echo $artistInfo['productions'] ?>
-        </div>
-
-
     </div>
 </div>
 
@@ -169,7 +185,18 @@
                 type: 1,
                 content: $('#pay-div').html()
             });
-            $('.pay-price:visible').html(payPrice + '元');
+            $('.pay-price:visible').html(payPrice);
+            $('.pay-price:visible').attr('pay-customization-id', <?php echo $info['customizationID'] ?>);
+            $('.pay-price:visible').attr('customization-count', customizationCount);
+        });
+
+        //产品详情介绍的tab
+        $('.ty_main03').delegate('li', 'click', function () {
+            $(this).addClass('ty_act').siblings().removeClass('ty_act');
+            var J_index = $(this).index();
+            var J_detailed_xx_down = $('#ty_main03-detail > div');
+            J_detailed_xx_down.hide();
+            J_detailed_xx_down.eq(J_index).show();
         });
     })
 

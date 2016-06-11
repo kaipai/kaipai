@@ -6,6 +6,7 @@ use Base\ConstDir\Api\ApiSuccess;
 use Base\Functions\Utility;
 use COM\Controller\Front;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Where;
 
 class MemberController extends Front{
 
@@ -38,10 +39,77 @@ class MemberController extends Front{
 
     public function orderAction(){
 
+        $search = $this->queryData['search'];
+        $orderStatus = $this->queryData['orderStatus'];
+        $where = new Where();
+        $where->and->equalTo('MemberOrder.memberID', $this->memberInfo['memberID']);
+        if(!empty($orderStatus)){
+            $where->and->equalTo('MemberOrder.orderStatus', $orderStatus);
+        }
+        if(!empty($search)){
+            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('a.orderID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
+        }
+
+        $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
+        $orders = $result['data'];
+        foreach($orders as $k => $v){
+            if(!empty($v['productSnapshot'])){
+                $tmp = json_decode($v['productSnapshot'], true);
+                $orders[$k]['product'] = $tmp;
+            }elseif(!empty($v['customizationSnapshot'])){
+                $tmp = json_decode($v['customizationSnapshot'], true);
+                $orders[$k]['product'] = array(
+                    'productName' => $tmp['title'],
+                    'currPrice' => $tmp['price'],
+                    'depositPrice' => $tmp['depositPrice'],
+                    'listImg' => $tmp['listImg'],
+                );
+            }
+        }
+        $this->view->setVariables(array(
+            'orders' => $orders,
+            'pages' => $result['pages'],
+            'orderStatus' => $orderStatus,
+            'search' => $search,
+        ));
+        return $this->view;
+    }
+
+    public function orderDetailAction(){
+        $orderID = $this->queryData['orderID'];
+        $where = array(
+            'MemberOrder.orderID' => $orderID,
+            'MemberOrder.memberID' => $this->memberInfo['memberID']
+        );
+        $orderInfo = $this->memberOrderModel->getOrderDetail($where);
+        if(empty($orderInfo)){
+            $this->view->setTemplate('error/404');
+        }else{
+            $this->view->setVariables(array(
+                'info' => $orderInfo,
+            ));
+        }
+
         return $this->view;
     }
 
     public function auctionAction(){
+        $auctions = $this->auctionMemberModel->getAuctionList($this->memberInfo['memberID']);
+
+        $this->view->setVariables(array(
+
+            'auctions' => $auctions
+        ));
+        return $this->view;
+    }
+
+    public function auctionListAction(){
+        $auctions = $this->auctionMemberModel->getAuctionList($this->memberInfo['memberID']);
+
+        $this->view->setVariables(array(
+
+            'auctions' => $auctions
+        ));
         return $this->view;
     }
 
@@ -55,23 +123,44 @@ class MemberController extends Front{
     }
 
     public function interestProductAction(){
-        $select = $this->memberProductInterestModel->getSelect();
-        $select->join(array('b' => 'Product'), 'MemberProductInterest.productID = b.productID')
-            ->where(array('MemberProductInterest.memberID' => $this->memberInfo['memberID']));
+        $search = $this->queryData['search'];
+        $auctionStatus = $this->queryData['auctionStatus'];
+        $where = new Where();
+        $where->and->equalTo('MemberProductInterest.memberID', $this->memberInfo['memberID']);
+        if(!empty($auctionStatus)){
+            $where->and->equalTo('b.auctionStatus', $auctionStatus);
+        }
+        if(!empty($search)){
+            $where->and->nest()->or->like('b.productName', '%' . $search . '%');
+        }
 
-        $interestProducts = $this->memberProductInterestModel->selectWith($select)->toArray();
+        $interestProducts = $this->memberProductInterestModel->getProducts($where, $this->pageNum, $this->limit);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $interestProducts);
+        $this->view->setVariables(array(
+            'products' => $interestProducts['data'],
+            'pages' => $interestProducts['pages'],
+            'auctionStatus' => $auctionStatus,
+            'search' => $search,
+        ));
+        return $this->view;
     }
 
     public function interestStoreAction(){
-        $select = $this->memberStoreInterestModel->getSelect();
-        $select->join(array('b' => 'Store'), 'MemberStoreInterest.storeID = b.storeID')
-            ->where(array('MemberStoreInterest.memberID' => $this->memberInfo['memberID']));
+        $search = $this->queryData['search'];
+        $where = new Where();
+        $where->and->equalTo('MemberStoreInterest.memberID', $this->memberInfo['memberID']);
+        if(!empty($search)){
+            $where->and->nest()->or->like('b.storeName', '%' . $search . '%');
+        }
 
-        $interestStores = $this->memberStoreInterestModel->selectWith($select)->toArray();
+        $interestStores = $this->memberStoreInterestModel->getStores($where, $this->pageNum, $this->limit);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $interestStores);
+        $this->view->setVariables(array(
+            'stores' => $interestStores['data'],
+            'pages' => $interestStores['pages'],
+            'search' => $search,
+        ));
+        return $this->view;
     }
 
     public function updateAction(){
@@ -97,8 +186,6 @@ class MemberController extends Front{
             return $this->response(ApiError::DATA_UPDATE_FAILED, ApiError::DATA_UPDATE_FAILED_MSG);
         }
     }
-
-
 
     public function addInterestProductAction(){
         $productID = $this->postData['productID'];
@@ -172,11 +259,31 @@ class MemberController extends Front{
         }
     }
 
+    public function noteAction(){
+        return $this->view;
+    }
+
+    public function cancelOrderAction(){
+        $orderID = $this->postData['orderID'];
+        if(!empty($orderID)){
+            $this->memberOrderModel->update(array('orderStatus' => -1), array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID'], 'orderStatus <= ?' => 1));
+        }
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
+    }
 
 
 
 
 
+    public function storeCancelOrderAction(){
+        $orderID = $this->postData['orderID'];
+        if(!empty($orderID)){
+            $this->memberOrderModel->update(array('orderStatus' => -1), array('orderID' => $orderID, 'storeID' => $this->memberInfo['storeID'], 'orderStatus <= ?' => 1));
+        }
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
+    }
 
     public function addProductAction(){
         $specialID = $this->queryData['specialID'];
@@ -365,8 +472,39 @@ class MemberController extends Front{
     }
 
     public function storeOrderAction(){
+        $search = $this->queryData['search'];
+        $orderStatus = $this->queryData['orderStatus'];
+        $where = new Where();
+        $where->and->equalTo('MemberOrder.storeID', $this->memberInfo['storeID']);
+        if(!empty($orderStatus)){
+            $where->and->equalTo('MemberOrder.orderStatus', $orderStatus);
+        }
+        if(!empty($search)){
+            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('a.orderID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
+        }
 
-
+        $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
+        $orders = $result['data'];
+        foreach($orders as $k => $v){
+            if(!empty($v['productSnapshot'])){
+                $tmp = json_decode($v['productSnapshot'], true);
+                $orders[$k]['product'] = $tmp;
+            }elseif(!empty($v['customizationSnapshot'])){
+                $tmp = json_decode($v['customizationSnapshot'], true);
+                $orders[$k]['product'] = array(
+                    'productName' => $tmp['title'],
+                    'currPrice' => $tmp['price'],
+                    'depositPrice' => $tmp['depositPrice'],
+                    'listImg' => $tmp['listImg'],
+                );
+            }
+        }
+        $this->view->setVariables(array(
+            'orders' => $orders,
+            'pages' => $result['pages'],
+            'orderStatus' => $orderStatus,
+            'search' => $search,
+        ));
         return $this->view;
     }
 

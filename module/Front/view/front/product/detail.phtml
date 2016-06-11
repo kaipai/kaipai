@@ -646,7 +646,6 @@ echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
         $('.detailed-xx-top').delegate('a', 'click', function () {
             $(this).addClass('on').siblings().removeClass('on');
             var J_index = $(this).index();
-            console.log(J_index);
             var J_detailed_xx_down = $('#detailed-xx-down .shop-show-item');
             J_detailed_xx_down.hide();
             J_detailed_xx_down.eq(J_index).show();

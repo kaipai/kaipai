@@ -7,7 +7,7 @@ class Customization extends Model{
 
     public function getCustomizations($page, $limit){
         $select = $this->getSql()->select();
-        $select->join(array('b' => 'Artist'), 'Customization.artistID = b.artistID', array('artistName', 'shortDesc'));
+        $select->join(array('b' => 'Artist'), 'Customization.artistID = b.artistID', array('artistName', 'shortDesc', 'artistAvatar'));
         $select->join(array('c' => 'ArtistCategory'), 'Customization.artistCategoryID = c.artistCategoryID', array('categoryName'));
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
@@ -24,7 +24,7 @@ class Customization extends Model{
 
     public function getAllCustomizations($where){
         $select = $this->getSql()->select();
-        $select->join(array('b' => 'Artist'), 'Customization.artistID = b.artistID', array('artistName', 'shortDesc'));
+        $select->join(array('b' => 'Artist'), 'Customization.artistID = b.artistID', array('artistName', 'shortDesc', 'artistAvatar'));
         $select->join(array('c' => 'ArtistCategory'), 'b.artistCategoryID = c.artistCategoryID', array('categoryName'));
         $select->where($where);
         $result = $this->selectWith($select)->toArray();
@@ -34,7 +34,7 @@ class Customization extends Model{
 
     public function fetch($where = array()){
         $select = $this->getSql()->select();
-        $select->join(array('b' => 'Artist'), 'Customization.artistID = b.artistID', array('artistName', 'shortDesc'));
+        $select->join(array('b' => 'Artist'), 'Customization.artistID = b.artistID', array('artistName', 'shortDesc', 'artistAvatar'));
         $select->join(array('c' => 'ArtistCategory'), 'b.artistCategoryID = c.artistCategoryID', array('categoryName'));
         $select->where($where);
 

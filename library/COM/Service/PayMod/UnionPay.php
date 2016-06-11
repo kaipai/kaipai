@@ -13,7 +13,7 @@ class UnionPay extends BasePay
         if(empty($unitePayID)) throw new \Exception(ApiError::PARAMETER_MISSING_MSG, ApiError::PARAMETER_MISSING);
 
         $payDetail = $this->sm->get('Api\Model\MemberPayDetail')->select(array('UnitePayID' => $unitePayID))->current();
-        if (empty($payDetail)) throw new \Exception(ApiError::PAY_DETAIL_NOT_EXIST_MSG, ApiError::PAY_DETAIL_NOT_EXIST);
+        if (empty($payDetail)) throw new \Exception(ApiError::COMMON_ERROR, '支付信息不存在');
 
         include __DIR__ . '/lib/Union/unionpay.php';
         $config = $this->sm->get("Config");
@@ -22,16 +22,16 @@ class UnionPay extends BasePay
 
         $unionPay = new \Unionpay($config[getenv('APP_ENV')]['unionPayConfig']);
         $tn = $unionPay->getTN($order);
-        if(empty($tn)) throw new \Exception(ApiError::UNION_PAY_TN_GET_FAILED_MSG, ApiError::UNION_PAY_TN_GET_FAILED);
+        if(empty($tn)) throw new \Exception(ApiError::COMMON_ERROR, 'TN号获取错误');
         return $tn;
 
     }
 
     public function goPay($unitePayID = null) {
-        if(empty($unitePayID)) throw new \Exception(ApiError::PARAMETER_MISSING_MSG, ApiError::PARAMETER_MISSING);
+        if(empty($unitePayID)) throw new \Exception(ApiError::COMMON_ERROR, ApiError::PARAMETER_MISSING);
 
-        $payDetail = $this->sm->get('Api\Model\MemberPayDetail')->select(array('UnitePayID' => $unitePayID))->current();
-        if (empty($payDetail)) throw new \Exception(ApiError::PAY_DETAIL_NOT_EXIST_MSG, ApiError::PAY_DETAIL_NOT_EXIST);
+        $payDetail = $this->sm->get('Api\Model\MemberPayDetail')->select(array('unitePayID' => $unitePayID))->current();
+        if (empty($payDetail)) throw new \Exception(ApiError::COMMON_ERROR, '支付信息不存在');
 
         include __DIR__ . '/lib/Union/unionpay.php';
         $config = $this->sm->get("Config");

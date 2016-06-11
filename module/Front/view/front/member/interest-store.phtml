@@ -6,98 +6,75 @@
         <div class="kp_right ys_btom">
             <div class="ys_top">
                 <ul>
-                    <li class="ys_searhc1"><input class="ys_input" type="text" placeholder="输入拍品名称 或 订单号 或 商家"></li>
-                    <li class="ys_searhc">搜索</li>
-                    <li class="gzsj_qx">取消关注</li>
-                    <li><img src="images/del_03.jpg"></li>
+                    <li class="ys_searhc1"><input class="ys_input"  id="search-item" value="<?php echo $search ?>" type="text" placeholder="输入商家名称"></li>
+                    <li class="ys_searhc" id="search-btn">搜索</li>
+                    <li class="gzsj_qx">&nbsp;</li>
+                    <li class="remove-interest-store-batch"><img src="/jinren/images/del_03.jpg"></li>
                 </ul>
             </div>
             <div class="gzsj_li">
                 <ul>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
+                    <?php
+                        foreach($stores as $v){
+                    ?>
+                            <li id="interest-store-<?php echo $v['storeID'] ?>">
+                                <input type="checkbox" name="checkbox1" value="checkbox" store-id="<?php echo $v['storeID'] ?>" class="ind_checkbox add_lefimg01 interest-store-chk">
 
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-
-
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-
-
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-                    <li>
-                        <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox  add_lefimg01">
-
-                        <div class="gzsj_liimg"><img src="images/yp_03.png"></div>
-                        <div class="gzsj_litit">开源拍卖</div>
-                    </li>
-
-
+                                <div class="gzsj_liimg"><img src="<?php echo $v['storeLogo'] ?>"></div>
+                                <div class="gzsj_litit"><?php echo $v['storeName'] ?></div>
+                            </li>
+                    <?php
+                        }
+                    ?>
                 </ul>
+                <?php
+                    echo $this->render('/front/common/paginate', array('url' => '/member/interest-store?', 'pages' => $pages));
+                ?>
             </div>
-
-
         </div>
 
 
     </div>
 </div>
+
+<script>
+
+    $(function(){
+        function removeInterestStore(data){
+            $.ajax({
+                url : '/member/remove-interest-store',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(response){
+                    layer.alert(response.msg);
+                }
+            });
+        }
+
+        $('.remove-interest-store-batch').on('click', function(){
+            var data = {};
+            data.storeID = new Array();
+            var checkedStore = $('.interest-store-chk:checked');
+            if(!checkedStore.length){
+                layer.alert('请选择要取消关注的店铺');
+                return false;
+            }
+            checkedStore.each(function(){
+                var tmp = $(this).attr('store-id');
+                data.storeID.push(tmp);
+                $('#interest-store-' + tmp).remove();
+            });
+            removeInterestStore(data);
+        });
+
+        $('#search-btn').on('click', function(){
+            var search = $('#search-item').val();
+            if(!search){
+                layer.alert('请输入搜索内容');
+                return false;
+            }
+            location.href = '/member/interest-store?search=' + search;
+        });
+    })
+</script>

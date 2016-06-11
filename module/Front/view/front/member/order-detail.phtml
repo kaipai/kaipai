@@ -1,0 +1,104 @@
+<div class="kp_main">
+    <div class="center ">
+        <!-- left部分 -->
+        <?php echo $this->render('left', array('leftTab' => 'order')); ?>
+        <!-- right部分 -->
+        <div class="kp_right ys_btom">
+            <div class="yg_pp">
+                <div class="yc_pm41">
+                    <span class="yc_pm1n">[订单号] <?php echo $info['businessID'] ?></span>
+                    <span class="yc_pm2"><?php echo $info['storeName'] ?></span>
+                    <span class="yc_pm3 lxmj1 "><a href="">联系卖家</a></span>
+                    <span class="yc_pm44">成交时间</span>
+                </div>
+                <div class="yg_ppname">
+                    <div class="yg_ppname_left"><img src="<?php echo $info['product']['listImg'] ?>"></div>
+                    <div class="yg_ppname_right">
+                        <div class="yg_ppname_right1">
+                            <div class="yg_ppname1"><p><?php echo $info['product']['productName'] ?></p>
+
+                                </div>
+                            <div class="yg_ppname2"><?php echo date('Y-m-d', strtotime($info['instime'])) ?><br> <?php echo date('H:i', strtotime($info['instime'])) ?></div>
+                        </div>
+                        <div class="yg_ppname3">成交价：<?php echo $info['productPrice'] ?>元 运费：<?php echo $info['deliveryPrice'] ?>元 佣金：<?php echo $info['commision'] ?>元</div>
+                    </div>
+                </div>
+                <?php
+                    foreach($memberDeliveries as $v){
+                ?>
+                        <div class="yg_addres">
+                            <div class="yg_addres_left">
+                                <div class="yg_addres_left1"><input name="address" type="radio" class="ind_checkbox"/></div>
+                                <div class="yg_addres_left2">
+                                    <p class="yg_sjr">收货人：<?php echo $v['receiverName'] ?> <?php echo $v['receiverMobile'] ?></p>
+
+                                    <p class="yg_sjr">收货地址：<?php echo $v['receiverAddr']; ?></p>
+                                </div>
+                            </div>
+                            <div class="yg_addres_right">
+                                <div><a href="javascript:;" class="edit-member-delivery-btn" member-delivery-id="<?php echo $v['deliveryID'] ?>">编辑</a></div>
+                                <div><a href="javascript:;" class="del-member-delivery-btn" mmeber-delivery-id="<?php echo $v['deliveryID'] ?>">删除</a></div>
+                            </div>
+                        </div>
+                <?php
+                    }
+                ?>
+                <div class="yg_addresbtn add-member-delivery-btn">添加新地址</div>
+                <div class="yg_bz">
+                    <div class="yc_ly">留言备注</div>
+                    <textarea class="order-remark"></textarea>
+                </div>
+                <div class="yg_fk">
+                    付款金额 <?php echo $info['payMoney']; ?> <span class="yg_sfmoney1">实付金额</span><span class="yg_sfmoney"><?php echo $info['payMoney']; ?></span>
+                </div>
+                <div class="yg_zf">
+                    <ul class="order-detail-pay-list">
+                        <li class="" pay-type="1"><img src="/jinren/images/zf_03.png"> 余额支付</li>
+                        <li class="" pay-type="2"><img src="/jinren/images/zf_06.png"> 支付宝</li>
+                        <!--<li class="fix_mor"><img src="images/zf_12.png"> 微信钱包</li>-->
+                        <li class="" pay-type="3"><img src="/jinren/images/zf_14.png" style="width:52px;height:51px;"> 银联支付</li>
+                        <li class="" pay-type="4"><img src="/jinren/images/zf_20.png"> 银行汇款</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="yg_qrzf">
+                <a href=""><span class="yg_qrzf1"> 确认支付</span></a>
+                <!--<a href=""><span class="yg_qrzf2"> 稍后付款</span></a>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="add-member-delivery-div" class="hide" member-delivery-id="">
+
+    <label>收货人</label><input type="text" name="receiverName" />
+    <label>收货人手机号</label><input type="text" name="receiverMobile" />
+    <label>收货地址</label><input type="text" name="receiverAddr" />
+    <input type="button" value="添加" name="submit-button" />
+</div>
+
+<script>
+    $(function(){
+        $('.order-detail-pay-list li').on('click', function(){
+            $(this).addClass('yg_selected_pay_type').siblings().removeClass('yg_selected_pay_type');
+        });
+
+        $('.add-member-delivery-btn').on('click', function(){
+            layer.open(
+                type : 1,
+                title:'添加新地址',
+                content: $('#add-member-delivery-div').html()
+            );
+        });
+        $('input[name-button]:visible').on('click', function(){
+            var data = {};
+            data.
+        });
+        $('.edit-member-delivery-btn').on('click', function(){
+
+        });
+        $('.del-member-delivery-btn').on('click', function(){
+
+        });
+    })
+</script>

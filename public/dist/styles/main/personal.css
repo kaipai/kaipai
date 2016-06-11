@@ -1848,7 +1848,7 @@ body {
 .gz_shi{ color: #000; font-weight: bold;  font-size: 20px}
 .gz_shi1{ color: #333;}
 .yc_pm31{    width: 250px;padding-left: 10px;}
-.gz_ljjr{background:#820000 url(/images/ljr_03.png) no-repeat scroll 10% center; padding-top: 6px; padding-bottom: 6px; padding-left:50px ; color: #fff; margin-top: 12px; border-radius: 4px }
+.gz_ljjr{background:#820000 url(/jinren/images/ljr_03.png) no-repeat scroll 10% center; padding-top: 6px; padding-bottom: 6px; padding-left:50px ; color: #fff; margin-top: 12px; border-radius: 4px }
 .gz_jjjx{line-height: 32px; background: #5fb8d8; color: #fff ; text-align: center; border-radius: 4px}
 .gz_yjs{line-height: 32px; background: #babbb5; color: #fff ; text-align: center; border-radius: 4px}
 .ys_top11 ul li.gz_js{ color: #999}
@@ -1909,6 +1909,7 @@ body {
     width: 200px;
 }
 .yg_zf ul li:hover{background: #8bc9c4 url(/images/vb_13.png) no-repeat scroll 5% center; }
+.yg_zf ul li.yg_selected_pay_type{background: #8bc9c4 url(/images/vb_13.png) no-repeat scroll 5% center; }
 .yg_zf ul li.acted{background: #8bc9c4 url(/images/vb_13.png) no-repeat scroll 5% center; }
 .yg_zf ul li img{margin-right: 25px;float: left;margin-top: 7px;}
 .yg_qrzf{ margin-top: 16px;}
