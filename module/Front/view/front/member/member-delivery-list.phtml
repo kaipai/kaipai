@@ -1,0 +1,20 @@
+<?php
+foreach($memberDeliveries as $v){
+    ?>
+    <div class="yg_addres" id="member-delivery-<?php echo $v['memberDeliveryID'] ?>">
+        <div class="yg_addres_left">
+            <div class="yg_addres_left1"><input name="address" type="radio" member-delivery-id="<?php echo $v['memberDeliveryID'] ?>" class="ind_checkbox member-delivery-chk"/></div>
+            <div class="yg_addres_left2">
+                <p class="yg_sjr">收货人：<?php echo $v['receiverName'] ?> <?php echo $v['receiverMobile'] ?></p>
+
+                <p class="yg_sjr">收货地址：<?php echo $v['receiverAddr']; ?></p>
+            </div>
+        </div>
+        <div class="yg_addres_right">
+            <div><a href="javascript:;" class="edit-member-delivery-btn" member-delivery-id="<?php echo $v['memberDeliveryID'] ?>" receiver-name="<?php echo $v['receiverName'] ?>" receiver-mobile="<?php echo $v['receiverMobile'] ?>" receiver-addr="<?php echo $v['receiverAddr'] ?>">编辑</a></div>
+            <div><a href="javascript:;" class="del-member-delivery-btn" member-delivery-id="<?php echo $v['memberDeliveryID'] ?>">删除</a></div>
+        </div>
+    </div>
+<?php
+}
+?>

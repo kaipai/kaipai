@@ -272,6 +272,92 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
     }
 
+    public function setDeliveryTypeAction(){
+        $deliveryTypeID = $this->request->getPost('deliveryTypeID');
+        $deliveryNum = $this->request->getPost('deliveryNum');
+        $orderID = $this->request->getPost('orderID');
+        if(empty($deliveryTypeID) || empty($deliveryNum) || empty($orderID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+
+        $where = array(
+            'memberID' => $this->memberInfo['memberID'],
+            'orderID' => $orderID,
+        );
+        $existDelivery = $this->memberOrderDeliveryModel->select($where)->current();
+        $set = array(
+            'deliveryTypeID' => $deliveryTypeID,
+            'deliveryNum' => $deliveryNum
+        );
+        if(!empty($existDelivery)){
+            $this->memberOrderDeliveryModel->update($set, $where);
+        }else{
+            $data = array_merge($where, $set);
+            $this->memberOrderDeliveryModel->insert($data);
+        }
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function memberDeliveryListAction(){
+        $memberDeliveries = $this->memberDeliveryModel->select(array('memberID' => $this->memberInfo['memberID']))->toArray();
+        $this->view->setVariables(array(
+            'memberDeliveries' => $memberDeliveries
+        ));
+        return $this->view;
+    }
+
+    public function addMemberDeliveryAction(){
+        $receiverName = $this->postData['receiverName'];
+        $receiverMobile = $this->postData['receiverMobile'];
+        $receiverAddr = $this->postData['receiverAddr'];
+        $memberDeliveryID = $this->postData['memberDeliveryID'];
+        if(empty($receiverName) || empty($receiverMobile) || empty($receiverAddr)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+
+        $data = array(
+            'memberID' => $this->memberInfo['memberID'],
+            'receiverName' => $receiverName,
+            'receiverMobile' => $receiverMobile,
+            'receiverAddr' => $receiverAddr,
+        );
+        if(!empty($memberDeliveryID)){
+            $this->memberDeliverModel->update($data, array('memberDeliveryID' => $memberDeliveryID));
+            $data['memberDeliveryID'] = $memberDeliveryID;
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功', $data);
+        }else{
+            $this->memberDeliveryModel->insert($data);
+            $memberDeliveryID = $this->memberDeliveryModel->getLastInsertValue();
+            $data['memberDeliveryID'] = $memberDeliveryID;
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功', $data);
+        }
+    }
+
+    public function delMemberDeliveryAction(){
+        $memberDeliveryID = $this->postData['memberDeliveryID'];
+        $this->memberDeliveryModel->delete(array('memberDeliveryID' => $memberDeliveryID, 'memberID' => $this->memberInfo['memberID']));
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

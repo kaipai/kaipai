@@ -23,26 +23,10 @@
                         <div class="yg_ppname3">成交价：<?php echo $info['productPrice'] ?>元 运费：<?php echo $info['deliveryPrice'] ?>元 佣金：<?php echo $info['commision'] ?>元</div>
                     </div>
                 </div>
-                <?php
-                    foreach($memberDeliveries as $v){
-                ?>
-                        <div class="yg_addres">
-                            <div class="yg_addres_left">
-                                <div class="yg_addres_left1"><input name="address" type="radio" class="ind_checkbox"/></div>
-                                <div class="yg_addres_left2">
-                                    <p class="yg_sjr">收货人：<?php echo $v['receiverName'] ?> <?php echo $v['receiverMobile'] ?></p>
+                <div id="member-delivery-list">
 
-                                    <p class="yg_sjr">收货地址：<?php echo $v['receiverAddr']; ?></p>
-                                </div>
-                            </div>
-                            <div class="yg_addres_right">
-                                <div><a href="javascript:;" class="edit-member-delivery-btn" member-delivery-id="<?php echo $v['deliveryID'] ?>">编辑</a></div>
-                                <div><a href="javascript:;" class="del-member-delivery-btn" mmeber-delivery-id="<?php echo $v['deliveryID'] ?>">删除</a></div>
-                            </div>
-                        </div>
-                <?php
-                    }
-                ?>
+                </div>
+
                 <div class="yg_addresbtn add-member-delivery-btn">添加新地址</div>
                 <div class="yg_bz">
                     <div class="yc_ly">留言备注</div>
@@ -62,43 +46,144 @@
                 </div>
             </div>
             <div class="yg_qrzf">
-                <a href=""><span class="yg_qrzf1"> 确认支付</span></a>
+                <a href="javascript:;" id="confirm-pay-btn"><span class="yg_qrzf1"> 确认支付</span></a>
                 <!--<a href=""><span class="yg_qrzf2"> 稍后付款</span></a>-->
             </div>
         </div>
     </div>
 </div>
 
-<div id="add-member-delivery-div" class="hide" member-delivery-id="">
+<div id="add-member-delivery-div" class="hide"  member-delivery-id="">
+    <div class="loginPop fr">
 
-    <label>收货人</label><input type="text" name="receiverName" />
-    <label>收货人手机号</label><input type="text" name="receiverMobile" />
-    <label>收货地址</label><input type="text" name="receiverAddr" />
-    <input type="button" value="添加" name="submit-button" />
+        <form method="post">
+            <span style="color: red;"></span>
+
+            <div class="inputBox">
+                <input name="receiverName" placeholder="收货人姓名" type="text" value=""/>
+            </div>
+
+            <div class="inputBox">
+                <input name="receiverMobile" placeholder="收货人手机号"/>
+            </div>
+
+            <div class="inputBox">
+                <input name="receiverAddr" placeholder="收货地址"/>
+            </div>
+
+            <input name="member-delivery-submit-button" type="button" class="submit" value="添加">
+        </form>
+    </div>
 </div>
+
+
 
 <script>
     $(function(){
+
+        function loadMemberDelivery(){
+            $('#member-delivery-list').load('/member/member-delivery-list');
+        }
+        loadMemberDelivery();
+
         $('.order-detail-pay-list li').on('click', function(){
             $(this).addClass('yg_selected_pay_type').siblings().removeClass('yg_selected_pay_type');
         });
 
         $('.add-member-delivery-btn').on('click', function(){
-            layer.open(
-                type : 1,
-                title:'添加新地址',
+            layer.open({
+                skin: 'loginBox',
+                type: 1,
+                title: '添加新地址',
                 content: $('#add-member-delivery-div').html()
-            );
+            });
         });
-        $('input[name-button]:visible').on('click', function(){
+        $(document).on('click', 'input[name=member-delivery-submit-button]:visible', function(){
             var data = {};
-            data.
+            data.receiverName = $('input[name=receiverName]:visible').val();
+            data.receiverMobile = $('input[name=receiverMobile]:visible').val();
+            data.receiverAddr = $('input[name=receiverAddr]:visible').val();
+            data.memberDeliveryID = $('#add-member-delivery-div').attr('member-delivery-id');
+            $.ajax({
+                url : '/member/add-member-delivery',
+                type : 'post',
+                dataType : 'json',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(obj){
+                            loadMemberDelivery();
+                            layer.closeAll();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+
+
+                }
+            });
         });
-        $('.edit-member-delivery-btn').on('click', function(){
+        $(document).on('click', '.edit-member-delivery-btn', function(){
+
+            layer.open({
+                skin: 'loginBox',
+                type: 1,
+                title: '编辑',
+                content: $('#add-member-delivery-div').html()
+            });
+            $('input[name=receiverName]:visible').val($(this).attr('receiver-name'));
+            $('input[name=receiverMobile]:visible').val($(this).attr('receiver-mobile'));
+            $('input[name=receiverAddr]:visible').val($(this).attr('receiver-addr'));
+            $('#add-member-delivery-div').attr('member-delivery-id', $(this).attr('member-delivery-id'));
 
         });
-        $('.del-member-delivery-btn').on('click', function(){
+        $(document).on('click', '.del-member-delivery-btn', function(){
+            var data = {};
+            data.memberDeliveryID = $(this).attr('member-delivery-id');
 
+            $.ajax({
+                url : '/member/del-member-delivery',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    layer.alert(res.msg, function(){
+                        $('#member-delivery-' + data.memberDeliveryID).remove();
+                        layer.closeAll();
+                    });
+
+
+                }
+            });
+        });
+
+        $('#confirm-pay-btn').on('click', function() {
+            var data = {};
+            data.orderID = <?php echo $info['orderID'] ?>;
+            data.memberDeliveryID = $('.member-delivery-chk:checked').attr('member-delivery-id');
+            if (!data.memberDeliveryID) {
+                layer.alert('请选择收货地址');
+                return false;
+            }
+            data.payType = $('.yg_selected_pay_type').attr('pay-type');
+            if(!data.payType) {
+                layer.alert('请选择付款方式');
+                return false;
+            }
+            data.orderRemark = $('.order-remark').text();
+            $.ajax({
+                url : '/order/pay',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
         });
     })
 </script>

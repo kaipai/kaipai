@@ -84,93 +84,30 @@ class OrderController extends Front{
     }
 
 
+    public function payAction(){
+        $orderID = $this->postData['orderID'];
+        $memberDeliveryID = $this->postData['memberDeliveryID'];
+        $payType = $this->postData['payType'];
+        $orderRemark = $this->postData['orderRemark'];
+        $orderInfo = $this->memberOrderModel->select(array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']))->current();
+        if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        try{
+            $this->memberOrderModel->beginTransaction();
 
+            $this->memberOrderModel->update(array('remark' => $orderRemark), array('orderID' => $orderID));
+            $this->memberPayDetailModel->update(array('payType' => $payType), array('unitePayID' => $orderInfo['unitePayID']));
+            $orderDelivery = array(
+                'orderID' => $orderID,
+                'memberID' => $this->memberInfo['memberID'],
+                'memberDeliveryID' => $memberDeliveryID,
+            );
+            $this->memberOrderDeliveryModel->insert($orderDelivery);
 
+            $this->memberOrderModel->commit();
+        }catch (\Exception $e){
+            $this->memberOrderModel->rollback();
 
-
-
-
-
-
-
-    public function getDeliveryTypeAction(){
-        $delivetyTypes = $this->deliveryTypeModel->getList();
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $delivetyTypes);
-    }
-
-    public function setDeliveryTypeAction(){
-        $deliveryTypeID = $this->request->getPost('deliveryTypeID');
-        $deliveryNum = $this->request->getPost('deliveryNum');
-        $orderID = $this->request->getPost('orderID');
-        if(empty($deliveryTypeID) || empty($deliveryNum) || empty($orderID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
-
-        $where = array(
-            'memberID' => $this->memberInfo['memberID'],
-            'orderID' => $orderID,
-        );
-        $existDelivery = $this->memberOrderDeliveryModel->select($where)->current();
-        $set = array(
-            'deliveryTypeID' => $deliveryTypeID,
-            'deliveryNum' => $deliveryNum
-        );
-        if(!empty($existDelivery)){
-            $this->memberOrderDeliveryModel->update($set, $where);
-        }else{
-            $data = array_merge($where, $set);
-            $this->memberOrderDeliveryModel->insert($data);
+            return $this->response($e->getCode(), $e->getMessage())
         }
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
-
-    public function getMemberDeliveryAction(){
-        $memberDelivery = $this->memberDeliveryModel->select(array('memberID' => $this->memberInfo['memberID']))->toArray();
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberDelivery);
-    }
-
-    public function addMemberDeliveryAction(){
-        $receiverName = $this->request->getPost('receiverName');
-        $receiverMobile = $this->request->getPost('receiverMobile');
-        $receiverAddr = $this->request->getPost('receiverAddr');
-        if(empty($receiverName) || empty($receiverMobile) || empty($receiverAddr)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
-
-        $data = array(
-            'memberID' => $this->memberInfo['memberID'],
-            'receiverName' => $receiverName,
-            'receiverMobile' => $receiverMobile,
-            'receiverAddr' => $receiverAddr,
-        );
-        $this->memberDeliveryModel->insert($data);
-        $memberDeliveryID = $this->memberDeliveryModel->getLastInsertValue();
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('memberDeliveryID' => $memberDeliveryID));
-    }
-
-    public function setMemberDeliveryAction(){
-        $memberDeliveryID = $this->request->getPost('memberDeliveryID');
-        $orderID = $this->request->getPost('orderID');
-        if(empty($memberDeliveryID) || empty($orderID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
-
-        $where = array(
-            'memberID' => $this->memberInfo['memberID'],
-            'orderID' => $orderID,
-        );
-        $existDelivery = $this->memberOrderDeliveryModel->select($where)->current();
-        $set = array(
-            'memberDeliveryID' => $memberDeliveryID
-        );
-        if(!empty($existDelivery)){
-
-            $this->memberOrderDeliveryModel->update($set, $where);
-        }else{
-            $data = array_merge($where, $set);
-            $this->memberOrderDeliveryModel->insert($data);
-        }
-
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
-
-
 }
