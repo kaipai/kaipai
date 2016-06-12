@@ -2,6 +2,7 @@
 namespace Base\ConstDir\Admin;
 
 class AdminError{
+    const COMMON_ERROR = -1;
     const PARAMETER_MISSING = -100;
     const PARAMETER_MISSING_MSG = '参数缺失';
     const PASSWD_LENGTH_LT_SIX = -101;

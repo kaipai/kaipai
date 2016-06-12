@@ -1,0 +1,79 @@
+
+<div class="wrapper" id="page-wrapper">
+
+    <div id="table_toolbar">
+        <div class="pull-left">
+            <strong>名家管理</strong>
+            <a  class="btn btn-primary" href="/admin/artist/add-view"><i class="fa fa-pencil"></i>新增</a>
+        </div>
+    </div>
+    <div class="adv-table">
+        <table id="table-pagination" class="bootstrap_table"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+
+        table = $('#table-pagination').bootstrapTable({
+            method: 'get',
+            url: '/admin/<?=$this->layout()->controllerName;?>/list',
+            cache: false,
+            height: "auto",
+            striped: true,
+            pagination: true,
+            pageSize: 10,
+            pageList: [10, 25, 50, 100, 200],
+            search: false,
+            showColumns: false,
+            showRefresh: false,
+            toolbar:"#table_toolbar",
+            minimumCountColumns: 2,
+            sidePagination: 'server',
+            clickToSelect: true,
+            columns: [{
+                field: 'artistID',
+                title: '名家ID',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'artistName',
+                title: '名家姓名',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
+            },{
+                field: 'artistAvatar',
+                title: '名家头像',
+                align: 'center',
+                width: '200px',
+                valign: 'middle',
+                formatter : function(value, row, index){
+                    str = '<img width="100px" src="' + value + '" />';
+                    return str;
+                }
+            }, {
+                field: 'shortDesc',
+                title: '简介',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                width : '100px',
+                formatter:operateFormatter
+            }]
+        });
+    });
+    function operateFormatter(value, row, index) {
+        return [
+            "<a title='编辑' href=\"/admin/<?=$this->layout()->controllerName;?>/add-view?artistID="+row.artistID+"\" ><i class=\"glyphicon glyphicon-edit\"></i></a>",
+            '<a title="删除" href="javascript:void(0)" class="remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
+            ' cbody="确认删除' + row.title + '吗？" url="/admin/<?=$this->layout()->controllerName;?>/del" method="post" params="artistID='+ row.artistID +'">'+
+            '<i class="glyphicon glyphicon-remove"></i>'+
+            '</a>'
+        ].join('');
+    }
+</script>

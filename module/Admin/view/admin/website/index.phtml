@@ -1,1 +1,129 @@
-444
+<?php echo $this->render('/admin/common/upload-img'); ?>
+<div class="wrapper">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                网站管理
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" action="/admin/website/save-settings" method="post">
+                <table class="table table-bordered">
+                    <?php
+                        foreach($settings as $v){
+                            if($v['fieldType'] == 'input'){
+                    ?>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-md-2 control-label"><?php echo $v['remark'] ?></label>
+                                            <div class="col-sm-3 col-md-3">
+                                                <input type="text" class="form-control" id="<?php echo $v['settingName'] ?>" name="<?php echo $v['settingName'] ?>" value="<?php echo $v['settingValue'] ?>">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                    <?php
+                            }elseif($v['fieldType'] == 'textArea'){
+                    ?>
+
+                    <?php
+                            }elseif($v['fieldType'] == 'select'){
+                    ?>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-md-2 control-label"><?php echo $v['remark'] ?></label>
+                                            <div class="col-sm-2 col-md-2">
+                                                <select name="<?php echo $v['settingName']; ?>" id="<?php echo $v['settingName'] ?>" class="form-control">
+                                                    <?php
+                                                        foreach($v['options'] as $sk => $sv){
+
+                                                    ?>
+                                                            <option <?php if($sv == $v['settingValue']) echo 'selected'; ?> value="<?php echo $sk; ?>"><?php echo $sv; ?></option>
+                                                    <?php
+                                                        }
+                                                    ?>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                    <?php
+                            }elseif($v['fieldType'] == 'multipleImg'){
+                    ?>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-md-2 control-label"><?php echo $v['remark'] ?></label>
+                                            <div class="col-sm-10 col-md-10 access-upload" id="<?php echo $v['settingName'] ?>-div">
+                                                <?php if(!empty($v['settingValue'])){ ?>
+                                                    <?php foreach($v['settingValue'] as $sv){
+                                                    ?>
+                                                        <div>
+                                                            <span style="position:relative;left:220px;top:55px;cursor:pointer;" onclick="$(this).parent().remove();" href="javascript:;">删除</span>
+                                                            <a href="javascript:;"><img src="<?php echo $sv; ?>" alt="" /></a>
+                                                            <input type="hidden" name="<?php echo $v['settingName']; ?>[]" value="<?php echo $sv; ?>" />
+                                                        </div>
+                                                    <?php
+                                                    } ?>
+
+                                                <?php }
+                                                ?>
+
+                                                <a id="<?php echo $v['settingName']; ?>" >
+                                                    <img src="" alt="" />
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <script>
+                                    moreUploadInit('<?php echo $v['settingName'] ?>');
+                                </script>
+                    <?php
+                            }elseif($v['fieldType'] == 'img'){
+                    ?>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-md-2 control-label"><?php echo $v['remark'] ?></label>
+                                            <div class="col-sm-10 col-md-10 access-upload" id="<?php echo $v['settingName'] ?>-div">
+                                                <a id="<?php echo $v['settingName']; ?>" >
+                                                    <img src="<?php echo $v['settingValue'] ?>" alt="" />
+                                                    <input type="hidden" name="<?php echo $v['settingName'] ?>" value="<?php echo $v['settingValue'] ?>" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <script>
+                                    uploadInit('<?php echo $v['settingName'] ?>');
+                                </script>
+                    <?php
+                            }
+                    ?>
+
+                    <?php
+                        }
+                    ?>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <a class="btn btn-primary editModal" onclick="">保存</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </form>
+        </div>
+
+    </div>
+</div>

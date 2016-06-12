@@ -1,0 +1,105 @@
+<?php
+echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.config.js');
+echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.all.js');
+echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
+?>
+<?php
+    echo $this->render('/admin/common/upload-img');
+?>
+<div class="wrapper">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <?php echo (isset($info['customizationID'])) ? '编辑名家ID:' . $info['artistID'] : '新增名家'; ?>
+                <a class="text-right" style="float:right;" href="<?php echo '/admin/' . $this->layout()->controllerName . '/index' ?>">返回</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="container mtop40" style="margin-bottom: 50px; height: auto;">
+                <form class="form-horizontal" action="/admin/<?php echo $this->layout()->controllerName; ?>/add" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">名家姓名</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="artistName" value="<?php echo !empty($info['artistName']) ? $info['artistName'] : ''; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">列表图片</label>
+
+                        <div class="col-sm-10 col-md-10 access-upload" id="artistAvatar-div">
+                            <a id="artistAvatar" >
+                                <img src="<?php if(!empty($info)) echo $info['artistAvatar'] ?>" alt="" />
+                                <input type="hidden" name="artistAvatar" value="<?php if(!empty($info)) echo $info['artistAvatar'] ?>" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">简介</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="shortDesc" value="<?php echo !empty($info['shortDesc']) ? $info['shortDesc'] : ''; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">类别</label>
+                        <div class="col-sm-4">
+                            <select class="form-control input-sm m-bot15" name="artistCategoryID">
+                                <?php foreach ($categories as $v){ ?>
+                                    <option value="<?php echo $v['artistCategoryID']; ?>" <?php if($v['artistCategoryID'] == $info['artistCategoryID']){echo 'selected';} ?>><?php echo $v['categoryName']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">个人介绍</label>
+                        <div class="col-sm-4">
+                            <script id="artistDetail" name="artistDetail" type="text/plain" style="width:700px;height:300px;"><?php echo !empty($info['artistDetail']) ? $info['artistDetail'] : ''; ?></script>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">获奖以及著作</label>
+                        <div class="col-sm-4">
+                            <script id="awards" name="awards" type="text/plain" style="width:700px;height:300px;"><?php echo !empty($info['awards']) ? $info['awards'] : ''; ?></script>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">作品欣赏</label>
+                        <div class="col-sm-4">
+                            <script id="productions" name="productions" type="text/plain" style="width:700px;height:300px;"><?php echo !empty($info['productions']) ? $info['productions'] : ''; ?></script>
+
+                        </div>
+                    </div>
+                    <input type="hidden" name="artistID" value="<?php if(!empty($info['artistID'])) echo $info['artistID']; ?>"/>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a class="btn btn-primary editModal" onclick="">确定</a>
+                        </div>
+                    </div>
+                </form>
+
+                <input type="hidden" name="location-url" value="/admin/<?php echo $this->layout()->controllerName; ?>/index"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        UE.getEditor('artistDetail');
+        UE.getEditor('awards');
+        UE.getEditor('productions');
+        $('#start-time').datetimepicker({
+            language:'zh-CN',
+            format: 'yyyy-mm-dd hh:ii:ss'
+        });
+        $('#end-time').datetimepicker({
+            language:'zh-CN',
+            format: 'yyyy-mm-dd hh:ii:ss'
+        });
+        uploadInit('artistAvatar');
+    })
+
+
+</script>

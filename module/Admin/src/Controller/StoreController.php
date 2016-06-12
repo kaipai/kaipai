@@ -15,32 +15,21 @@ class StoreController extends Admin{
     }
 
     public function listAction(){
-        $offset = $this->request->getQuery('offset', $this->offset);
-        $limit = $this->request->getQuery('limit', $this->limit);
-        $where = array();
+        $res = $this->storeModel->getStores($this->pageNum, $this->limit);
 
-        $data = array();
-
-        $data['total'] = $this->storeModel->getCount($where);
-
-        $data['rows'] = $this->storeModel->getList($where, "storeID desc", $offset, $limit);
-
-        return $this->adminResponse($data);
+        return $this->adminResponse(array('rows' => $res['data'], 'total' => $res['total']));
     }
 
-    public function verifyAction(){
-        $verifyStatus = $this->request->getPost('verifyStatus');
-        $storeID = $this->request->getPost('storeID');
-        if(empty($status)) return $this->response(AdminError::PARAMETER_MISSING, AdminError::PARAMETER_MISSING_MSG);
-        $set = array(
-            'verifyStatus' => $verifyStatus,
-        );
+    public function updateAction(){
+        $storeID = $this->postData['storeID'];
+
         $where = array(
             'storeID' => $storeID
         );
-        $this->sm->get('Api\Model\Store')->update($set, $where);
+        unset($this->postData['storeID']);
+        $this->storeModel->update($this->postData, $where);
 
-        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
     }
 
 }

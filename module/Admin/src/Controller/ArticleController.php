@@ -12,17 +12,9 @@ class ArticleController extends Admin{
     }
 
     public function listAction(){
-        $offset = $this->request->getQuery('offset', $this->offset);
-        $limit = $this->request->getQuery('limit', $this->limit);
-        $where = array();
+        $res = $this->articleModel->getArticles($this->pageNum, $this->limit);
 
-        $data = array();
-
-        $data['total'] = $this->articleModel->getCount($where);
-
-        $data['rows'] = $this->articleModel->getList($where, "articleID desc", $offset, $limit);
-
-        return $this->adminResponse($data);
+        return $this->adminResponse(array('rows' => $res['data'], 'total' => $res['total']));
     }
 
     public function addAction(){
@@ -51,31 +43,13 @@ class ArticleController extends Admin{
 
     public function updateAction(){
         $articleID = $this->postData['articleID'];
-        $set = array(
-            'articleName' => $this->postData['articleName'],
-            'articleCategoryID' => $this->postData['articleCategoryID'],
-            'articleContent' => $this->postData['articleContent'],
-            'type' => $this->postData['type'],
-        );
+
         $where = array(
             'articleID' => $articleID
         );
-        $this->articleModel->update($set, $where);
+        unset($this->postData['articleID']);
+        $this->articleModel->update($this->postData, $where);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
-
-
-
-
-    public function delAction(){
-        $articleID = $this->request->getPost('articleID');
-        if(!empty($articleID)){
-            $this->articleModel->delete(array('articleID' => $articleID));
-        }
-        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
-    }
-
-
-
 }

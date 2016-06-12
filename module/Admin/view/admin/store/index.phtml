@@ -54,19 +54,119 @@
                 width:200
 
             },{
+                field: 'storeLogo',
+                title: '店铺LOGO',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    var str = '<img src="' + value + '" width="100px" />';
+                    return str;
+                }
+            },{
                 field: 'storeBanner',
                 title: '店铺招牌',
                 align: 'center',
                 valign: 'middle',
-                width:200
-
-            },
-            {
-                field: 'instime',
-                title: '新增时间',
+                width:200,
+                formatter:function(value, row, index){
+                    var str = '<img src="' + value + '" width="100px" />';
+                    return str;
+                }
+            },{
+                field: 'recommendImg',
+                title: '店铺推荐图',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    var str = '<img src="' + value + '" width="100px" />';
+                    return str;
+                }
+            },{
+                field: 'idNumber',
+                title: '身份证号',
                 align: 'center',
                 valign: 'middle',
                 width:200
+
+            },{
+                field: 'idPic',
+                title: '身份证图片',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    var str = '<img src="' + value + '" width="100px" />';
+                    return str;
+                }
+            },{
+                field: 'memberIdPic',
+                title: '本人手持身份证图片',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    var str = '<img src="' + value + '" width="100px" />';
+                    return str;
+                }
+            },{
+                field: 'storeMobile',
+                title: '商铺绑定手机号',
+                align: 'center',
+                valign: 'middle',
+            },{
+                field: 'verifyStatus',
+                title: '审核状态',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    var str = '';
+                    if(value == 1){
+                        var links = [
+                            '<a title="审核通过" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核通过吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&verifyStatus=2"><i class="glyphicon glyphicon-ok"></i></a>',
+                            '<a title="审核不通过" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核不通过吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&verifyStatus=3"><i class="glyphicon glyphicon-remove"></i></a>'
+                        ];
+                        str = links.join(' ');
+                    }else if(value == 2){
+                        str = '审核通过';
+                    }else if(value == 3){
+                        str = '审核未通过';
+                    }
+                    return str;
+                }
+
+            },{
+                field: 'isRecommend',
+                title: '是否推荐',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    if(value == 0){
+                        var str = '<a title="推荐" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认推荐吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&isRecommend=1"><i class="glyphicon glyphicon-remove"></i></a>';
+                    }else{
+                        var str = '<a title="取消推荐" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认取消推荐吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&isRecommend=0"><i class="glyphicon glyphicon-ok"></i></a>';
+                    }
+                    return str;
+                }
+
+            },{
+                field: 'isHot',
+                title: '是否热门',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    if(value == 0){
+                        var str = '<a title="热门" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认热门吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&isHot=1"><i class="glyphicon glyphicon-remove"></i></a>';
+                    }else{
+                        var str = '<a title="取消热门" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认取消热门吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&isHot=0"><i class="glyphicon glyphicon-ok"></i></a>';
+                    }
+                    return str;
+                }
+
             }]
     });
 

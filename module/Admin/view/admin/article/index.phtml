@@ -39,10 +39,9 @@
                 valign: 'middle',
                 width:200
 
-            },
-            {
-                field: 'articleContent',
-                title: '文章内容',
+            },{
+                field: 'categoryName',
+                title: '文章分类',
                 align: 'center',
                 valign: 'middle',
                 width:200
@@ -54,6 +53,36 @@
                 align: 'center',
                 valign: 'middle',
                 width:200
+            },{
+                field: 'isIndexRecommend',
+                title: '是否首页推荐',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    if(value == 0){
+                        var str = '<a title="首页推荐" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认推荐吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="articleID='+ row.articleID +'&isIndexRecommend=1"><i class="glyphicon glyphicon-remove"></i></a>';
+                    }else{
+                        var str = '<a title="取消首页推荐" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认取消推荐吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="articleID='+ row.articleID +'&isIndexRecommend=0"><i class="glyphicon glyphicon-ok"></i></a>';
+                    }
+                    return str;
+                }
+
+            },{
+                field: 'isIndexArticleList',
+                title: '是否首页列表展示',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    if(value == 0){
+                        var str = '<a title="首页展示" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认展示吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="articleID='+ row.articleID +'&isIndexArticleList=1"><i class="glyphicon glyphicon-remove"></i></a>';
+                    }else{
+                        var str = '<a title="取消首页展示" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认取消展示吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="articleID='+ row.articleID +'&isIndexArticleList=0"><i class="glyphicon glyphicon-ok"></i></a>';
+                    }
+                    return str;
+                }
+
             }, {
                 title: '操作',
                 align: 'center',
@@ -68,7 +97,7 @@
         return [
             '<a title="编辑" href="/admin/article/add-view?articleID=' + row.articleID + '"><i class="glyphicon glyphicon-edit"></i></a>',
             '<a title="删除" href="javascript:void(0)" class=" remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
-            ' cbody="确认删除文章' + row.articleName + '吗？" url="/admin/<?=$this->layout()->controllerName;?>/del" method="post" params="articleID='+ row.articleID +'">'+
+            ' cbody="确认删除文章' + row.articleName + '吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="articleID='+ row.articleID +'&isDel=1">'+
             '<i class="glyphicon glyphicon-remove"></i>'+
             '</a>'
         ].join('');

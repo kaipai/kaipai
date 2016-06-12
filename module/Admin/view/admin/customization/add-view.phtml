@@ -1,0 +1,124 @@
+<?php
+echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.config.js');
+echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.all.js');
+echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
+?>
+<?php
+    echo $this->render('/admin/common/upload-img');
+?>
+<div class="wrapper">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <?php echo (isset($info['customizationID'])) ? '编辑定制商品ID:' . $info['customizationID'] : '新增定制商品'; ?>
+                <a class="text-right" style="float:right;" href="<?php echo '/admin/' . $this->layout()->controllerName . '/index' ?>">返回</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="container mtop40" style="margin-bottom: 50px; height: auto;">
+                <form class="form-horizontal" action="/admin/<?php echo $this->layout()->controllerName; ?>/add" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="title" value="<?php echo !empty($info['title']) ? $info['title'] : ''; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">列表图片</label>
+
+                        <div class="col-sm-10 col-md-10 access-upload" id="listImg-div">
+                            <a id="listImg" >
+                                <img src="<?php if(!empty($info)) echo $info['listImg'] ?>" alt="" />
+                                <input type="hidden" name="listImg" value="<?php if(!empty($info)) echo $info['listImg'] ?>" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">说明</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="desc" value="<?php echo !empty($info['desc']) ? $info['desc'] : ''; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">开始时间</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" class="" id="start-time" name="startTime" value="<?php echo !empty($info['startTime']) ? date('Y-m-d H:i:s', $info['startTime']) : ''; ?>" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">结束时间</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" class="" id="end-time" name="endTime" value="<?php echo !empty($info['endTime']) ? date('Y-m-d H:i:s', $info['endTime']) : ''; ?>" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">定金价格</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" class="" name="depositPrice" value="<?php echo !empty($info['depositPrice']) ? $info['depositPrice'] : ''; ?>" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">价格</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" class="" name="price" value="<?php echo !empty($info['price']) ? $info['price'] : ''; ?>" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">剩余数量</label>
+
+                        <div class="col-sm-4">
+                            <input type="text" class="" name="lastNum" value="<?php echo !empty($info['lastNum']) ? $info['lastNum'] : ''; ?>" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">名家</label>
+                        <div class="col-sm-4">
+                            <select class="form-control input-sm m-bot15" name="artistID">
+                                <?php foreach ($artists as $v){ ?>
+                                    <option value="<?php echo $v['artistID']; ?>" <?php if($v['artistID'] == $info['artistID']){echo 'selected';} ?>><?php echo $v['artistName']; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <label class="col-sm-2 control-label">说明</label>
+                        <div class="col-sm-4">
+                            <script id="editor" name="articleContent" type="text/plain" style="width:700px;height:300px;"><?/*= (isset($info['desc'])) ? $info['desc'] : ''; */?></script>
+
+                        </div>
+                    </div>-->
+                    <input type="hidden" name="customizationID" value="<?php if(!empty($info['customizationID'])) echo $info['customizationID']; ?>"/>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a class="btn btn-primary editModal" onclick="">确定</a>
+                        </div>
+                    </div>
+                </form>
+
+                <input type="hidden" name="location-url" value="/admin/<?php echo $this->layout()->controllerName; ?>/index<? //echo !empty($info['customizationID']) ? '/admin/customization/add-view?customizationID='.$info['customizationID'] : '/admin/customization/index'; ?>"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        //var ue = UE.getEditor('editor');
+        $('#start-time').datetimepicker({
+            language:'zh-CN',
+            format: 'yyyy-mm-dd hh:ii:ss'
+        });
+        $('#end-time').datetimepicker({
+            language:'zh-CN',
+            format: 'yyyy-mm-dd hh:ii:ss'
+        });
+        uploadInit('listImg');
+    })
+
+
+</script>

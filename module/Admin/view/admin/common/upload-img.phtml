@@ -1,0 +1,111 @@
+<script type="text/javascript">
+    var num = 0;
+    function uploadInit(id){
+        //上传组件
+        var uploader = new plupload.Uploader({
+            runtimes : 'html5,flash,silverlight,html4',
+            browse_button : id, // you can pass in id...触发上传窗口
+            container: $('#' + id + '-div')[0], // ... or DOM Element itself容器
+            url : '/admin/file/file-upload',//上传URL
+            flash_swf_url : '../js/Moxie.swf',
+            silverlight_xap_url : '../js/Moxie.xap',
+
+            filters : {
+                max_file_size : '10mb',//用来限定上传文件的大小
+                mime_types: [//用来限定上传文件的类型，为一个数组
+                    {title : "Image files", extensions : "jpg,png,jpeg,gif"},
+                ],
+                prevent_duplicates : false //不允许选取重复文件
+            },
+            multipart:true,
+            max_retries:0,//当发生plupload.HTTP_ERROR错误时的重试次数，为0时表示不重试
+            multi_selection:false,//是否可以在文件浏览对话框中选择多个文件
+            unique_names:true,
+            init: {
+                PostInit: function() {
+                },
+                FilesAdded: function(up, files) {
+                    uploader.start();
+                    return false;
+                },
+                FileUploaded:function(up,file,response){
+                    //触发
+                    var imgObj = eval('(' + response.response + ')');
+                    $('#'+id).html('<img name=' + id + ' src="'+imgObj.path+'">');
+
+                    if($('#'+id).parent().find('input[name=' + id + ']').length < 1){
+                        $('#'+id).parent().append('<input type="hidden" name="'+id+'" value="'+imgObj.path+'" />');
+                    }else{
+                        $('#'+id).parent().find('input[name=' + id + ']').val(imgObj.path);
+                    }
+
+                },
+                Error: function(up, err) {
+                    if(err.status == 413){
+                        $(".err-tip-li .licencetip").html("您上传图片过大,请不要上传超过2M的图片");
+                    }
+                    if(err.code == -601){
+                        $(".err-tip-li .licencetip").html("图片格式错误,请重新选择");
+                    }
+                }
+            }
+        });
+        uploader.init();
+    }
+
+    function moreUploadInit(id){
+        //上传组件
+        var uploader = new plupload.Uploader({
+            runtimes : 'html5,flash,silverlight,html4',
+            browse_button : id, // you can pass in id...触发上传窗口
+            container: $('#' + id + '-div')[0], // ... or DOM Element itself容器
+            url : '/admin/file/file-upload',//上传URL
+            flash_swf_url : '../js/Moxie.swf',
+            silverlight_xap_url : '../js/Moxie.xap',
+
+            filters : {
+                max_file_size : '10mb',//用来限定上传文件的大小
+                mime_types: [//用来限定上传文件的类型，为一个数组
+                    {title : "Image files", extensions : "jpg,png,jpeg,gif"},
+                ],
+                prevent_duplicates : false //不允许选取重复文件
+            },
+            multipart:true,
+            max_retries:0,//当发生plupload.HTTP_ERROR错误时的重试次数，为0时表示不重试
+            multi_selection:true,//是否可以在文件浏览对话框中选择多个文件
+            unique_names:true,
+            init: {
+                PostInit: function() {
+                },
+                FilesAdded: function(up, files) {
+                    num = num + files.length;
+                    if( num > 4){
+                        num = num - files.length;
+                        $(".err-tip-li .licencetip").html("最多可以上传4张图片");
+                        uploader.splice(0);
+                        return false;
+                    }
+                    uploader.start();
+                    return false;
+                },
+                FileUploaded:function(up,file,response){
+                    //触发
+                    var imgObj = eval('(' + response.response + ')');
+                    var str = '<div><span style="position:relative;left:220px;top:55px;cursor:pointer;" onclick="$(this).parent().remove();" href="javascript:;">删除</span><a href="javascript:;"><img src="'+imgObj.path+'"></a><input type="hidden" name="' + id + '[]" value="'+imgObj.path+'" /></div>';
+                    $('#' + id + '-div').prepend(str);
+                },
+                Error: function(up, err) {
+                    if(err.status == 413){
+                        $(".err-tip-li .licencetip").html("您上传图片过大,请不要上传超过2M的图片");
+                    }
+                    if(err.code == -601){
+                        $(".err-tip-li .licencetip").html("图片格式错误,请重新选择");
+                    }
+                }
+            }
+        });
+        uploader.init();
+    }
+
+
+</script>

@@ -3,6 +3,20 @@ namespace Api\Model;
 
 use COM\Model;
 class Store extends Model{
+    public function getStores($page, $limit){
+        $select = $this->getSelect();
+        $paginator = $this->paginate($select);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($limit);
+        $data = $paginator->getCurrentItems()->getArrayCopy();
+        $total = $paginator->getTotalItemCount();
+
+        $res = array(
+            'data' => $data,
+            'total' => $total
+        );
+        return $res;
+    }
 
     public function getCategories($where = array()){
         $select = $this->getSelect();
