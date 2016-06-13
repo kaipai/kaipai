@@ -14,6 +14,7 @@ class LoginController extends Front{
 
     public function doLoginAction(){
         if(empty($this->postData)) return $this->view;
+
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
         $rememberMe = $this->postData['rememberMe'];

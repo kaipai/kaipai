@@ -115,6 +115,7 @@ class Controller extends AbstractActionController{
                 $this->memberInfo = $this->memberInfoModel->select(array('autoCode' => $autoCode))->current();
             }else{
                 $loginSession = new Session($platform, null,null);
+
                 $this->memberInfo = $session = $loginSession->read();
             }
 

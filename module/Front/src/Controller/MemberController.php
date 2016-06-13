@@ -5,6 +5,7 @@ use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\Functions\Utility;
 use COM\Controller\Front;
+use Zend\Authentication\Storage\Session;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Where;
 
@@ -13,6 +14,7 @@ class MemberController extends Front{
     private $_storeInfo;
 
     public function init(){
+
         if(empty($this->memberInfo)) {
             if($this->request->isXmlHttpRequest){
                 return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
@@ -180,7 +182,9 @@ class MemberController extends Front{
 
     public function logoutAction(){
         try{
-            $this->tokenModel->delete(array('memberID' => $this->memberInfo['memberID']));
+            $session = new Session(self::FRONT_PLATFORM);
+            $session->clear();
+            setcookie('autoCode', '', strtotime('-1 year'), '/');
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
         }catch(\Exception $e){
             return $this->response(ApiError::DATA_UPDATE_FAILED, ApiError::DATA_UPDATE_FAILED_MSG);

@@ -9,7 +9,7 @@ class MemberOrder extends Model{
         $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName'))
                 ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice'))
                 ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
-                ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName'), 'left')
+                ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName', 'storeLogo'), 'left')
                 ->where($where);
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
@@ -25,7 +25,7 @@ class MemberOrder extends Model{
         $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName'))
             ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice'))
             ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
-            ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName'), 'left')
+            ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName', 'storeLogo'), 'left')
             ->where($where);
         $result = $this->selectWith($select)->current();
         return $result;
