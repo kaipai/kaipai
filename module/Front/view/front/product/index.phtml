@@ -206,7 +206,7 @@
                         foreach($stores as $v){
                     ?>
                             <li>
-                                <h3><?php echo $v['storeName']; ?> ></h3>
+                                <h3 style="cursor: pointer;" onclick="location.href='/store/detail?storeID=<?php echo $v['storeID']; ?>';"><?php echo $v['storeName']; ?> ></h3>
 
                                 <p class="indexBox-right-info"><?php echo $v['storeSignature']; ?></p>
                             </li>
@@ -275,6 +275,7 @@
             params.priceBegin = $('#price-begin').val();
             params.priceEnd = $('#price-end').val();
             params.productCategoryID = '<?php echo $categoryInfo['productCategoryID']; ?>';
+            params.search = '<?php echo $search; ?>';
             $.ajax({
                 type : 'post',
                 url : '/product/list',

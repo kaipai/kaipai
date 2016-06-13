@@ -7,23 +7,26 @@ use COM\Controller\Front;
 class ArticleController extends Front{
 
     public function listAction(){
-        $articleType = $this->postData['type'];
-        $where = array(
-            'status' => BaseConst::ARTICLE_STATUS_ENABLE,
-        );
-        $where['type'] = $articleType;
-        $articles = $this->articleModel->getList($where);;
+        $articleCategoryID = $this->postData['articleCategoryID'];
+        $where = array();
+        if(!empty($articleCategoryID)) $where['b.articleCategoryID'] = $articleCategoryID;
+        $articles = $this->articleModel->getArticles($this->pageNum, $this->limit, $where);
 
+        $this->view->setVariables(array(
+            'articles' => $articles
+        ));
         return $this->view;
     }
 
     public function detailAction(){
-        $articleID = $this->postData['articleID'];
+        $articleID = $this->queryData['articleID'];
         $where = array(
             'articleID' => $articleID
         );
-        $articleInfo = $this->articleModel->fetch($where);
-
+        $info = $this->articleModel->getInfo($where);
+        $this->view->setVariables(array(
+            'info' => $info
+        ));
         return $this->view;
 
     }

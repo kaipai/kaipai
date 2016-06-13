@@ -6,9 +6,11 @@ use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller\Front;
+use Zend\Db\Sql\Predicate\Like;
 
 class ProductController extends Front{
     public function indexAction(){
+        $search = $this->queryData['search'];
         $productCategoryID = $this->queryData['productCategoryID'];
         $categoryInfo = $this->productCategoryModel->select(array('productCategoryID' => $productCategoryID))->current();
         $options = $this->productCategoryFilterOptionModel->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
@@ -22,7 +24,8 @@ class ProductController extends Front{
             'options' => $options,
             'stores' => $stores,
             'leftAds' => $leftAds,
-            'rightAds' => $rightAds
+            'rightAds' => $rightAds,
+            'search' => $search,
         ));
         return $this->view;
     }
@@ -43,6 +46,7 @@ class ProductController extends Front{
         $isCertificateCard = $this->postData['isCertificateCard'];
         $isAuthorAuth = $this->postData['isAuthorAuth'];
         $productStatus = $this->postData['status'];
+        $search = $this->postData['search'];
         $where = array();
         if(!empty($productCategoryID)){
             $where['b.productCategoryID'] = $productCategoryID;
@@ -84,6 +88,9 @@ class ProductController extends Front{
                 $where['b.auctionStatus'] = 2;
             }
 
+        }
+        if(!empty($search)){
+            $where[] = new Like('b.productName', '%' . $search . '%');
         }
 
         if($order == 'default') $order = 'b.productID desc';

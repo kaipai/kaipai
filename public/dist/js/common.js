@@ -97,8 +97,8 @@ var current_url = window.location.href;
                 }
 
                 if (_cupage == "detail") {
-                    $(".cpxx-c-c").html('<h3 style="text-align:center;line-height:140px;font-size:24px;">拍品已结束</h3>');
-                    $(".cpxx-date span").html("拍品已结束");
+                    $(".cpxx-c-c").html('<h3 style="text-align:center;line-height:140px;font-size:24px;">拍卖已结束</h3>');
+                    $(".cpxx-date span").html("拍卖已结束");
                     $(".cpxx-date i").html("结束时间 " + $(_DOM).attr("data"));
                     $(".cpxx-date").next().remove(); //remove remind
                     $(_DOM).children().remove();

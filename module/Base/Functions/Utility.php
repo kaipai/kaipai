@@ -169,7 +169,7 @@ class Utility
     }
 
     public static function mbCutStr($str, $length = 1){
-        return mb_substr($str, 0, $length, "UTF-8");
+        return mb_substr(strip_tags($str), 0, $length, "UTF-8");
     }
 
     public static function saveBaseCodePic($pic){
@@ -184,5 +184,36 @@ class Utility
         }
 
         return $picPath;
+    }
+
+    public static function getLeftTime($startTime, $endTime){
+        $startTime = strtotime($startTime);
+        $endTime = strtotime($endTime);
+        $strtime = '';
+        $time = $endTime - $startTime;
+        if($time >= 86400){
+            $strtime .= intval($time / 86400).'天';
+            $time = $time % 86400;
+        }else{
+            $strtime .= '';
+        }
+        if($time >= 3600){
+            $strtime .= intval($time / 3600).'小时';
+            $time = $time % 3600;
+        }else{
+            $strtime .= '';
+        }
+        if($time >= 60){
+            $strtime .= intval($time / 60).'分钟';
+            $time = $time % 60;
+        }else{
+            $strtime .= '';
+        }
+        if($time > 0){
+            $strtime .= intval($time).'秒';
+        }else{
+            $strtime = "";
+        }
+        return $strtime;
     }
 }

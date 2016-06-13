@@ -1,7 +1,4 @@
-<?php
-echo $this->headLink()
-    ->appendStylesheet('/dist/styles/main/good.css');
-?>
+<link rel="stylesheet" type="text/css" href="/dist/styles/main/good.css" media="screen" />
 <div class="center">
     <div class="s-nav">
         <a href="/">在线竞拍</a>
@@ -61,7 +58,7 @@ echo $this->headLink()
                     <?php
                         }elseif($productInfo['auctionStatus'] == 3){
                     ?>
-                            <span>拍品已结束</span> <i>结束时间 <?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?></i>
+                            <span>拍卖已结束</span> <i>结束时间 <?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?></i>
                     <?php
                         }
                     ?>

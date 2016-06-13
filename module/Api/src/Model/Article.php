@@ -1,11 +1,14 @@
 <?php
 namespace Api\Model;
 
+use Base\ConstDir\Regexp;
 use Base\Functions\Utility;
 use COM\Model;
+use Zend\Validator\Regex;
+
 class Article extends Model{
 
-    public function getArticles($page, $limit){
+    public function getArticles($page, $limit, $where = array()){
         $select = $this->getSelect();
         $select->join(array('b' => 'ArticleCategory'), 'Article.articleCategoryID = b.articleCategoryID', array('categoryName'));
         $select->where(array('isDel' => 0));
@@ -29,7 +32,8 @@ class Article extends Model{
         $select->limit(2);
         $result = $this->selectWith($select)->toArray();
         foreach($result as $k => $v){
-            $articleContent = strip_tags($v['articleContent']);
+            preg_match_all(Regexp::BODY_CONTENT, $v['articleContent'], $tmp);
+            $articleContent = strip_tags($tmp[0][0]);
             $result[$k]['articleContent'] = Utility::mbCutStr($articleContent, 30);
         }
         return $result;
@@ -42,6 +46,14 @@ class Article extends Model{
         $select->limit(5);
 
         return $this->selectWith($select)->toArray();
+    }
+
+    public function getInfo($where){
+        $select = $this->getSelect();
+        $select->join(array('b' => 'ArticleCategory'), 'Article.articleCategoryID = b.articleCategoryID', array('categoryName'));
+        $select->where($where);
+        $res = $this->selectWith($select)->current();
+        return $res;
     }
 
 }

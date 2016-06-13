@@ -4034,7 +4034,7 @@ function(n) {
 				if (t < 0) {
 					o == "index" && (n(r).prev().css("display", "none"), n(r).html('<div style="font-size:20px"><b style="color:#999">拍卖已结束<\/b><\/div>'));
 					o == "list" && (n(r).after('<div class="xg-over">已结束<\/div>'), n(r).remove());
-					o == "detail" && (n(".cpxx-c-c").html('<h3 style="text-align:center;line-height:140px;font-size:24px;">拍品已结束<\/h3>'), n(".cpxx-date span").html("拍品已结束"), n(".cpxx-date i").html("结束时间 " + n(r).attr("data")), n(".cpxx-date").next().remove(), n(r).children().remove());
+					o == "detail" && (n(".cpxx-c-c").html('<h3 style="text-align:center;line-height:140px;font-size:24px;">拍卖已结束<\/h3>'), n(".cpxx-date span").html("拍卖已结束"), n(".cpxx-date i").html("结束时间 " + n(r).attr("data")), n(".cpxx-date").next().remove(), n(r).children().remove());
 					return
 				}
 				n(r).find(".yomiday").html(u(s));

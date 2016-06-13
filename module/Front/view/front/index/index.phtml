@@ -90,7 +90,7 @@
             foreach($indexRecommendArticles as $v){
         ?>
                 <div class="news-item1">
-                    <a href=""><h4><?php echo $v['articleName'] ?></h4>
+                    <a href="/article/detail?articleID=<?php echo $v['articleID'] ?>"><h4><?php echo $v['articleName'] ?></h4>
 
                         <p class="news-item1-info">
                             <?php echo $v['articleContent'] ?><br>……</a>
@@ -200,8 +200,8 @@
                 <?php
                     foreach($stores as $v){
                 ?>
-                        <li>
-                            <h3><?php echo $v['storeName'] ?> ></h3>
+                        <li style="q">
+                            <h3 style="cursor: pointer;" onclick="location.href='/store/detail?storeID=<?php echo $v['storeID']; ?>';"><?php echo $v['storeName'] ?> ></h3>
 
                             <p class="indexBox-right-info"><?php echo $v['storeSignature']; ?></p>
                         </li>

@@ -4,78 +4,50 @@ namespace Front\Controller;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
+use Base\Functions\Utility;
 use COM\Controller\Front;
 
 class StoreController extends Front{
 
-    public function indexAction(){
-        return $this->view;
-    }
-
-    public function listAction(){
-        $where = array();
-        if(!empty($this->postData['type'])) $where['type'] = $this->postData['type'];
-        $select = $this->storeModel->getSelect();
-        $select->where($where);
-        $paginator = $this->storeModel->paginate($select);
-        $paginator->setCurrentPageNumber(ceil($this->offset / $this->limit) + 1);
-        $paginator->setItemCountPerPage($this->limit);
-        $dataRows = $paginator->getCurrentItems()->getArrayCopy();
-        $dataTotalCount = $paginator->getTotalItemCount();
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
-    }
-
     public function detailAction(){
         $storeID = $this->queryData['storeID'];
+        $auctionStatus = $this->queryData['auctionStatus'];
+        $order = $this->queryData['order'];
+        $sort = $this->queryData['sort'];
         $where = array(
             'storeID' => $storeID
         );
         $storeInfo = $this->storeModel->fetch($where);
-
+        $storeCategories = $this->storeCategoryModel->select(array('storeID' => $storeID))->toArray();
         $storeRecommendProducts = $this->productModel->getProducts(array('isStoreRecommend' => 1, 'storeID' => $storeID));
-        $storeProducts = $this->productModel->getProducts(array('isStoreRecommend' => 0, 'storeID' => $storeID));
+        $storeRecommendProductsData = $storeRecommendProducts['data'];
+        foreach($storeRecommendProductsData as $k => $v){
+            $storeRecommendProductsData[$k]['leftTime'] = Utility::getLeftTime(time(), $v['endTime']);
+        }
+
+
+        if(!empty($order) && !empty($sort)) $order = $order .' '. $sort;
+        $where = array('isStoreRecommend' => 0, 'storeID' => $storeID);
+        if(!empty($auctionStatus)){
+            $where['Product.auctionStatus'] = $auctionStatus;
+        }
+        $storeProducts = $this->productModel->getProducts($where, $this->pageNum, $this->limit, $order);
+        $storeProductsData = $storeProducts['data'];
+        foreach($storeProductsData as $k => $v){
+            $storeProductsData[$k]['leftTime'] = Utility::getLeftTime(time(), $v['endTime']);
+        }
+
+
         $this->view->setVariables(array(
             'storeInfo' => $storeInfo,
-            'storeRecommendProducts' => $storeRecommendProducts,
-            'soterProducts' => $storeProducts,
+            'storeRecommendProducts' => $storeRecommendProductsData,
+            'storeProducts' => $storeProductsData,
+            'storeCategories' => $storeCategories,
+            'pages' => $storeProducts['pages'],
+            'auctionStatus' => $auctionStatus,
+            'order' => $order,
+            'sort' => $sort
         ));
         return $this->view;
     }
-
-    public function addAction(){
-        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
-        unset($this->postData['token']);
-        $this->postData['memberID'] = $this->memberInfo['memberID'];
-        $this->storeModel->insert($this->postData);
-        $storeID = $this->storeModel->getLastInsertValue();
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('storeID' => $storeID));
-
-    }
-
-    public function updateAction(){
-        if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
-        unset($this->postData['token']);
-        $where = array(
-            'memberID' => $this->memberInfo['memberID'],
-        );
-        $this->storeModel->update($this->postData, $where);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
-
-    public function categoryAction(){
-        $storeID = $this->postData['storeID'];
-        if(empty($storeID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
-        $where = array(
-            'storeID' => $storeID
-        );
-        $categories = $this->storeCategoryModel->getList($where);
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $categories);
-    }
-
-
-
-
 }

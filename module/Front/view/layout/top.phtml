@@ -51,7 +51,7 @@
                             <a target="_self" rel="nofollow" ui-sref="userLogin">联系客服</a>
                     </span>
                 |
-                <a class="footprint" href="">收藏本站</a>
+                <a class="footprint" href="javascript:;" onclick="addFavorite2();">收藏本站</a>
             </div>
         <?php // } ?>
     </div>
@@ -61,12 +61,9 @@
         <a href="#" class="logonav">
             <img src="/dist/img/common/logo.png"/>
         </a>
-
         <div class="searchnav">
-            <form style=" height:35px;" action="/paimai/search/all/">
-                <input type="text" class="ipt" name="t" id="txtKw" value="输入关键词/名称"/>
-                <a href="javascript:;" class="btn paimaisearchbtn">搜索</a>
-            </form>
+            <input type="text" class="ipt top-search-item" name="t" id="txtKw" placeholder="请输入拍品名称"/>
+            <a href="javascript:;" class="btn paimaisearchbtn" id="top-search-btn">搜索</a>
         </div>
     </div>
 </div>
