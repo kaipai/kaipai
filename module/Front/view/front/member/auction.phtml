@@ -15,11 +15,9 @@
                     <div class="ys_tip2">
                         <div class="ys_tip3">
                             <div class="ys_tip4">
-                                <span><input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox "></span>
                                 <span class="yc_pm1">[拍卖时间] <?php echo date('Y-m-d', $v['startTime']) ?></span>
-                                <span class="yc_pm2"><?php echo $v['storeName'] ?></span>
+                                <span class="yc_pm2" style="background:url('<?php echo $v['storeLogo'] ?>') no-repeat scroll 6% center"><?php echo $v['storeName'] ?></span>
                                 <span class="yc_pm31 lxmj"><a href="">在线咨询</a></span>
-                                <span class="yc_pm5"><a href="">删除</a></span>
                             </div>
                             <div class="ys_tip6">
                                 <div class="yc_imgleft"><img src="<?php echo $v['listImg']; ?>"></div>
@@ -33,7 +31,7 @@
                                 </div>
                                 <div class="yc_ddfk yc_imgleft2">
                                     <?php
-                                        if($v['currPrice'] > $v['proxyPrice']){
+                                        if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
                                     ?>
                                             <a href="">
                                                 <div class="gz_ccdlj">超出代理价</div>
@@ -41,11 +39,11 @@
                                     <?php
                                         }elseif($v['currPrice'] > $v['myCurrPrice']){
                                     ?>
-                                            <a href="">
+                                            <a href="javascript:;" class="post-price-btn" product-id="<?php echo $v['productID'];?>" auction-per-price="<?php echo $v['auctionPerPrice'] ?>" curr-price="<?php echo $v['currPrice']; ?>">
                                                 <div class="njp_cj">出价</div>
                                             </a>
                                     <?php
-                                        }elseif($v['currPrice'] < $v['myCurrPrice']){
+                                        }elseif($v['currPrice'] <= $v['myCurrPrice']){
                                     ?>
                                             <a href="">
                                                 <div class="gz_lx">领先</div>
@@ -55,11 +53,11 @@
                                     ?>
 
 
-                                    <div class="gz_jiaru gz_gr"><a href="">设置代理价></a></div>
+                                    <div class="gz_jiaru gz_gr"><a href="javascript:;" proxy-price="<?php echo $v['proxyPrice'] ?>" class="set-proxy-price-btn" product-id="<?php echo $v['productID'];?>">设置代理价></a></div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <?php
-                                    if($v['currPrice'] > $v['proxyPrice']){
+                                    if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
                                     ?>
                                         <p class="yc_p">竞价已超出代理价</p>
                                     <?php
@@ -67,7 +65,7 @@
                                     ?>
                                         <p class="yc_p">出价已被超越</p>
                                     <?php
-                                    }elseif($v['currPrice'] < $v['myCurrPrice']){
+                                    }elseif($v['currPrice'] <= $v['myCurrPrice']){
                                     ?>
                                         <p class="yc_p">当前为最高价</p>
                                     <?php
@@ -91,11 +89,76 @@
         </div>
     </div>
 </div>
-
+<?php
+    echo $this->render('/front/product/set-proxy-price');
+    echo $this->render('/front/product/post-price');
+?>
 <script>
     $(function(){
         $(".yomibox2").each(function () {
             $(this).yomi(_CurrentServerTime, 'member-auction')
+        });
+
+        $('.set-proxy-price-btn').on('click', function(){
+            layer.open({
+                skin: 'loginBox',
+                title:'设置代理价',
+                type: 1,
+                content: $('#set-proxy-price').html()
+            });
+            var proxyPrice = $(this).attr('proxy-price');
+            var productID = $(this).attr('product-id');
+            $('input[name=proxy-price]:visible').val(proxyPrice);
+            $('.submit-set-proxy-price:visible').attr('product-id', productID);
+        });
+        $(document).on('click', '#set-proxy-price-btn', function(){
+            var data = {};
+            data.productID = $(this).attr('product-id');
+            data.proxyPrice = $('input[name=proxy-price]:visible').val();
+            $.ajax({
+                url : '/auction/set-proxy-price',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(response){
+                    if(response.flag > 0){
+                        layer.alert(response.msg, function(){location.reload();});
+                    }else{
+                        layer.alert(response.msg);
+                    }
+                }
+            });
+        });
+
+        $('.post-price-btn').on('click', function(){
+            layer.open({
+                skin: 'loginBox',
+                title:'出价',
+                type: 1,
+                content: $('#post-price').html()
+            });
+            var postPrice = parseFloat($(this).attr('curr-price')) + parseFloat($(this).attr('auction-per-price'));
+            var productID = $(this).attr('product-id');
+            $('input[name=post-price]:visible').val(postPrice);
+            $('.submit-post-price:visible').attr('product-id', productID);
+        });
+        $(document).on('click', '#post-price-btn', function(){
+            var data = {};
+            data.productID = $(this).attr('product-id');
+            data.auctionPrice = $('input[name=post-price]:visible').val();
+            $.ajax({
+                url : '/auction/bidding',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(response){
+                    if(response.flag > 0){
+                        layer.alert(response.msg, function(){location.reload();});
+                    }else{
+                        layer.alert(response.msg);
+                    }
+                }
+            });
         });
     })
 </script>

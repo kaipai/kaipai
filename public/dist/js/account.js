@@ -148,6 +148,7 @@ $(document).on('click', '#do-login', function(){
     var mobile = $('input[name=mobile]:visible').val();
     var password = $('input[name=password]:visible').val();
     var rememberMe = $('input[name=rememberMe]:visible').is(':checked');
+    rememberMe = rememberMe ? 1 : 0;
     if(!mobile){
         layer.open({
             type : 0,
@@ -198,6 +199,82 @@ $(document).on('click', '#do-login', function(){
                     content : data.msg,
                     shadeClose: true,
                     time: 2000
+                });
+
+            }
+        }
+
+    });
+});
+
+$(document).on('click', '#reset-pwd-btn', function(){
+    var mobile = J_mobile.val();
+    var verifyCode = $('#verifyCode').val();
+    var password = $('#password').val();
+    var confirmPassword = $('#confirm-password').val();
+    if (!re.test(mobile)) {
+        layer.open({
+            type: 0,
+            icon: 2,
+
+            content: '请输入正确的手机号码',
+            shadeClose: true,
+            time: 2000
+        });
+        return;
+    }
+    if (!verifyCode) {
+        layer.open({
+            type: 0,
+            icon: 2,
+            content: '短信验证码不能为空',
+            shadeClose: true,
+            time: 2000
+        });
+        return
+    }
+    if (!password) {
+        layer.open({
+            type: 0,
+            icon: 2,
+            content: '密码不能为空',
+            shadeClose: true,
+            time: 2000
+        });
+        return
+    }
+    if(!confirmPassword){
+        layer.open({
+            type : 0,
+            icon : 2,
+            content : '请再次输入新密码确认',
+            shadeClose: true,
+            time: 2000
+        });
+    }
+
+    $.ajax({
+        url : '/login/reset-pwd',
+        type : 'post',
+        dataType : 'json',
+        data : {
+            mobile : mobile,
+            verifyCode : verifyCode,
+            password : password,
+            confirmPassword : confirmPassword
+        },
+        success : function(data){
+            if(data.flag <= 0){
+                layer.open({
+                    type : 0,
+                    icon : 2,
+                    content : data.msg,
+                    shadeClose: true,
+                    time: 2000
+                });
+            }else{
+                layer.alert(data.msg, function(){
+                    location.href = '/login/do-login';
                 });
 
             }

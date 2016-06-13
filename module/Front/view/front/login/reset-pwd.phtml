@@ -1,6 +1,4 @@
-<?php
-echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/account.css')
-?>
+<link rel="stylesheet" href="/dist/styles/main/account.css" media="screen" type="text/css" />
 
 <div class="logcont">
     <div class="w1000 clearfix">
@@ -15,7 +13,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                         </span>
 
                     <div class="inputBox">
-                        <input name="mobile" ng-model="curObj.mobile" placeholder="请输入手机号码" type="text"/>
+                        <input id="mobileNum" name="mobile" placeholder="请输入手机号码" type="text"/>
                     </div>
                     </p>
                 </div>
@@ -26,7 +24,7 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                         </span>
 
                     <div class="inputBox" style=" border: none;">
-                        <input ng-model="curObj.ValidCode" name="picVerifyCode" placeholder="请输入验证码"
+                        <input id="picVerifyCode" name="picVerifyCode" placeholder="请输入验证码"
                                style="width: 140px; border:solid 1px #ddd; margin-right:5px;" type="text" value=""/>
                         <img alt="点击切换"
                              onclick="this.src='/login/get-pic-verify-code?rnd=' + Math.random();"
@@ -41,16 +39,37 @@ echo $this->headLink()->appendStylesheet($this->basePath() . '/dist/styles/main/
                             短信验证码：
                         </span>
 
-                        <input class="input" placeholder="输入验证码" style="margin-left:-4px" type="text" name="verifyCode"
-                               ng-model="curObj.ValidDataCode"/>
-                        <a class="btn_getcode" id="btn_getcode" ng-click="checkSendFun()" href="javascript:;">发送验证码</a>
+                        <input class="input" placeholder="输入验证码" style="margin-left:-4px" type="text" name="verifyCode" id="verifyCode" />
+                        <a class="btn_getcode" id="btn_getcode" href="javascript:;">发送验证码</a>
 
                     </p>
                 </div>
                 <div class="xtj-cloum">
                     <p>
+                        <span> <b>*</b>
+                            新密码：
+                        </span>
+
+                    <div class="inputBox">
+                        <input name="password" id="password" placeholder="请输入新密码" type="password"/>
+                    </div>
+                    </p>
+                </div>
+                <div class="xtj-cloum">
+                    <p>
+                        <span> <b>*</b>
+                            新密码确认：
+                        </span>
+
+                    <div class="inputBox">
+                        <input name="confirm-password" id="confirm-password" placeholder="请再次输入新密码" type="password"/>
+                    </div>
+                    </p>
+                </div>
+                <div class="xtj-cloum">
+                    <p>
                         <span>&nbsp;</span>
-                        <input ng-click='submitFun()' type="button" class="submit" value="验证">
+                        <input type="button" class="submit" value="提交" id="reset-pwd-btn">
                         <a class="back" ui-sref="userLogin" href="/login/do-login">返回登录>></a>
                     </p>
                 </div>

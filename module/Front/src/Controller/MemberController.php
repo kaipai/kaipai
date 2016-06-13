@@ -45,12 +45,14 @@ class MemberController extends Front{
         $orderStatus = $this->queryData['orderStatus'];
         $where = new Where();
         $where->and->equalTo('MemberOrder.memberID', $this->memberInfo['memberID']);
+        $where->and->notEqualTo('MemberOrder.orderStatus', -1);
         if(!empty($orderStatus)){
             $where->and->equalTo('MemberOrder.orderStatus', $orderStatus);
         }
         if(!empty($search)){
-            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('a.orderID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
+            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.orderID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
         }
+
 
         $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
         $orders = $result['data'];
@@ -180,15 +182,11 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
-    public function logoutAction(){
-        try{
-            $session = new Session(self::FRONT_PLATFORM);
-            $session->clear();
-            setcookie('autoCode', '', strtotime('-1 year'), '/');
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-        }catch(\Exception $e){
-            return $this->response(ApiError::DATA_UPDATE_FAILED, ApiError::DATA_UPDATE_FAILED_MSG);
-        }
+    public function logOutAction(){
+        $session = new Session(self::FRONT_PLATFORM);
+        $session->clear();
+        setcookie('autoCode', '', time(), '/');
+        return $this->redirect()->toUrl('/login/do-login');
     }
 
     public function addInterestProductAction(){
@@ -339,6 +337,10 @@ class MemberController extends Front{
         $this->memberDeliveryModel->delete(array('memberDeliveryID' => $memberDeliveryID, 'memberID' => $this->memberInfo['memberID']));
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
+    }
+
+    public function settingsAction(){
+        return $this->view;
     }
 
 

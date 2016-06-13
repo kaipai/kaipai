@@ -11,6 +11,9 @@ use Zend\Http\Cookies;
 use Zend\Http\Header\SetCookie;
 
 class LoginController extends Front{
+    public function init(){
+        if(!empty($this->memberInfo) && in_array($this->actionName, array('do-login', 'reg'))) return $this->redirect()->toUrl('/member/order');
+    }
 
     public function doLoginAction(){
         if(empty($this->postData)) return $this->view;
@@ -18,6 +21,7 @@ class LoginController extends Front{
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
         $rememberMe = $this->postData['rememberMe'];
+
         if(empty($mobile) || empty($password)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
 
@@ -64,7 +68,7 @@ class LoginController extends Front{
         $data = array(
             'mobile' => $mobile,
             'verifyCode' => $verifyCode,
-            'expireTime' => time(),
+            'expireTime' => time() + 600,
         );
         $this->mobileVerifyCodeModel->insert($data);
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
@@ -128,8 +132,8 @@ class LoginController extends Front{
         if(empty($this->postData)) return $this->view;
         $mobile = $this->postData['mobile'];
         $verifyCode = $this->postData['verifyCode'];
-        $newPwd = $this->postData['newPwd'];
-        $confirmNewPwd = $this->postData['confirmNewPwd'];
+        $newPwd = $this->postData['password'];
+        $confirmNewPwd = $this->postData['confirmPassword'];
 
         if(empty($mobile) || empty($verifyCode) || empty($newPwd) || empty($confirmNewPwd)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
@@ -139,13 +143,22 @@ class LoginController extends Front{
         }
         $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
         if($verifyCode == $smsVeriyfCode){
-            $set = array(
-                'password' => $this->memberModel->genPassword($newPwd),
-            );
-            $this->memberModel->update($set, array('mobile' => $mobile));
+            try{
+                $set = array(
+                    'password' => $this->memberModel->genPassword($newPwd),
+                );
+                $this->memberModel->update($set, array('mobile' => $mobile));
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '密码重置成功, 请用新密码登录');
+            }catch (\Exception $e){
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '重置失败, 请重试');
+            }
+
+
+        }else{
+            return $this->response(ApiError::COMMON_ERROR, '手机验证码验证失败');
         }
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+
     }
 
     public function regSuccAction(){

@@ -72,7 +72,7 @@ class OrderController extends Front{
 
             }
 
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID));
         }catch (\Exception $e){
             $this->memberOrderModel->rollback();
 
@@ -80,7 +80,7 @@ class OrderController extends Front{
         }
 
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID));
+
     }
 
 
@@ -107,7 +107,7 @@ class OrderController extends Front{
         }catch (\Exception $e){
             $this->memberOrderModel->rollback();
 
-            return $this->response($e->getCode(), $e->getMessage())
+            return $this->response($e->getCode(), $e->getMessage());
         }
     }
 }

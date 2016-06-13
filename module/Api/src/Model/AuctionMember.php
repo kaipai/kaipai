@@ -29,7 +29,7 @@ class AuctionMember extends Model{
 
     public function getAuctionList($memberID){
         $select = $this->getSelect();
-        $select->columns(array('proxyPrice', 'myCurrPrice', 'status'));
+        $select->columns(array('proxyPrice', 'myCurrPrice', 'status', 'auctionMemberID'));
         $select->join(array('b' => 'Product'), 'AuctionMember.productID = b.productID');
         $select->join(array('c' => 'Store'), 'b.storeID = c.storeID', array('storeName', 'storeLogo'));
         $select->where(array('AuctionMember.memberID' => $memberID));

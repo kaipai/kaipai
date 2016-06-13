@@ -27,10 +27,11 @@
                         }
                     ?>
                 </ul>
-                <?php
-                    echo $this->render('/front/common/paginate', array('url' => '/member/interest-store?', 'pages' => $pages));
-                ?>
             </div>
+            <br style="clear:both;" />
+            <?php
+            echo $this->render('/front/common/paginate', array('url' => '/member/interest-store?', 'pages' => $pages));
+            ?>
         </div>
 
 

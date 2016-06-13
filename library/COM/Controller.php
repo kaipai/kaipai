@@ -110,7 +110,6 @@ class Controller extends AbstractActionController{
 
             }*/
             $autoCode = $_COOKIE['autoCode'];
-
             if(!empty($autoCode)){
                 $this->memberInfo = $this->memberInfoModel->select(array('autoCode' => $autoCode))->current();
             }else{
