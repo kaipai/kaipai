@@ -20,8 +20,13 @@ class AdController extends Admin{
 
         $data['total'] = $this->adModel->getCount($where);
 
-        $data['rows'] = $this->adModel->getList($where, "adID desc", $offset, $limit);
-
+        $rows = $this->adModel->getList($where, "adID desc", $offset, $limit);
+        foreach($rows as $k => $v){
+            $rows[$k]['position'] = BaseConst::$adPositions[$v['position']];
+            $rows[$k]['startTime'] = date('Y-m-d H:i:s', $v['startTime']);
+            $rows[$k]['endTime'] = date('Y-m-d H:i:s', $v['endTime']);
+        }
+        $data['rows'] = $rows;
         return $this->adminResponse($data);
     }
 
@@ -50,7 +55,8 @@ class AdController extends Admin{
         $adID = $this->postData['adID'];
         $set = $this->postData;
         $where = array('adID' => $adID);
-
+        if(!empty($set['startTime'])) $set['startTime'] = strtotime($set['startTime']);
+        if(!empty($set['endTime'])) $set['endTime'] = strtotime($set['endTime']);
         $this->adModel->update($set, $where);
         return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
@@ -60,7 +66,7 @@ class AdController extends Admin{
             'adID' => $this->postData['adID']
         );
 
-        $this->adModel->delete($where);
+        $this->adModel->update(array('isDel' => 1), $where);
         return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
     }
 

@@ -54,6 +54,7 @@ class MemberController extends Front{
         }
 
 
+
         $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
         $orders = $result['data'];
         foreach($orders as $k => $v){
@@ -274,29 +275,20 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
     }
 
-    public function setDeliveryTypeAction(){
-        $deliveryTypeID = $this->request->getPost('deliveryTypeID');
-        $deliveryNum = $this->request->getPost('deliveryNum');
-        $orderID = $this->request->getPost('orderID');
-        if(empty($deliveryTypeID) || empty($deliveryNum) || empty($orderID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
-
+    public function confirmDeliveryDoneAction(){
         $where = array(
             'memberID' => $this->memberInfo['memberID'],
-            'orderID' => $orderID,
+            'orderID' => $this->postData['orderID'],
+            'orderStatus' => 4,
         );
-        $existDelivery = $this->memberOrderDeliveryModel->select($where)->current();
-        $set = array(
-            'deliveryTypeID' => $deliveryTypeID,
-            'deliveryNum' => $deliveryNum
-        );
-        if(!empty($existDelivery)){
-            $this->memberOrderDeliveryModel->update($set, $where);
-        }else{
-            $data = array_merge($where, $set);
-            $this->memberOrderDeliveryModel->insert($data);
+        try{
+            $this->memberOrderModel->update(array('orderStatus' => 5), $where);
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
+        }catch (\Exception $e){
+            return $this->response(ApiError::COMMON_ERROR, '确认失败');
         }
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+
     }
 
     public function memberDeliveryListAction(){
@@ -340,10 +332,64 @@ class MemberController extends Front{
     }
 
     public function settingsAction(){
-        return $this->view;
+        if(empty($this->postData)) return $this->view;
+
+        try{
+            $this->memberInfoModel->update($this->postData, array('memberID' => $this->memberInfo['memberID']));
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
+        }catch (\Exception $e){
+            return $this->response(ApiError::COMMON_ERROR, '保存失败');
+        }
     }
 
+    public function updateMobileAction(){
+        $mobile = $this->postData['mobile'];
+        $verifyCode = $this->postData['verifyCode'];
 
+        if(empty($mobile) || empty($verifyCode)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
+        $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
+        if($verifyCode == $smsVeriyfCode){
+            try{
+                $this->memberModel->beginTransaction();
+                $this->memberModel->update(array('mobile' => $mobile), array('memberID' => $this->memberInfo['memberID']));
+                $this->memberInfoModel->update(array('mobile' => $mobile), array('memberID' => $this->memberInfo['memberID']));
+                $this->memberModel->commit();
+
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
+            }catch (\Exception $e){
+                $this->memberModel->rollback();
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '保存失败');
+            }
+
+
+
+        }else{
+            return $this->response(ApiError::COMMON_ERROR, '手机验证码验证失败');
+        }
+    }
+
+    public function updatePasswordAction(){
+        if(empty($this->postData['oldPwd']) || empty($this->postData['newPwd']) || empty($this->postData['confirmNewPwd'])) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+
+        $loginInfo = $this->memberModel->select(array('mobile' => $this->memberInfo['mobile'], 'password' => $this->memberModel->genPassword($this->postData['oldPwd'])))->current();
+        if(empty($loginInfo)) return $this->response(ApiError::COMMON_ERROR, '原密码错误');
+
+        if(strlen($this->postData['newPwd']) < 6) return $this->response(ApiError::PASSWORD_LT_SIX_WORDS, ApiError::PASSWORD_LT_SIX_WORDS_MSG);
+        if($this->postData['newPwd'] != $this->postData['confirmNewPwd']){
+            return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
+        }
+
+        try{
+            $this->memberModel->update(array('password' => $this->memberModel->genPassword($this->postData['newPwd'])), array('memberID' => $this->memberInfo['memberID']));
+
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
+
+        }catch (\Exception $e){
+            return $this->response(ApiError::COMMON_ERROR, '保存失败');
+        }
+
+    }
 
 
 
@@ -574,7 +620,6 @@ class MemberController extends Front{
         if(!empty($search)){
             $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('a.orderID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
         }
-
         $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
         $orders = $result['data'];
         foreach($orders as $k => $v){
@@ -591,11 +636,15 @@ class MemberController extends Front{
                 );
             }
         }
+
+        $deliveryTypes = $this->deliveryTypeModel->select()->toArray();
+
         $this->view->setVariables(array(
             'orders' => $orders,
             'pages' => $result['pages'],
             'orderStatus' => $orderStatus,
             'search' => $search,
+            'deliveryTypes' => $deliveryTypes
         ));
         return $this->view;
     }
@@ -660,6 +709,8 @@ class MemberController extends Front{
                 }
                 $productID = $where['productID'];
             }else{
+                $unitePayID = $this->memberOrderModel->genUnitePayID();
+                $product['unitePayID'] = $unitePayID;
                 $this->productModel->insert($product);
                 $productID = $this->productModel->getLastInsertValue();
             }
@@ -690,7 +741,7 @@ class MemberController extends Front{
             if(!empty($productInfo)){
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功', array('productID' => $productID));
             }else{
-                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('productID' => $productID));
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('productID' => $productID, 'unitePayID' => $unitePayID));
             }
 
         }catch (\Exception $e){
@@ -793,14 +844,41 @@ class MemberController extends Front{
     }
 
     public function publishProductAction(){
-        $productID = $this->queryData['productID'];
+        $productID = $this->postData['productID'];
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
         $productInfo = $this->productModel->select($where)->current();
         if(!empty($productInfo)){
             $this->productModel->update(array('startTime' => time(), 'endTime' => strtotime('+1 day'), 'auctionStatus' => 2), $where);
         }
-        return $this->redirect()->toUrl('/member/product');
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '上架成功');
     }
 
+    public function withdrawProductAction(){
+        $productID = $this->postData['productID'];
+        $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
+        $productInfo = $this->productModel->select($where)->current();
+        if(!empty($productInfo)){
+            $this->productModel->update(array('auctionStatus' => new Expression('null')), $where);
+        }
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '下架成功');
+    }
 
+    public function confirmDeliveryInfoAction(){
+        $haveDelivery = $this->postData['haveDelivery'];
+        $deliveryType = $this->postData['deliveryType'];
+        $deliveryNum = $this->postData['deliveryNum'];
+        $orderID = $this->postData['orderID'];
+        if($haveDelivery && (empty($deliveryType) || empty($deliveryNum))) return $this->response(ApiError::COMMON_ERROR, '请填写物流信息');
+        try{
+            $this->memberOrderModel->beginTransaction();
+            $this->memberOrderDeliveryModel->update(array('deliveryTypeID' => $deliveryType, 'deliveryNum' => $deliveryNum), array('orderID' => $orderID));
+            $this->memberOrderModel->update(array('orderStatus' => 4), array('orderStatus' => 3, 'orderID' => $orderID, 'storeID' => $this->_storeInfo['storeID']));
+            $this->memberOrderModel->commit();
+
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
+        }catch (\Exception $e){
+            $this->memberOrderModel->rollback();
+            return $this->response(ApiError::COMMON_ERROR, '保存失败');
+        }
+    }
 }

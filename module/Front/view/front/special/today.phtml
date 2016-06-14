@@ -6,10 +6,9 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
 <div id="flashBg" style="background-color:#5d5f5c;">
     <div id="flashLine">
         <div id="flash">
-            <a href="" target="_blank" id="flash1" style="display: block; "><img src="images/banner_pw.jpg"
-                                                                                 height="370"></a>
-            <a href="" target="_blank" id="flash2" style="display: none; "><img src="images/banner_pw.jpg" height="370"></a>
-            <a href="" target="_blank" id="flash3" style="display: none; "><img src="images/banner_pw.jpg" height="370"></a>
+            <a href="" target="_blank" id="flash1" style="display: block; "><img src="/he/images/banner_pw.jpg" height="370"></a>
+            <a href="" target="_blank" id="flash2" style="display: none; "><img src="/he/images/banner_pw.jpg" height="370"></a>
+            <a href="" target="_blank" id="flash3" style="display: none; "><img src="/he/images/banner_pw.jpg" height="370"></a>
 
             <div class="flash_bar">
                 <div class="dq" id="f1" onclick="changeflash(1)"></div>
@@ -27,15 +26,20 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
 
 <div class="exc_rank spe_title">
     <div class="wrap2">
-        <span class="spe_name">进入专场分类</span> | <a href=""><font>●</font> 国画</a><a href=""><font>●</font> 国画</a><a
-            href=""><font>●</font> 国画</a><a href=""><font>●</font> 国画</a><a href=""><font>●</font> 国画</a><a
-            href=""><font>.</font> 国画</a>
+        <span class="spe_name">进入专场分类</span> |
+        <?php
+        foreach($_categories as $v){
+        ?>
+            <a href="/product/index?specialProductCategoryID=<?php echo $v['productCategoryID']; ?>"><font>●</font><?php echo $v['categoryName']; ?></a>
+
+        <?php
+        }
+        ?>
     </div>
 </div>
 <div class="spe_name_list">
     <div class="wrap2">
-        <div class="spe_name_l"><a href="">今日专场<i></i></a><a href="">明日专场<i></i></a><a href=""
-                                                                                       class="active">正在预展<i></i></a>
+        <div class="spe_name_l"><a href="/special/today" class="<?php if($filter == 'today'){ echo 'active'; } ?>">今日专场<i></i></a><a href="/special/today?filter=tomorrow" class="<?php if($filter == 'tomorrow'){ echo 'active'; } ?>">明日专场<i></i></a><a href="/special/today?filter=on" class="<?php if($filter == 'on'){ echo 'active'; } ?>">正在预展<i></i></a>
         </div>
         <div class="spe_name_r"><img src="images/banner_pw.jpg" height="120"></div>
     </div>
@@ -43,200 +47,79 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
 <div class="wrap4">
     <div class="spe_con">
         <div class="spe_con_l">
-            <dl class="spe_con_list">
-                <dd>
-                    <h4><a href="">近现代书画家超值专场</a></h4>
+            <?php
+                foreach($specials as $v){
+            ?>
+                    <dl class="spe_con_list">
+                        <dd>
+                            <h4><a href=""><?php  echo $v['specialName']?></a></h4>
 
-                    <p class="spe_str"><span>选送商家</span> 消息画廊</p>
+                            <p class="spe_str"><span>选送商家</span><?php echo $v['storeName'] ?></p>
 
-                    <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
-                    <ul class="mt20">
-                        <li class="spe_pri"><span>658</span><br/>次围观</li>
+                            <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
+                            <ul class="mt20">
+                                <li class="spe_pri"><span><?php echo $v['interestedCount'] ?></span><br/>次围观</li>
 
-                    </ul>
-                </dd>
-                <dt><img src="images/p_icon.gif" height="260" width="570"></dt>
+                            </ul>
+                        </dd>
+                        <dt><img src="<?php echo $v['specialImg'] ?>" height="260" width="570"></dt>
+                    </dl>
+            <?php
+                }
+            ?>
+            <dl class="">
+                <?php echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/special/today?filter=' . $filter . '&specialProductCategoryID=' . $specialProductCategoryID . '&')); ?>
+
             </dl>
-
-            <dl class="spe_con_list">
-                <dd>
-                    <h4><a href="">近现代书画家超值专场</a></h4>
-
-                    <p class="spe_str"><span>选送商家</span> 消息画廊</p>
-
-                    <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
-                    <ul class="mt20">
-                        <li class="spe_pri"><span>658</span><br/>次围观</li>
-
-                    </ul>
-                </dd>
-                <dt><img src="images/p_icon.gif" height="260" width="570"></dt>
-            </dl>
-
-            <dl class="spe_con_list">
-                <dd>
-                    <h4><a href="">近现代书画家超值专场</a></h4>
-
-                    <p class="spe_str"><span>选送商家</span> 消息画廊</p>
-
-                    <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
-                    <ul class="mt20">
-                        <li class="spe_pri"><span>658</span><br/>次围观</li>
-
-                    </ul>
-                </dd>
-                <dt><img src="images/p_icon.gif" height="260" width="570"></dt>
-            </dl>
-
-
-            <dl class="spe_con_list">
-                <dd class="ztCalss2">
-                    <h4><a href="">近现代书画家超值专场</a></h4>
-
-                    <p class="spe_str"><span>选送商家</span> 消息画廊</p>
-
-                    <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
-                    <ul class="mt20">
-                        <li class="spe_pri"><span>658</span><br/>次围观</li>
-
-                    </ul>
-                </dd>
-                <dt><img src="images/p_icon.gif" height="260" width="570"></dt>
-            </dl>
-
         </div>
         <div class="spe_con_r">
             <h3 class="spe_r_t">热推店铺街</h3>
 
             <div class="spe_r_con">
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <dl>
-                    <dt><a href="">易正娥 &nbsp;&nbsp;></a></dt>
-                    <dd>授权专营名家书法</dd>
-                </dl>
-                <p class="spe_r_more"><a href="">更多热铺 ...</a></p>
+                <?php
+                foreach($stores as $v){
+                    ?>
+                    <dl>
+                        <dt><a href="/store/detail?storeID=<?php echo $v['storeID']; ?>"><?php echo $v['storeName']; ?> &nbsp;&nbsp;></a></dt>
+                        <dd><?php echo $v['storeSignature']; ?></dd>
+                    </dl>
+                <?php
+                }
+                ?>
+                <?php ?>
+                <p class="spe_r_more"><a href="/store/index">更多热铺 ...</a></p>
             </div>
         </div>
     </div>
-    <div class="page"><a href="" class="page_next"><</a><a href="">1</a><a href="">2</a><a href="">3</a><a href="">4</a><a
-            href="">5</a> ........... <a href="" class="page_next">></a> &nbsp;<span>共21页 到<input type="text"
-                                                                                                  class="spe_in"> 页 <button
-                class="spe_page_btn">确定
-            </button></span></div>
+
 </div>
 <div class="wrap4">
     <div class="wrap2">
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">当前价 <span>￥1600</span></li>
-            <li class="lh32">距结束 8小时30分20秒</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong>68</strong><br/>次围观</font></li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">当前价 <span>￥1600</span></li>
-            <li class="lh32">距结束 8小时30分20秒</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong>68</strong><br/>次围观</font></li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">当前价 <span>￥1600</span></li>
-            <li class="lh32">距结束 8小时30分20秒</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong>68</strong><br/>次围观</font></li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">当前价 <span>￥1600</span></li>
-            <li class="lh32">距结束 8小时30分20秒</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong>68</strong><br/>次围观</font></li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
-            <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
-            </li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
-            <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
-            </li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
-            <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
-            </li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
-            <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
-            </li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
-            <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
-            </li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
-            <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
-            </li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
-            <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
-            </li>
-        </ul>
-        <ul class="exc_list mt20">
-            <li class="lh32"><a href="">民国 李恩济 《多子图》</a></li>
-            <li class="lh32">起拍价 <span class="exc_q">￥1600</span></li>
-            <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-            <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
-            </li>
-        </ul>
+        <?php
+            foreach($recommendProducts as $v){
+                if($v['auctionStatus'] == 2){
+        ?>
+                <ul class="exc_list mt20">
+                    <li class="lh32"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"><?php echo $v['productName'] ?></a></li>
+                    <li class="lh32">当前价 <span>￥<?php echo $v['currPrice'] ?></span></li>
+                    <li class="lh32">距结束 8小时30分20秒</li>
+                    <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong><?php echo $v['interestedCount'] ?></strong><br/>次围观</font></li>
+                </ul>
+        <?php
+                }elseif($v['auctionStatus'] == 1){
+        ?>
+                    <ul class="exc_list mt20">
+                        <li class="lh32"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"><?php echo $v['productName'] ?></a></li>
+                        <li class="lh32">起拍价 <span class="exc_q">￥<?php echo $v['currPrice'] ?></span></li>
+                        <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
+                        <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
+                        </li>
+                    </ul>
+
+        <?php
+                }
+            }
+        ?>
     </div>
 
 </div>
@@ -253,5 +136,42 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
             clickInput:true
         });
 
+    });
+
+    var currentindex=1;
+    $("#flashBg").css("background-color",$("#flash1").attr("name"));
+    function changeflash(i){
+        currentindex=i;
+        for(j=1;j<=3;j++){
+            if(j==i){
+                $("#flash"+j).fadeIn("normal");
+                $("#flash"+j).css("display","block");
+                $("#f"+j).removeClass();
+                $("#f"+j).addClass("dq");
+                $("#flashBg").css("background-color",$("#flash"+j).attr("name"));
+            }else{
+                $("#flash"+j).css("display","none");
+                $("#f"+j).removeClass();
+                $("#f"+j).addClass("no");
+            }
+        }
+    }
+    function startAm(){
+        timerID = setInterval("timer_tick()",3000);
+    }
+    function stopAm(){
+        clearInterval(timerID);
+    }
+    function timer_tick(){
+        currentindex=currentindex>=3?1:currentindex+1;
+        changeflash(currentindex);
+    }
+    $(document).ready(function(){
+        $(".flash_bar div").mouseover(function(){
+            stopAm();
+        }).mouseout(function(){
+            startAm();
+        });
+        startAm();
     });
 </script>

@@ -14,7 +14,7 @@ class ProductController extends Front{
         $productCategoryID = $this->queryData['productCategoryID'];
         $categoryInfo = $this->productCategoryModel->select(array('productCategoryID' => $productCategoryID))->current();
         $options = $this->productCategoryFilterOptionModel->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
-        $stores = $this->storeModel->select()->toArray();
+        $stores = $this->storeModel->getHotStores(1, 20);
 
         $leftAds = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_PRODUCT_LIST_LEFT);
         $rightAds = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_PRODUCT_LIST_RIGHT);
@@ -22,7 +22,7 @@ class ProductController extends Front{
         $this->view->setVariables(array(
             'categoryInfo' => $categoryInfo,
             'options' => $options,
-            'stores' => $stores,
+            'stores' => $stores['data'],
             'leftAds' => $leftAds,
             'rightAds' => $rightAds,
             'search' => $search,

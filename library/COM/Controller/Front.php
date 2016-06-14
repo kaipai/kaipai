@@ -34,7 +34,7 @@ class Front extends Controller{
         foreach($tmp as $v){
             $siteSettings[$v['settingName']] = $v['settingValue'];
         }
-
+        $this->siteSettings = $siteSettings;
         $this->layout()->setVariables(array(
             '_memberInfo' => $this->memberInfo,
             '_categories' => $categories,

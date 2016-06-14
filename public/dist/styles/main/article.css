@@ -1,0 +1,129 @@
+@charset "UTF-8";
+.body{ font-family: "微软雅黑";font-size: 18px}
+.c{ clear: both;}
+.mySpace{ position: relative;font-size: 18px}
+.spaceBanner{background:#f0eee2 url(../images/sp_03.jpg) no-repeat center top;overflow: hidden; height: 230px }
+.spacename{padding-top: 118px;/* padding-left: 33px; */font-size: 40px; color: #fff}
+.spacetip{ font-size: 20px;/* padding-left: 33px; */color: #fff; margin-top: 16px}
+.space_bti{padding-top: 10px;padding-bottom: 10px;overflow: hidden;}
+.space_bti ul li{ float: left;  width: 126px; font-size: 20px}
+.space_bti ul li.space_img{position: absolute;  width: 214px; height: 214px;left: 492px;top: -168px; border-radius: 100%;border: 1px solid #fff;}
+.space_dp{position: absolute; background: #ee8102; width: 88px; height: 30px; line-height: 30px; text-align: center; color: #fff; border-radius: 6px;z-index: 2;top: 175px;}
+.space_bti ul li.space_img img{ width: 100%; height: 100%;border-radius: 100%;border: 1px solid #fff;}
+.space_bti{ position: relative;/* padding-bottom: 20px */}
+.space_gz{ margin-left: 190px}
+.ff7519{ color: #ff7519}
+.spacecont{background:#f0eee2; padding-bottom: 30px }
+.space_wz3{ background: #fff; border: 1px solid #8a857f; overflow: hidden; margin-top: 30px;padding-left: 14px;padding-right: 14px; padding-bottom: 50px; min-height: 1000px}
+.space_wz{ background: #fff; border: 1px solid #8a857f; overflow: hidden;/* margin-top: 30px; */padding-left: 14px;padding-right: 14px; padding-bottom: 50px}
+.space_wz2{background: #fff; border: 1px solid #8a857f; overflow: hidden; margin-top: 30px;padding-left: 14px;padding-right: 14px; padding-bottom: 10px}
+.space_li1{ padding-left: 14px; /* overflow: hidden; */ padding-bottom: 14px;position: relative;}
+.space_li{ padding-left: 14px; border-bottom: 1px  dashed #8a857f;/* overflow: hidden; */ padding-bottom: 14px;position: relative;/* padding-left: 14px; */}
+.space_title{}
+.space_title_left{ float: left;   padding-top: 30px;padding-left: 30px}
+.font30{ font-size: 30px}
+.font16{ font-size: 18px; margin-left: 30px}
+.space_title_right{ float: right; width: 338px;height: 70px; background: #eeeef0;padding-right: 14px;position: absolute;right: -14px;}
+.space_title_right ul li{ float: left;margin-top: 40px; padding-left:14px;padding-right: 14px; border-right:1px solid #8a857f;}
+.space_title_right ul li.space_title_del,.space_zzai ul li.space_zzai_del{ border-right:0px}
+.space_conts{margin-top: 30px;padding-left: 30px; padding-right: 30px}
+.space_conts p{  text-indent: 2em; line-height: 28px}
+.space_zzai{ overflow: hidden;}
+.space_zzai ul li{ float: left; margin-top: 30px; padding-left: 10px; padding-right: 10px;border-right:1px solid #8a857f;}
+.space_zzai ul li.space_scxm{background:url(../images/x_03.jpg) no-repeat center left; padding-left: 30px}
+.space_lookall{ float: right;margin-top: 30px;}
+.space_imgsc{overflow: hidden; margin-top: 20px}
+.space_imgsc ul li{ float: left; width: 136px; height: 136px; margin-right: 20px}
+.space_imgsc ul li img{ width: 100%; height: 100%}
+.space_title_right1{ float: right; width: 238px;height: 70px;padding-right: 14px;position: absolute;right: -14px;}
+.space_title_right1 ul li{ float: left;margin-top: 40px; padding-left:14px;padding-right: 14px; border-right:1px solid #8a857f;}
+.space_title_right1 ul li.space_title_del{ border-right:0px}
+.space_zzai ul li.space_love{ background:url(../images/x_03.jpg) no-repeat  scroll 10px center !important; padding-left: 40px}
+.colred a{color: #922221!important}
+.space_zzai ul li.space_title_del{border-right:0px}
+.space_lim{border-bottom: 0px;}
+.space_comment{ margin-top: 14px; overflow: hidden;}
+.space_comment_left{ float: left; width:1014px }
+.space_tex{ width:1014px; height: 140px; border:1px solid #8a857f; background: #fffdee; padding:10px}
+.space_comment_right{ float: left; width: 108px; margin-left: 14px}
+.space_fbcom{ background: #87c4bd; color: #fff; text-align: center;line-height:38px; color: #fff; margin-top:100px; cursor: pointer;}
+.space_cominfo{overflow: hidden;border-bottom: 1px dashed #8a857f;padding: 20px 40px}
+.space_cominfo_left{ float: left; width: 910px }
+.space_cominfo_right{ float: right; width: 150px}
+.space_cominfo_name{ font-size: 20px; color: #000}
+.space_cominfo_nr{ margin-top: 20px}
+.space_cominfo_right ul li{ float: left; padding-left: 10px; padding-right: 10px; border-right:1px solid #8a857f;}
+.space_cominfo_right ul li.space_no{border-right:0px;}
+.space_pinlun{ margin-top: 20px}
+.space_fbwz{ background: #800000; color: #fff; padding-left:14px; line-height: 40px ; margin-top: 20px}
+.space_bioti{ margin-top: 30px}
+.space_bioti input{ margin-left: 20px; width: 640px; height: 30px;line-height: 30px; padding-left: 10px}
+.space_xuzbtn{ margin-left: 20px; padding: 2px 8px;  background: #a14844; color: #fff}
+.space_xuz{ margin-top: 40px}
+.space_tixing{ margin-left: 10px; font-size: 16px}
+.wysiwyg {width: 1200px !important;height: 400px;margin-top: 20px}
+.space_btn{ margin-top: 20px}
+.space_yulanbtn{ background: #ac5f59; color: #fff; padding: 6px 14px; cursor: pointer;}
+.space_surebtn{background: #800000; color: #fff; padding: 6px 14px;cursor: pointer; margin-left: 30px; }
+.permyimg{ margin-top:40px;overflow: hidden; min-height: 600px}
+.permyimg_left{ float: left; margin-right: 100px}
+.permyimg_left img{ width: 200px; height: 200px; border: 1px solid #fff; border-radius: 100%}
+.permyimg_right{ float: left; width: 890px}
+.pro_name ul li{ float: left; width: 440px; line-height: 40px; color: #000}
+.pro_name ul li span.pro_na{ margin-left: 40px; color: #666}
+.pro_name ul li.pro_na1{ background:url(../images/go_03.jpg) no-repeat  scroll 160px center }
+.pro_zs{ margin-top: 80px; color: #000}
+.pro_zscont{ line-height: 30px; margin-top: 10px}
+.space_top{
+	background: #a8a7a2;
+	height: 42px;
+	
+}
+.space_top1{
+	color: #fff;
+	font-size: 18px;
+	font-family:"Microsoft YaHei";
+	line-height: 42px;
+
+}
+.space_top2{
+	font-size: 20px;
+	font-family:"Microsoft YaHei";
+	line-height: 42px;
+
+
+}
+.space_top2:hover{
+
+	color:#96302e;
+
+}
+
+.space_top3{
+
+	color:#96302e;
+
+}
+.space_top4{
+	
+	font-size: 20px;
+	font-family:"Microsoft YaHei";
+	line-height: 42px;
+
+}
+.space_top4:hover{
+
+	color:#96302e;
+
+}
+
+.space_top5{
+	
+float: left;
+}
+
+.space_top6{
+	
+float: right;
+}
+

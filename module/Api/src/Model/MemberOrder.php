@@ -6,9 +6,11 @@ class MemberOrder extends Model{
 
     public function getOrderList($where, $page, $limit){
         $select = $this->getSelect();
-        $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName'))
+        $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName', 'mobile'))
                 ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice'))
+                ->join(array('g' => 'MemberPayDetail'), 'MemberOrder.finalUnitePayID = g.unitePayID', array('finalPayMoney' => 'payMoney'))
                 ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
+                ->join(array('f' => 'Customization'), 'MemberOrder.customizationID = f.customizationID', array('productName' => 'title'))
                 ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName', 'storeLogo'), 'left')
                 ->where($where);
         $paginator = $this->paginate($select);
@@ -16,7 +18,8 @@ class MemberOrder extends Model{
         $paginator->setItemCountPerPage($limit);
         $data = $paginator->getCurrentItems()->getArrayCopy();
         $pages = $paginator->getPages();
-        return array('data' => $data, 'pages' => $pages);
+        $total = $paginator->getTotalItemCount();
+        return array('data' => $data, 'pages' => $pages, 'total' => $total);
 
     }
 

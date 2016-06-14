@@ -26,6 +26,7 @@ class Controller extends AbstractActionController{
     protected $limit;
     protected $order;
     protected $sort;
+    protected $siteSettings;
     const FRONT_PLATFORM = 'FRONT';
     const ADMIN_PLATFORM = 'ADMIN';
 
@@ -56,7 +57,6 @@ class Controller extends AbstractActionController{
         }elseif(!empty($this->offset)){
             $this->pageNum = ($this->offset + $this->limit) / $this->limit;
         }
-
 
         $this->order = $this->postData['order'];
         $this->sort = $this->postData['sort'];

@@ -15,7 +15,7 @@ class Special extends Model{
     public function getSpecials($where, $page, $limit){
         $select = $this->getSelect();
         $select->join(array('b' => 'ProductCategory'), 'Special.specialProductCategoryID = b.productCategoryID', array('categoryName'));
-        $select->join(array('c' => 'Store'), 'Special.storeID = c.storeID', array('storeName'));
+        $select->join(array('c' => 'Store'), 'Special.storeID = c.storeID', array('storeName', 'storeLogo'));
 
         $select->where($where);
 

@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="/dist/styles/main/article.css">
+<div class="mySpace">
+    <div class="space_top">
+        <div  class="center space_top1">
+            <span>首页 &nbsp&nbsp></span>
+            <span>文章列表</span>
+        </div>
+    </div>
+    <div class="spacecont">
+        <div class="center space_bti ">
+            <div class="space_top5">
+                <span class="space_top2" style="cursor: pointer;" onclick="location.href='/article/index';">全部文章</span>
+                <span>丨</span>
+                <?php
+                    foreach($articleCategories as $v){
+                ?>
+                        <span class="space_top2" style="cursor: pointer;" onclick="location.href='/article/index?articleCategoryID=<?php echo $v['articleCategoryID']; ?>'"><?php echo $v['categoryName'] ?>·</span>
+                <?php
+                    }
+                ?>
+            </div >
+            <div class="space_top6">
+                <span class="top4 space_top4" style="cursor:pointer;" onclick="location.href='/article/index?articleCategoryID=<?php echo $articleCategoryID ?>&display=preview'">预览显示丨</span>
+                <span class="top4 space_top4" style="cursor:pointer;" onclick="location.href='/article/index?articleCategoryID=<?php echo $articleCategoryID ?>&display=list'">列表显示丨</span>
+                <span class="top4 space_top4">网站报错</span>
+            </div>
+        </div>
+        <div class="center">
+            <div class="space_wz">
+                <?php
+                    if($display == 'preview'){
+                        foreach($articles as $v){
+                ?>
+
+                            <div class="space_li">
+                                <div class="space_title">
+                                    <div class="space_title_left"><span class="font30"><?php echo $v['articleName'] ?></span><span class="font16">（<?php echo $v['instime'] ?>）</span></div>
+                                    <div class="space_lookall"><a href="/article/detail?articleID=<?php echo $v['articleID'] ?>">查看全文>></a></div>
+                                </div>
+                                <div class="c"></div>
+                                <div class="space_conts">
+                                    <p>
+                                        <?php echo $v['articleContent']; ?>
+                                    </p>
+                                </div>
+                            </div>
+
+
+
+                <?php
+                        }
+                ?>
+
+                <?php
+                    }elseif($display == 'list'){
+                        foreach($articles as $v){
+                ?>
+                        <div class="space_li">
+                            <div class="space_title">
+                                <div class="space_title_left"><span class="font30"><?php echo $v['articleName'] ?></span><span class="font16">（<?php echo $v['instime'] ?>）</span></div>
+                                <div class="space_lookall"><a href="/article/detail?articleID=<?php echo $v['articleID'] ?>">查看全文>></a></div>
+                            </div>
+                            <div class="c"></div>
+                        </div>
+                <?php
+                        }
+                    }
+                ?>
+            </div>
+            <?php echo $this->render('/front/common/paginate', array('url' => '/article/index?articleCategoryID=' . $articleCategoryID . '&display=' . $display . '&')); ?>
+        </div>
+    </div>
+</div>

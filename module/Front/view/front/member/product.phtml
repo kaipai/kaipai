@@ -77,15 +77,20 @@
                             </div>
                             <div class="kp_bj">
                                 <span>
-                                    <a href="/member/publish-product?productID=<?php echo $v['productID'] ?>">
-                                        <?php
-                                            if($v['publishStatus'] == 1){
-                                                echo '下架';
-                                            }else{
-                                                echo '上架';
-                                            }
-                                        ?>
-                                    </a>
+
+                                    <?php
+                                        if($v['auctionStatus'] == 2){
+                                    ?>
+                                            <a href="javascript:;" class="withdraw-product-btn" product-id="<?php echo $v['productID'] ?>">下架</a>
+                                    <?php
+
+                                        }elseif($v['auctionStatus'] == 1 || empty($v['auctionStatus'])){
+                                    ?>
+                                            <a href="javascript:;" class="publish-product-btn" product-id="<?php echo $v['productID'] ?>">上架</a>
+                                    <?php
+                                        }
+                                    ?>
+
                                 </span>
                                 <span class="kp_bjsc">
                                     <a is-store-recommend="<?php echo $v['isStoreRecommend']; ?>" href="javascript:;" class="store-recommend-product store-recommend-product-<?php echo $v['productID'] ?>" product-id="<?php echo $v['productID'] ?>"><?php
@@ -97,7 +102,7 @@
                                         ?></a>
                                 </span>
                             </div>
-                            <div class="kp_bj"><a href="javascript:;" class="choose-auction-time">选择拍卖时间>></a></div>
+                            <div class="kp_bj"><a start-time-year="<?php echo $v['startTimeYear'] ?>" start-time-month="<?php echo $v['startTimeMonth'] ?>" start-time-hour="<?php echo $v['startTimeHour'] ?>" start-time-minute="<?php echo $v['startTimeMin'] ?>" end-time-year="<?php echo $v['v'] ?>" end-time-month="<?php echo $v['endTimeMonth'] ?>" end-time-hour="<?php echo $v['endTimeHour'] ?>" end-time-minute="<?php echo $v['endTimeMin'] ?>" href="javascript:;" class="choose-auction-time" product-id="<?php echo $v['productID'] ?>">选择拍卖时间>></a></div>
                         </div>
                     </div>
             <?php
@@ -107,9 +112,12 @@
                 echo $this->render('/front/common/paginate', array('url' => '/member/product?', 'pages' => $pages));
             ?>
             <!-- 定时上架 -->
-            <div class="kp_time">
-                <?php echo $this->render('time'); ?>
-                <p class="kp_tsinfo1">注：自由拍卖时间不超过24小时</p>
+            <div class="hide" id="auction-time-select">
+                <div class="kp_time">
+                    <?php echo $this->render('time'); ?>
+                    <input type="button" class="choose-auction-time-confirm-btn layer-submit" value="提交" />
+                    <p class="kp_tsinfo1">注：自由拍卖时间不超过24小时</p>
+                </div>
             </div>
         </div>
     </div>
@@ -226,6 +234,171 @@
                     layer.alert(data.msg);
                 }
             });
+        });
+
+        $('.choose-auction-time').on('click', function(){
+            layer.open({
+                title:'选择拍卖时间',
+                type: 1,
+                content: $('#auction-time-select').html()
+            });
+            var productID = $(this).attr('product-id');
+            var startTimeYear = $(this).attr('start-time-year');
+            var startTimeMonth = $(this).attr('start-time-month');
+            var startTimeDay = $(this).attr('start-time-day');
+            var startTimeHour = $(this).attr('start-time-hour');
+            var startTimeMinute = $(this).attr('start-time-minute');
+            var endTimeYear = $(this).attr('start-time-year');
+            var endTimeMonth = $(this).attr('start-time-month');
+            var endTimeDay = $(this).attr('start-time-day');
+            var endTimeHour = $(this).attr('start-time-hour');
+            var endTimeMinute = $(this).attr('start-time-minute');
+            $('.choose-auction-time-confirm-btn:visible').attr('product-id', productID);
+            if(startTimeYear) $('.layer-start-time-year:visible').val(startTimeYear);
+            if(startTimeMonth) $('.layer-start-time-month:visible').val(startTimeMonth);
+            if(startTimeDay) $('.layer-start-time-day:visible').val(startTimeDay);
+            if(startTimeHour) $('.layer-start-time-hour:visible').val(startTimeHour);
+            if(startTimeMinute) $('.layer-start-time-minute:visible').val(startTimeMinute);
+            if(endTimeYear) $('.layer-end-time-year:visible').val(endTimeYear);
+            if(endTimeMonth) $('.layer-end-time-year:visible').val(endTimeMonth);
+            if(endTimeDay) $('.layer-end-time-year:visible').val(endTimeDay);
+            if(endTimeHour) $('.layer-end-time-year:visible').val(endTimeHour);
+            if(endTimeMinute) $('.layer-end-time-year:visible').val(endTimeMinute);
+        });
+        $('#choose-auction-time-batch').on('click', function(){
+            var checkedProducts = $('.product-item:checked');
+            if(!checkedProducts.length){
+                layer.alert('请选择拍品');
+                return false;
+            }
+
+            layer.open({
+                title:'选择拍卖时间',
+                type: 1,
+                content: $('#auction-time-select').html()
+            });
+
+            var productID = new Array();
+            var tmp;
+            checkedProducts.each(function(){
+                tmp = $(this).attr('product-id');
+                productID.push(tmp);
+            });
+            productID.join(',');
+            $('.choose-auction-time-confirm-btn:visible').attr('product-id', productID);
+
+        });
+
+        $(document).on('click', '.choose-auction-time-confirm-btn:visible', function(){
+            var data = {};
+            data.productID = $(this).attr('product-id');
+            data.productID = data.productID.split(',');
+            var auctionStartTimeYear = $('.layer-start-time-year:visible').val();
+            var auctionStartTimeMonth = $('.layer-start-time-month:visible').val();
+            var auctionStartTimeDay = $('.layer-start-time-day:visible').val();
+            var auctionStartTimeHour = $('.layer-start-time-hour:visible').val();
+            var auctionStartTimeMinute = $('.layer-start-time-minute:visible').val();
+            data.startTime = auctionStartTimeYear + '-' + auctionStartTimeMonth + '-' + auctionStartTimeDay + ' ' + auctionStartTimeHour + ':' + auctionStartTimeMinute + ':00';
+            var auctionEndTimeYear = $('.layer-end-time-year:visible').val();
+            var auctionEndTimeMonth = $('.layer-end-time-month:visible').val();
+            var auctionEndTimeDay = $('.layer-end-time-day:visible').val();
+            var auctionEndTimeHour = $('.layer-end-time-hour:visible').val();
+            var auctionEndTimeMinute = $('.layer-end-time-minute:visible').val();
+            data.endTime = auctionEndTimeYear + '-' + auctionEndTimeMonth + '-' + auctionEndTimeDay + ' ' + auctionEndTimeHour + ':' + auctionEndTimeMinute + ':00';
+
+            $.ajax({
+                url : '/member/save-product',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        function publishProducts(productID){
+            var data = {};
+            data.productID = productID;
+            $.ajax({
+                url : '/member/publish-product',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        }
+        function withDrawProducts(productID){
+            var data = {};
+            data.productID = productID;
+            $.ajax({
+                url : '/member/publish-product',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        }
+        $('.publish-product-btn').on('click', function(){
+            var productID = $(this).attr('product-id');
+            publishProducts(productID);
+        });
+
+        $('.withdraw-product-btn').on('click', function(){
+            var productID = $(this).attr('product-id');
+            withDrawProducts(productID);
+        });
+
+        $('#publish-products-batch').on('click', function(){
+            var checkedProducts = $('.product-item:checked');
+            if(!checkedProducts.length){
+                layer.alert('请选择拍品');
+                return false;
+            }
+            var productID = new Array();
+            var tmp;
+            checkedProducts.each(function(){
+                tmp = $(this).attr('product-id');
+                productID.push(tmp);
+            });
+            publishProducts(productID);
+        });
+
+        $('#withdraw-products-batch').on('click', function(){
+            var checkedProducts = $('.product-item:checked');
+            if(!checkedProducts.length){
+                layer.alert('请选择拍品');
+                return false;
+            }
+            var productID = new Array();
+            var tmp;
+            checkedProducts.each(function(){
+                tmp = $(this).attr('product-id');
+                productID.push(tmp);
+            });
+            withDrawProducts(productID);
         });
 
     })

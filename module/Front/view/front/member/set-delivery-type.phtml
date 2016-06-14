@@ -1,0 +1,23 @@
+<div id="set-delivery-type-div" class="hide">
+    <div class="loginPop fr">
+        <form method="post">
+            <span style="color: red;"></span>
+            <input type="radio" name="have-delivery" checked value="1" />
+
+            <div class="selectBox">
+                <select name="delivery-type">
+                    <?php
+                        foreach($deliveryTypes as $v){
+                    ?>
+                            <option value="<?php echo $v['deliveryTypeID'] ?>"><?php echo $v['typeName'] ?></option>
+                    <?php
+                        }
+                    ?>
+                </select>
+                <input name="delivery-num" placeholder="运单号码" type="text"/>
+            </div>
+            <input type="radio" name="have-delivery" value="0" />无需物流
+            <input type="button" class="submit confirm-delivery-btn" value="确认发货">
+        </form>
+    </div>
+</div>

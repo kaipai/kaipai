@@ -253,9 +253,9 @@
             <div class="mt20">
                 <span class="ind_jrzz bold">绑定手机</span>
                 <span class="ind_jrzz4 "><?php echo substr_replace($_memberInfo['mobile'], '******', 4) ?></span>
-                <span class="bold3" id="edit-mobile-btn">更改手机</span>
-                <span class="radios2"><input type="radio" <?php echo !empty($_memberInfo['mobileVisible']) ? 'checked' : '' ?> name="mobile-visible">公开显示  </span>
-                <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['mobileVisible']) ? 'checked' : '' ?> name="mobile-visible">仅互相关注后可见  </span>
+                <span class="bold3" id="edit-mobile-btn" style="cursor: pointer;">更改手机</span>
+                <span class="radios2"><input type="radio" <?php echo !empty($_memberInfo['mobileVisible']) ? 'checked' : '' ?> name="mobile-visible" value="1">公开显示  </span>
+                <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['mobileVisible']) ? 'checked' : '' ?> name="mobile-visible" value="0">仅互相关注后可见  </span>
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">登陆密码</span>
@@ -267,22 +267,22 @@
             <div class="mt20">
                 <span class="ind_jrzz bold">邮箱</span>
                 <input type="text" name="email"  class="ind_jrzz6 bold6" value="<?php echo $_memberInfo['email'] ?>">
-                <span class="radios33"><input type="radio" <?php echo !empty($_memberInfo['emailVisible']) ? 'checked' : '' ?> name="email-visible">公开显示  </span>
-                <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['emailVisible']) ? 'checked' : '' ?> name="email-visible">仅互相关注后可见  </span>
+                <span class="radios33"><input type="radio" <?php echo !empty($_memberInfo['emailVisible']) ? 'checked' : '' ?> name="email-visible" value="1">公开显示  </span>
+                <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['emailVisible']) ? 'checked' : '' ?> name="email-visible" value="0">仅互相关注后可见  </span>
 
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">QQ</span>
                 <input type="text" name="qq"  class="ind_jrzz6 bold6" value="<?php echo $_memberInfo['qq'] ?>">
-                <span class="radios33"><input type="radio" <?php echo !empty($_memberInfo['qqVisible']) ? 'checked' : '' ?> name="qq-visible">公开显示  </span>
-                <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['qqVisible']) ? 'checked' : '' ?> name="qq-visible">仅互相关注后可见  </span>
+                <span class="radios33"><input type="radio" <?php echo !empty($_memberInfo['qqVisible']) ? 'checked' : '' ?> name="qq-visible" value="1">公开显示  </span>
+                <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['qqVisible']) ? 'checked' : '' ?> name="qq-visible" value="0">仅互相关注后可见  </span>
 
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">微信</span>
-                <input type="text" name="textt"  class="ind_jrzz6 bold6">
-                <span class="radios33"><input type="radio" <?php echo !empty($_memberInfo['wechatVisible']) ? 'checked' : '' ?> name="wechat-visible">公开显示  </span>
-                <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['wechatVisible']) ? 'checked' : '' ?> name="wechat-visible">仅互相关注后可见  </span>
+                <input type="text" name="wechat"  class="ind_jrzz6 bold6">
+                <span class="radios33"><input type="radio" <?php echo !empty($_memberInfo['wechatVisible']) ? 'checked' : '' ?> name="wechat-visible" value="1">公开显示  </span>
+                <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['wechatVisible']) ? 'checked' : '' ?> name="wechat-visible" value="0">仅互相关注后可见  </span>
 
             </div>
             <div class="mt20">
@@ -307,6 +307,10 @@
 
     </div>
 </div>
+<?php
+    echo $this->render('edit-mobile');
+    echo $this->render('edit-password');
+?>
 <script>
     //图片上传预览    IE是用了滤镜。
     function previewImage2(file)
@@ -363,4 +367,85 @@
         param.top = Math.round((maxHeight - param.height) / 2);
         return param;
     }
+
+    $('#save-settings-btn').on('click', function(){
+        var data = {};
+        data.avatar = $('#imghead2').attr('src');
+        data.signature = $('input[name=signature]').val();
+        data.email = $('input[name=email]').val();
+        data.qq = $('input[name=qq]').val();
+        data.wechat = $('input[name=wechat]').val();
+        data.selfDesc = $('textarea[name=self-desc]').val();
+        data.mobileVisible = $('input[name=mobile-visible]:checked').val();
+        data.emailVisible = $('input[name=email-visible]:checked').val();
+        data.qqVisible = $('input[name=qq-visible]:checked').val();
+        data.wechatVisible = $('input[name=wechat-visible]:checked').val();
+        $.ajax({
+            url : '/member/settings',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(res){
+                layer.alert(res.msg);
+            }
+        });
+    });
+
+    $('#edit-mobile-btn').on('click', function(){
+        layer.open({
+            skin: 'loginBox',
+            title:'更改手机号',
+            type: 1,
+            content: $('#edit-mobile-div').html()
+        });
+        $('input[name=mobile]:visible').val('<?php echo $_memberInfo['mobile']; ?>');
+    });
+    $(document).on('click', '.edit-mobile-confirm-btn:visible', function(){
+        var data = {};
+        data.mobile = $('input[name=mobile]:visible').val();
+        data.verifyCode = $('input[name=verifyCode]:visible').val();
+
+        $.ajax({
+            url : '/member/update-mobile',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(response){
+                if(response.flag > 0){
+                    layer.alert(response.msg, function(){location.reload();});
+                }else{
+                    layer.alert(response.msg);
+                }
+            }
+        });
+    });
+    $('#edit-password-btn').on('click', function(){
+        layer.open({
+            skin: 'loginBox',
+            title:'更改手机号',
+            type: 1,
+            content: $('#edit-password-div').html()
+        });
+    });
+
+    $(document).on('click', '.edit-password-confirm-btn:visible', function(){
+        var data = {};
+        data.oldPwd = $('input[name=old-pwd]:visible').val();
+        data.newPwd = $('input[name=new-pwd]:visible').val();
+        data.confirmNewPwd = $('input[name=confirm-new-pwd]:visible').val();
+
+        $.ajax({
+            url : '/member/update-password',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(response){
+                if(response.flag > 0){
+                    layer.alert(response.msg, function(){location.reload();});
+                }else{
+                    layer.alert(response.msg);
+                }
+            }
+        });
+    });
 </script>

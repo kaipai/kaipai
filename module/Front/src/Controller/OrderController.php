@@ -110,4 +110,32 @@ class OrderController extends Front{
             return $this->response($e->getCode(), $e->getMessage());
         }
     }
+
+    public function payProductAction(){
+        $unitePayID = $this->postData['unitePayID'];
+        $payType = $this->postData['payType'];
+        $productInfo = $this->productModel->select(array('unitePayID' => $unitePayID))->current();
+        if(!empty($productInfo)){
+            $price = $this->siteSettings['productMoney'];
+
+            if($payType == 1){
+                if($price > $this->memberInfo['rechargeMoney']){
+                    return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
+                }else{
+                    $this->sm->get('COM\Service\PayMod\RechargePay')->doPay();
+                }
+            }if($payType == 2){
+                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->doPay($unitePayID);
+                return $this->redirect()->toUrl($payUrl);
+            }elseif($payType == 3){
+                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->goPay($unitePayID);
+                $this->response->setContent($payForm);
+                return $this->response;
+            }elseif($payType == 4){
+
+            }
+        }else{
+            return $this->response(ApiError::COMMON_ERROR, '支付号错误');
+        }
+    }
 }

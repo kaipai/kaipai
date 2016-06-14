@@ -1,0 +1,179 @@
+
+<div class="wrapper" id="page-wrapper">
+
+    <div id="table_toolbar">
+        <div class="pull-left">
+            <strong>定制订单</strong>
+        </div>
+        <!--<div class="pull-right">
+            <div class="nav-search" id="nav-search">
+            	<span class="input-icon">
+                    <input type="text" value="" id="ProductName" placeholder="商品品名称">
+                </span>
+                <span class="input-icon">
+                    <select name="CategoryID" id="CategoryID" style="height:37px;">
+                        <option value="0">商品分类</option>
+                        <?php /*foreach($categories as $val) : */?>
+                            <option value="<?/*=$val['CategoryID']*/?>"><?/*=$val['CategoryName']*/?></option>
+                        <?php /*endforeach; */?>
+                    </select>
+                </span>
+                <span class="input-icon">
+                    <select name="ProductStatus" id="ProductStatus" style="height:37px;">
+                        <option value="0">商品状态</option>
+                        <option value="1" selected="selected">在售-可见</option>
+                        <option value="2">在售-隐藏</option>
+                        <option value="3">下架-可见</option>
+                        <option value="4">下架-隐藏</option>
+                    </select>
+                </span>
+                <button class="btn btn-info top-search" id="search_button">搜索</button>
+                <a class="btn btn-warning top-search" id="cleanSearch">清空条件</a>
+            </div>
+        </div>-->
+    </div>
+    <div class="adv-table">
+        <table id="table-pagination" class="bootstrap_table"></table>
+    </div>
+    <!-- Edit Modal Start -->
+    <!--<div class="row">
+        <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="edit_modal_label">排序设置</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="editForm" role="form" method="get" action="/admin/<?/*=$this->layout()->controllerName;*/?>/sort-product">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label for="desc" class="col-sm-2 col-md-2 control-label">商品名称</label>
+                                            <div class="col-sm-10 col-md-10">
+                                                <input type="text" class="form-control" id="product-name" disabled="true" name="productName" value="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label for="desc" class="col-sm-2 col-md-2 control-label">产品排序</label>
+                                            <div class="col-sm-10 col-md-10">
+                                                <input type="text" class="form-control" id="sort" name="sort" value="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="hidden"  name="productID" id="product-id" value="" />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                        <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!-- Edit Modal End -->
+</div>
+
+<script type="text/javascript">
+    /*$('#edit_modal').on("show.bs.modal",function(e){
+     var btn = $(e.relatedTarget);
+     var id = btn.attr('rid');
+     $.get("/admin/product/get/"+id,function(data){
+     $("#product-name").val(data.productName);
+     $("#sort").val(data.sort);
+     $("#product-id").val(data.productID);
+
+     },"json");
+     });*/
+    $(function(){
+
+        table = $('#table-pagination').bootstrapTable({
+            method: 'get',
+            url: '/admin/<?=$this->layout()->controllerName;?>/customization-list',
+            cache: false,
+            height: "auto",
+            striped: true,
+            pagination: true,
+            pageSize: 10,
+            pageList: [10, 25, 50, 100, 200],
+            search: false,
+            showColumns: false,
+            showRefresh: false,
+            toolbar:"#table_toolbar",
+            minimumCountColumns: 2,
+            sidePagination: 'server',
+            clickToSelect: true,
+            columns: [{
+                field: 'orderID',
+                title: '订单ID',
+                align: 'center',
+                valign: 'middle'
+            }, {
+                field: 'nickName',
+                title: '用户名称',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
+            },{
+                field: 'mobile',
+                title: '用户手机号',
+                align: 'center',
+                width: '200px',
+                valign: 'middle'
+            }, {
+                field: 'productName',
+                title: '商品名称',
+                align: 'center',
+                valign: 'middle'
+            },{
+                field: 'customizationCount',
+                title: '商品数量',
+                align: 'center',
+                valign: 'middle'
+
+            },{
+                field: 'payMoney',
+                title: '定金',
+                align: 'center',
+                width: '400px',
+                valign: 'middle'
+            },{
+                field: 'finalPrice',
+                title: '尾款',
+                align: 'center',
+                valign: 'middle'
+            },{
+                field: 'orderStatus',
+                title: '订单状态',
+                align: 'center',
+                valign: 'middle',
+                formatter:function(value, row, index){
+                    $s = '';
+                    if(value == 1){
+                        $s += '待付款'
+                    }else if(value == 2){
+                        $s += '已付定金'
+                    }else if(value == 3){
+                        $s += '已付全款'
+                    }else if(value == 4){
+                        $s += '已发货'
+                    }else if(value == 5){
+                        $s += '已收货'
+                    }
+
+                    return $s;
+                }
+            }]
+        });
+    });
+
+</script>

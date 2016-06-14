@@ -22,4 +22,19 @@ class OrderController extends Admin{
 
         return $this->adminResponse($data);
     }
+
+    public function customizationAction(){
+
+
+        return $this->view;
+    }
+
+    public function customizationListAction(){
+        $where = array(
+            'MemberOrder.orderType' => 2,
+        );
+        $orders = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
+
+        return $this->adminResponse(array('rows' => $orders['data'], 'total' => $orders['total']));
+    }
 }

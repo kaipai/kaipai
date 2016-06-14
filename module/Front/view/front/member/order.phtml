@@ -27,7 +27,7 @@
                         <div class="ys_tip4">
                             <span><?php if($v['orderStatus'] > 1){echo '&nbsp';}else{?> <input type="checkbox" name="checkbox1" value="checkbox" order-id="<?php echo $v['orderID'] ?>" class="ind_checkbox order-item-chk"><?php }?><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
                             <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
-                            <span class="yc_pm2"><?php echo $v['storeID'] ?></span>
+                            <span class="yc_pm2" style="background:transparent url('<?php echo $v['storeLogo'] ?>') no-repeat scroll 6% center"><?php echo $v['storeName'] ?></span>
                             <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
                             <span class="yc_pm4"><a href="">网站申诉</a></span>
                             <span class="yc_pm5"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
@@ -71,17 +71,17 @@
                             }elseif($v['orderStatus'] == 4){
                                 ?>
                                 <div class="yc_ddfk yc_imgleft2">
-                                    <div class="yc_ddfk1">等待收货</div>
+                                    <div class="yc_ddfk1 confirm-delivery-done" order-id="<?php echo $v['orderID'] ?>" style="cursor: pointer;" >确认收货</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="">卖家已发货</a></p>
+                                    <p class="yc_p"><a href="javascript:;">卖家已发货</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 5){
                                 ?>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="">买家已收货</a></p>
+                                    <p class="yc_p"><a href="javascript:;">买家已收货</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
@@ -144,6 +144,26 @@
                 $('#order-item-' + tmpOrderID).remove();
             });
             cancelOrder(data);
+        });
+
+        $('.confirm-delivery-done').on('click', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            $.ajax({
+                url : '/member/confirm-delivery-done',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
         });
     })
 </script>

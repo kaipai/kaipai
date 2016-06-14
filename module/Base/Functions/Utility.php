@@ -2,7 +2,9 @@
 namespace Base\Functions;
 
 
+use Base\ConstDir\Regexp;
 use Zend\Debug\Debug;
+use Zend\Validator\Regex;
 
 class Utility
 {
@@ -215,5 +217,11 @@ class Utility
             $strtime = "";
         }
         return $strtime;
+    }
+
+    public static function getBodyText($data){
+        preg_match_all(Regexp::BODY_CONTENT, $data, $tmp);
+
+        return strip_tags($tmp[0][0]);
     }
 }

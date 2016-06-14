@@ -41,8 +41,14 @@
                         <li class="<?php if ($controllerName == 'website') { ?> active<?php } ?>">
                             <a href="/admin/website/index"  class="text-success">网站设置</a>
                         </li>
+                        <li class="<?php if ($controllerName == 'ad') { ?> active<?php } ?>">
+                            <a href="/admin/ad/index"  class="text-success">广告管理</a>
+                        </li>
                         <li class="<?php if ($controllerName == 'customization') { ?> active<?php } ?>">
                             <a href="/admin/customization/index"  class="text-success">定制商品管理</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'order' && $actionName == 'customization') { ?> active<?php } ?>">
+                            <a href="/admin/order/customization"  class="text-success">定制订单</a>
                         </li>
                         <li class="<?php if ($controllerName == 'artist') { ?> active<?php } ?>">
                             <a href="/admin/artist/index"  class="text-success">名家管理</a>

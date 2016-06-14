@@ -73,9 +73,20 @@ class Product extends Model{
         $select = $this->getSelect();
         $select->columns(array('productID'));
         $select->join(array('b' => 'AuctionMember'), 'Product.productID = b.productID and Product.myCurrPrice = Product.currPrice', array('auctionMemberID', 'memberID'));
-        $select->where(array('Product.auctionStatus' => 2, 'Product.endTime > ?' => time()));
+        $select->where(array('Product.auctionStatus' => 2, 'Product.endTime > ?' => time(), 'Product.isDel' => 0));
         $products = $this->selectWith($select)->current();
 
         return $products;
+    }
+
+    public function specialGetRecommendProducts(){
+
+        $where = array(
+            'b.isRecommend' => 1,
+        );
+        $order = array('b.instime desc');
+
+
+        return $this->productFilterOptionModel->getList($where, $order, 0, 20);
     }
 }

@@ -4,6 +4,7 @@ namespace Front\Controller;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use COM\Controller\Front;
+use Zend\Db\Sql\Predicate\Between;
 
 class SpecialController extends Front{
 
@@ -18,11 +19,40 @@ class SpecialController extends Front{
             'categoryThemeOptions' => $categoryThemeOptions,
             'specials' => $specials['data'],
             'pages' => $specials['pages'],
+
         ));
         return $this->view;
     }
 
     public function todayAction(){
+        $filter = $this->queryData['filter'] ? $this->queryData['filter'] : 'today';
+        $specialProductCategoryID = $this->queryData['specialProductCategoryID'];
+        $page = $this->queryData['page'] ? $this->queryData['page'] : 1;
+        $limit = 6;
+        $where = array('Special.verifyStatus' => 2, 'Special.auctionStatus' => array(1, 2));
+        if($filter == 'today'){
+            $where[] = new Between('Special.startTime', strtotime(date('Y-m-d 00:00:00')), strtotime(date('Y-m-d 23:59:59')));
+        }elseif($filter == 'tomorrow'){
+            $where[] = new Between('Special.startTime', strtotime(date('Y-m-d 00:00:00', strtotime('+1 day'))), strtotime(date('Y-m-d 23:59:59', strtotime('+1 day'))));
+        }elseif($filter == 'on'){
+            $where['Special.auctionStatus'] = array(1);
+        }
+        if(!empty($specialProductCategoryID)){
+            $where['Special.specialProductCategoryID'] = $specialProductCategoryID;
+        }
+
+        $specials = $this->specialModel->getSpecials($where, $page, $limit);
+
+        $recommendProducts = $this->productModel->specialGetRecommendProducts();
+        $stores = $this->storeModel->getHotStores(1, 20);
+        $this->view->setVariables(array(
+            'recommendProducts' => $recommendProducts,
+            'filter' => $filter,
+            'specials' => $specials['data'],
+            'pages' => $specials['pages'],
+            'specialProductCategoryID' => $specialProductCategoryID,
+            'stores' => $stores['data'],
+        ));
         return $this->view;
     }
 

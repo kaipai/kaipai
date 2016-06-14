@@ -1,11 +1,11 @@
 <div class="kp_timeon">
-    <span class="bold">拍卖时间</span>
-    <select class="kp_year" id="start-time-year">
+    <span class="bold">拍卖开始时间</span>
+    <select class="kp_year layer-start-time-year" id="start-time-year">
         <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
         <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
     </select>
     <span class="kp_ml8">年</span>
-    <select class="kp_ml9" id="start-time-month">
+    <select class="kp_ml9 layer-start-time-month" id="start-time-month">
         <?php
         for($i = 1; $i <= 12; $i++){
             ?>
@@ -15,12 +15,12 @@
         ?>
     </select>
     <span class="kp_ml8">月</span>
-    <select class="kp_ml9" id="start-time-day">
+    <select class="kp_ml9 layer-start-time-day" id="start-time-day">
 
     </select>
     <span class="kp_ml8">日</span>
                     <span class="kp_ml5">
-                        <select class="kp_ml9" id="start-time-hour">
+                        <select class="kp_ml9 layer-start-time-hour" id="start-time-hour">
                             <?php for($i = 0; $i < 24; $i++){
                                 ?>
                                 <option value="<?php echo $i; ?>"><?php echo $i;?></option>
@@ -30,7 +30,7 @@
                     </span>
     <span class="kp_ml8">时</span>
                     <span class="kp_ml5">
-                        <select class="kp_ml9" id="start-time-minute">
+                        <select class="kp_ml9 layer-start-time-minute" id="start-time-minute">
                             <?php for($i = 1; $i <= 60; $i++){
                                 $tmp = $i < 10 ? '0' . $i : $i;
                                 ?>
@@ -43,13 +43,13 @@
 </div>
 
 <div class="kp_timeon">
-    <span class="bold">拍卖时间</span>
-    <select class="kp_year" id="end-time-year">
+    <span class="bold">拍卖结束时间</span>
+    <select class="kp_year layer-end-time-year" id="end-time-year">
         <option value="<?php echo date('Y') ?>"><?php echo date('Y'); ?></option>
         <option value="<?php echo date('Y', strtotime('+1 year')) ?>"><?php echo date('Y', strtotime('+1 year')) ?></option>
     </select>
     <span class="kp_ml8">年</span>
-    <select class="kp_ml9" id="end-time-month">
+    <select class="kp_ml9 layer-end-time-month" id="end-time-month">
         <?php
         for($i = 1; $i <= 12; $i++){
             ?>
@@ -59,12 +59,12 @@
         ?>
     </select>
     <span class="kp_ml8">月</span>
-    <select class="kp_ml9" id="end-time-day">
+    <select class="kp_ml9 layer-end-time-day" id="end-time-day">
 
     </select>
     <span class="kp_ml8">日</span>
                     <span class="kp_ml5">
-                        <select class="kp_ml9" id="end-time-hour">
+                        <select class="kp_ml9 layer-end-time-hour" id="end-time-hour">
                             <?php for($i = 0; $i < 24; $i++){
                                 ?>
                                 <option value="<?php echo $i; ?>"><?php echo $i;?></option>
@@ -74,7 +74,7 @@
                     </span>
     <span class="kp_ml8">时</span>
                     <span class="kp_ml5">
-                        <select class="kp_ml9" id="end-time-minute">
+                        <select class="kp_ml9 layer-end-time-minute" id="end-time-minute">
                             <?php for($i = 1; $i <= 60; $i++){
                                 $tmp = $i < 10 ? '0' . $i : $i;
                                 ?>

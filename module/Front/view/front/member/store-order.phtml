@@ -21,16 +21,26 @@
                     class="ys_span3">订单状态</span>
             </div>
             <?php foreach($orders as $v){
-                ?>
-                <div class="ys_tip2" id="order-item-<?php echo $v['orderID'] ?>">
-                    <div class="ys_tip3">
-                        <div class="ys_tip4">
-                            <span><?php if($v['orderStatus'] > 1){echo '&nbsp';}else{?> <input type="checkbox" name="checkbox1" value="checkbox" order-id="<?php echo $v['orderID'] ?>" class="ind_checkbox order-item"><?php }?><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
-                            <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
-                            <span class="yc_pm2"><?php echo $v['storeID'] ?></span>
-                            <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
-                            <span class="yc_pm4"><a href="">网站申诉</a></span>
-                            <span class="yc_pm5"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
+            ?>
+            <div class="ys_tip2" id="order-item-<?php echo $v['orderID'] ?>">
+                <div class="ys_tip3">
+                    <div class="ys_tip4">
+                        <span><?php if ($v['orderStatus'] > 1) {
+                                echo '&nbsp';
+                            } else { ?> <input type="checkbox" name="checkbox1" value="checkbox"
+                                               order-id="<?php echo $v['orderID'] ?>"
+                                               class="ind_checkbox order-item"><?php } ?><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
+                        <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
+                        <span class="yc_pm2"
+                              style="background:transparent url('<?php echo $v['storeLogo'] ?>') no-repeat scroll 6% center"><?php echo $v['storeName'] ?></span>
+                        <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
+                        <span class="yc_pm4"><a href="">网站申诉</a></span>
+                        <?php if ($v['orderStatus'] < 1) {
+                        ?>
+                        <span class="yc_pm5" ><a href = "javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>" > 删除</a ></span >
+                            <?php
+                                }
+                            ?>
                         </div>
                         <div class="ys_tip6">
                             <div class="yc_imgleft"><img src="<?php echo $v['product']['listImg']; ?>"></div>
@@ -55,17 +65,17 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="">等待买家付款</a></p>
-                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 3){
                                 ?>
                                 <div class="yc_ddfk yc_imgleft2">
-                                    <div class="yc_ddfk1 set-delivery-type" order-id="<?php echo $v['orderID']; ?>">请发货</div>
+                                    <div class="yc_ddfk1 set-delivery-type" style="cursor: pointer;" order-id="<?php echo $v['orderID']; ?>">请发货</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="">买家已付款</a></p>
-                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 4){
@@ -75,14 +85,14 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="">卖家已发货</a></p>
-                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 5){
                                 ?>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="">买家已收货</a></p>
-                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }
@@ -98,7 +108,9 @@
         </div>
     </div>
 </div>
-
+<?php
+    echo $this->render('set-delivery-type');
+?>
 <script>
     $(function(){
         $('#search-btn').on('click', function(){
@@ -145,8 +157,42 @@
             });
             cancelOrder(data);
         });
-        $('#set-delivery-type').on('click', function(){
-
+        $('.set-delivery-type').on('click', function(){
+            layer.open({
+                skin: 'loginBox',
+                title:'发货信息',
+                type: 1,
+                content: $('#set-delivery-type-div').html()
+            });
+            var orderID = $(this).attr('order-id');
+            $('.confirm-delivery-btn:visible').attr('order-id', orderID);
+        });
+        $(document).on('click', '.confirm-delivery-btn:visible', function() {
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            data.haveDelivery = $('input[name=have-delivery]:visible:checked').val();
+            if(data.haveDelivery){
+                data.haveDelivery = 1;
+                data.deliveryType = $('select[name=delivery-type]:visible').val();
+                data.deliveryNum = $('input[name=delivery-num]:visible').val();
+            }else{
+                data.haveDelivery = 0;
+            }
+            $.ajax({
+                url : '/member/confirm-delivery-info',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
         });
     })
 </script>

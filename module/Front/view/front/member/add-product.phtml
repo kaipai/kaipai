@@ -212,7 +212,7 @@
 
     </div>
 </div>
-
+<?php echo $this->render('/front/common/pay'); ?>
 <script type="text/javascript">
     $(function(){
         //alert(1);
@@ -701,8 +701,45 @@
                 type : 'post',
                 dataType : 'json',
                 data : data,
-                success : function(data){
-                    layer.alert(data.msg);
+                success : function(res){
+                    if(res.flag > 0){
+                        if(res.unitePayID){
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: $('#pay-div').html()
+                            });
+                            $('.pay-price:visible').html(<?php $_siteSettings['productMoney']; ?>);
+                            $('.pay-price:visible').attr('unite-pay-id', res.unitePayID);
+                        }
+                    }else{
+                        layer.alert(data.msg);
+                    }
+
+                }
+            });
+        });
+
+        $(document).on('click', '.confirm-pay:visible', function(){
+            var data = {};
+            data.payType = $('.yg_selected_pay_type').attr('pay-type');
+            if(!data.payType) {
+                layer.alert('请选择付款方式');
+                return false;
+            }
+            data.unitePayID = $('.pay-price:visible').attr('unite-pay-id');
+            $.ajax({
+                url : '/order/pay-product',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        
+                    }else{
+                        layer.alert(res.msg);
+                    }
                 }
             });
         });
