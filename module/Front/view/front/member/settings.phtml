@@ -247,7 +247,7 @@
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">个性签名</span>
-                <input type="text" name="signature"  class="bold5" value="<?php echo $memberInfo['signature'] ?>">
+                <input type="text" name="signature"  class="bold5" value="<?php echo $_memberInfo['signature'] ?>">
                 <span class="ind_jrzz3 ">限20字，显示在用户空间</span>
             </div>
             <div class="mt20">
@@ -259,7 +259,7 @@
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">登陆密码</span>
-                <span class="bold3" id="edit-password-btn">修改密码</span>
+                <span class="bold3" id="edit-password-btn" style="cursor:pointer;">修改密码</span>
             </div>
             <!--分割线-->
             <div class="fengexian"></div>
@@ -280,7 +280,7 @@
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">微信</span>
-                <input type="text" name="wechat"  class="ind_jrzz6 bold6">
+                <input type="text" name="wechat"  class="ind_jrzz6 bold6" value="<?php echo $_memberInfo['wechat'] ?>">
                 <span class="radios33"><input type="radio" <?php echo !empty($_memberInfo['wechatVisible']) ? 'checked' : '' ?> name="wechat-visible" value="1">公开显示  </span>
                 <span class="radios1"><input type="radio" <?php echo empty($_memberInfo['wechatVisible']) ? 'checked' : '' ?> name="wechat-visible" value="0">仅互相关注后可见  </span>
 
@@ -297,7 +297,7 @@
 
             </div>
 
-            <div class="bord10" id="save-settings-btn">提交</div>
+            <div class="bord10" id="save-settings-btn" style="cursor: pointer;">提交</div>
 
             <!-- 内容 -->
 
@@ -416,6 +416,20 @@
                 }else{
                     layer.alert(response.msg);
                 }
+            }
+        });
+    });
+    $(document).on('click', '.btn_getcode:visible', function(){
+        var data = {};
+        data.mobile = $('input[name=mobile]:visible').val();
+        data.picVerifyCode = $('input[name=picVerifyCode]:visible').val();
+        $.ajax({
+            url : '/login/get-verify-code',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(res){
+                layer.alert(res.msg);
             }
         });
     });

@@ -61,8 +61,8 @@ class Unionpay
 
     public function goPay($payDetail) {
 
-        $this->params["txnAmt"] = $payDetail["WaitPayMoney"] * 100;
-        $this->params["orderId"] = $payDetail["UnitePayID"];
+        $this->params["txnAmt"] = $payDetail["payMoney"] * 100;
+        $this->params["orderId"] = $payDetail["unitePayID"];
         $params = $this->params;
         sign($params);
         return create_html($params, SDK_FRONT_TRANS_URL);

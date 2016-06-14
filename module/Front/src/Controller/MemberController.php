@@ -332,9 +332,17 @@ class MemberController extends Front{
     }
 
     public function settingsAction(){
-        if(empty($this->postData)) return $this->view;
+        if(empty($this->postData)){
+            $memberInfo = $this->memberInfoModel->select(array('memberID' => $this->memberInfo['memberID']))->current();
+            $this->view->setVariables(array('_memberInfo' => $memberInfo));
+            return $this->view;
+        }
 
         try{
+            if(!empty($this->postData['avatar'])){
+                $this->postData['avatar'] = Utility::saveBaseCodePic($this->postData['avatar']);
+            }
+
             $this->memberInfoModel->update($this->postData, array('memberID' => $this->memberInfo['memberID']));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
         }catch (\Exception $e){

@@ -71,7 +71,7 @@ class LoginController extends Front{
             'expireTime' => time() + 600,
         );
         $this->mobileVerifyCodeModel->insert($data);
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '验证码已发送');
     }
 
     public function regAction(){

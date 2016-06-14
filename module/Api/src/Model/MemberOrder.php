@@ -53,4 +53,24 @@ class MemberOrder extends Model{
         return date('ymdhis') . substr(microtime(), 2, 3) . rand(0, 9);
     }
 
+    public function getOrderInfo($unitePayID){
+        $select = $this->getSelect();
+        $select->join(array('b' => 'MemberPayDetail'), 'MemberOrder.unitePayID = b.unitePayID', array('payMoney'));
+        $select->where(array('MemberOrder.unitePayID' => $unitePayID));
+
+        $res = $this->selectWith($select)->current();
+
+        return $res;
+    }
+
+    public function getFinalOrderInfo($unitePayID){
+        $select = $this->getSelect();
+        $select->join(array('b' => 'MemberPayDetail'), 'MemberOrder.unitePayID = b.unitePayID', array('payMoney'));
+        $select->where(array('MemberOrder.finalUnitePayID' => $unitePayID));
+
+        $res = $this->selectWith($select)->current();
+
+        return $res;
+    }
+
 }

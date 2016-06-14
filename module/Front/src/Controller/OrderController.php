@@ -37,7 +37,7 @@ class OrderController extends Front{
                 return $this->response(ApiError::COMMON_ERROR, '定制信息不存在');
             }
             if($customizationInfo['lastNum'] < 1) return $this->response(ApiError::COMMON_ERROR, '定制数量已抢光');
-            $payMoney = $customizationCount * $customizationInfo['price'];
+            $payMoney = $customizationCount * $customizationInfo['depositPrice'];
         }elseif(!empty($productID)){
             $productInfo = $this->productModel->select(array('productID' => $productID))->current();
             $orderData['productSnapshot'] = json_encode($productInfo);
@@ -50,24 +50,35 @@ class OrderController extends Front{
             $payData = array(
                 'unitePayID' => $unitePayID,
                 'payMoney' => $payMoney,
-                'payType' => $payType,
             );
             $this->memberPayDetailModel->insert($payData);
             if(!empty($customizationID)){
-                $this->customizationModel->update(array('lastNum' => new Expression('lastNumber+1'), 'boughtCount' => new Expression('boughtCount+1')));
-            }elseif(!empty($productID)){
-
+                $finalUnitePayID = $this->memberOrderModel->genUnitePayID();
+                $finalPrice = ($customizationInfo['price'] * $customizationCount) - $payMoney;
+                $finalPayData = array(
+                    'unitePayID' => $finalUnitePayID,
+                    'payMoney' => $finalPrice,
+                );
+                $this->memberOrderModel->update(array('finalUnitePayID' => $finalUnitePayID, 'finalPrice' => $finalPrice));
+                $this->memberPayDetailModel->insert($finalPayData);
             }
 
             $this->memberOrderModel->commit();
 
+            $price = $payMoney;
             if($payType == 1){
-
-            }elseif($payType == 2){
-
+                if($price > $this->memberInfo['rechargeMoney']){
+                    return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
+                }else{
+                    $this->sm->get('COM\Service\PayMod\RechargePay')->productDoPay($unitePayID, $price);
+                }
+            }if($payType == 2){
+                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->productDoPay($unitePayID, $price);
+                return $this->redirect()->toUrl($payUrl);
             }elseif($payType == 3){
-
-
+                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->productDoPay($unitePayID, $price);
+                $this->response->setContent($payForm);
+                return $this->response;
             }elseif($payType == 4){
 
             }
@@ -122,13 +133,68 @@ class OrderController extends Front{
                 if($price > $this->memberInfo['rechargeMoney']){
                     return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
                 }else{
-                    $this->sm->get('COM\Service\PayMod\RechargePay')->doPay();
+                    $this->sm->get('COM\Service\PayMod\RechargePay')->productDoPay($unitePayID, $price);
                 }
             }if($payType == 2){
-                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->doPay($unitePayID);
+                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->productDoPay($unitePayID, $price);
                 return $this->redirect()->toUrl($payUrl);
             }elseif($payType == 3){
-                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->goPay($unitePayID);
+                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->productDoPay($unitePayID, $price);
+                $this->response->setContent($payForm);
+                return $this->response;
+            }elseif($payType == 4){
+
+            }
+        }else{
+            return $this->response(ApiError::COMMON_ERROR, '支付号错误');
+        }
+    }
+
+    public function paySpecialAction(){
+        $unitePayID = $this->postData['unitePayID'];
+        $payType = $this->postData['payType'];
+        $specialInfo = $this->specialModel->select(array('unitePayID' => $unitePayID))->current();
+        if(!empty($specialInfo)){
+            $price = $this->siteSettings['speicalMoney'];
+
+            if($payType == 1){
+                if($price > $this->memberInfo['rechargeMoney']){
+                    return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
+                }else{
+                    $this->sm->get('COM\Service\PayMod\RechargePay')->specialDoPay($unitePayID, $price);
+                }
+            }if($payType == 2){
+                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->specialDoPay($unitePayID, $price);
+                return $this->redirect()->toUrl($payUrl);
+            }elseif($payType == 3){
+                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->specialDoPay($unitePayID, $price);
+                $this->response->setContent($payForm);
+                return $this->response;
+            }elseif($payType == 4){
+
+            }
+        }else{
+            return $this->response(ApiError::COMMON_ERROR, '支付号错误');
+        }
+    }
+
+    public function payFinalAction(){
+        $unitePayID = $this->postData['unitePayID'];
+        $payType = $this->postData['payType'];
+        $payDetail = $this->memberPayDetailModel->select(array('unitePayID' => $unitePayID))->current();
+        if(!empty($payDetail)){
+            $price = $payDetail['payMoney'];
+            if($payType == 1){
+                if($price > $this->memberInfo['rechargeMoney']){
+                    return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
+                }else{
+                    $this->sm->get('COM\Service\PayMod\RechargePay')->finalDoPay($unitePayID, $price);
+                }
+            }if($payType == 2){
+                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->finalDoPay($unitePayID, $price);
+                return $this->redirect()->toUrl($payUrl);
+            }elseif($payType == 3){
+                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->finalDoPay($unitePayID, $price);
                 $this->response->setContent($payForm);
                 return $this->response;
             }elseif($payType == 4){

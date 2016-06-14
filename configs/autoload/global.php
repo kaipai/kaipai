@@ -2,44 +2,45 @@
 
 return array(
     //生产环境配置
-    'product'   =>  array(
-        'domain'=>"http://xxx.chemayi.com",
-        'cmb'    =>  array(
-            'BranchID' => '0571',
-            'CoNo' => '036429',
-            'gateWayUrl' => 'https://netpay.cmbchina.com/netpayment/basehttp.dll',
-            'MerchantUrl' => 'http://xxx.com/api/v1/pay/merchantNotify'
+    'aliConfig' => array(
+        'partner' => '2088601184372385', //商户ID
+        'key' => 'ty14ojrq1tfht37ezjlacwbxotoar2yg', //key
+        'service' => 'create_direct_pay_by_user',
+        'sign_type' => strtoupper('md5'),
+        'input_charset' => strtolower('utf-8'),
+        'cacert' => LIB . '/COM/Service/PayMod/lib/ali/alipay/cacert.pem',
+        'transport' => 'http',
+        'notify_url' => 'http://xxx.com/pay/aliNotify',
+        'product_notify_url' => 'http://xxx.com/pay/aliProductNotify',
+        'special_notify_url' => 'http://xxx.com/pay/aliSpecialNotify',
+        'final_notify_url' => 'http://xxx.com/pay/aliFinalNotify',
+        'return_url' => 'http://xxx.com/pay/aliReturn',
+        'product_return_url' => 'http://xxx.com/pay/aliProductReturn',
+        'special_return_url' => 'http://xxx.com/pay/aliSpecialReturn',
+        'final_return_url' => 'http://xxx.com/pay/aliFinalReturn',
+        'seller_email' => 'lianxian2011510@126.com ',
+        'logistics_type' => 'EXPRESS',
+        'logistics_fee' => '0.00',
+        'logistics_payment' => 'BUYER_PAY_AFTER_RECEIVE',
+    ),
+    'unionPayConfig' => array(
+        'notify_url' => 'http://xxx.com/pay/unionNotify', //支付后台通知地址
+        'product_notify_url' => 'http://xxx.com/pay/aliProductNotify',
+        'special_notify_url' => 'http://xxx.com/pay/aliSpecialNotify',
+        'final_notify_url' => 'http://xxx.com/pay/aliFinalNotify',
+        'return_url' => 'http://xxx.com/pay/unionReturn', //支付前台.......
+        'product_return_url' => 'http://xxx.com/pay/unionProductReturn',
+        'special_return_url' => 'http://xxx.com/pay/unionSpecialReturn',
+        'final_return_url' => 'http://xxx.com/pay/unionFinalReturn',
+    ),
+    'bd-config'=>array(
+        'and'=>array(
+            'ak'=>'I6ph4WU2mrAAAevQN0Kv9Qac',
+            'sk'=>'xQGIP0OfCrkxMHuilPowQGYOZyuExGVY',
         ),
-        'aliConfig' => array(
-            'partner' => '2088601184372385', //商户ID
-            'key' => 'ty14ojrq1tfht37ezjlacwbxotoar2yg', //key
-            'service' => 'create_direct_pay_by_user',
-            'sign_type' => strtoupper('md5'),
-            'input_charset' => strtolower('utf-8'),
-            'cacert' => LIB . '/COM/Service/PayMod/lib/ali/alipay/cacert.pem',
-            'transport' => 'http',
-            'notify_url' => 'http://xxx.com/api/v1/pay/aliNotify',
-            'return_url' => 'http://xxx.com/api/v1/pay/aliReturn',
-            'wap_return_url' => 'http://mall.chemayi.com/sucpage',
-            'seller_email' => 'lianxian2011510@126.com ',
-            'logistics_type' => 'EXPRESS',
-            'logistics_fee' => '0.00',
-            'logistics_payment' => 'BUYER_PAY_AFTER_RECEIVE',
-        ),
-        'unionPayConfig' => array(
-            'notify_url' => 'http://xxx.com/api/v1/pay/unionNotify', //支付后台通知地址
-            'return_url' => 'http://xxx.com/api/v1/pay/unionReturn', //支付前台.......
-            'wap_return_url' => 'http://xxx.com/sucpage',
-        ),
-        'bd-config'=>array(
-            'and'=>array(
-                'ak'=>'I6ph4WU2mrAAAevQN0Kv9Qac',
-                'sk'=>'xQGIP0OfCrkxMHuilPowQGYOZyuExGVY',
-            ),
-            'ios'=>array(
-                'ak'=>'uRd26IGZDo03X7WY4P37E3U7',
-                'sk'=>'dLem844jFCRvLBypblFlLmG1H6mP6ufn',
-            ),
+        'ios'=>array(
+            'ak'=>'uRd26IGZDo03X7WY4P37E3U7',
+            'sk'=>'dLem844jFCRvLBypblFlLmG1H6mP6ufn',
         ),
     ),
     'db' => array(

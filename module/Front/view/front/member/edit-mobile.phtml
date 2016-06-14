@@ -8,34 +8,23 @@
                 <input name="mobile" placeholder="手机号码" type="text" value=""/>
             </div>
 
-            <div class="inputBox">
-                <p>
-                        <span> <b>*</b>
-                            验证码：
-                        </span>
-
-                <div class="inputBox" style=" border: none;">
-                    <input name="picVerifyCode" placeholder="请输入验证码"
-                           style="width: 140px; border:solid 1px #ddd; margin-right:5px;" type="text" value=""/>
-                    <img alt="点击切换"
-                         onclick="this.src='/login/get-pic-verify-code?rnd=' + Math.random();"
-                         style="width: 100px; height:32px; cursor:pointer; float:left; border:solid 1px #ddd;"
-                         src="/login/get-pic-verify-code"></div>
-                </p>
+            <img alt="点击切换"
+                 onclick="this.src='/login/get-pic-verify-code?rnd=' + Math.random();"
+                 style="width: 100px; height:32px; cursor:pointer; float:left; border:solid 1px #ddd;"
+                 src="/login/get-pic-verify-code">
+            <br />
+            <div class="inputBox" style=" border: none;">
+                <input name="picVerifyCode" placeholder="请输入验证码"
+                       style="width: 140px; border:solid 1px #ddd; margin-right:5px;" type="text" value=""/>
             </div>
 
+            <a class="btn_getcode" href="javascript:;">发送手机验证码 >></a>
+
             <div class="inputBox">
-                <p>
-                        <span>
-                            <b>*</b>
-                            短信验证码：
-                        </span>
+                <input class="input" placeholder="输入验证码" type="text" name="verifyCode" />
 
-                    <input class="input" placeholder="输入验证码" style="margin-left:-4px" type="text" name="verifyCode" />
-                    <a class="btn_getcode" href="javascript:;">发送验证码</a>
-
-                </p>
             </div>
+
 
 
             <input type="button" class="submit edit-mobile-confirm-btn" value="提交">
