@@ -47,6 +47,7 @@ class OrderController extends Front{
         try{
             $this->memberOrderModel->beginTransaction();
             $this->memberOrderModel->insert($orderData);
+            $orderID = $this->memberOrderModel->getLastInsertValue();
             $payData = array(
                 'unitePayID' => $unitePayID,
                 'payMoney' => $payMoney,
@@ -65,25 +66,7 @@ class OrderController extends Front{
 
             $this->memberOrderModel->commit();
 
-            $price = $payMoney;
-            if($payType == 1){
-                if($price > $this->memberInfo['rechargeMoney']){
-                    return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
-                }else{
-                    $this->sm->get('COM\Service\PayMod\RechargePay')->productDoPay($unitePayID, $price);
-                }
-            }if($payType == 2){
-                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->productDoPay($unitePayID, $price);
-                return $this->redirect()->toUrl($payUrl);
-            }elseif($payType == 3){
-                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->productDoPay($unitePayID, $price);
-                $this->response->setContent($payForm);
-                return $this->response;
-            }elseif($payType == 4){
-
-            }
-
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID));
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('orderID' => $orderID));
         }catch (\Exception $e){
             $this->memberOrderModel->rollback();
 
@@ -113,8 +96,34 @@ class OrderController extends Front{
                 'memberDeliveryID' => $memberDeliveryID,
             );
             $this->memberOrderDeliveryModel->insert($orderDelivery);
-
             $this->memberOrderModel->commit();
+
+            $payDetail = $this->memberPayDetailModel->select(array('unitePayID' => $orderInfo['unitePayID']))->current();
+            $unitePayID = $payDetail['unitePayID'];
+            $price = $payDetail['payMoney'];
+            if($payType == 1){
+                if($price > $this->memberInfo['rechargeMoney']){
+                    return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
+                }else{
+                    try{
+                        $this->sm->get('COM\Service\PayMod\RechargePay')->notify($unitePayID, $price);
+                        return $this->response(ApiSuccess::COMMON_SUCCESS, '支付成功');
+                    }catch (\Exception $e){
+                        return $this->response($e->getCode(), $e->getMessage());
+                    }
+
+                }
+            }if($payType == 2){
+                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->productDoPay($unitePayID, $price);
+                return $this->redirect()->toUrl($payUrl);
+            }elseif($payType == 3){
+                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->productDoPay($unitePayID, $price);
+                $this->response->setContent($payForm);
+                return $this->response;
+            }elseif($payType == 4){
+
+            }
+
         }catch (\Exception $e){
             $this->memberOrderModel->rollback();
 
@@ -133,7 +142,12 @@ class OrderController extends Front{
                 if($price > $this->memberInfo['rechargeMoney']){
                     return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
                 }else{
-                    $this->sm->get('COM\Service\PayMod\RechargePay')->productDoPay($unitePayID, $price);
+                    try{
+                        $this->sm->get('COM\Service\PayMod\RechargePay')->productNotify($unitePayID, $price);
+                        return $this->response(ApiSuccess::COMMON_SUCCESS, '支付成功');
+                    }catch (\Exception $e){
+                        return $this->response($e->getCode(), $e->getMessage());
+                    }
                 }
             }if($payType == 2){
                 $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->productDoPay($unitePayID, $price);
@@ -161,7 +175,12 @@ class OrderController extends Front{
                 if($price > $this->memberInfo['rechargeMoney']){
                     return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
                 }else{
-                    $this->sm->get('COM\Service\PayMod\RechargePay')->specialDoPay($unitePayID, $price);
+                    try{
+                        $this->sm->get('COM\Service\PayMod\RechargePay')->specialNotify($unitePayID, $price);
+                        return $this->response(ApiSuccess::COMMON_SUCCESS, '支付成功');
+                    }catch (\Exception $e){
+                        return $this->response($e->getCode(), $e->getMessage());
+                    }
                 }
             }if($payType == 2){
                 $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->specialDoPay($unitePayID, $price);
@@ -188,7 +207,12 @@ class OrderController extends Front{
                 if($price > $this->memberInfo['rechargeMoney']){
                     return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
                 }else{
-                    $this->sm->get('COM\Service\PayMod\RechargePay')->finalDoPay($unitePayID, $price);
+                    try{
+                        $this->sm->get('COM\Service\PayMod\RechargePay')->finalNotify($unitePayID, $price);
+                        return $this->response(ApiSuccess::COMMON_SUCCESS, '支付成功');
+                    }catch (\Exception $e){
+                        return $this->response($e->getCode(), $e->getMessage());
+                    }
                 }
             }if($payType == 2){
                 $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->finalDoPay($unitePayID, $price);

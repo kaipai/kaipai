@@ -22,7 +22,7 @@ abstract class BasePay
      * 支付回调处理
      * @param $unitePayID 支付号
      */
-    public function notify($unitePayID){
+    public function notify($unitePayID, $useRechargeMoney = 0){
         try{
             $where = array(
                 'unitePayID' => $unitePayID
@@ -38,7 +38,9 @@ abstract class BasePay
             }else{
                 $orderModel->update(array('orderStatus' => 3), $where);
             }
-
+            if(!empty($useRechargeMoney)){
+                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));
+            }
             $orderModel->commit();
             return true;
         }catch(\Exception $e){
@@ -48,14 +50,17 @@ abstract class BasePay
         }
     }
 
-    public function productNotify($unitePayID){
+    public function productNotify($unitePayID, $useRechargeMoney = 0){
         try{
 
-            $payDetail = $this->productModel->select(array('unitePayID' => $unitePayID))->current();
-            if($payDetail['isPaid']) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
+            $product = $this->productModel->select(array('unitePayID' => $unitePayID))->current();
+            if($product['isPaid']) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $this->productModel->beginTransaction();
             $this->productModel->update(array('auctionStatus' => 1, 'isPaid' => 1), array('unitePayID' => $unitePayID));
-
+            $memberInfo = $this->memberInfoModel->select(array('storeID' => $product['storeID']))->current();
+            if(!empty($useRechargeMoney)){
+                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $memberInfo['memberID']));
+            }
             $this->productModel->commit();
             return true;
         }catch(\Exception $e){
@@ -65,14 +70,17 @@ abstract class BasePay
         }
     }
 
-    public function specialNotify($unitePayID){
+    public function specialNotify($unitePayID, $useRechargeMoney = 0){
         try{
 
             $special = $this->specialModel->select(array('unitePayID' => $unitePayID))->current();
             if($special['isPaid']) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $this->specialModel->beginTransaction();
             $this->specialModel->update(array('auctionStatus' => 1, 'isPaid' => 1), array('unitePayID' => $unitePayID));
-
+            $memberInfo = $this->memberInfoModel->select(array('storeID' => $special['storeID']))->current();
+            if(!empty($useRechargeMoney)){
+                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $memberInfo['memberID']));
+            }
             $this->specialModel->commit();
             return true;
         }catch(\Exception $e){
@@ -82,14 +90,16 @@ abstract class BasePay
         }
     }
 
-    public function finalNotify($unitePayID){
+    public function finalNotify($unitePayID, $useRechargeMoney = 0){
         try{
-            $payDetail = $this->memberOrderModel->getFinalOrderInfo($unitePayID);
-            if($payDetail['payStatus'] != 1) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
+            $orderInfo = $this->memberOrderModel->getFinalOrderInfo($unitePayID);
+            if($orderInfo['orderStatus'] != 1) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $this->memberOrderModel->beginTransaction();
             $this->memberOrderModel->update(array('orderStatus' => 3), array('finalUnitePayID' => $unitePayID));
-            $this->memberPayDetailModel->update(array('paidMoney' => $payDetail['payMoney']), array('unitePayID' => $unitePayID));
-
+            $this->memberPayDetailModel->update(array('paidMoney' => $orderInfo['payMoney']), array('unitePayID' => $unitePayID));
+            if(!empty($useRechargeMoney)){
+                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));
+            }
             $this->memberOrderModel->commit();
             return true;
         }catch(\Exception $e){
