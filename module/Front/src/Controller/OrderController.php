@@ -33,6 +33,7 @@ class OrderController extends Front{
             'customizationID' => $customizationID,
             'customizationCount' => $customizationCount,
             'orderType' => 2,
+            'customizationSnapshot' => json_encode($customizationInfo),
         );
 
         if($customizationInfo['lastNum'] < 1) return $this->response(ApiError::COMMON_ERROR, '定制数量已抢光');
@@ -45,6 +46,7 @@ class OrderController extends Front{
             $payData = array(
                 'unitePayID' => $unitePayID,
                 'payMoney' => $payMoney,
+                'productPrice' => $payMoney,
             );
             $this->memberPayDetailModel->insert($payData);
             $finalUnitePayID = $this->memberOrderModel->genUnitePayID();
@@ -52,8 +54,9 @@ class OrderController extends Front{
             $finalPayData = array(
                 'unitePayID' => $finalUnitePayID,
                 'payMoney' => $finalPrice,
+                'productPrice' => $payMoney,
             );
-            $this->memberOrderModel->update(array('finalUnitePayID' => $finalUnitePayID, 'finalPrice' => $finalPrice));
+            $this->memberOrderModel->update(array('finalUnitePayID' => $finalUnitePayID, 'finalPrice' => $finalPrice), array('orderID' => $orderID));
             $this->memberPayDetailModel->insert($finalPayData);
 
             $this->memberOrderModel->commit();
@@ -82,12 +85,19 @@ class OrderController extends Front{
 
             $this->memberOrderModel->update(array('remark' => $orderRemark), array('orderID' => $orderID));
             $this->memberPayDetailModel->update(array('payType' => $payType), array('unitePayID' => $orderInfo['unitePayID']));
-            $orderDelivery = array(
-                'orderID' => $orderID,
-                'memberID' => $this->memberInfo['memberID'],
-                'memberDeliveryID' => $memberDeliveryID,
-            );
-            $this->memberOrderDeliveryModel->insert($orderDelivery);
+            $orderDelivery = $this->memberOrderDeliveryModel->select(array('orderID' => $orderID))->current();
+            if(!empty($orderDelivery)){
+                $this->memberOrderDeliveryModel->update(array('memberDeliveryID' => $memberDeliveryID), array('orderID' => $orderID));
+            }else{
+                $orderDelivery = array(
+                    'orderID' => $orderID,
+                    'memberID' => $this->memberInfo['memberID'],
+                    'memberDeliveryID' => $memberDeliveryID,
+                );
+                $this->memberOrderDeliveryModel->insert($orderDelivery);
+            }
+
+
             $this->memberOrderModel->commit();
 
             $payDetail = $this->memberPayDetailModel->select(array('unitePayID' => $orderInfo['unitePayID']))->current();
@@ -99,7 +109,7 @@ class OrderController extends Front{
                 }else{
                     try{
                         $this->sm->get('COM\Service\PayMod\RechargePay')->notify($unitePayID, $price);
-                        return $this->response(ApiSuccess::COMMON_SUCCESS, '支付成功');
+                        return $this->response(2, '支付成功');
                     }catch (\Exception $e){
                         return $this->response($e->getCode(), $e->getMessage());
                     }
@@ -136,18 +146,17 @@ class OrderController extends Front{
                 }else{
                     try{
                         $this->sm->get('COM\Service\PayMod\RechargePay')->productNotify($unitePayID, $price);
-                        return $this->response(ApiSuccess::COMMON_SUCCESS, '支付成功');
+                        return $this->response(2, '支付成功');
                     }catch (\Exception $e){
                         return $this->response($e->getCode(), $e->getMessage());
                     }
                 }
             }if($payType == 2){
                 $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->productDoPay($unitePayID, $price);
-                return $this->redirect()->toUrl($payUrl);
+                return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payUrl));
             }elseif($payType == 3){
                 $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->productDoPay($unitePayID, $price);
-                $this->response->setContent($payForm);
-                return $this->response;
+                return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
             }elseif($payType == 4){
 
             }
@@ -169,7 +178,7 @@ class OrderController extends Front{
                 }else{
                     try{
                         $this->sm->get('COM\Service\PayMod\RechargePay')->specialNotify($unitePayID, $price);
-                        return $this->response(ApiSuccess::COMMON_SUCCESS, '支付成功');
+                        return $this->response(2, '支付成功');
                     }catch (\Exception $e){
                         return $this->response($e->getCode(), $e->getMessage());
                     }
@@ -201,7 +210,7 @@ class OrderController extends Front{
                 }else{
                     try{
                         $this->sm->get('COM\Service\PayMod\RechargePay')->finalNotify($unitePayID, $price);
-                        return $this->response(ApiSuccess::COMMON_SUCCESS, '支付成功');
+                        return $this->response(2, '支付成功');
                     }catch (\Exception $e){
                         return $this->response($e->getCode(), $e->getMessage());
                     }

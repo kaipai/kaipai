@@ -56,21 +56,20 @@
                         <li class="<?php if ($controllerName == 'store') { ?> active<?php } ?>">
                             <a href="/admin/store/index"  class="text-success">店铺列表</a>
                         </li>
-
-                        <li class="<?php if ($controllerName == 'member') { ?> active<?php } ?>">
-                            <a href="/admin/member/index"  class="text-success">用户列表</a>
+                        <li class="<?php if ($controllerName == 'special') { ?> active<?php } ?>">
+                            <a href="/admin/special/index"  class="text-success"> 专场列表</a>
                         </li>
                         <li class="<?php if ($controllerName == 'product') { ?> active<?php } ?>">
                             <a href="/admin/product/index"  class="text-success"> 拍品列表</a>
                         </li>
-                        <li class="<?php if ($controllerName == 'special') { ?> active<?php } ?>">
-                            <a href="/admin/special/index"  class="text-success"> 专场列表</a>
-                        </li>
-                        <li class="<?php if ($controllerName == 'order') { ?> active<?php } ?>">
-                            <a href="/admin/order/index"  class="text-success">订单列表</a>
-                        </li>
                         <li class="<?php if ($controllerName == 'article') { ?> active<?php } ?>">
                             <a href="/admin/article/index"  class="text-success">文章列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'order' && $actionName == 'index') { ?> active<?php } ?>">
+                            <a href="/admin/order/index"  class="text-success">订单列表</a>
+                        </li>
+                        <li class="<?php if ($controllerName == 'member') { ?> active<?php } ?>">
+                            <a href="/admin/member/index"  class="text-success">用户列表</a>
                         </li>
                         <li class="<?php if ($controllerName == 'member-article') { ?> active<?php } ?>">
                             <a href="/admin/member-article/index"  class="text-success">个人空间文章列表</a>

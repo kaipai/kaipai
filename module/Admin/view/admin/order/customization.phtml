@@ -36,40 +36,39 @@
         <table id="table-pagination" class="bootstrap_table"></table>
     </div>
     <!-- Edit Modal Start -->
-    <!--<div class="row">
+    <div class="row">
         <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title" id="edit_modal_label">排序设置</h4>
+                        <h4 class="modal-title" id="edit_modal_label">发货</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-horizontal" id="editForm" role="form" method="get" action="/admin/<?/*=$this->layout()->controllerName;*/?>/sort-product">
+                        <form class="form-horizontal" id="editForm" role="form" method="get" action="/admin/<?php echo $this->layout()->controllerName;?>/set-delivery">
                             <table class="table table-bordered">
                                 <tr>
                                     <td>
-                                        <div class="form-group">
-                                            <label for="desc" class="col-sm-2 col-md-2 control-label">商品名称</label>
-                                            <div class="col-sm-10 col-md-10">
-                                                <input type="text" class="form-control" id="product-name" disabled="true" name="productName" value="">
-                                            </div>
-                                        </div>
+                                        <input type="radio" name="haveDelivery" value="1" checked>
+                                        <select name="deliveryTypeID">
+                                            <?php foreach($deliveryTypes as $v){
+                                            ?>
+                                            <option value="<?php echo $v['deliveryTypeID'] ?>"><?php echo $v['typeName'] ?></option>
+                                            <?php
+                                            } ?>
+                                        </select>
+                                        运单号码:
+                                        <input type="text" name="deliveryNum" value="">
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>
-                                        <div class="form-group">
-                                            <label for="desc" class="col-sm-2 col-md-2 control-label">产品排序</label>
-                                            <div class="col-sm-10 col-md-10">
-                                                <input type="text" class="form-control" id="sort" name="sort" value="">
-                                            </div>
-                                        </div>
+                                        <input type="radio" name="haveDelivery" value="0">无需物流
                                     </td>
                                 </tr>
                             </table>
-                            <input type="hidden"  name="productID" id="product-id" value="" />
+                            <input type="hidden"  name="orderID" value="" />
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -79,21 +78,16 @@
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
     <!-- Edit Modal End -->
 </div>
 
 <script type="text/javascript">
-    /*$('#edit_modal').on("show.bs.modal",function(e){
-     var btn = $(e.relatedTarget);
-     var id = btn.attr('rid');
-     $.get("/admin/product/get/"+id,function(data){
-     $("#product-name").val(data.productName);
-     $("#sort").val(data.sort);
-     $("#product-id").val(data.productID);
-
-     },"json");
-     });*/
+    $('#edit_modal').on("show.bs.modal",function(e){
+        var btn = $(e.relatedTarget);
+        var orderID = btn.attr('rid');
+        $('input[name=orderID]').val(orderID);
+    });
     $(function(){
 
         table = $('#table-pagination').bootstrapTable({
@@ -130,7 +124,7 @@
                 width: '200px',
                 valign: 'middle'
             }, {
-                field: 'productName',
+                field: 'title',
                 title: '商品名称',
                 align: 'center',
                 valign: 'middle'
@@ -161,13 +155,15 @@
                     if(value == 1){
                         $s += '待付款'
                     }else if(value == 2){
-                        $s += '已付定金'
+                        $s += '已付定金' + '<a title="发货" href="javascript:void(0)"  class="col-md-4" rid="' + row.orderID + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-sort"></i></a>';
                     }else if(value == 3){
-                        $s += '已付全款'
+                        $s += '已付全款';
                     }else if(value == 4){
                         $s += '已发货'
                     }else if(value == 5){
                         $s += '已收货'
+                    }else if(value == 6){
+                        $s += '已付全款'
                     }
 
                     return $s;

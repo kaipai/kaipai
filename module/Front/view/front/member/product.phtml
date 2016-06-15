@@ -122,6 +122,7 @@
         </div>
     </div>
 </div>
+<?php echo $this->render('/front/common/pay'); ?>
 <script>
     $(function(){
         function recommendProduct(params){
@@ -209,6 +210,21 @@
             var data = {};
             data.productID = $(this).attr('product-id');
             data.keepPrice = $(this).prev('input').val();
+            data.existKeepPrice = 1;
+            $.ajax({
+                url : '/member/save-product',
+                type : 'post',
+                dataType : 'json',
+                data : data,
+                success : function(data){
+                    layer.alert(data.msg);
+                }
+            });
+        });
+        $('.edit-start-price-btn').on('click', function(){
+            var data = {};
+            data.productID = $(this).attr('product-id');
+            data.startPrice = $(this).prev('input').val();
             data.existKeepPrice = 1;
             $.ajax({
                 url : '/member/save-product',
@@ -333,15 +349,53 @@
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
+                        if(res.data['unitePayID']){
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: $('#pay-div').html()
+                            });
+                            $('.pay-price:visible').html(res.data['price']);
+                            $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
+                        }else{
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+
+                        }
                     }else{
                         layer.alert(res.msg);
                     }
                 }
             });
         }
+
+        $(document).on('click', '.confirm-pay:visible', function(){
+            var data = {};
+            data.payType = $('.selected-pay-type').attr('pay-type');
+            if(!data.payType) {
+                layer.alert('请选择付款方式');
+                return false;
+            }
+            data.unitePayID = $('.pay-price:visible').attr('unite-pay-id');
+            $.ajax({
+                url : '/order/pay-product',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        if(res.flag == 2){
+                            location.reload();
+                        }
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
         function withDrawProducts(productID){
             var data = {};
             data.productID = productID;

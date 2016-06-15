@@ -12,7 +12,7 @@ class CustomizationController extends Admin{
 
     public function addViewAction(){
         $customizationID = $this->queryData['customizationID'];
-        $artists = $this->artistModel->select()->toArray();
+        $artists = $this->artistModel->select(array('isDel' => 0))->toArray();
         if(!empty($customizationID)){
             $info = $this->customizationModel->select(array('customizationID' => $customizationID))->current();
         }

@@ -930,7 +930,7 @@ em, i {
 }
 .Fixyue1 ul li:hover, .Fixyue1 ul li.selected-pay-type{background:#92c9c3 url(/jin/images/zf_08.png) no-repeat scroll 5% center; }
 .fix_mor{background:#92c9c3 url(/jin/images/zf_08.png) no-repeat scroll 5% center !important;}
-.Fixyue1 ul li img{ margin-right:30px ; float: left;margin-top:5px;}
+.Fixyue1 ul li img{ margin-right:30px ; float: left;margin-top:5px;width:50px !important;}
 .Fixyue2 { background: #810100; text-align: center;color: #fff; line-height: 54px; margin-top: 10px; font-size: 16px; cursor: pointer;}
 .Fixclose{ height: 36px}
 .Fixclose img{ float: right;}

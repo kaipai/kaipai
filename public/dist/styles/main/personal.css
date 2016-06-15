@@ -1826,7 +1826,7 @@ body {
 .inde_bioanmji{ margin-left: 100px}
 
 
-.Fixyue {/* position: fixed; */top: 200px;overflow: hidden;width: 470px;z-index: 22;padding: 20px;/* right:0px; */ border: 1px solid #d3d3d3; background: #fff;margin: auto;}
+.Fixyue {/* position: fixed; */top: 200px;overflow: hidden;width: 315px;z-index: 22;padding: 20px;/* right:0px; */ border: 1px solid #d3d3d3; background: #fff;margin: auto;}
 .Fixyue1 ul li{
     line-height: 60px; display: block;  margin-top:2px ; font-size: 16px  ; height: 60px; background:#f8f8f8 url(/images/zf_16.png) no-repeat scroll 5% center; padding-left: 80px; cursor: pointer;
 }

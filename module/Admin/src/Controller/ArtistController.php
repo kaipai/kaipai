@@ -41,7 +41,7 @@ class ArtistController extends Admin{
 
     public function listAction(){
 
-        $res = $this->artistModel->getArtists($this->pageNum, $this->limit);
+        $res = $this->artistModel->getArtists(array(), $this->pageNum, $this->limit);
 
         return $this->adminResponse(array('rows' => $res['data'], 'total' => $res['total']));
     }

@@ -49,7 +49,7 @@
                                 </p>
 
                                 <div class="yc_ysname1">
-                                    <?php if(!empty($v['commision'])){
+                                    <?php if($v['commision'] != 0){
                                         ?>
                                         <p><span class="yc_ysname">佣金</span> <span class="yc_money"><?php echo $v['commision'] ?></span></p>
                                     <?php

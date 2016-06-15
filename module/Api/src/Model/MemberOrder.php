@@ -71,7 +71,7 @@ class MemberOrder extends Model{
 
     public function getFinalOrderInfo($unitePayID){
         $select = $this->getSelect();
-        $select->join(array('b' => 'MemberPayDetail'), 'MemberOrder.unitePayID = b.unitePayID', array('payMoney'));
+        $select->join(array('b' => 'MemberPayDetail'), 'MemberOrder.finalUnitePayID = b.unitePayID', array('payMoney'));
         $select->where(array('MemberOrder.finalUnitePayID' => $unitePayID));
 
         $res = $this->selectWith($select)->current();

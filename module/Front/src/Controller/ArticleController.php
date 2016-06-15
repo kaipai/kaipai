@@ -43,4 +43,11 @@ class ArticleController extends Front{
         return $this->view;
 
     }
+
+    public function contentAction(){
+        $this->view->setNoLayout();
+        $this->detailAction();
+        return $this->view;
+
+    }
 }

@@ -12,17 +12,26 @@ class SpecialController extends Admin{
     }
 
     public function listAction(){
-        $offset = $this->request->getQuery('offset', $this->offset);
-        $limit = $this->request->getQuery('limit', $this->limit);
-        $where = array();
 
-        $data = array();
+        $res = $this->specialModel->getSpecials(array(), $this->pageNum, $this->limit);
+        $rows = $res['data'];
+        foreach($rows as $k => $v){
+            $rows[$k]['startTime'] = date('Y-m-d H:i:s', strtotime($v['startTime']));
+            $rows[$k]['endTime'] = date('Y-m-d H:i:s', strtotime($v['endTime']));
+        }
 
-        $data['total'] = $this->specialModel->getCount($where);
-
-        $data['rows'] = $this->specialModel->getList($where, "specialID desc", $offset, $limit);
-
-        return $this->adminResponse($data);
+        return $this->adminResponse(array('rows' => $rows, 'total' => $res['total']));
     }
 
+    public function updateAction(){
+        $specialID = $this->postData['specialID'];
+
+        $where = array(
+            'specialID' => $specialID
+        );
+        unset($this->postData['specialID']);
+        $this->specialModel->update($this->postData, $where);
+
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
+    }
 }

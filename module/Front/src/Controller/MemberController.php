@@ -63,6 +63,7 @@ class MemberController extends Front{
                 $orders[$k]['product'] = $tmp;
             }elseif(!empty($v['customizationSnapshot'])){
                 $tmp = json_decode($v['customizationSnapshot'], true);
+
                 $orders[$k]['product'] = array(
                     'productName' => $tmp['title'],
                     'currPrice' => $tmp['price'],
@@ -71,6 +72,7 @@ class MemberController extends Front{
                 );
             }
         }
+
         $this->view->setVariables(array(
             'orders' => $orders,
             'pages' => $result['pages'],
@@ -91,6 +93,19 @@ class MemberController extends Front{
         if(empty($orderInfo)){
             $this->view->setTemplate('error/404');
         }else{
+            if($orderInfo['orderType'] == 2){
+                $tmp = json_decode($orderInfo['customizationSnapshot'], true);
+
+                $orderInfo['product'] = array(
+                    'productName' => $tmp['title'],
+                    'currPrice' => $tmp['price'],
+                    'depositPrice' => $tmp['depositPrice'],
+                    'listImg' => $tmp['listImg'],
+                );
+            }else{
+                $tmp = json_decode($orderInfo['productSnapshot'], true);
+                $orderInfo['product'] = $tmp;
+            }
             $this->view->setVariables(array(
                 'info' => $orderInfo,
             ));
@@ -534,8 +549,13 @@ class MemberController extends Front{
                 $this->specialModel->update($this->postData, $where);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
             }else{
+                $unitePayID = $this->memberOrderModel->genUnitePayID();
                 $this->specialModel->insert($this->postData);
-                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功');
+
+                $price = $this->siteSettings['specialMoney'];
+
+
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('unitePayID' => $unitePayID, 'price' => $price));
             }
 
 
@@ -545,16 +565,20 @@ class MemberController extends Front{
 
     public function specialVerifyAction(){
         $specialID = $this->postData['specialID'];
-        $this->specialModel->update(array('verifyStatus' => 1), array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
-
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        //$specialInfo = $this->specialModel->select(array('specialID' => $specialID))->current();
+        //$this->specialModel->update(array('verifyStatus' => 1), array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
+        $unitePayID = $this->memberOrderModel->genUnitePayID();
+        $this->specialModel->update(array('unitePayID' => $unitePayID), array('specialID' => $specialID));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $this->siteSettings['specialMoney']));
     }
 
     public function specialAction(){
-        $specials = $this->specialModel->select(array('storeID' => $this->_storeInfo['storeID']))->toArray();
+        $where = array('Special.storeID' => $this->_storeInfo['storeID']);
+        $specials = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit);
 
         $this->view->setVariables(array(
-            'specials' => $specials,
+            'specials' => $specials['data'],
+            'pages' => $specials['pages'],
         ));
         return $this->view;
     }
@@ -562,7 +586,7 @@ class MemberController extends Front{
     public function specialProductAction(){
         $specialID = $this->queryData['specialID'];
         $special = $this->specialModel->select(array('specialID' => $specialID))->current();
-        $products = $this->productModel->select()->toArray();
+        $products = $this->productModel->select(array('specialID' => $specialID))->toArray();
         $this->view->setVariables(array(
             'special' => $special,
             'products' => $products,
@@ -859,10 +883,21 @@ class MemberController extends Front{
         $productID = $this->postData['productID'];
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
         $productInfo = $this->productModel->select($where)->current();
+
         if(!empty($productInfo)){
-            $this->productModel->update(array('startTime' => time(), 'endTime' => strtotime('+1 day'), 'auctionStatus' => 2), $where);
+            $this->productModel->update(array('startTime' => time(), 'endTime' => strtotime('+1 day')), $where);
         }
-        return $this->response(ApiSuccess::COMMON_SUCCESS, '上架成功');
+        $paidWhere = array_merge($where, array('isPaid' => 0));
+        $products = $this->productModel->select($paidWhere)->toArray();
+        if(!empty($products)){
+            $price = $this->siteSettings['productMoney'] * count($products);
+            $unitePayID = $this->memberOrderModel->genUnitePayID();
+            $this->productModel->update(array('unitePayID' => $unitePayID), $where);
+        }else{
+            $this->productModel->update(array('auctionStatus' => 2), $where);
+        }
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '上架成功', array('unitePayID' => $unitePayID, 'price' => $price));
     }
 
     public function withdrawProductAction(){

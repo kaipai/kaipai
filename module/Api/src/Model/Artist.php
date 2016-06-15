@@ -4,10 +4,11 @@ namespace Api\Model;
 use COM\Model;
 class Artist extends Model{
 
-    public function getArtists($page, $limit){
+    public function getArtists($where, $page, $limit){
+        $where = array_merge($where, array('isDel' => 0));
         $select = $this->getSelect();
         $select->join(array('b' => 'ArtistCategory'), 'Artist.artistCategoryID = b.artistCategoryID', array('categoryName'));
-        $select->where(array('isDel' => 0));
+        $select->where($where);
 
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);

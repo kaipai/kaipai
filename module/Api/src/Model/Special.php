@@ -18,16 +18,17 @@ class Special extends Model{
         $select->join(array('c' => 'Store'), 'Special.storeID = c.storeID', array('storeName', 'storeLogo'));
 
         $select->where($where);
-
+        $select->order('instime desc');
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);
-        $data = $paginator->getCurrentItems();
+        $data = $paginator->getCurrentItems()->getArrayCopy();
         $pages = $paginator->getPages();
-
+        $total = $paginator->getTotalItemCount();
         $result = array(
             'data' => $data,
             'pages' => $pages,
+            'total' => $total
         );
         return $result;
     }

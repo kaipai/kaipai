@@ -28,7 +28,7 @@
                                 <div class="kp_tj_left cj_jjjs">
                                     <p>即将开始</p>
 
-                                    <p>12月30日 10:00</p>
+                                    <p><?php echo date('m月d日 H:i', $v['startTime']) ?></p>
 
                                     <div class="cj_ad"><a href="javascript:;" class="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
                                 </div>
@@ -110,11 +110,12 @@
             ?>
 
         </div>
+        <?php echo $this->render('/front/common/paginate', array('url' => '/member/special?', 'pages' => $pages)); ?>
 
 
     </div>
 </div>
-
+<?php echo $this->render('/front/common/pay'); ?>
 <script>
     $(function(){
         $('.special-verify-btn').on('click', function(){
@@ -126,15 +127,50 @@
                 dataType : 'json',
                 type : 'post',
                 data : data,
-                success : function(data){
-                    if(data.flag > 0){
-                        layer.alert('提交成功', function(){
-                            location.href = '/member/special';
-                        });
+                success : function(res){
+                    if(res.flag > 0){
+                        if(res.data['unitePayID']){
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: $('#pay-div').html()
+                            });
+                            $('.pay-price:visible').html(res.data['price']);
+                            $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
+                        }else{
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+
+                        }
                     }else{
-                        layer.open({
-                            content : data.msg
-                        });
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.confirm-pay:visible', function(){
+            var data = {};
+            data.payType = $('.selected-pay-type').attr('pay-type');
+            if(!data.payType) {
+                layer.alert('请选择付款方式');
+                return false;
+            }
+            data.unitePayID = $('.pay-price:visible').attr('unite-pay-id');
+            $.ajax({
+                url : '/order/pay-special',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        if(res.flag == 2){
+                            location.reload();
+                        }
+                    }else{
+                        layer.alert(res.msg);
                     }
                 }
             });
@@ -148,8 +184,8 @@
                 type : 'post',
                 dataType : 'json',
                 data : data,
-                success : function(data){
-                    layer.alert(data.msg);
+                success : function(res){
+                    layer.alert(res.msg);
                 }
             });
         });

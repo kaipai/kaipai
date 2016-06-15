@@ -30,28 +30,46 @@
                     </div>
                 </div>
 
-                <?php if($info['orderStatus'] == 1){ ?>
-                    <div id="member-delivery-list">
+                <?php if(in_array($info['orderStatus'], array(1, 5)) && empty($storeView)){ ?>
+                    <?php if($info['orderStatus'] == 1){ ?>
+                        <div id="member-delivery-list">
 
-                    </div>
+                        </div>
 
-                    <div class="yg_addresbtn add-member-delivery-btn">添加新地址</div>
-                    <div class="yg_bz">
-                        <div class="yc_ly">留言备注</div>
-                        <textarea class="order-remark"></textarea>
-                    </div>
-                    <div class="yg_fk">
-                        付款金额 <?php echo $info['payMoney']; ?> <span class="yg_sfmoney1">实付金额</span><span class="yg_sfmoney"><?php echo $info['payMoney']; ?></span>
-                    </div>
-                    <div class="yg_zf">
-                        <ul class="order-detail-pay-list">
-                            <li class="" pay-type="1"><img src="/jinren/images/zf_03.png"> 余额支付</li>
-                            <li class="" pay-type="2"><img src="/jinren/images/zf_06.png"> 支付宝</li>
-                            <!--<li class="fix_mor"><img src="images/zf_12.png"> 微信钱包</li>-->
-                            <li class="" pay-type="3"><img src="/jinren/images/zf_14.png" style="width:52px;height:51px;"> 银联支付</li>
-                            <li class="" pay-type="4"><img src="/jinren/images/zf_20.png"> 银行汇款</li>
-                        </ul>
-                    </div>
+                        <div class="yg_addresbtn add-member-delivery-btn">添加新地址</div>
+                        <div class="yg_bz">
+                            <div class="yc_ly">留言备注</div>
+                            <textarea class="order-remark"></textarea>
+                        </div>
+
+                        <div class="yg_fk">
+                            付款金额 <?php echo $info['payMoney']; ?> <span class="yg_sfmoney1">实付金额</span><span class="yg_sfmoney"><?php echo $info['payMoney']; ?></span>
+                        </div>
+                        <div class="yg_zf">
+                            <ul class="order-detail-pay-list">
+                                <li class="" pay-type="1"><img src="/jinren/images/zf_03.png"> 余额支付</li>
+                                <li class="" pay-type="2"><img src="/jinren/images/zf_06.png"> 支付宝</li>
+                                <!--<li class="fix_mor"><img src="images/zf_12.png"> 微信钱包</li>-->
+                                <li class="" pay-type="3"><img src="/jinren/images/zf_14.png" style="width:52px;height:51px;"> 银联支付</li>
+                                <li class="" pay-type="4"><img src="/jinren/images/zf_20.png"> 银行汇款</li>
+                            </ul>
+                        </div>
+                    <?php }else{
+                    ?>
+                        <div class="yg_fk">
+                            尾款金额 <?php echo $info['finalPrice']; ?> <span class="yg_sfmoney1">实付金额</span><span class="yg_sfmoney"><?php echo $info['finalPrice']; ?></span>
+                        </div>
+                        <div class="yg_zf">
+                            <ul class="order-detail-pay-list">
+                                <li class="" pay-type="1"><img src="/jinren/images/zf_03.png"> 余额支付</li>
+                                <li class="" pay-type="2"><img src="/jinren/images/zf_06.png"> 支付宝</li>
+                                <!--<li class="fix_mor"><img src="images/zf_12.png"> 微信钱包</li>-->
+                                <li class="" pay-type="3"><img src="/jinren/images/zf_14.png" style="width:52px;height:51px;"> 银联支付</li>
+                                <li class="" pay-type="4"><img src="/jinren/images/zf_20.png"> 银行汇款</li>
+                            </ul>
+                        </div>
+                    <?php
+                    }  ?>
 
                 <?php }elseif($info['orderStatus'] >= 4){
                     ?>
@@ -70,12 +88,23 @@
                 <?php
                 } ?>
             </div>
-            <?php if($info['orderStatus'] == 1){
-            ?>
-                <div class="yg_qrzf">
-                    <a href="javascript:;" id="confirm-pay-btn"><span class="yg_qrzf1"> 确认支付</span></a>
-                    <!--<a href=""><span class="yg_qrzf2"> 稍后付款</span></a>-->
-                </div>
+            <?php if(in_array($info['orderStatus'], array(1, 5)) && empty($storeView)){ ?>
+                <?php if($info['orderStatus'] == 1){
+                ?>
+                    <div class="yg_qrzf">
+                        <a href="javascript:;" id="confirm-pay-btn"><span class="yg_qrzf1"> 确认支付</span></a>
+                        <!--<a href=""><span class="yg_qrzf2"> 稍后付款</span></a>-->
+                    </div>
+                <?php
+                }else{
+                ?>
+                    <div class="yg_qrzf">
+                        <a href="javascript:;" id="confirm-pay-final-btn"><span class="yg_qrzf1"> 确认支付</span></a>
+                        <!--<a href=""><span class="yg_qrzf2"> 稍后付款</span></a>-->
+                    </div>
+                <?php
+                } ?>
+
             <?php
             } ?>
         </div>
@@ -202,6 +231,31 @@
             data.orderRemark = $('.order-remark').text();
             $.ajax({
                 url : '/order/pay',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('#confirm-pay-final-btn').on('click', function() {
+            var data = {};
+            data.unitePayID = <?php echo $info['finalUnitePayID'] ?>;
+            data.payType = $('.yg_selected_pay_type').attr('pay-type');
+            if(!data.payType) {
+                layer.alert('请选择付款方式');
+                return false;
+            }
+            $.ajax({
+                url : '/order/pay-final',
                 dataType : 'json',
                 type : 'post',
                 data : data,

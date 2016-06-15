@@ -1,7 +1,7 @@
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
-        <?php echo $this->render('left', array('leftTab' => 'add-special')); ?>
+        <?php echo $this->render('left', array('leftTab' => 'special')); ?>
         <!-- right部分 -->
         <div class="kp_right">
             <div>
@@ -66,7 +66,7 @@
 
     </div>
 </div>
-
+<?php echo $this->render('/front/common/pay'); ?>
 <script type="text/javascript">
     $(function(){
         //alert(1);
@@ -163,17 +163,53 @@
             dataType : 'json',
             type : 'post',
             data : data,
-            success : function(data){
-                if(data.flag > 0){
-                    layer.alert(data.msg, function(){
-                        location.href = '/member/special';
-                    });
+            success : function(res){
+                if(res.flag > 0){
+                    if(res.data['unitePayID']){
+                        layer.open({
+                            skin: '',
+                            title:'',
+                            type: 1,
+                            content: $('#pay-div').html()
+                        });
+                        $('.pay-price:visible').html(res.data['price']);
+                        $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
+                    }else{
+                        layer.alert(res.msg, function(){
+                            location.href = '/member/special';
+                        });
+                    }
                 }else{
                     layer.open({
-                        content : data.msg
+                        content : res.msg
                     });
                 }
             }
+        });
+
+        $(document).on('click', '.confirm-pay:visible', function(){
+            var data = {};
+            data.payType = $('.selected-pay-type').attr('pay-type');
+            if(!data.payType) {
+                layer.alert('请选择付款方式');
+                return false;
+            }
+            data.unitePayID = $('.pay-price:visible').attr('unite-pay-id');
+            $.ajax({
+                url : '/order/pay-special',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        if(res.flag == 2){
+                            location.reload();
+                        }
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
         });
 
 

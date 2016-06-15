@@ -39,7 +39,7 @@
                                 </p>
 
                                 <div class="yc_ysname1">
-                                    <?php if(!empty($v['commision'])){
+                                    <?php if($v['commision'] != 0){
                                     ?>
                                         <p><span class="yc_ysname">佣金</span> <span class="yc_money"><?php echo $v['commision'] ?></span></p>
                                     <?php
@@ -55,6 +55,15 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">等待买家付款</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }elseif($v['orderStatus'] == 2){
+                            ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1">已付定金</div>
+                                </div>
+                                <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
@@ -80,8 +89,24 @@
                             <?php
                             }elseif($v['orderStatus'] == 5){
                                 ?>
+                                <?php
+                                    if($v['orderType'] == 2){
+                                ?>
+                                        <div class="yc_ddfk yc_imgleft2">
+                                            <div class="yc_ddfk1">待付尾款</div>
+                                        </div>
+                                <?php
+                                    }
+                                ?>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">买家已收货</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                </div>
+                            <?php
+                            }elseif($v['orderStatus'] == 6){
+                                ?>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <p class="yc_p"><a href="javascript:;">已付全款</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php

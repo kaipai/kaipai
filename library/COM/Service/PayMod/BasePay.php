@@ -34,7 +34,7 @@ abstract class BasePay
             $this->memberPayDetailModel->update(array('paidMoney' => $orderInfo['payMoney'], 'payTime' => time()), $where);
             if(!empty($orderInfo['customizationID'])){
                 $orderModel->update(array('orderStatus' => 2), $where);
-                $this->customizationModel->update(array('lastNum' => new Expression('lastNumber+1'), 'boughtCount' => new Expression('boughtCount+1')));
+                $this->customizationModel->update(array('lastNum' => new Expression('lastNum+1'), 'boughtCount' => new Expression('boughtCount+1')));
             }else{
                 $orderModel->update(array('orderStatus' => 3), $where);
             }
@@ -44,6 +44,7 @@ abstract class BasePay
             $orderModel->commit();
             return true;
         }catch(\Exception $e){
+
             $orderModel->rollback();
 
             throw new \Exception(ApiError::ORDER_TRANSACTION_FAILED_MSG, ApiError::ORDER_TRANSACTION_FAILED);
@@ -56,7 +57,7 @@ abstract class BasePay
             $product = $this->productModel->select(array('unitePayID' => $unitePayID))->current();
             if($product['isPaid']) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $this->productModel->beginTransaction();
-            $this->productModel->update(array('auctionStatus' => 1, 'isPaid' => 1), array('unitePayID' => $unitePayID));
+            $this->productModel->update(array('auctionStatus' => 2, 'isPaid' => 1), array('unitePayID' => $unitePayID));
             $memberInfo = $this->memberInfoModel->select(array('storeID' => $product['storeID']))->current();
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $memberInfo['memberID']));
@@ -76,7 +77,7 @@ abstract class BasePay
             $special = $this->specialModel->select(array('unitePayID' => $unitePayID))->current();
             if($special['isPaid']) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $this->specialModel->beginTransaction();
-            $this->specialModel->update(array('auctionStatus' => 1, 'isPaid' => 1), array('unitePayID' => $unitePayID));
+            $this->specialModel->update(array('isPaid' => 1, 'verifyStatus' => 1), array('unitePayID' => $unitePayID));
             $memberInfo = $this->memberInfoModel->select(array('storeID' => $special['storeID']))->current();
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $memberInfo['memberID']));
@@ -93,9 +94,8 @@ abstract class BasePay
     public function finalNotify($unitePayID, $useRechargeMoney = 0){
         try{
             $orderInfo = $this->memberOrderModel->getFinalOrderInfo($unitePayID);
-            if($orderInfo['orderStatus'] != 1) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $this->memberOrderModel->beginTransaction();
-            $this->memberOrderModel->update(array('orderStatus' => 3), array('finalUnitePayID' => $unitePayID));
+            $this->memberOrderModel->update(array('orderStatus' => 6), array('finalUnitePayID' => $unitePayID));
             $this->memberPayDetailModel->update(array('paidMoney' => $orderInfo['payMoney']), array('unitePayID' => $unitePayID));
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));
