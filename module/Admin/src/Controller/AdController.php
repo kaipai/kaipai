@@ -33,6 +33,8 @@ class AdController extends Admin{
     public function addAction(){
         $adData = $this->postData;
         unset($adData['adID']);
+        if(!empty($adData['startTime'])) $adData['startTime'] = strtotime($adData['startTime']);
+        if(!empty($adData['endTime'])) $adData['endTime'] = strtotime($adData['endTime']);
         $this->adModel->insert($adData);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);

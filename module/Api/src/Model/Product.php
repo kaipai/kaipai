@@ -20,6 +20,18 @@ class Product extends Model{
         return $this->productFilterOptionModel->getList($where, $order, 0, 18);
     }
 
+    public function getIndexRecommendProducts(){
+
+        $where = array(
+            'b.isIndexRecommend' => 1,
+            'b.auctionStatus' => BaseConst::AUCTION_STATUS_PROCESSING,
+        );
+        $order = array('b.instime desc');
+
+
+        return $this->productFilterOptionModel->getList($where, $order, 0, 18);
+    }
+
     public function fetch($where = array()){
         $select = $this->getSelect();
         $select->join(array('b' => 'ProductCategory'), 'Product.productCategoryID = b.productCategoryID', array('categoryName'));
@@ -71,10 +83,9 @@ class Product extends Model{
 
     public function getExpireProducts(){
         $select = $this->getSelect();
-        $select->columns(array('productID'));
-        $select->join(array('b' => 'AuctionMember'), 'Product.productID = b.productID and Product.myCurrPrice = Product.currPrice', array('auctionMemberID', 'memberID'));
-        $select->where(array('Product.auctionStatus' => 2, 'Product.endTime > ?' => time(), 'Product.isDel' => 0));
-        $products = $this->selectWith($select)->current();
+        $select->join(array('b' => 'AuctionMember'), 'Product.productID = b.productID and b.myCurrPrice = Product.currPrice', array('auctionMemberID', 'memberID'));
+        $select->where(array('Product.auctionStatus' => 2, 'Product.endTime < ?' => time(), 'Product.isDel' => 0));
+        $products = $this->selectWith($select)->toArray();
 
         return $products;
     }

@@ -7,10 +7,10 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
         <dl class="exc_b_l">
             <dt><img src="<?php echo $storeInfo['storeLogo'] ?>"></dt>
             <dd>
-                <span><?php echo $storeInfo['sotreName'];?></span> <a href="" class="exc_b">联系卖家</a><br/><?php echo $storeInfo['storeSignature'] ?>
+                <span><?php echo $storeInfo['sotreName'];?></span> <a href="tencent://message/?uin=<?php echo $storeInfo['storeqq'] ?>&Site=www.kaipai123.com&Menu=yes" class="exc_b">联系卖家</a><br/><?php echo $storeInfo['storeSignature'] ?>
             </dd>
         </dl>
-        <div class="exc_code"><img src="/he/images/code.gif"></div>
+        <!--<div class="exc_code"><img src="/he/images/code.gif"></div>-->
     </div>
 </div>
 <div class="exc_rank">
@@ -30,7 +30,7 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
             <?php
                 }
             ?>
-            <a href="javascript:;" class="post-error-btn" >站内报错</a></div>
+            <a href="javascript:;" class="post-error-btn">站内报错</a></div>
         </div>
 </div>
 <div class="wrap5">
@@ -54,7 +54,7 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
         <?php
             foreach($storeRecommendProducts as $v){
         ?>
-                <ul class="exc_list">
+                <ul class="exc_list" style="cursor:pointer;;" onclick="location.href='/product/detail?productID=<?php echo $v['productID'] ?>';">
                     <li class="lh32"><a href=""><?php echo $v['productName'] ?></a></li>
                     <li class="lh32">当前价 <span>￥<?php echo $v['currPrice'] ?></span></li>
                     <li class="lh32">距结束 <?php echo $v['leftTime'];  ?></li>

@@ -23,15 +23,15 @@ abstract class BasePay
      * @param $unitePayID 支付号
      */
     public function notify($unitePayID, $useRechargeMoney = 0){
+        $orderModel = $this->memberOrderModel;
         try{
             $where = array(
                 'unitePayID' => $unitePayID
             );
-            $orderModel = $this->memberOrderModel;
             $orderInfo = $orderModel->getOrderInfo($unitePayID);
             if($orderInfo['orderStatus'] != 1) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $orderModel->beginTransaction();
-            $orderModel->update(array('paidMoney' => $orderInfo['payMoney']), $where);
+            $this->memberPayDetailModel->update(array('paidMoney' => $orderInfo['payMoney'], 'payTime' => time()), $where);
             if(!empty($orderInfo['customizationID'])){
                 $orderModel->update(array('orderStatus' => 2), $where);
                 $this->customizationModel->update(array('lastNum' => new Expression('lastNumber+1'), 'boughtCount' => new Expression('boughtCount+1')));

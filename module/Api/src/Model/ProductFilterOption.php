@@ -1,6 +1,7 @@
 <?php
 namespace Api\Model;
 
+use Base\Functions\Utility;
 use COM\Model;
 use Zend\Db\Sql\Select;
 
@@ -30,6 +31,9 @@ class ProductFilterOption extends Model{
         $products = $paginator->getCurrentItems()->getArrayCopy();
         $productsCount = $paginator->getTotalItemCount();
 
+        foreach($products as $k => $v){
+            $products[$k]['leftTime'] = Utility::getLeftTime(time(), $v['endTime']);
+        }
 
         return array('products' => $products, 'productsCount' => $productsCount);
 

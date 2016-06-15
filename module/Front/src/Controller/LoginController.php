@@ -4,6 +4,7 @@ namespace Front\Controller;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\Api\Sms;
+use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller\Front;
 use Zend\Authentication\Storage\Session;
@@ -16,7 +17,14 @@ class LoginController extends Front{
     }
 
     public function doLoginAction(){
-        if(empty($this->postData)) return $this->view;
+        if(empty($this->postData)) {
+            $ad = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_THIRD_RIGHT);
+            $ad = current($ad);
+            $this->view->setVariables(array(
+                'ad' => $ad,
+            ));
+            return $this->view;
+        }
 
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
@@ -37,6 +45,8 @@ class LoginController extends Front{
                 $autoCode = md5($memberInfo['memberID'] . Utility::getRandCode(6));
                 setcookie('autoCode', $autoCode, strtotime('+1 year'), '/');
                 $this->memberInfoModel->update(array('autoCode' => $autoCode), array('memberID' => $memberInfo['memberID']));
+            }else{
+                setcookie('autoCode', '', time() - 1, '/');
             }
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberInfo);
         }else{

@@ -16,7 +16,7 @@ class IndexController extends Front{
         $indexThirdRightAd = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_THIRD_RIGHT);
 
         $stores = $this->storeModel->select(array())->toArray();
-        $products = $this->productModel->getRecommendProducts();
+        $products = $this->productModel->getIndexRecommendProducts();
 
         $indexRecommendArticles = $this->articleModel->getIndexRecommendArticles();
         $indexArticleList = $this->articleModel->getIndexArticleList();

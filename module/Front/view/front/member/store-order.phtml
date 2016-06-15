@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="">等待买家付款</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 3){
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="">买家已付款</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 4){
@@ -85,14 +85,14 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="">卖家已发货</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 5){
                                 ?>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="">买家已收货</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }

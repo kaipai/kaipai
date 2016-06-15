@@ -3,6 +3,7 @@ namespace Front\Controller;
 
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\BaseConst;
 use COM\Controller\Front;
 use Zend\Db\Sql\Predicate\Between;
 
@@ -45,6 +46,8 @@ class SpecialController extends Front{
 
         $recommendProducts = $this->productModel->specialGetRecommendProducts();
         $stores = $this->storeModel->getHotStores(1, 20);
+
+        $ads = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_SPECIAL_INDEX);
         $this->view->setVariables(array(
             'recommendProducts' => $recommendProducts,
             'filter' => $filter,
@@ -52,6 +55,7 @@ class SpecialController extends Front{
             'pages' => $specials['pages'],
             'specialProductCategoryID' => $specialProductCategoryID,
             'stores' => $stores['data'],
+            'ads' => $ads,
         ));
         return $this->view;
     }

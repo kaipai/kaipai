@@ -189,17 +189,21 @@ class Utility
     }
 
     public static function getLeftTime($startTime, $endTime){
-        $startTime = strtotime($startTime);
-        $endTime = strtotime($endTime);
+        if(strlen($startTime) != 10){
+            $startTime = strtotime($startTime);
+            $endTime = strtotime($endTime);
+        }
         $strtime = '';
         $time = $endTime - $startTime;
+
         if($time >= 86400){
             $strtime .= intval($time / 86400).'天';
             $time = $time % 86400;
         }else{
             $strtime .= '';
         }
-        if($time >= 3600){
+
+        if($time >= $strtime){
             $strtime .= intval($time / 3600).'小时';
             $time = $time % 3600;
         }else{
@@ -213,9 +217,9 @@ class Utility
         }
         if($time > 0){
             $strtime .= intval($time).'秒';
-        }else{
-            $strtime = "";
         }
+
+
         return $strtime;
     }
 

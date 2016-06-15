@@ -1,14 +1,20 @@
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
-        <?php echo $this->render('left', array('leftTab' => 'order')); ?>
+        <?php
+            if(!empty($storeView)){
+                echo $this->render('left', array('leftTab' => 'store-order'));
+            }else{
+                echo $this->render('left', array('leftTab' => 'order'));
+            }
+        ?>
         <!-- right部分 -->
         <div class="kp_right ys_btom">
             <div class="yg_pp">
                 <div class="yc_pm41">
                     <span class="yc_pm1n">[订单号] <?php echo $info['businessID'] ?></span>
                     <span class="yc_pm2" style="background: transparent url('<?php echo $info['storeLogo'] ?>') no-repeat scroll 6% center"><?php echo $info['storeName'] ?></span>
-                    <span class="yc_pm3 lxmj1 "><a href="">联系卖家</a></span>
+                    <span class="yc_pm3 lxmj1 "><a href="tencent://message/?uin=<?php echo $info['storeqq'] ?>&Site=www.kaipai123.com&Menu=yes">联系卖家</a></span>
                     <span class="yc_pm44">成交时间</span>
                 </div>
                 <div class="yg_ppname">
@@ -24,7 +30,7 @@
                     </div>
                 </div>
 
-                <?php if($v['orderStatus'] > 2){ ?>
+                <?php if($info['orderStatus'] == 1){ ?>
                     <div id="member-delivery-list">
 
                     </div>
@@ -46,12 +52,32 @@
                             <li class="" pay-type="4"><img src="/jinren/images/zf_20.png"> 银行汇款</li>
                         </ul>
                     </div>
-                </div>
+
+                <?php }elseif($info['orderStatus'] >= 4){
+                    ?>
+                    <div class="yg_addres">
+                        <div class="">
+                            <div class="yg_addres_left1"></div>
+                            <div class="yg_addres_left2">
+                                <p class="yg_sjr">收货人：<?php echo $info['receiverName'] ?> <?php echo $info['receiverMobile'] ?></p>
+
+                                <p class="yg_sjr">收货地址：<?php echo $info['receiverAddr']; ?></p>
+                                <p class="yg_sjr">快递：<?php echo $info['typeName']; ?></p>
+                                <p class="yg_sjr">运单号码：<?php echo $info['deliveryNum']; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                } ?>
+            </div>
+            <?php if($info['orderStatus'] == 1){
+            ?>
                 <div class="yg_qrzf">
                     <a href="javascript:;" id="confirm-pay-btn"><span class="yg_qrzf1"> 确认支付</span></a>
                     <!--<a href=""><span class="yg_qrzf2"> 稍后付款</span></a>-->
                 </div>
-            <?php } ?>
+            <?php
+            } ?>
         </div>
     </div>
 </div>
@@ -181,7 +207,9 @@
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
                     }else{
                         layer.alert(res.msg);
                     }

@@ -10,6 +10,7 @@ class BaseConst
         self::AD_POSITION_PRODUCT_LIST_LEFT => '拍品列表左侧广告位',
         self::AD_POSITION_PRODUCT_LIST_RIGHT => '拍品列表右侧广告位',
         self::AD_POSITION_SPECIAL_INDEX => '专场拍卖首页广告位',
+        self::AD_POSITION_LOGIN_AD => '登录页左侧广告位',
     );
     const AD_POSITION_INDEX_BANNER = 1;
     const AD_POSITION_INDEX_SECOND = 2;
@@ -18,6 +19,7 @@ class BaseConst
     const AD_POSITION_PRODUCT_LIST_LEFT = 5;
     const AD_POSITION_PRODUCT_LIST_RIGHT = 6;
     const AD_POSITION_SPECIAL_INDEX = 7;
+    const AD_POSITION_LOGIN_AD = 8;
 
 
     const ARTICLE_INDEX_LEFT = 1;

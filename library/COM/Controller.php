@@ -110,12 +110,17 @@ class Controller extends AbstractActionController{
 
             }*/
             $autoCode = $_COOKIE['autoCode'];
+
             if(!empty($autoCode)){
                 $this->memberInfo = $this->memberInfoModel->select(array('autoCode' => $autoCode))->current();
             }else{
                 $loginSession = new Session($platform, null,null);
 
                 $this->memberInfo = $session = $loginSession->read();
+                if(!empty($this->memberInfo['memberID'])){
+                    $this->memberInfo = $this->memberInfoModel->select(array('memberID' => $this->memberInfo['memberID']))->current();
+                }
+
             }
 
 

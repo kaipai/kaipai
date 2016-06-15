@@ -1,26 +1,33 @@
-<?php
-echo $this->headLink()->appendStylesheet('/he/style/common.css')->appendStylesheet('/he/style/style.css');
-echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js/jquery.datePicker-min.js');
-?>
+<link rel="stylesheet" href="/dist/styles/common/common.css">
+<link rel="stylesheet" href="/he/style/common.css">
+<link rel="stylesheet" href="/he/style/style.css">
 
 <div id="flashBg" style="background-color:#5d5f5c;">
     <div id="flashLine">
         <div id="flash">
-            <a href="" target="_blank" id="flash1" style="display: block; "><img src="/he/images/banner_pw.jpg" height="370"></a>
-            <a href="" target="_blank" id="flash2" style="display: none; "><img src="/he/images/banner_pw.jpg" height="370"></a>
-            <a href="" target="_blank" id="flash3" style="display: none; "><img src="/he/images/banner_pw.jpg" height="370"></a>
+            <?php foreach($ads as $v){
+            ?>
+                <a href="<?php echo $v['url']; ?>" target="_blank" id="flash1" style="display: block; "><img src="<?php echo $v['img'] ?>" height="370"></a>
+            <?php
+            } ?>
 
             <div class="flash_bar">
-                <div class="dq" id="f1" onclick="changeflash(1)"></div>
-                <div class="no" id="f2" onclick="changeflash(2)"></div>
-                <div class="no" id="f3" onclick="changeflash(3)"></div>
+                <?php
+                $count = 1;
+                foreach($ads as $v){
+
+                    ?>
+                    <div class="<?php if($count == 1){echo 'dq';}else{echo 'no';} ?>" id="f<?php echo $count; ?>" onclick="changeflash(<?php echo $count; ?>)"></div>
+                <?php
+                } ?>
             </div>
         </div>
     </div>
     <div class="date_spe">
-        <p class="f16 spe_d_t">按日期搜索专场</p>
-
-        <div class="datepicker"></div>
+        <div style="float:right; margin-top:15px;">
+            <div class="pop-datatit ">按日期搜索专场</div>
+            <div class="date-pop"></div>
+        </div>
     </div>
 </div>
 
@@ -127,13 +134,13 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
 <script type="text/javascript">
     $(document).ready(function(){
 
-        $(".datepicker").datePicker({
-            inline:true,
-            selectMultiple:false
-        });
-
-        $("#datepicker").datePicker({
-            clickInput:true
+        $(".date-pop").datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            dateFormat: 'yy-mm-dd',
+            onSelect: function (dateText, inst) {
+                window.top.location.href = '/special/index?date=' + dateText;
+            }
         });
 
     });

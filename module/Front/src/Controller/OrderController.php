@@ -13,12 +13,16 @@ class OrderController extends Front{
     }
 
     public function generateAction(){
-        $productID = $this->postData['productID'];
         $customizationID = $this->postData['customizationID'];
-        $payType = $this->postData['payType'];
         $customizationCount = intval($this->postData['customizationCount']);
-        if((empty($productID) && empty($customizationID)) || (!empty($customizationID) && empty($customizationCount))) return $this->response(ApiError::COMMON_ERROR, '参数错误');
-
+        if(empty($customizationID) || empty($customizationCount)) return $this->response(ApiError::COMMON_ERROR, '参数错误');
+        $customizationInfo = $this->customizationModel->select(array('customizationID' => $customizationID))->current();
+        if(!empty($customizationInfo)){
+            $orderData['customizationSnapshot'] = json_encode($customizationInfo);
+        }else{
+            return $this->response(ApiError::COMMON_ERROR, '定制信息不存在');
+        }
+        $productID = $this->postData['productID'];
         $businessID = $this->memberOrderModel->genBusinessID();
         $unitePayID = $this->memberOrderModel->genUnitePayID();
         $orderData = array(
@@ -26,23 +30,13 @@ class OrderController extends Front{
             'unitePayID' => $unitePayID,
             'memberID' => $this->memberInfo['memberID'],
             'productID' => $productID,
+            'customizationID' => $customizationID,
+            'customizationCount' => $customizationCount,
+            'orderType' => 2,
         );
-        if(!empty($customizationID)){
-            $orderData['customizationID'] = $customizationID;
-            $orderData['customizationCount'] = $customizationCount;
-            $customizationInfo = $this->customizationModel->select(array('customizationID' => $customizationID))->current();
-            if(!empty($customizationInfo)){
-                $orderData['customizationSnapshot'] = json_encode($customizationInfo);
-            }else{
-                return $this->response(ApiError::COMMON_ERROR, '定制信息不存在');
-            }
-            if($customizationInfo['lastNum'] < 1) return $this->response(ApiError::COMMON_ERROR, '定制数量已抢光');
-            $payMoney = $customizationCount * $customizationInfo['depositPrice'];
-        }elseif(!empty($productID)){
-            $productInfo = $this->productModel->select(array('productID' => $productID))->current();
-            $orderData['productSnapshot'] = json_encode($productInfo);
-            $payMoney = $productInfo['currPrice'];
-        }
+
+        if($customizationInfo['lastNum'] < 1) return $this->response(ApiError::COMMON_ERROR, '定制数量已抢光');
+        $payMoney = $customizationCount * $customizationInfo['depositPrice'];
 
         try{
             $this->memberOrderModel->beginTransaction();
@@ -53,16 +47,14 @@ class OrderController extends Front{
                 'payMoney' => $payMoney,
             );
             $this->memberPayDetailModel->insert($payData);
-            if(!empty($customizationID)){
-                $finalUnitePayID = $this->memberOrderModel->genUnitePayID();
-                $finalPrice = ($customizationInfo['price'] * $customizationCount) - $payMoney;
-                $finalPayData = array(
-                    'unitePayID' => $finalUnitePayID,
-                    'payMoney' => $finalPrice,
-                );
-                $this->memberOrderModel->update(array('finalUnitePayID' => $finalUnitePayID, 'finalPrice' => $finalPrice));
-                $this->memberPayDetailModel->insert($finalPayData);
-            }
+            $finalUnitePayID = $this->memberOrderModel->genUnitePayID();
+            $finalPrice = ($customizationInfo['price'] * $customizationCount) - $payMoney;
+            $finalPayData = array(
+                'unitePayID' => $finalUnitePayID,
+                'payMoney' => $finalPrice,
+            );
+            $this->memberOrderModel->update(array('finalUnitePayID' => $finalUnitePayID, 'finalPrice' => $finalPrice));
+            $this->memberPayDetailModel->insert($finalPayData);
 
             $this->memberOrderModel->commit();
 

@@ -87,6 +87,7 @@ class MemberController extends Front{
             'MemberOrder.memberID' => $this->memberInfo['memberID']
         );
         $orderInfo = $this->memberOrderModel->getOrderDetail($where);
+
         if(empty($orderInfo)){
             $this->view->setTemplate('error/404');
         }else{
@@ -341,6 +342,9 @@ class MemberController extends Front{
         try{
             if(!empty($this->postData['avatar'])){
                 $this->postData['avatar'] = Utility::saveBaseCodePic($this->postData['avatar']);
+            }
+            if(!empty($this->postData['qq'])){
+                $this->storeModel->update(array('storeqq' => $this->postData['qq']), array('storeID' => $this->memberInfo['storeID']));
             }
 
             $this->memberInfoModel->update($this->postData, array('memberID' => $this->memberInfo['memberID']));
@@ -888,5 +892,13 @@ class MemberController extends Front{
             $this->memberOrderModel->rollback();
             return $this->response(ApiError::COMMON_ERROR, '保存失败');
         }
+    }
+
+    public function storeOrderDetailAction(){
+        $this->view->setVariables(array('storeView' => 1));
+        $this->orderDetailAction();
+
+        $this->view->setTemplate('/front/member/order-detail');
+        return $this->view;
     }
 }

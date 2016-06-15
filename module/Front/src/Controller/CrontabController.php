@@ -13,15 +13,48 @@ class CrontabController extends Controller{
 
     public function auctionAction(){
         $expireProducts = $this->productModel->getExpireProducts();
+
         try{
             $this->productModel->beginTransaction();
             foreach($expireProducts as $v){
-                $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
-                $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
-                $this->auctionMemberModel->update(array('status' => 1), array('auctionMemberID' => $v['auctionMemberID']));
+                if(!empty($v['keepPrice']) && $v['keepPrice'] > $v['currPrice']){
+                    $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
+                    $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
+                }else{
+
+                    $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
+                    $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
+                    $this->auctionMemberModel->update(array('status' => 1), array('auctionMemberID' => $v['auctionMemberID']));
+
+                    $businessID = $this->memberOrderModel->genBusinessID();
+                    $unitePayID = $this->memberOrderModel->genUnitePayID();
+                    $orderData = array(
+                        'businessID' => $businessID,
+                        'unitePayID' => $unitePayID,
+                        'memberID' => $v['memberID'],
+                        'productID' => $v['productID'],
+                        'orderType' => 1,
+                        'storeID' => $v['storeID'],
+                    );
+
+                    $productInfo = $this->productModel->select(array('productID' => $v['productID']))->current();
+
+                    $orderData['productSnapshot'] = json_encode($productInfo);
+                    $payMoney = $productInfo['currPrice'] + $productInfo['commision'] + $productInfo['deliveryPrice'];
+                    $this->memberOrderModel->insert($orderData);
+                    $payData = array(
+                        'unitePayID' => $unitePayID,
+                        'payMoney' => $payMoney,
+                        'productPrice' => $productInfo['currPrice'],
+                        'commision' => $productInfo['commision'],
+                        'deliveryPrice' => $productInfo['deliveryPrice'],
+                    );
+                    $this->memberPayDetailModel->insert($payData);
+                }
             }
             $this->productModel->commit();
         }catch (\Exception $e){
+
             $this->productModel->rollback();
         }
 

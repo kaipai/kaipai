@@ -11,7 +11,7 @@ class StoreController extends Front{
     public function indexAction(){
         $this->pageNum = !empty($this->pageNum) ? $this->pageNum : 1;
         $this->limit = !empty($this->limit) ? $this->limit : 15;
-        $stores = $this->storeModel->getStores($this->pageNum, $this->limit);
+        $stores = $this->storeModel->getHotStores($this->pageNum, $this->limit);
 
         $this->view->setVariables(array(
             'stores' => $stores['data'],

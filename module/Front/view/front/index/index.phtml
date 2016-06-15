@@ -26,8 +26,8 @@
                 foreach($banners as $v){
             ?>
                     <li>
-                        <a href="<?php echo $v['url']; ?>" ui-sref="zhuanchangMain" title="<?php echo $v['alt']; ?>">
-                            <img src="<?php echo $v['img']; ?>"></a>
+                        <a href="<?php echo $v['url']; ?>" target="_blank" ui-sref="zhuanchangMain" title="<?php echo $v['alt']; ?>">
+                        <img src="<?php echo $v['img']; ?>"></a>
                     </li>
             <?php
                 }
@@ -44,10 +44,10 @@
 <!-- ad end -->
 <!--end 横屏-->
 <div class="center main-ad-top">
-    <div class="main-tymj left" style="background-image: url('');cursor: pointer;" onclick="location.href='/customization/index';">
+    <div class="main-tymj left" style="background-image: url('<?php echo $_siteSettings['tymj']?>');cursor: pointer;" onclick="location.href='/customization/index';">
         特约名家
     </div>
-    <div class="main-qltj left ml10" style="background-image : url('');cursor: pointer;" onclick="location.href='/artist/recommend';">
+    <div class="main-qltj left ml10" style="background-image : url('<?php echo $_siteSettings['qltj'] ?>');cursor: pointer;" onclick="location.href='/artist/recommend';">
         潜力推荐
     </div>
     <div class="main-tjgg right">
@@ -67,7 +67,7 @@
                     <?php foreach($indexSecondAd as $v){
                     ?>
                         <li>
-                            <a href="<?php echo $v['url'] ?>">
+                            <a href="<?php echo $v['url'] ?>" target="_blank">
                                 <img src="<?php echo $v['img']; ?>"/>
                             </a>
                         </li>
@@ -136,7 +136,7 @@
                         <?php foreach($indexThirdLeftAd as $v){
                         ?>
                             <li>
-                                <a href="<?php echo $v['url'] ?>">
+                                <a href="<?php echo $v['url'] ?>" target="_blank">
                                     <img src="<?php echo $v['img'] ?>"/>
                                 </a>
                             </li>
@@ -171,7 +171,7 @@
                         <?php foreach($indexThirdRightAd as $v){
                         ?>
                             <li>
-                                <a href="<?php echo $v['url'] ?>" >
+                                <a href="<?php echo $v['url'] ?>" target="_blank" >
                                     <img src="<?php echo $v['img'] ?>"/>
                                 </a>
                             </li>

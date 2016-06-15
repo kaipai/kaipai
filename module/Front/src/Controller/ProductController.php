@@ -88,6 +88,8 @@ class ProductController extends Front{
                 $where['b.auctionStatus'] = 2;
             }
 
+        }else{
+            $where['b.auctionStatus'] = array(1, 2);
         }
         if(!empty($search)){
             $where[] = new Like('b.productName', '%' . $search . '%');

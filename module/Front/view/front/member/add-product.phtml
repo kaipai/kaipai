@@ -484,7 +484,7 @@
                         $('#city-select').html(options);
                         <?php if(!empty($productInfo)){
                         ?>
-                            $('#province-select').val(<?php echo $productInfo['deliveryCityID'] ?>);
+                            $('#city-select').val(<?php echo $productInfo['deliveryCityID'] ?>);
                         <?php
                         } ?>
                     }

@@ -191,7 +191,8 @@ $(document).on('click', '#do-login', function(){
         },
         success : function(data){
             if(data.flag > 0){
-                location.href = data.url;
+                //location.href = data.url;
+                location.reload();
             }else{
                 layer.open({
                     type : 0,

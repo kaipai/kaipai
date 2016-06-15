@@ -2,12 +2,19 @@
 <div class="center">
     <div class="s-nav">
         <a href="/">在线竞拍</a>
-        &gt;
-        <a href="/special/index">拍卖专场</a>
-        &gt;
-        <a href="/special/detail?specialID=<?php echo $sourceSpecialInfo['specialID']; ?>"><?php echo $sourceSpecialInfo['specialName']; ?></a>
-        &gt;
-        <?php echo $productInfo['productName']; ?>
+        <?php if(!empty($sourceSpecialInfo)){?>
+            &gt;
+            <a href="/special/index">拍卖专场</a>
+            &gt;
+            <a href="/special/detail?specialID=<?php echo $sourceSpecialInfo['specialID']; ?>"><?php echo $sourceSpecialInfo['specialName']; ?></a>
+            &gt;
+            <?php echo $productInfo['productName']; ?>
+        <?php }else{
+        ?>
+            &gt;
+            <a href="/product/index">自由拍</a>
+        <?php
+        } ?>
     </div>
 
     <!--产品详细 start-->
@@ -48,7 +55,6 @@
                     ?>
 
                                 <span>正在拍卖</span> <i>距结束</i>
-
                                 <div class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?>"></div>
 
 
