@@ -96,4 +96,11 @@ class IndexController extends Front{
         $this->mobileVerifyCodeModel->insert($data);
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
+
+    public function postErrorAction(){
+
+        $this->errorModel->insert($this->postData);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '提交成功');
+    }
 }

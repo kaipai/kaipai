@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="/dist/styles/main/space.css">
+
+<div class="mySpace">
+    <?php echo $this->render('banner'); ?>
+    <div class="spacecont">
+        <?php echo $this->render('top') ?>
+        <div class="center ">
+            <div class="space_wz3">
+                <?php foreach($articles as $v){
+                ?>
+                    <div class="space_cominfo">
+                        <div class="space_cominfo_left" style="cursor: pointer;" onclick="location.href='/zone/article-detail?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $v['memberArticleID'] ?>';">
+                            <div><span class="space_cominfo_name"><?php echo $v['memberArticleName'] ?></span><span class="font16"><?php echo $v['instime'] ?></span>
+                            </div>
+                            <div class="space_cominfo_nr">
+                                <?php echo $v['memberArticleContent'] ?>
+                            </div>
+                        </div>
+                        <div class="space_cominfo_right">
+                            <ul>
+                                <li class="space_no"><a href="javascript:;" class="post-illegal-btn">举报</a></li>
+                                <!--<li class="space_no"><a href="">回复>></a></li>-->
+                            </ul>
+                        </div>
+
+                    </div>
+                <?php
+                } ?>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

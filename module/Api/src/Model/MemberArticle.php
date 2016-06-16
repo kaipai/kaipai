@@ -20,4 +20,27 @@ class MemberArticle extends Model{
         return array('memberArticles' => $memberArticles, 'memberArticlesCount' => $memberArticlesCount);
 
     }
+
+    public function getArticles($where, $page, $limit, $order = ''){
+        $select = $this->getSelect();
+        $select->where($where);
+        if(empty($order)){
+            $order = 'MemberArticle.instime desc';
+        }
+
+        $select->order($order);
+        $paginator = $this->paginate($select);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($limit);
+        $articles = $paginator->getCurrentItems()->getArrayCopy();
+        $pages = $paginator->getPages();
+        $total = $paginator->getTotalItemCount();
+
+        $res = array(
+            'data' => $articles,
+            'pages' => $pages,
+            'total' => $total,
+        );
+        return $res;
+    }
 }

@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="/dist/styles/main/space.css">
+<link rel="stylesheet" href="/style/jquery.wysiwyg.css">
+<script type="application/javascript" src="/js/jquery.wysiwyg.js"></script>
+<div class="mySpace">
+    <?php echo $this->render('banner'); ?>
+    <div class="spacecont">
+        <?php echo $this->render('top') ?>
+        <div class="center ">
+            <div class="space_fbwz">发表文章</div>
+            <div class="space_bioti">
+                文章标题<input type="text" name="member-article-name" value="<?php if(!empty($info)) echo $info['memberArticleName'] ?>">
+            </div>
+            <div class="space_xuz">
+                文章内容 <span class="space_xuzbtn">发布须知</span><span class="space_tixing">不得发布反动、暴恐、色情信息。</span></div>
+            <div>
+                <textarea id="qqq"><?php if(!empty($info)) echo $info['memberArticleContent']; ?></textarea>
+            </div>
+            <div class="space_btn">
+                <span class="space_surebtn" id="confirm-btn">确认发表</span>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<script>
+    $(function(){
+        $('#qqq').wysiwyg({
+            controls:"bold,italic,|,undo,redo,image"
+        });
+        $('#confirm-btn').on('click', function(){
+            var data = {};
+            data.memberArticleName = $('input[name=member-article-name]').val();
+            data.memberArticleContent = $('#qqq').val();
+            data.zoneID = <?php echo $_zoneInfo['memberID']; ?>;
+            <?php
+             if(!empty($info)){
+            ?>
+            data.memberArticleID = <?php echo $info['memberArticleID']; ?>
+            <?php
+             }
+             ?>
+            $.ajax({
+                url:'/zone/add-article',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.href = '/zone/article-detail?zoneID='+data.zoneID+'&memberArticleID='+res.data['memberArticleID'];
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    })
+</script>

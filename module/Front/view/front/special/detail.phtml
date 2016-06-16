@@ -181,14 +181,13 @@ echo $this->headLink()
 <div class="exc_rank">
     <div class="wrap2">
         <div class="exc_rank_l">
-            <a href="">默 &nbsp;认</a>
-            <a href="" class="rank_icon_x">出价次数</a>
-            <a href="" class="rank_icon_x1">价 &nbsp;格</a>
-            <a href="" class="rank_icon_x">关注人数</a>
+            <a href="/special/detail">默 &nbsp;认</a>
+            <a href="/special/detail?order=auctionCount" class="rank_icon_x">出价次数</a>
+            <a href="/special/detail?order=currPrice" class="rank_icon_x1">价 &nbsp;格</a>
+            <a href="/special/detail?order=interestedCount" class="rank_icon_x">关注人数</a>
         </div>
         <div class="exc_rank_r">
-            <a href="">站内报错</a>
-            <a href="">报错</a>
+            <a href="javascript:;" class="post-error-btn">站内报错</a>
         </div>
     </div>
 </div>
@@ -217,8 +216,7 @@ echo $this->headLink()
         ?>
     </div>
 </div>
-<?php echo $this->render('/front/common/paginate', array('url' => '/special/detail?specialID=' . $specialInfo['specialID'] . '&', 'pages' => $pages)); ?>
-
+<?php echo $this->render('/front/common/paginate', array('url' => '/special/detail?order=' . $order . '&specialID=' . $specialInfo['specialID'] . '&', 'pages' => $pages)); ?>
 <script>
     $(function(){
         $(".yomibox2").each(function () {

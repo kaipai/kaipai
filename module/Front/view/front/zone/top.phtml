@@ -1,0 +1,43 @@
+<div class="center space_bti">
+    <div class="space_bti">
+        <ul>
+            <li><a href="/zone/index?zoneID=<?php echo $_zoneInfo['memberID'] ?>">首页</a></li>
+
+            <?php
+            if($_isMyZone){
+                ?>
+                <li><a href="/zone/add-article?zoneID=<?php echo $_zoneInfo['memberID'] ?>">发表文章</a></li>
+            <?php
+            }
+            ?>
+
+            <li><a href="/zone/about?zoneID=<?php echo $_zoneInfo['memberID'] ?>">关于我</a></li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+            <li class="space_img">
+                <img src="<?php echo $_zoneInfo['avatar'] ?>">
+                <?php
+                if(!empty($_zoneInfo['storeID'])){
+                    ?>
+                    <div class="space_dp" style="cursor:pointer;" onclick="location.href='/store/detail?storeID=<?php echo $_zoneInfo['storeID']; ?>';">我有店铺</div>
+                <?php
+                }
+                ?>
+
+            </li>
+            <li class="space_gz"><a href="javascript:;">关注(<span class="ff7519"><?php echo $_zoneInfo['interestedCount'] ?></span>)</a></li>
+            <?php if($_isMyZone){
+                ?>
+                <li><a href="/zone/mark?zoneID=<?php echo $_zoneInfo['memberID'] ?>">收藏文章</a></li>
+                <li><a href="/zone/interested-zones?zoneID=<?php echo $_zoneInfo['memberID'] ?>">关注空间</a></li>
+                <li><a href="/zone/message?zoneID=<?php echo $_zoneInfo['memberID'] ?>">留言板(<span class="ff7519"><?php echo $_zoneInfo['messageCount'] ?></span>)</a></li>
+            <?php
+            }else{
+                ?>
+                <li><a href="javascript:;" class="add-interest-zone-btn">关注空间</a></li>
+                <li><a href="/zone/add-message?zoneID=<?php echo $_zoneInfo['memberID'] ?>">我要留言</a></li>
+            <?php
+            } ?>
+
+        </ul>
+    </div>
+</div>

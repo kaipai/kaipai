@@ -25,7 +25,7 @@
                     <li><a href="">关注空间</a></li>
                     <li><a href="">留言板(<span class="ff7519">1255</span>)</a></li>
                   </ul>
-               </div> 
+               </div>
         </div>
         <div class="center ">
             <div class="space_wz3">
@@ -42,7 +42,7 @@
                                 <li class="space_no"><a href="">回复>></a></li>
                             </ul>
                         </div>
-                        
+
                 </div>
                 <div class="space_cominfo">
                         <div class="space_cominfo_left">
@@ -57,7 +57,7 @@
                                 <li class="space_no"><a href="">回复>></a></li>
                             </ul>
                         </div>
-                        
+
                 </div>
                 <div class="space_cominfo">
                         <div class="space_cominfo_left">
@@ -72,7 +72,7 @@
                                 <li class="space_no"><a href="">回复>></a></li>
                             </ul>
                         </div>
-                        
+
                 </div>
                 <div class="space_cominfo">
                         <div class="space_cominfo_left">
@@ -87,7 +87,7 @@
                                 <li class="space_no"><a href="">回复>></a></li>
                             </ul>
                         </div>
-                        
+
                 </div>
                 <div class="space_cominfo">
                         <div class="space_cominfo_left">
@@ -102,17 +102,17 @@
                                 <li class="space_no"><a href="">回复>></a></li>
                             </ul>
                         </div>
-                        
+
                 </div>
-                
+
             </div>
         </div>
-        
+
 
 
 
     </div>
-   
+
 </div>
 
 <?php include'footer.php';?></body>

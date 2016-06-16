@@ -1,0 +1,21 @@
+<?php
+    foreach($comments as $v){
+?>
+        <div class="space_cominfo">
+            <div class="space_cominfo_left">
+                <div><span class="space_cominfo_name"><?php echo $v['nickName'] ?></span><span class="font16"><?php echo $v['instime'] ?></span>
+                </div>
+                <div class="space_cominfo_nr">
+                    <?php echo $v['commentContent'] ?>
+                </div>
+            </div>
+            <div class="space_cominfo_right">
+                <ul>
+                    <li class="space_no"><a href="javascript:;" class="post-illgeal-btn">举报</a></li>
+                    <!--<li class="space_no"><a href="">回复>></a></li>-->
+                </ul>
+            </div>
+        </div>
+<?php
+    }
+?>

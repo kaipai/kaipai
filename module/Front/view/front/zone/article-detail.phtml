@@ -1,0 +1,146 @@
+<link rel="stylesheet" href="/dist/styles/main/space.css">
+<div class="mySpace">
+    <?php echo $this->render('banner'); ?>
+    <div class="spacecont">
+        <?php echo $this->render('top') ?>
+        <div class="center ">
+            <div class="space_li1 space_wz2">
+                <div class="space_title">
+                    <div class="space_title_left"><span class="font30"><?php echo $info['memberArticleName'] ?></span><span class="font16">（<?php echo $info['instime'] ?>）</span>
+                    </div>
+                    <div class="space_title_right">
+                        <ul>
+                            <!--<li>报名【有奖征文】</li>-->
+                            <?php if($_isMyZone) {?>
+                            <li><a href="/zone/add-article?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $info['memberArticleID'] ?>">编辑</a></li>
+                            <li class="space_title_del"><a href="javascript:;" class="del-member-article" member-article-id="<?php echo $info['memberArticleID'] ?>">删除</a></li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </div>
+                <div class="c"></div>
+                <div class="space_conts">
+                    <?php
+                        echo $info['memberArticleContent']
+                    ?>
+                    <div class="space_zzai">
+                        <ul>
+                            <li>阅读(<?php echo $info['readCount']; ?>)</li>
+                            <li>评论(<?php echo $info['commentCount'] ?>)</li>
+                            <li class="space_love">(<?php echo $info['favoriteCount'] ?>)<span class="colred favorite-member-article" member-article-id="<?php echo $info['memberArticleID'] ?>" style="cursor:pointer;">喜欢</span></li>
+                            <li class="space_title_del colred"><a href="javascript:;" class="mark-member-article" member-article-id="<?php echo $info['memberArticleID'] ?>">收藏本文>></a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class=" space_comment">
+                <div class="space_comment_left">
+                    <textarea class="space_tex" name="post-comment-content"></textarea>
+                </div>
+                <div class="space_comment_right">
+                    <div class="space_fbcom post-comment-btn" member-article-id="<?php echo $info['memberArticleID'] ?>">发表评论</div>
+                </div>
+            </div>
+            <div class="space_pinlun" id="comments-list">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function(){
+        $('.del-member-article').on('click', function(){
+            var data = {};
+            data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+            data.memberArticleID = $(this).attr('member-article-id');
+            $.ajax({
+                url : '/zone/del-article',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.href = '/zone/index?zoneID=' + data.zoneID;
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('.favorite-member-article').on('click', function(){
+            var data = {};
+            data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+            data.memberArticleID = $(this).attr('member-article-id');
+            $.ajax({
+                url : '/zone/add-favorite',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('.mark-member-article').on('click', function(){
+            var data = {};
+            data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+            data.memberArticleID = $(this).attr('member-article-id');
+            $.ajax({
+                url : '/zone/add-mark',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('.post-comment-btn').on('click', function(){
+            var data = {};
+            data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+            data.memberArticleID = $(this).attr('member-article-id');
+            data.commentContent = $('textarea[name=post-comment-content]').val();
+            $.ajax({
+                url : '/zone/add-comment',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            loadComments();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        function loadComments(){
+            $('#comments-list').load('/zone/comments?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $info['memberArticleID'] ?>');
+        }
+        loadComments();
+
+    })
+</script>

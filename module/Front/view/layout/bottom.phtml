@@ -88,11 +88,32 @@
     </div>
 </div>
 <?php */ ?>
-
+<?php
+echo $this->render('/front/common/post-error');
+echo $this->render('/front/common/post-illegal');
+?>
 <script>
     $(function(){
         $(document).on('click', '.pay-type-list li', function(){
             $(this).addClass('selected-pay-type').siblings().removeClass('selected-pay-type');
+        });
+
+        $('.post-error-btn').on('click', function(){
+            layer.open({
+                skin : 'loginBox',
+                title : '站内报错',
+                type : 1,
+                content : $('#post-error-div').html()
+            });
+        });
+        $(document).on('click', '.post-error-div-btn:visible', function(){
+            /*$.ajax({
+                url : '/',
+            });*/
+        });
+
+        $('.post-illegal-btn').on('click', function(){
+
         });
 
     });

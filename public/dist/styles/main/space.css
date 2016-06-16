@@ -2,7 +2,7 @@
 .body{ font-family: "微软雅黑";font-size: 18px}
 .c{ clear: both;}
 .mySpace{ position: relative;font-size: 18px}
-.spaceBanner{background:#f0eee2 url(../../images/sp_03.jpg) no-repeat center top;overflow: hidden; height: 230px }
+.spaceBanner{overflow: hidden; height: 230px }
 .spacename{padding-top: 118px;/* padding-left: 33px; */font-size: 40px; color: #fff}
 .spacetip{ font-size: 20px;/* padding-left: 33px; */color: #fff; margin-top: 16px}
 .space_bti{padding-top: 10px;}

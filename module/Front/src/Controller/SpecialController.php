@@ -64,6 +64,7 @@ class SpecialController extends Front{
 
     public function detailAction(){
         $specialID = $this->queryData['specialID'];
+        $order = $this->queryData['order'];
         $where = array(
             'specialID' => $specialID,
         );
@@ -73,7 +74,9 @@ class SpecialController extends Front{
         $where = array(
             'Product.specialID' => $specialID
         );
-        $specialProducts = $this->productModel->getProducts($where, 1, 20);
+        $order = !empty($order) ? 'Product.' . $order . ' desc' : 'Product.instime desc';
+        $specialProducts = $this->productModel->getProducts($where, 1, 20, $order);
+
         $products = $specialProducts['data'];
         foreach($products as $v){
             $specialInfo['auctionCount'] += $v['auctionCount'];
@@ -83,6 +86,7 @@ class SpecialController extends Front{
             'specialInfo' => $specialInfo,
             'products' => $products,
             'pages' => $specialProducts['pages'],
+            'order' => $order,
         ));
 
         return $this->view;

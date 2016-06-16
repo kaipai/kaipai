@@ -13,7 +13,7 @@ class Front extends Controller{
         if($this->request->isXmlHttpRequest()){
             $this->view->setNoLayout();
         }else{
-            if($this->controllerName == 'member'){
+            if(in_array($this->controllerName, array('member', 'zone'))){
                 $this->layout('frontMemberLayout');
             }else{
                 $this->layout('frontLayout');
