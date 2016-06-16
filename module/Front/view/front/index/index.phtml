@@ -104,7 +104,7 @@
             <?php
                 foreach($indexArticleList as $v){
             ?>
-                    <li><a href="#" class="news-cate">[<?php echo $v['categoryName'] ?>]</a><a href="#"><?php echo $v['articleName']; ?></a></li>
+                    <li><a href="/article/index?articleCategoryID=<?php echo $v['articleCategoryID']; ?>" class="news-cate">[<?php echo $v['categoryName'] ?>]</a><a href="<?php if(!empty($v['url'])){echo $v['url'];}else{?>/article/detail?articleID=<?php echo $v['articleID'] ?><?php } ?>"><?php echo $v['articleName']; ?></a></li>
             <?php
                 }
             ?>

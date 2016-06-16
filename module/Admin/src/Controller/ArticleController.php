@@ -22,7 +22,7 @@ class ArticleController extends Admin{
             'articleName' => $this->postData['articleName'],
             'articleCategoryID' => $this->postData['articleCategoryID'],
             'articleContent' => $this->postData['articleContent'],
-            'type' => $this->postData['type'],
+            'url' => $this->postData['url'],
         );
         $this->articleModel->insert($set);
         return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);

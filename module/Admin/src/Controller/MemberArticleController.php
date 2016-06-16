@@ -8,15 +8,13 @@ class MemberArticleController extends Admin{
     }
 
     public function listAction(){
-        $offset = $this->request->getQuery('offset', $this->offset);
-        $limit = $this->request->getQuery('limit', $this->limit);
         $where = array();
 
         $data = array();
-        $result = $this->memberArticleModel->getList($where, "memberArticleID desc", $offset, $limit);
-        $data['total'] = $result['memberArticlesCount'];
+        $result = $this->memberArticleModel->getArticles($where, $this->pageNum, $this->limit);
+        $data['total'] = $result['total'];
 
-        $data['rows'] = $result['memberArticles'];
+        $data['rows'] = $result['data'];
 
         return $this->adminResponse($data);
     }

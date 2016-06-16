@@ -32,6 +32,7 @@
         $('#qqq').wysiwyg({
             controls:"bold,italic,|,undo,redo,image"
         });
+
         $('#confirm-btn').on('click', function(){
             var data = {};
             data.memberArticleName = $('input[name=member-article-name]').val();
@@ -40,7 +41,7 @@
             <?php
              if(!empty($info)){
             ?>
-            data.memberArticleID = <?php echo $info['memberArticleID']; ?>
+            data.memberArticleID = <?php echo $info['memberArticleID']; ?>;
             <?php
              }
              ?>

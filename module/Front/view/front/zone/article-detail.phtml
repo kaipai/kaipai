@@ -104,13 +104,7 @@
                 type : 'post',
                 data : data,
                 success : function(res){
-                    if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
-                    }else{
-                        layer.alert(res.msg);
-                    }
+                    layer.alert(res.msg);
                 }
             });
         });
@@ -127,8 +121,9 @@
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        layer.alert(res.msg, function(){
+                        layer.alert(res.msg, function(index){
                             loadComments();
+                            layer.close(index);
                         });
                     }else{
                         layer.alert(res.msg);

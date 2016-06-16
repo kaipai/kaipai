@@ -50,6 +50,21 @@ class ZoneController extends Front{
         return $this->view;
     }
 
+    public function markAction(){
+        $res = $this->memberArticleMarkModel->getArticles(array('MemberArticleMark.memberID' => $this->_zoneInfo['memberID']), $this->pageNum, $this->limit);
+        $articles = $res['data'];
+        foreach($articles as $k => $v){
+            $articles[$k]['memberArticleContent'] = Utility::mbCutStr(strip_tags($v['memberArticleContent']), 100);
+        }
+        $this->view->setVariables(array(
+            'articles' => $articles,
+            'pages' => $res['pages'],
+        ));
+        return $this->view;
+    }
+
+
+
     public function articleDetailAction(){
         $memberArticleID = $this->queryData['memberArticleID'];
         $info = $this->memberArticleModel->select(array('memberArticleID' => $memberArticleID))->current();
@@ -67,7 +82,7 @@ class ZoneController extends Front{
         $comments = $res['data'];
 
         $this->view->setVariables(array(
-            'articles' => $comments,
+            'comments' => $comments,
             'pages' => $res['pages'],
         ));
 
@@ -77,6 +92,18 @@ class ZoneController extends Front{
     public function messageAction(){
         $where = array('memberID' => $this->_zoneInfo['memberID']);
         $res = $this->memberMessageModel->getMessages($where, $this->pageNum, $this->limit);
+        $messages = $res['data'];
+
+        $this->view->setVariables(array(
+            'data' => $messages,
+            'pages' => $res['pages'],
+        ));
+        return $this->view;
+    }
+
+    public function interestedZonesAction(){
+        $where = array('MemberInterest.memberID' => $this->_zoneInfo['memberID']);
+        $res = $this->memberInterestModel->getInterestMembers($where, $this->pageNum, $this->limit);
         $messages = $res['data'];
 
         $this->view->setVariables(array(
@@ -98,7 +125,7 @@ class ZoneController extends Front{
             $where = array('memberID' => $this->memberInfo['memberID'], 'memberArticleID' => $memberArticleID);
             $existLog = $this->memberArticleFavoriteLogModel->select($where)->current();
             if(empty($existLog)){
-                $this->memberArticleFavoriteLogModel->inset($where);
+                $this->memberArticleFavoriteLogModel->insert($where);
                 $this->memberArticleModel->update(array('favoriteCount' => new Expression('favoriteCount+1')), $where);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '点赞成功');
             }else{
@@ -115,7 +142,7 @@ class ZoneController extends Front{
         $memberArticleID = $this->postData['memberArticleID'];
         if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
         try{
-            $where = array('memberID' => $this->memberInfo['memebrID'], 'memberArticleID' => $memberArticleID);
+            $where = array('memberID' => $this->memberInfo['memberID'], 'memberArticleID' => $memberArticleID);
             $existMark = $this->memberArticleMarkModel->select($where)->current();
             if(empty($existMark)){
                 $this->memberArticleMarkModel->insert($where);
@@ -164,7 +191,7 @@ class ZoneController extends Front{
         try{
             unset($this->postData['zoneID']);
             $this->postData['senderID'] = $this->memberInfo['memberID'];
-            $this->memberArticleCommentModel->inset($this->postData);
+            $this->memberArticleCommentModel->insert($this->postData);
             $this->memberArticleModel->update(array('commentCount' => new Expression('commentCount+1')), array('memberArticleID' => $this->postData['memberArticleID']));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功');
         }catch (\Exception $e){
