@@ -11,15 +11,20 @@ class SpecialController extends Front{
 
     public function indexAction(){
         $categoryThemeOptions = $this->productCategoryFilterOptionModel->getThemeOptions();
+        $specialProductCategoryID = $this->queryData['specialProductCategoryID'];
         $where = array(
-            'startTime > ?' => time(),
+            'Special.startTime > ?' => time(),
         );
-        $specials = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit);
+        if(!empty($specialProductCategoryID)){
+            $where['Special.specialProductCategoryID'] = $specialProductCategoryID;
+        }
+        $specials = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit, $order = 'Special.startTime asc');
 
         $this->view->setVariables(array(
             'categoryThemeOptions' => $categoryThemeOptions,
             'specials' => $specials['data'],
             'pages' => $specials['pages'],
+            'specialProductCategoryID' => $specialProductCategoryID,
 
         ));
         return $this->view;
@@ -27,23 +32,20 @@ class SpecialController extends Front{
 
     public function todayAction(){
         $filter = $this->queryData['filter'] ? $this->queryData['filter'] : 'today';
-        $specialProductCategoryID = $this->queryData['specialProductCategoryID'];
+
         $page = $this->queryData['page'] ? $this->queryData['page'] : 1;
         $limit = 6;
         $where = array('Special.verifyStatus' => 2, 'Special.auctionStatus' => array(1, 2));
         if($filter == 'today'){
-            $where[] = new Between('Special.startTime', strtotime(date('Y-m-d 00:00:00')), strtotime(date('Y-m-d 23:59:59')));
+            $where['Special.startTime < ?'] = strtotime(date('Y-m-d 23:59:29'));
         }elseif($filter == 'tomorrow'){
-            $where[] = new Between('Special.startTime', strtotime(date('Y-m-d 00:00:00', strtotime('+1 day'))), strtotime(date('Y-m-d 23:59:59', strtotime('+1 day'))));
+            $where['Special.startTime < ?'] = strtotime(date('Y-m-d 23:59:59', strtotime('+1 day')));
         }elseif($filter == 'on'){
             $where['Special.auctionStatus'] = array(1);
         }
-        if(!empty($specialProductCategoryID)){
-            $where['Special.specialProductCategoryID'] = $specialProductCategoryID;
-        }
 
-        $specials = $this->specialModel->getSpecials($where, $page, $limit);
 
+        $specials = $this->specialModel->getSpecials($where, $page, $limit, $order = 'Special.startTime asc');
         $recommendProducts = $this->productModel->specialGetRecommendProducts();
         $stores = $this->storeModel->getHotStores(1, 20);
 
@@ -53,7 +55,7 @@ class SpecialController extends Front{
             'filter' => $filter,
             'specials' => $specials['data'],
             'pages' => $specials['pages'],
-            'specialProductCategoryID' => $specialProductCategoryID,
+
             'stores' => $stores['data'],
             'ads' => $ads,
         ));
@@ -69,13 +71,17 @@ class SpecialController extends Front{
         $specialInfo = $this->specialModel->fetch($where);
 
         $where = array(
-            'SpecialProduct.specialID' => $specialID
+            'Product.specialID' => $specialID
         );
-        $specialProducts = $this->specialProductModel->getSpecialProducts($where, $this->pageNum, $this->limit);
+        $specialProducts = $this->productModel->getProducts($where, 1, 20);
+        $products = $specialProducts['data'];
+        foreach($products as $v){
+            $specialInfo['auctionCount'] += $v['auctionCount'];
+        }
 
         $this->view->setVariables(array(
             'specialInfo' => $specialInfo,
-            'products' => $specialProducts['data'],
+            'products' => $products,
             'pages' => $specialProducts['pages'],
         ));
 

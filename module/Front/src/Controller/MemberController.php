@@ -216,6 +216,12 @@ class MemberController extends Front{
             );
             $this->memberProductInterestModel->insert($tmp);
             $this->productModel->update(array('interestedCount' => new Expression('interestedCount+1')), array('productID' => $productID));
+            $specialID = array();
+            $specials = $this->productModel->setColumns(array('specialID'))->select(array('productID' => $productID))->toArray();
+            foreach($specials as $v){
+                $specialID[] = $v['specialID'];
+            }
+            $this->specialModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('specialID' => $specialID));
             $this->memberProductInterestModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '关注成功');
         }catch (\Exception $e){
@@ -234,6 +240,12 @@ class MemberController extends Front{
             );
             $this->memberProductInterestModel->delete($tmp);
             $this->productModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('productID' => $productID));
+            $specialID = array();
+            $specials = $this->productModel->setColumns(array('specialID'))->select(array('productID' => $productID))->toArray();
+            foreach($specials as $v){
+                $specialID[] = $v['specialID'];
+            }
+            $this->specialModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('specialID' => $specialID));
             $this->memberProductInterestModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '取消关注成功');
         }catch (\Exception $e){

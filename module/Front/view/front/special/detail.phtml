@@ -151,19 +151,13 @@ echo $this->headLink()
                 <div class="sf_show_top">
                     <p class="sf_title"><?php echo $specialInfo['specialName']; ?></p>
 
-                    <p class="sf_overtime">
-                        据结束
-                        <span class="sf_shi sf_malt">08</span>
-                        <span class="sf_fen">时</span>
-                        <span class="sf_shi">30</span>
-                        <span class="sf_fen">分</span>
-                        <span class="sf_shi">20</span>
-                        <span class="sf_fen">秒</span>
+                    <p class="sf_overtime yomibox2" data="<?php echo date('Y/m/d H:i:s', $specialInfo['endTime']); ?>">
+
                     </p>
                 </div>
                 <div class="sf_tip">
                     <ul>
-                        <li>拍品：<?php echo $specialInfo['productCount']; ?>件</li>
+                        <li>拍品：<?php echo $specialInfo['productCountLimit']; ?>件</li>
                         <li>围观：<?php echo $specialInfo['interestedCount']; ?>次</li>
                         <li>出价：<?php echo $specialInfo['auctionCount']; ?>次</li>
                     </ul>
@@ -211,7 +205,7 @@ echo $this->headLink()
                     当前价
                     <span>￥<?php echo $v['currPrice'] ?></span>
                 </li>
-                <li class="lh32">距结束 8小时30分20秒</li>
+                <li class="lh32">距结束 <?php echo $v['leftTime']; ?></li>
                 <li class="exc_list_img">
                     <img src="<?php echo $v['listImg']; ?>"> <font><strong><?php echo $v['auctionCount'] ?></strong>
                         <br/>
@@ -224,3 +218,11 @@ echo $this->headLink()
     </div>
 </div>
 <?php echo $this->render('/front/common/paginate', array('url' => '/special/detail?specialID=' . $specialInfo['specialID'] . '&', 'pages' => $pages)); ?>
+
+<script>
+    $(function(){
+        $(".yomibox2").each(function () {
+            $(this).yomi(_CurrentServerTime, 'special-detail')
+        });
+    })
+</script>

@@ -37,7 +37,7 @@
         <?php
         foreach($_categories as $v){
         ?>
-            <a href="/special/today?specialProductCategoryID=<?php echo $v['productCategoryID']; ?>"><font>●</font><?php echo $v['categoryName']; ?></a>
+            <a href="/special/index?specialProductCategoryID=<?php echo $v['productCategoryID']; ?>"><font>●</font><?php echo $v['categoryName']; ?></a>
 
         <?php
         }
@@ -57,13 +57,13 @@
             <?php
                 foreach($specials as $v){
             ?>
-                    <dl class="spe_con_list">
+                    <dl class="spe_con_list" style="cursor:pointer;" onclick="location.href='/special/detail?specialID=<?php echo $v['specialID']; ?>';">
                         <dd>
                             <h4><a href=""><?php  echo $v['specialName']?></a></h4>
 
                             <p class="spe_str"><span>选送商家</span><?php echo $v['storeName'] ?></p>
 
-                            <p class="ztTime">距结束<em>5</em> 时<em>20</em>分<em>20</em>秒</li></p>
+                            <p class="ztTime yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></p>
                             <ul class="mt20">
                                 <li class="spe_pri"><span><?php echo $v['interestedCount'] ?></span><br/>次围观</li>
 
@@ -75,7 +75,7 @@
                 }
             ?>
             <dl class="">
-                <?php echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/special/today?filter=' . $filter . '&specialProductCategoryID=' . $specialProductCategoryID . '&')); ?>
+                <?php echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/special/today?filter=' . $filter . '&')); ?>
 
             </dl>
         </div>
@@ -109,7 +109,7 @@
                 <ul class="exc_list mt20">
                     <li class="lh32"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"><?php echo $v['productName'] ?></a></li>
                     <li class="lh32">当前价 <span>￥<?php echo $v['currPrice'] ?></span></li>
-                    <li class="lh32">距结束 8小时30分20秒</li>
+                    <li class="lh32">距结束 <?php echo $v['leftTime']; ?></li>
                     <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong><?php echo $v['interestedCount'] ?></strong><br/>次围观</font></li>
                 </ul>
         <?php
@@ -118,8 +118,8 @@
                     <ul class="exc_list mt20">
                         <li class="lh32"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"><?php echo $v['productName'] ?></a></li>
                         <li class="lh32">起拍价 <span class="exc_q">￥<?php echo $v['currPrice'] ?></span></li>
-                        <li class="lh32 exc_strat">12月26日 10:00 开拍</li>
-                        <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong>68</strong><br/>次围观</font>
+                        <li class="lh32 exc_strat"><?php echo date('m月d日 H:i', $v['endTime']); ?></li>
+                        <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong><?php echo $v['interestedCount'] ?></strong><br/>次围观</font>
                         </li>
                     </ul>
 
@@ -181,4 +181,10 @@
         });
         startAm();
     });
+
+    $(function(){
+        $(".yomibox2").each(function () {
+            $(this).yomi(_CurrentServerTime, 'special-today')
+        });
+    })
 </script>

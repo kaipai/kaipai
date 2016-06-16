@@ -82,6 +82,18 @@ var current_url = window.location.href;
                 } else {
                     $(_DOM).append('<b>拍卖已结束</b>');
                 }
+            }else if(page == 'special-today'){
+                if (range > 0) {
+                    $(_DOM).append('距结束<em class="yomiday"></em>天<em class="yomihour"></em>时<em class="yomimin">20</em>分<em class="yomisec">20</em>秒');
+                } else {
+                    $(_DOM).append('<b>拍卖已结束</b>');
+                }
+            }else if(page == 'special-detail'){
+                if (range > 0) {
+                    $(_DOM).append('距结束<span class="sf_shi sf_malt yomiday"></span><span class="sf_fen">天</span><span class="sf_shi sf_malt yomihour"></span><span class="sf_fen">时</span><span class="sf_shi yomimin"></span><span class="sf_fen">分</span><span class="sf_shi yomisec">20</span><span class="sf_fen">秒</span>');
+                } else {
+                    $(_DOM).append('<b>拍卖已结束</b>');
+                }
             }else{
                 if (range > 0) {
                     $(_DOM).append("<ul class='yomi'><li class='yomiday'></li><li class='split'>天</li><li class='yomihour'></li><li class='split'>时</li><li class='yomimin'></li><li class='split'>分</li><li class='yomisec'></li><li class='split'>秒</li></ul>");

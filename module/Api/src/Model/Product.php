@@ -2,6 +2,7 @@
 namespace Api\Model;
 
 use Base\ConstDir\BaseConst;
+use Base\Functions\Utility;
 use COM\Model;
 use Zend\Db\Sql\Predicate\IsNotNull;
 use Zend\Http\Header\Warning;
@@ -56,6 +57,9 @@ class Product extends Model{
         $paginator->setItemCountPerPage($limit);
         $data = $paginator->getCurrentItems()->getArrayCopy();
         $pages = $paginator->getPages();
+        foreach($data as $k => $v){
+            $data[$k]['leftTime'] = Utility::getLeftTime(time(), $v['endTime']);
+        }
         $result = array(
             'data' => $data,
             'pages' => $pages,
@@ -100,4 +104,5 @@ class Product extends Model{
 
         return $this->productFilterOptionModel->getList($where, $order, 0, 20);
     }
+
 }
