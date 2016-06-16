@@ -37,6 +37,7 @@ abstract class BasePay
                 $this->customizationModel->update(array('lastNum' => new Expression('lastNum+1'), 'boughtCount' => new Expression('boughtCount+1')));
             }else{
                 $orderModel->update(array('orderStatus' => 3), $where);
+                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $useRechargeMoney)), array('storeID' => $orderInfo['storeID']));
             }
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));
