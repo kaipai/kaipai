@@ -12,7 +12,7 @@ class Special extends Model{
         return $this->selectWith($select)->current();
     }
 
-    public function getSpecials($where, $page, $limit, $order = 'Special.instime desc'){
+    public function getSpecials($where, $page = 1, $limit = 10, $order = 'Special.instime desc'){
         $select = $this->getSelect();
         $select->join(array('b' => 'ProductCategory'), 'Special.specialProductCategoryID = b.productCategoryID', array('categoryName'));
         $select->join(array('c' => 'Store'), 'Special.storeID = c.storeID', array('storeName', 'storeLogo'));
@@ -25,6 +25,7 @@ class Special extends Model{
         $data = $paginator->getCurrentItems()->getArrayCopy();
         $pages = $paginator->getPages();
         $total = $paginator->getTotalItemCount();
+
         $result = array(
             'data' => $data,
             'pages' => $pages,

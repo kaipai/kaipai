@@ -6,6 +6,7 @@ use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller\Front;
+use Zend\Db\Sql\Predicate\IsNull;
 use Zend\Db\Sql\Predicate\Like;
 
 class ProductController extends Front{
@@ -95,7 +96,7 @@ class ProductController extends Front{
             $where[] = new Like('b.productName', '%' . $search . '%');
         }
         $where['b.isPaid'] = 1;
-
+        $where[] = new IsNull('b.specialID');
         if($order == 'default') $order = 'b.productID desc';
         if($order == 'instime') $order = 'b.instime ' . $sort;
         if($order == 'price') $order = 'b.currPrice ' . $sort;

@@ -70,7 +70,8 @@ class Product extends Model{
     public function getSpecialRecommendProducts($specialID){
         $where = array(
             'specialID' => $specialID,
-            'isRecommend' => 1
+            'isSpecialRecommend' => 1,
+            'auctionStatus' => array(1, 2),
         );
         $result = $this->setColumns(array('productName', 'listImg', 'productID', 'currPrice'))->select($where)->toArray();
         return $result;
@@ -79,7 +80,8 @@ class Product extends Model{
     public function getStoreRecommendProducts($storeID){
         $where = array(
             'storeID' => $storeID,
-            'isRecommend' => 1
+            'isStoreRecommend' => 1,
+            'auctionStatus' => array(1, 2),
         );
         $result = $this->setColumns(array('productName', 'listImg', 'productID', 'currPrice'))->select($where)->toArray();
         return $result;

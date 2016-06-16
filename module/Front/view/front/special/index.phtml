@@ -34,7 +34,7 @@ echo $this->headLink()->appendStylesheet('/he/style/style.css');
         </div>
     </div>
     <div class="show_mot">
-        <span class="show_tim"><?php echo date('Y年m月d日'); ?><font>[显示网站所有专场]</font></span>
+        <span class="show_tim"><?php echo date('Y年m月d日', strtotime($date)); ?><font>[显示网站所有专场]</font></span>
         <!--  <span class="show_w">
             <a><i class="show_icon"></i>图片显示</a> |
             <a class="pl10"><i class="show_icon1"></i>列表显示</a>
@@ -50,7 +50,7 @@ echo $this->headLink()->appendStylesheet('/he/style/style.css');
                     <dd class="show_f_c">
                         <ul>
                             <li><span>分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类</span><?php echo $v['categoryName'] ?></li>
-                            <li class="w325">共<?php echo $v['productCount']; ?>个拍卖品</li>
+                            <li class="w325">共<?php echo $v['productCountLimit']; ?>个拍卖品</li>
                             <li><span>选送商家</span><?php echo $v['storeName'] ?></li>
                             <li class="w325"><span>拍卖时间</span><?php echo date('Y/m/d H:i', $v['startTime']) . '~' . date('Y/m/d H:i', $v['endTime']) ?></li>
                         </ul>

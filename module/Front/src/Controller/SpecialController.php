@@ -12,19 +12,22 @@ class SpecialController extends Front{
     public function indexAction(){
         $categoryThemeOptions = $this->productCategoryFilterOptionModel->getThemeOptions();
         $specialProductCategoryID = $this->queryData['specialProductCategoryID'];
+        $date = $this->queryData['date'];
+        if(empty($date)) $date = date('Y-m-d');
         $where = array(
-            'Special.startTime > ?' => time(),
+            'Special.startTime > ?' => strtotime($date),
         );
         if(!empty($specialProductCategoryID)){
             $where['Special.specialProductCategoryID'] = $specialProductCategoryID;
         }
+        
         $specials = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit, $order = 'Special.startTime asc');
-
         $this->view->setVariables(array(
             'categoryThemeOptions' => $categoryThemeOptions,
             'specials' => $specials['data'],
             'pages' => $specials['pages'],
             'specialProductCategoryID' => $specialProductCategoryID,
+            'date' => $date,
 
         ));
         return $this->view;

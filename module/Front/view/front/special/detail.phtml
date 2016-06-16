@@ -181,10 +181,10 @@ echo $this->headLink()
 <div class="exc_rank">
     <div class="wrap2">
         <div class="exc_rank_l">
-            <a href="/special/detail">默 &nbsp;认</a>
-            <a href="/special/detail?order=auctionCount" class="rank_icon_x">出价次数</a>
-            <a href="/special/detail?order=currPrice" class="rank_icon_x1">价 &nbsp;格</a>
-            <a href="/special/detail?order=interestedCount" class="rank_icon_x">关注人数</a>
+            <a href="/special/detail?specialID=<?php echo $specialInfo['specialID'] ?>">默 &nbsp;认</a>
+            <a href="/special/detail?specialID=<?php echo $specialInfo['specialID'] ?>&order=auctionCount" class="rank_icon_x">出价次数</a>
+            <a href="/special/detail?specialID=<?php echo $specialInfo['specialID'] ?>&order=currPrice" class="rank_icon_x1">价 &nbsp;格</a>
+            <a href="/special/detail?specialID=<?php echo $specialInfo['specialID'] ?>&order=interestedCount" class="rank_icon_x">关注人数</a>
         </div>
         <div class="exc_rank_r">
             <a href="javascript:;" class="post-error-btn">站内报错</a>
