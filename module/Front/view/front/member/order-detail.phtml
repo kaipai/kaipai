@@ -134,7 +134,7 @@
     </div>
 </div>
 
-
+<?php echo $this->render('/front/common/transfer-account'); ?>
 
 <script>
     $(function(){
@@ -236,9 +236,23 @@
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
+                        if(res.flag == 1){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else if(res.flag == 2){
+
+                        }else if(res.flag == 3){
+
+                        }else if(res.flag == 4){
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: $('#transfer-account').html()
+                            });
+                        }
+
                     }else{
                         layer.alert(res.msg);
                     }
@@ -261,9 +275,22 @@
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
+                        if(res.flag == 1){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else if(res.flag == 2){
+
+                        }else if(res.flag == 3){
+
+                        }else if(res.flag == 4){
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: $('#transfer-account').html()
+                            });
+                        }
                     }else{
                         layer.alert(res.msg);
                     }

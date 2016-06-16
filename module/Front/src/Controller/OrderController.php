@@ -109,21 +109,24 @@ class OrderController extends Front{
                 }else{
                     try{
                         $this->sm->get('COM\Service\PayMod\RechargePay')->notify($unitePayID, $price);
-                        return $this->response(2, '支付成功');
+                        return $this->response($payType, '支付成功');
                     }catch (\Exception $e){
                         return $this->response($e->getCode(), $e->getMessage());
                     }
 
                 }
             }if($payType == 2){
-                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->productDoPay($unitePayID, $price);
-                return $this->redirect()->toUrl($payUrl);
+                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->doPay($unitePayID, $price);
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payUrl));
             }elseif($payType == 3){
-                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->productDoPay($unitePayID, $price);
-                $this->response->setContent($payForm);
-                return $this->response;
+                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->doPay($unitePayID, $price);
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
             }elseif($payType == 4){
+                $this->memberPayDetailModel->update(array('payType' => $payType), array('unitePayID' => $unitePayID));
 
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG);
+            }else{
+                return $this->response(ApiError::COMMON_ERROR, '请选择支付方式');
             }
 
         }catch (\Exception $e){
@@ -146,19 +149,21 @@ class OrderController extends Front{
                 }else{
                     try{
                         $this->sm->get('COM\Service\PayMod\RechargePay')->productNotify($unitePayID, $price);
-                        return $this->response(2, '支付成功');
+                        return $this->response($payType, '支付成功');
                     }catch (\Exception $e){
                         return $this->response($e->getCode(), $e->getMessage());
                     }
                 }
             }if($payType == 2){
                 $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->productDoPay($unitePayID, $price);
-                return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payUrl));
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payUrl));
             }elseif($payType == 3){
                 $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->productDoPay($unitePayID, $price);
-                return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
             }elseif($payType == 4){
-
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG);
+            }else{
+                return $this->response(ApiError::COMMON_ERROR, '请选择支付方式');
             }
         }else{
             return $this->response(ApiError::COMMON_ERROR, '支付号错误');
@@ -178,20 +183,21 @@ class OrderController extends Front{
                 }else{
                     try{
                         $this->sm->get('COM\Service\PayMod\RechargePay')->specialNotify($unitePayID, $price);
-                        return $this->response(2, '支付成功');
+                        return $this->response($payType, '支付成功');
                     }catch (\Exception $e){
                         return $this->response($e->getCode(), $e->getMessage());
                     }
                 }
             }if($payType == 2){
                 $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->specialDoPay($unitePayID, $price);
-                return $this->redirect()->toUrl($payUrl);
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payUrl));
             }elseif($payType == 3){
                 $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->specialDoPay($unitePayID, $price);
-                $this->response->setContent($payForm);
-                return $this->response;
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
             }elseif($payType == 4){
-
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG);
+            }else{
+                return $this->response(ApiError::COMMON_ERROR, '请选择支付方式');
             }
         }else{
             return $this->response(ApiError::COMMON_ERROR, '支付号错误');
@@ -210,20 +216,23 @@ class OrderController extends Front{
                 }else{
                     try{
                         $this->sm->get('COM\Service\PayMod\RechargePay')->finalNotify($unitePayID, $price);
-                        return $this->response(2, '支付成功');
+                        return $this->response($payType, '支付成功');
                     }catch (\Exception $e){
                         return $this->response($e->getCode(), $e->getMessage());
                     }
                 }
             }if($payType == 2){
                 $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->finalDoPay($unitePayID, $price);
-                return $this->redirect()->toUrl($payUrl);
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payUrl));
             }elseif($payType == 3){
                 $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->finalDoPay($unitePayID, $price);
-                $this->response->setContent($payForm);
-                return $this->response;
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
             }elseif($payType == 4){
+                $this->memberPayDetailModel->update(array('payType' => $payType), array('unitePayID' => $unitePayID));
 
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG);
+            }else{
+                return $this->response(ApiError::COMMON_ERROR, '请选择支付方式');
             }
         }else{
             return $this->response(ApiError::COMMON_ERROR, '支付号错误');

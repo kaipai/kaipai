@@ -125,8 +125,8 @@
                     var str = '';
                     if(value == 1){
                         var links = [
-                            '<a title="审核通过" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核通过吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&verifyStatus=2"><i class="glyphicon glyphicon-ok"></i></a>',
-                            '<a title="审核不通过" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核不通过吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&verifyStatus=3"><i class="glyphicon glyphicon-remove"></i></a>'
+                            '<a title="审核通过" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核通过吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&verifyStatus=2"><i class="glyphicon glyphicon-ok"></i></a>',
+                            '<a title="审核不通过" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核不通过吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&verifyStatus=3"><i class="glyphicon glyphicon-remove"></i></a>'
                         ];
                         str = links.join(' ');
                     }else if(value == 2){

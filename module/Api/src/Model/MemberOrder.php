@@ -7,7 +7,7 @@ class MemberOrder extends Model{
     public function getOrderList($where, $page, $limit){
         $select = $this->getSelect();
         $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName', 'mobile'))
-                ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice'))
+                ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice', 'payType'))
                 ->join(array('g' => 'MemberPayDetail'), 'MemberOrder.finalUnitePayID = g.unitePayID', array('finalPayMoney' => 'payMoney'), 'left')
                 ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
                 ->join(array('f' => 'Customization'), 'MemberOrder.customizationID = f.customizationID', array('title'), 'left')

@@ -151,22 +151,22 @@
                 align: 'center',
                 valign: 'middle',
                 formatter:function(value, row, index){
-                    $s = '';
+                    var s = '';
                     if(value == 1){
-                        $s += '待付款'
+                        s += '待付款'
                     }else if(value == 2){
-                        $s += '已付定金' + '<a title="发货" href="javascript:void(0)"  class="col-md-4" rid="' + row.orderID + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-sort"></i></a>';
+                        s += '已付定金' + '<a title="发货" href="javascript:void(0)"  class="col-md-4" rid="' + row.orderID + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-sort"></i></a>';
                     }else if(value == 3){
-                        $s += '已付全款';
+                        s += '已付全款';
                     }else if(value == 4){
-                        $s += '已发货'
+                        s += '已发货'
                     }else if(value == 5){
-                        $s += '已收货'
+                        s += '已收货'
                     }else if(value == 6){
-                        $s += '已付全款'
+                        s += '已付全款'
                     }
 
-                    return $s;
+                    return s;
                 }
             }]
         });

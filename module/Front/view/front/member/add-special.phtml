@@ -66,7 +66,10 @@
 
     </div>
 </div>
-<?php echo $this->render('/front/common/pay'); ?>
+<?php
+echo $this->render('/front/common/pay');
+echo $this->render('/front/common/transfer-account');
+?>
 <script type="text/javascript">
     $(function(){
         //alert(1);
@@ -202,8 +205,21 @@
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        if(res.flag == 2){
-                            location.reload();
+                        if(res.flag == 1){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else if(res.flag == 2){
+
+                        }else if(res.flag == 3){
+
+                        }else if(res.flag == 4){
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: $('#transfer-account').html()
+                            });
                         }
                     }else{
                         layer.alert(res.msg);

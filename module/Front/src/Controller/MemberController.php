@@ -799,6 +799,52 @@ class MemberController extends Front{
 
     }
 
+    public function saveProductPreviewAction(){
+
+        $data = $this->postData;
+        $data['storeID'] = $this->_storeInfo['storeID'];
+        $product = $data;
+        unset($product['productCategoryFilters'], $product['productCategoryProperty'], $product['storeCategoryID']);
+        if(!empty($data['detailImgs'])){
+            $detailImgs = explode(',', trim($data['detailImgs'], ','));
+            if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
+            $product['listImg'] = current($detailImgs);
+            $product['detailImgs'] = json_encode($detailImgs);
+        }
+
+        if(!empty($product['startTime'])){
+            $product['startTime'] = strtotime($product['startTime']);
+        }
+        if(!empty($product['endTime'])){
+            $product['endTime'] = strtotime($product['endTime']);
+        }
+        if(!empty($product['startPrice'])){
+            $product['currPrice'] = $product['startPrice'];
+        }
+
+        try{
+            $this->productCopyModel->beginTransaction();
+            $this->productCopyModel->insert($product);
+            $productID = $this->productCopyModel->getLastInsertValue();
+            if(!empty($data['productCategoryProperty'])){
+                foreach($data['productCategoryProperty'] as $k => $v){
+                    $tmp = array(
+                        'productID' => $productID,
+                        'productCategoryPropertyID' => $k,
+                        'value' => $v,
+                    );
+                    $this->productPropertyValueCopyModel->insert($tmp);
+                }
+            }
+            $this->productCopyModel->commit();
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('productID' => $productID));
+        }catch (\Exception $e){
+            $this->productCopyModel->rollback();
+            return $this->response($e->getCode(), $e->getMessage());
+        }
+
+    }
+
     public function storeJoinAction(){
         if(empty($this->_storeInfo)){
             $this->view->setTemplate('/front/member/store-join-step1');

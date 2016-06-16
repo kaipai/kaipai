@@ -164,6 +164,30 @@ class ProductController extends Front{
         return $this->view;
     }
 
+    public function preViewAction(){
+        $productID = $this->queryData['productID'];
+        $where = array('productID' => $productID);
+        $productInfo = $this->productCopyModel->select($where)->current();
+
+        // properties
+        $select = $this->productPropertyValueCopyModel->getSelect();
+        $select->join(array('b' => 'ProductCategoryProperty'), 'ProductPropertyValueCopy.productCategoryPropertyID = b.productCategoryPropertyID', array('propertyName'));
+        $select->where(array('ProductPropertyValueCopy.productID' => $productID));
+        $properties = $this->productPropertyValueCopyModel->selectWith($select)->toArray();
+        $properties = array_chunk($properties, 2);
+        // detail imgs
+        if(!empty($productInfo['detailImgs'])){
+            $detailImgs = json_decode($productInfo['detailImgs'], true);
+        }
+        $this->view->setVariables(array(
+            'productInfo' => $productInfo,
+            'properties' => $properties,
+            'detailImgs' => $detailImgs,
+        ));
+
+        return $this->view;
+    }
+
     public function categoryAction(){
 
         $categories = $this->productCategoryModel->getList();

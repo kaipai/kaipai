@@ -13,18 +13,20 @@ class OrderController extends Admin{
     }
 
     public function listAction(){
-        $offset = $this->request->getQuery('offset', $this->offset);
-        $limit = $this->request->getQuery('limit', $this->limit);
         $where = array();
+        $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
+        $orders = $result['data'];
+        foreach($orders as $k => $v){
+            if(!empty($v['productSnapshot'])){
+                $tmp = json_decode($v['productSnapshot'], true);
+                $orders[$k]['productName'] = $tmp['productName'];
+            }elseif(!empty($v['customizationSnapshot'])){
+                $tmp = json_decode($v['customizationSnapshot'], true);
+                $orders[$k]['productName'] = $tmp['title'];
+            }
+        }
 
-        $data = array();
-
-        $result = $this->memberOrderModel->getList($where, "orderID desc", $offset, $limit);
-        $data['total'] = $result['memberOrdersCount'];
-
-        $data['rows'] = $result['memberOrders'];
-
-        return $this->adminResponse($data);
+        return $this->adminResponse(array('rows' => $orders, 'total' => $result['total']));
     }
 
     public function customizationAction(){
@@ -69,6 +71,34 @@ class OrderController extends Admin{
 
             $this->memberOrderDeliveryModel->rollback();
             return $this->response(AdminError::COMMON_ERROR, '发货失败');
+        }
+    }
+
+    public function confirmPaidAction(){
+        $unitePayID = $this->postData['unitePayID'];
+        $type = $this->postData['type'];
+
+        try{
+            if($type == 1){
+                $orderInfo = $this->memberOrderModel->select(array('unitePayID' => $unitePayID))->current();
+                if(empty($orderInfo)) return $this->response(AdminError::COMMON_ERROR, '订单信息不存在');
+                $this->sm->get('COM\Service\PayMod\RechargePay')->notify($unitePayID);
+            }elseif($type == 2){
+                $productInfo = $this->productModel->select(array('unitePayID' => $unitePayID))->current();
+                if(empty($productInfo)) return $this->response(AdminError::COMMON_ERROR, '商品信息不存在');
+                $this->sm->get('COM\Service\PayMod\RechargePay')->productNotify($unitePayID);
+            }elseif($type == 3){
+                $specialInfo = $this->specialModel->select(array('unitePayID' => $unitePayID))->current();
+                if(empty($specialInfo)) return $this->response(AdminError::COMMON_ERROR, '专场信息不存在');
+                $this->sm->get('COM\Service\PayMod\RechargePay')->specialNotify($unitePayID);
+            }elseif($type == 4){
+                $orderInfo = $this->memberOrderModel->select(array('unitePayID' => $unitePayID))->current();
+                if(empty($orderInfo)) return $this->response(AdminError::COMMON_ERROR, '订单信息不存在');
+                $this->sm->get('COM\Service\PayMod\RechargePay')->finalNotify($orderInfo['finalUnitePayID']);
+            }
+            return $this->response(AdminSuccess::COMMON_SUCCESS, '确认成功');
+        }catch (\Exception $e){
+            return $this->response(AdminError::COMMON_ERROR, '事务处理失败');
         }
     }
 }

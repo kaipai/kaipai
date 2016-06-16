@@ -212,7 +212,11 @@
 
     </div>
 </div>
-<?php echo $this->render('/front/common/pay'); ?>
+<?php
+echo $this->render('/front/common/pay');
+echo $this->render('/front/common/transfer-account');
+?>
+
 <script type="text/javascript">
     $(function(){
         //alert(1);
@@ -695,8 +699,20 @@
 
         $('#product-preview-btn').on('click', function(){
             var data = getProductFormData();
+            $.ajax({
+                url : '/member/save-product-preview',
+                type : 'post',
+                dataType : 'json',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        window.open('/product/pre-view?productID=' + res.data['productID']);
+                    }else{
+                        layer.alert(data.msg);
+                    }
 
-            console.log(data);
+                }
+            });
         });
 
         $('#save-repo-btn').on('click', function(){
@@ -765,8 +781,21 @@
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        if(res.flag == 2){
-                            location.reload();
+                        if(res.flag == 1){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else if(res.flag == 2){
+
+                        }else if(res.flag == 3){
+
+                        }else if(res.flag == 4){
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: $('#transfer-account').html()
+                            });
                         }
                     }else{
                         layer.alert(res.msg);
