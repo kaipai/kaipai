@@ -29,6 +29,52 @@ return array(
             ),
         ),
     ),
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                'crontab-auction' => array(
+                    'options' => array(
+                        'route' => 'crontab-auction',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'auction'
+                        )
+                    )
+                ),
+                'crontab-products-on' => array(
+                    'options' => array(
+                        'route' => 'crontab-products-on',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'products-on'
+                        )
+                    )
+                ),
+                'crontab-specials-on' => array(
+                    'options' => array(
+                        'route' => 'crontab-specials-on',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'specials-on'
+                        )
+                    )
+                ),
+                'crontab-specials-off' => array(
+                    'options' => array(
+                        'route' => 'crontab-specials-off',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'specials-off'
+                        )
+                    )
+                ),
+            )
+        )
+    ),
     'view_manager' => array(
         'doctype' => 'HTML5',
         'display_not_found_reason' => true,
