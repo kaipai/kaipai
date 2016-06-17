@@ -107,13 +107,38 @@ echo $this->render('/front/common/post-illegal');
             });
         });
         $(document).on('click', '.post-error-div-btn:visible', function(){
-            /*$.ajax({
-                url : '/',
-            });*/
+            var data = {
+                content : $('input[name=errorContent]:visible').val()
+            };
+            $.ajax({
+                url : '/index/post-error',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    layer.alert(res.msg, function(){
+                        layer.closeAll();
+                    });
+                }
+            });
         });
 
         $('.post-illegal-btn').on('click', function(){
-
+            var data = {
+                coreID : $(this).attr('coreID'),
+                type : $(this).attr('type')
+            };
+            $.ajax({
+                url : '/index/post-illegal',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    layer.alert(res.msg, function(){
+                        layer.closeAll();
+                    });
+                }
+            });
         });
 
     });

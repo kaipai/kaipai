@@ -1,5 +1,6 @@
 <?php
 namespace Admin\Controller;
+use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
 class MemberArticleController extends Admin{
@@ -17,6 +18,14 @@ class MemberArticleController extends Admin{
         $data['rows'] = $result['data'];
 
         return $this->adminResponse($data);
+    }
+
+    public function delAction(){
+        $memberArticleID = $this->postData['memberArticleID'];
+
+        $this->memberArticleModel->update(array('isDel' => 1), array('memberArticleID' => $memberArticleID));
+
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '删除成功');
     }
 
 }

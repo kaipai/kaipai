@@ -1,13 +1,13 @@
 <?php
 namespace Api\Model;
 use COM\Model;
-class Error extends Model{
+class Illegal extends Model{
     protected $table = 'Error';
 
-    public function getErrors($page, $limit){
+    public function getIllegals($page, $limit){
         $select = $this->getSelect();
-        $select->join(array('b' => 'MemberInfo'), 'Error.memberID = b.memberID', array('nickName'), 'left');
-
+        $select->join(array('b' => 'MemberInfo'), 'Illegal.memberID = b.memberID', array('nickName'), 'left');
+        $select->join(array('c' => 'MemberArticle'), 'Illegal.coreID = c.memberArticleID', array('memberArticleName'));
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);

@@ -1,0 +1,60 @@
+
+<div class="wrapper" id="page-wrapper">
+
+    <div id="table_toolbar">
+        <div class="pull-left">
+            <strong>网站报错</strong>
+        </div>
+    </div>
+    <div class="adv-table">
+        <table id="table-pagination" class="bootstrap_table"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+
+        table = $('#table-pagination').bootstrapTable({
+            method: 'get',
+            url: '/admin/<?=$this->layout()->controllerName;?>/list',
+            cache: false,
+            height: "auto",
+            striped: true,
+            pagination: true,
+            pageSize: 10,
+            pageList: [10, 25, 50, 100, 200],
+            search: false,
+            showColumns: false,
+            showRefresh: false,
+            toolbar:"#table_toolbar",
+            minimumCountColumns: 2,
+            sidePagination: 'server',
+            clickToSelect: true,
+            columns: [{
+                field: 'errorID',
+                title: '报错ID',
+                align: 'center',
+                valign: 'middle'
+                /*sortable: true*/
+            }, {
+                field: 'content',
+                title: '报错内容',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
+            },{
+                field: 'nickName',
+                title: '报错人姓名',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
+            },{
+                field: 'instime',
+                title: '报错时间',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
+            }]
+        });
+    });
+</script>

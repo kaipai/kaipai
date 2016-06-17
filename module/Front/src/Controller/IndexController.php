@@ -98,9 +98,20 @@ class IndexController extends Front{
     }
 
     public function postErrorAction(){
-
+        if(!empty($this->memberInfo)) $this->postData['memberID'] = $this->memberInfo['memberID'];
         $this->errorModel->insert($this->postData);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '提交成功');
     }
+
+    public function postIllegalAction(){
+        if(!empty($this->memberInfo)) $this->postData['memberID'] = $this->memberInfo['memberID'];
+        if($this->postData['type'] == 1){
+            $this->memberArticleModel->update(array('isIllegal' => 1), array('memberArticleID' => $this->postData['coreID']));
+        }
+        $this->illegalModel->insert($this->postData);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '举报成功');
+    }
+
 }
