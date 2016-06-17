@@ -63,6 +63,14 @@
                                                 </span>
                                             </div>
                                     <?php
+                                        }elseif($v['auctionStatus'] == 2){
+                                    ?>
+                                            <b>正在拍卖中</b>
+                                    <?php
+                                        }elseif($v['auctionStatus'] == 3){
+                                            ?>
+                                            <b>拍卖已结束</b>
+                                        <?php
                                         }
                                     ?>
 
