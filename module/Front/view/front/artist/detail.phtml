@@ -1,43 +1,81 @@
 <link rel="stylesheet" href="/dist/styles/main/index.css">
 <link rel="stylesheet" href="/dist/styles/main/good.css">
+<link rel="stylesheet" href="/dist/styles/main/article.css">
 
-<style type="text/css">
-    body {
-        background-color: #f7f5e9;
-    }
-</style>
-<div class="hot-shopAd mb20">
-    <div class="center">
-        <a href="/">首页</a>
-        > 名家详情
+
+<div class="mySpace">
+    <div class="space_top">
+        <div class="center space_top1">
+            <span><em style="cursor:pointer;" onclick="location.href='/';">首页</em> &nbsp&nbsp></span>
+            <span>名家详情</span>
+        </div>
+        <div class="spacecont ">
+            <div class="center">
+                <div class="geren_2">
+                    <div class="space_top5"><img style="width:330px;height:330px;" src="<?php echo $info['artistAvatar'] ?>" class="geren_1"></div>
+                    <div class="geren_3">
+                        <div class="geren_11 ">
+                            <div class="space_top5 geren_4">
+                                <span class="geren_8"><?php echo $info['artistName'] ?></span>
+                                <span class="geren_9">·</span>
+                                <span>[艺术领域] <?php echo $info['categoryName']; ?></span>
+                                <!--<span class="geren_9">·</span>
+                                <span>[现居地]浙江杭州</span>-->
+                            </div>
+                            <!--<div class="space_top5  geren_10">
+                                <div class="geren_12">分享链接</div>
+                                <div class="geren_12"><img src="/dist/images/touxiang3.jpg"></div>
+                                <div class="geren_12"><img src="/dist/images/touxiang2.jpg"></div>
+                            </div>-->
+                        </div>
+                        <div class="geren_5">
+                            <a href="#gerenjieshao"><span class="geren_6">个人介绍</span></a>
+                            <a href="#jinglizhuzuo"><span class="geren_6 geren_7">经历及著作</span></a>
+                            <a href="#zuopinxinshang"><span class="geren_6 geren_7">作品欣赏</span></a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="geren_space_top" id="gerenjieshao">
+            <div class="center space_top1">
+                <span class="geren_13">个人介绍</span>
+
+            </div>
+        </div>
+        <div class="geren_spacecont">
+            <div class="center">
+                <iframe src="/artist/artist-detail?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
+            </div>
+        </div>
+        <div class="geren_space_top" id="jinglizhuzuo">
+            <div class="center space_top1">
+                <span class="geren_13">经历及著作</span>
+
+            </div>
+        </div>
+        <div class="geren_spacecont">
+            <div class="center">
+                <iframe src="/artist/artist-awards?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
+            </div>
+        </div>
+        <div class="geren_space_top" id="zuopinxinshang">
+            <div class="center space_top1">
+                <span class="geren_13">作品欣赏</span>
+
+
+            </div>
+            <div class="geren_spacecont">
+                <div class="center">
+                    <iframe src="/artist/artist-productions?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="center">
-    <div class="avatar-box">
-        <div class="avatar-img">
-            <img src="<?php echo $info['artistAvatar'] ?>" alt=""></div>
-        <div class="avatar-info">
-            <img src="/dist/img/upload/img33.jpg" alt=""></div>
-    </div>
-</div>
 
-<div class="zj-tit">
-    <div class="center"><span>个人介绍</span></div>
-</div>
-<div class="center">
-    <iframe src="/artist/artist-detail?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
-</div>
-<div class="zj-tit">
-    <div class="center"><span>经历和著述</span></div>
-</div>
-<div class="center">
-    <iframe src="/artist/artist-awards?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
 
-</div>
-<div class="zj-tit">
-    <div class="center"><span>作品欣赏</span></div>
-</div>
-<div class="center">
-    <iframe src="/artist/artist-productions?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
-</div>
 

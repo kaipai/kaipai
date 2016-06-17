@@ -19,4 +19,14 @@ class Artist extends Model{
 
         return $res;
     }
+
+    public function getArtistDetail($where){
+        $where = array_merge($where, array('isDel' => 0));
+        $select = $this->getSelect();
+        $select->join(array('b' => 'ArtistCategory'), 'Artist.artistCategoryID = b.artistCategoryID', array('categoryName'));
+        $select->where($where);
+
+        $res = $this->selectWith($select)->current();
+        return $res;
+    }
 }

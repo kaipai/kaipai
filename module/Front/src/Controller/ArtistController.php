@@ -24,7 +24,7 @@ class ArtistController extends Front{
         $where = array(
             'artistID' => $this->queryData['artistID'],
         );
-        $artistInfo = $this->artistModel->fetch($where);
+        $artistInfo = $this->artistModel->getArtistDetail($where);
 
         $this->view->setVariables(array(
             'info' => $artistInfo
