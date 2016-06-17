@@ -52,7 +52,7 @@ class SpecialController extends Front{
 
 
         $recommendProducts = $this->productModel->getProducts(array('Product.isSpecialRecommend' => 1), 1, 20, array('Product.instime desc'));
-        
+
         $stores = $this->storeModel->getHotStores(1, 20);
 
         $ads = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_SPECIAL_INDEX);
