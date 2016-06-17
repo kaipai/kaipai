@@ -64,4 +64,16 @@ class StoreController extends Front{
         ));
         return $this->view;
     }
+
+    public function descAction(){
+        $storeID = $this->queryData['storeID'];
+        $where = array(
+            'storeID' => $storeID
+        );
+        $storeInfo = $this->storeModel->fetch($where);
+        $this->view->setVariables(array(
+            'storeInfo' => $storeInfo
+        ));
+        return $this->view;
+    }
 }
