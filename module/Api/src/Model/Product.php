@@ -89,7 +89,7 @@ class Product extends Model{
 
     public function getExpireProducts(){
         $select = $this->getSelect();
-        $select->join(array('b' => 'AuctionMember'), 'Product.productID = b.productID and b.myCurrPrice = Product.currPrice', array('auctionMemberID', 'memberID'));
+        $select->join(array('b' => 'AuctionMember'), 'Product.productID = b.productID and b.myCurrPrice = Product.currPrice', array('auctionMemberID', 'memberID'), 'left');
         $select->where(array('Product.auctionStatus' => 2, 'Product.endTime < ?' => time(), 'Product.isDel' => 0));
         $products = $this->selectWith($select)->toArray();
 
