@@ -783,7 +783,7 @@ echo $this->render('/front/common/transfer-account');
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-
+                            window.open(res.data['coreData']);
                         }else if(res.flag == 3){
 
                         }else if(res.flag == 4){

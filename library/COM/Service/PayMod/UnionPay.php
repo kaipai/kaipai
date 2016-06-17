@@ -8,9 +8,8 @@ class UnionPay extends BasePay
 {
 
     public function doPay($unitePayID = null, $price) {
-
+        include __DIR__ . '/lib/Union/unionpay.php';
         $config = $this->sm->get("Config");
-
         $unionPay = new \Unionpay($config['unionPayConfig']);
         $payDetail = array(
             'unitePayID' => $unitePayID,

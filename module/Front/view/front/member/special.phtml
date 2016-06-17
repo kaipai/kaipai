@@ -174,9 +174,10 @@ echo $this->render('/front/common/transfer-account');
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-
+                            location.href = res.data['coreData'];
                         }else if(res.flag == 3){
-
+                            $('#public-content').html(res.data['coreData']);
+                            document.pay_form.submit();
                         }else if(res.flag == 4){
                             layer.open({
                                 skin: '',
