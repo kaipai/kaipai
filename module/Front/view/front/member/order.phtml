@@ -28,7 +28,7 @@
                             <span><?php if($v['orderStatus'] > 1){echo '&nbsp';}else{?> <input type="checkbox" name="checkbox1" value="checkbox" order-id="<?php echo $v['orderID'] ?>" class="ind_checkbox order-item-chk"><?php }?><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
                             <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
                             <span class="yc_pm2" style="background:transparent url('<?php echo $v['storeLogo'] ?>') no-repeat scroll 6% center"><?php echo $v['storeName'] ?></span>
-                            <span class="yc_pm3 lxmj"><a href="">联系卖家</a></span>
+                            <span class="yc_pm3 lxmj"><a href="tencent://message/?uin=<?php echo $v['storeqq'] ?>&Site=www.kaipai123.com&Menu=yes">联系卖家</a></span>
                             <span class="yc_pm4"><a href="">网站申诉</a></span>
                             <span class="yc_pm5"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
                         </div>

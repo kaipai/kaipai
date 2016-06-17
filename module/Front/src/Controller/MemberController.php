@@ -7,6 +7,7 @@ use Base\Functions\Utility;
 use COM\Controller\Front;
 use Zend\Authentication\Storage\Session;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Predicate\IsNull;
 use Zend\Db\Sql\Where;
 
 class MemberController extends Front{
@@ -607,7 +608,7 @@ class MemberController extends Front{
     }
 
     public function productAction(){
-        $products = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID']), $this->pageNum, $this->limit);
+        $products = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID'], new IsNull('Product.specialID')), $this->pageNum, $this->limit);
 
         $this->view->setVariables(array(
             'products' => $products['data'],

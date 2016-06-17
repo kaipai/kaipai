@@ -6,7 +6,7 @@ class MemberOrder extends Model{
 
     public function getOrderList($where, $page, $limit){
         $select = $this->getSelect();
-        $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName', 'mobile'))
+        $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName', 'mobile', 'qq'))
                 ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice', 'payType'))
                 ->join(array('g' => 'MemberPayDetail'), 'MemberOrder.finalUnitePayID = g.unitePayID', array('finalPayMoney' => 'payMoney'), 'left')
                 ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
@@ -26,7 +26,7 @@ class MemberOrder extends Model{
 
     public function getOrderDetail($where){
         $select = $this->getSelect();
-        $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName'))
+        $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName', 'qq'))
             ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice', 'deliveryPrice'))
             ->join(array('g' => 'MemberPayDetail'), 'MemberOrder.finalUnitePayID = g.unitePayID', array('finalPayMoney' => 'payMoney'), 'left')
             ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
