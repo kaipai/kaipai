@@ -104,27 +104,7 @@
     <div class="wrap2">
         <?php
             foreach($recommendProducts as $v){
-                if($v['auctionStatus'] == 2){
-        ?>
-                <ul class="exc_list mt20">
-                    <li class="lh32"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"><?php echo $v['productName'] ?></a></li>
-                    <li class="lh32">当前价 <span>￥<?php echo $v['currPrice'] ?></span></li>
-                    <li class="lh32">距结束 <?php echo $v['leftTime']; ?></li>
-                    <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font><strong><?php echo $v['interestedCount'] ?></strong><br/>次围观</font></li>
-                </ul>
-        <?php
-                }elseif($v['auctionStatus'] == 1){
-        ?>
-                    <ul class="exc_list mt20">
-                        <li class="lh32"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"><?php echo $v['productName'] ?></a></li>
-                        <li class="lh32">起拍价 <span class="exc_q">￥<?php echo $v['currPrice'] ?></span></li>
-                        <li class="lh32 exc_strat"><?php echo date('m月d日 H:i', $v['endTime']); ?></li>
-                        <li class="exc_list_img"><img src="images/show_s_pic.jpg"><font class="exc_num_bg"><strong><?php echo $v['interestedCount'] ?></strong><br/>次围观</font>
-                        </li>
-                    </ul>
-
-        <?php
-                }
+                echo $this->render('/front/common/product', array('v' => $v));
             }
         ?>
     </div>

@@ -6,6 +6,7 @@ use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller\Front;
+use Zend\Db\Sql\Predicate\IsNull;
 
 class StoreController extends Front{
     public function indexAction(){
@@ -43,6 +44,7 @@ class StoreController extends Front{
         if(!empty($auctionStatus)){
             $where['Product.auctionStatus'] = $auctionStatus;
         }
+        $where[] = new IsNull('Product.specialID');
         $storeProducts = $this->productModel->getProducts($where, $this->pageNum, $this->limit, $order);
         $storeProductsData = $storeProducts['data'];
         foreach($storeProductsData as $k => $v){

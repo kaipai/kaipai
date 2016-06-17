@@ -2,23 +2,49 @@
     <?php
         foreach($products as $v){
     ?>
-            <li onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
-                <h3><?php echo $v['productName'] ?></h3>
+            <?php if($v['auctionStatus'] == 1){
+            ?>
+                <li onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
+                    <h3><?php echo $v['productName'] ?></h3>
 
-                <p class="indexPro-price">
-                    当前价 <em>￥<?php echo $v['currPrice'] ?></em>
-                </p>
-
-                <p class="indexPro-time">距结束 <?php echo $v['leftTime'] ?></p>
-
-                <div class="indexPro-img">
-                    <img src="<?php echo $v['listImg']; ?>">
-
-                    <p class="indexPro-num"><em><?php echo $v['auctionCount'] ?></em>
-                        次出价
+                    <p class="indexPro-price">
+                        起拍价 <em>￥<?php echo $v['currPrice'] ?></em>
                     </p>
-                </div>
-            </li>
+
+                    <p class="indexPro-time"><?php echo date('m月d日 H:i', $v['startTime']) ?> 开拍</p>
+
+                    <div class="indexPro-img">
+                        <img src="<?php echo $v['listImg']; ?>">
+
+                        <p class="indexPro-num"><em><?php echo $v['auctionCount'] ?></em>
+                            次出价
+                        </p>
+                    </div>
+                </li>
+            <?php
+            }else{
+
+            ?>
+                <li onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
+                    <h3><?php echo $v['productName'] ?></h3>
+
+                    <p class="indexPro-price">
+                        当前价 <em>￥<?php echo $v['currPrice'] ?></em>
+                    </p>
+
+                    <p class="indexPro-time">距结束 <?php echo $v['leftTime'] ?></p>
+
+                    <div class="indexPro-img">
+                        <img src="<?php echo $v['listImg']; ?>">
+
+                        <p class="indexPro-num"><em><?php echo $v['auctionCount'] ?></em>
+                            次出价
+                        </p>
+                    </div>
+                </li>
+            <?php
+            } ?>
+
     <?php
         }
     ?>

@@ -1,0 +1,63 @@
+<?php
+if($v['auctionStatus'] == 2){
+?>
+<ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?sourceSpecialID=<?php echo $specialInfo['specialID']; ?>&productID=<?php echo $v['productID']; ?>'">
+    <li class="lh32">
+        <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
+    </li>
+    <li class="lh32">
+        当前价
+        <span>￥<?php echo $v['currPrice'] ?></span>
+    </li>
+    <li class="lh32">距结束 <?php echo $v['leftTime']; ?></li>
+    <li class="exc_list_img">
+        <img src="<?php echo $v['listImg']; ?>"> <font><strong><?php echo $v['auctionCount'] ?></strong>
+            <br/>
+            次出价</font>
+    </li>
+</ul>
+<?php
+}elseif($v['auctionStatus'] == 3){
+    ?>
+    <ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?sourceSpecialID=<?php echo $specialInfo['specialID']; ?>&productID=<?php echo $v['productID']; ?>'">
+        <li class="lh32">
+            <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
+        </li>
+        <li class="lh32">
+            当前价
+            <span>￥<?php echo $v['currPrice'] ?></span>
+        </li>
+        <li class="lh32">已结束</li>
+        <li class="exc_list_img">
+            <img src="<?php echo $v['listImg']; ?>"> <font><strong><?php echo $v['auctionCount'] ?></strong>
+                <br/>
+                次出价</font>
+        </li>
+
+    </ul>
+<?php
+}else{
+    ?>
+    <ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?sourceSpecialID=<?php echo $specialInfo['specialID']; ?>&productID=<?php echo $v['productID']; ?>'">
+        <li class="lh32">
+            <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
+        </li>
+        <li class="lh32">
+            起拍价
+            <span class="exc_q">￥<?php echo $v['currPrice'] ?></span>
+        </li>
+        <li class="lh32 exc_strat"><?php echo date('m月d日 H:i', $v['startTime']) ?> 开拍</li>
+        <li class="exc_list_img">
+            <img src="<?php echo $v['listImg']; ?>">
+            <font class="exc_num_bg">
+                <strong><?php echo $v['auctionCount'] ?></strong>
+                <br>
+                次出价
+            </font>
+        </li>
+    </ul>
+
+<?php
+}
+
+?>

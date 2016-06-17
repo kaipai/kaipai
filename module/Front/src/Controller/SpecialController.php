@@ -49,12 +49,15 @@ class SpecialController extends Front{
 
 
         $specials = $this->specialModel->getSpecials($where, $page, $limit, $order = 'Special.startTime asc');
-        $recommendProducts = $this->productModel->specialGetRecommendProducts();
+
+
+        $recommendProducts = $this->productModel->getProducts(array('Product.isSpecialRecommend' => 1), 1, 20, array('Product.instime desc'));
+        
         $stores = $this->storeModel->getHotStores(1, 20);
 
         $ads = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_SPECIAL_INDEX);
         $this->view->setVariables(array(
-            'recommendProducts' => $recommendProducts,
+            'recommendProducts' => $recommendProducts['data'],
             'filter' => $filter,
             'specials' => $specials['data'],
             'pages' => $specials['pages'],

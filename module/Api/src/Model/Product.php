@@ -96,15 +96,6 @@ class Product extends Model{
         return $products;
     }
 
-    public function specialGetRecommendProducts(){
 
-        $where = array(
-            'b.isRecommend' => 1,
-        );
-        $order = array('b.instime desc');
-
-
-        return $this->productFilterOptionModel->getList($where, $order, 0, 20);
-    }
 
 }
