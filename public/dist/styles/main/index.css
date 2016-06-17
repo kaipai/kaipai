@@ -537,6 +537,7 @@
 .fl_zhuangtai ul li{ float: left; width: 184px; display: inline-block; color: #fff}
 .fl_zhuangtai ul li a{color: #fff}
 .fl_zhuangtai ul li a:hover{color: #ef8201}
+.fl_zhuangtai ul li a.hover{color: #ef8201}
 .fl_moren{color: #ef8201}
 .sf_jiage{ padding-top: 16px;padding-left:20px; padding-bottom: 16px}
 .mt_input {width: 90px;height: 22px;padding-left: 10px;}

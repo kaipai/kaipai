@@ -268,10 +268,10 @@
             }else{
                 params.isAuthorAuth = 0;
             }
+
             if($('.product-status.hover').length){
                 params.status = $('.product-status.hover').attr('status');
             }
-            params.status = $('#status').val();
             params.priceBegin = $('#price-begin').val();
             params.priceEnd = $('#price-end').val();
             params.productCategoryID = '<?php echo $categoryInfo['productCategoryID']; ?>';
@@ -361,6 +361,9 @@
             refresh(params)
         });
         $('.product-status').on('click', function(){
+            $(this).parent().siblings().each(function(){
+                $(this).find('a').removeClass('hover');
+            })
             $(this).addClass('hover');
             refresh(params);
         });
