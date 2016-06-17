@@ -52,7 +52,8 @@ class AuctionController extends Front{
         $productInfo = $this->productModel->select(array('productID' => $productID, 'isDel' => 0))->current();
         if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
         if($productInfo['currPrice'] >= $auctionPrice) return $this->response(ApiError::COMMON_ERROR, '出价应超过当前价格');
-        if($productInfo['auctionStatus'] != 2) return $this->response(ApiError::COMMON_ERROR, '拍卖已结束');
+        if($productInfo['auctionStatus'] == 3) return $this->response(ApiError::COMMON_ERROR, '拍卖已结束');
+        if($productInfo['auctionStatus'] != 2) return $this->response(ApiError::COMMON_ERROR, '拍卖尚未开始');
 
         try{
             $this->auctionModel->bidding($productID, $this->memberInfo['memberID'], $this->memberInfo['nickName'], $auctionPrice, $productInfo['auctionPerPrice']);

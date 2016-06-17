@@ -92,6 +92,20 @@
 .indexPro-time {
   height: 40px;
   line-height: 40px; }
+.indexPro li.start {
+    float: left;
+    width: 265px;
+    height: 380px;
+    border: 1px solid #c3bfc0;
+    margin: 0 21px 22px 0;
+    background-color: #f5f5f5;
+    padding: 5px; }
+.indexPro li.start .indexPro-time {
+    color:#61b5d7; font-size: 18px;font-weight: bold;  }
+.indexPro li.start .indexPro-num {
+
+    background-color: #61b5d7;
+}
 .date-pop { position: absolute;top: 123px;  overflow: hidden; left: 50%; margin-left: 344px; font-size: 12px ;z-index: 99}
 .pop-zhuangchang{font-size: 24px;height: 64px;line-height: 64px;text-align: center;width: 253px;position: absolute;left: 50%; margin-left: 344px;z-index: 99;background-color:#7f0b00;color: #fff;top: 10px;}
 .pop-zhuangchang a{color: #fff;}

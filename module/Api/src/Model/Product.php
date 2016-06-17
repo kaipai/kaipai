@@ -25,7 +25,7 @@ class Product extends Model{
 
         $where = array(
             'b.isIndexRecommend' => 1,
-            'b.auctionStatus' => BaseConst::AUCTION_STATUS_PROCESSING,
+            'b.auctionStatus' => array(1, 2),
         );
         $order = array('b.instime desc');
 
