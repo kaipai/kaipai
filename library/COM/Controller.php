@@ -1,6 +1,7 @@
 <?php
 namespace COM;
 
+use Zend\Console\Request;
 use Zend\Db\Sql\Select;
 use Zend\Http\Cookies;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -44,9 +45,11 @@ class Controller extends AbstractActionController{
         $this->sm = $this->getServiceLocator();
         $event = $this->getEvent();
         $this->route = $event->getRouteMatch();
+        if(!$this->request instanceof Request){
+            $this->postData = $this->request->getPost()->toArray();
+            $this->queryData = $this->request->getQuery()->toArray();
+        }
 
-        $this->postData = $this->request->getPost()->toArray();
-        $this->queryData = $this->request->getQuery()->toArray();
         $this->controllerName = $this->route->getParam('__CONTROLLER__');
         $this->actionName = $this->route->getParam('action');
         $this->pageNum = $this->postData['pageNum'] ? $this->postData['pageNum'] : $this->queryData['pageNum'];
