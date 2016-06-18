@@ -1,0 +1,83 @@
+<div class="wrapper">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                用户密码修改：
+            </h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" method="post"
+                  action="/admin/<?php echo $this->layout()->controllerName; ?>/modifypwd">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="Title" class="col-sm-2 col-md-2 control-label">用户名</label>
+
+                                <div class="col-sm-10 col-md-10">
+                                    <label class="form-control"><?php echo $loginInfo['username'] ?></label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="Content" class="col-sm-2 col-md-2 control-label">旧密码</label>
+
+                                <div class="col-sm-10 col-md-10">
+                                    <input type="password" id="oldPassword" name="oldPassword" class="form-control"/>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="Content" class="col-sm-2 col-md-2 control-label">新密码</label>
+
+                                <div class="col-sm-10 col-md-10">
+                                    <input type="password" id="newPassword" name="newPassword" class="form-control"/>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-group">
+                                <label for="Content" class="col-sm-2 col-md-2 control-label">确认密码</label>
+
+                                <div class="col-sm-10 col-md-10">
+                                    <input type="password" id="confirmPassword" name="confirmPassword"
+                                           class="form-control"/>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <button type="button" class="btn btn-success btn-block" id="saveSa">确认</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        //保存SA
+        $('#saveSa').click(function () {
+            var oldPassword = $("#oldPassword").val();
+            var newPassword = $("#newPassword").val();
+            var confirmPassword = $("#confirmPassword").val();
+            var param = {oldPassword: oldPassword, newPassword: newPassword, confirmPassword: confirmPassword};
+            $.post('/admin/user/modifypwd', param, function (data) {
+                if (data.flag > 0) {
+                    alertSuccess(data.msg);
+                } else{
+                    alertError(data.msg);
+
+                }
+            }, 'json');
+        });
+    });
+</script>
