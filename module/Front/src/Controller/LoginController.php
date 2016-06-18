@@ -59,7 +59,10 @@ class LoginController extends Front{
         $qqOpenID = $this->queryData['qqOpenID'];
         $accessToken = $this->queryData['accessToken'];
         $response = Utility::curl('https://graph.qq.com/user/get_user_info?oauth_consumer_key=101328212&access_token=' . $accessToken . '&openid=' . $qqOpenID . '&format=json');
+        var_dump($response);
         $response = json_decode($response, true);
+        var_dump($response);
+
         if($response['ret'] < 0){
             return $this->response(ApiError::COMMON_ERROR, '接口调用失败');
         }else{
