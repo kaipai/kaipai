@@ -87,10 +87,10 @@ class LoginController extends Front{
             $loginSession = new Session(self::FRONT_PLATFORM, null,null);
             $loginSession->write($memberInfo);
 
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+            return $this->redirect()->toUrl('/');
         }catch (\Exception $e){
             $this->memberModel->rollback();
-            return $this->response($e->getCode(), $e->getMessage());
+            return $this->redirect()->toUrl('/login/do-login');
         }
     }
 
