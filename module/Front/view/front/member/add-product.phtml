@@ -783,9 +783,14 @@ echo $this->render('/front/common/transfer-account');
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-                            window.open(res.data['coreData']);
+                            layer.alert('申请开通中');
+                            return false;
+                            location.href = res.data['coreData'];
                         }else if(res.flag == 3){
-
+                            layer.alert('申请开通中');
+                            return false;
+                            $('#public-content').html(res.data['coreData']);
+                            document.pay_form.submit();
                         }else if(res.flag == 4){
                             layer.open({
                                 skin: '',
