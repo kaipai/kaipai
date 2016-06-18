@@ -55,6 +55,44 @@ class LoginController extends Front{
 
     }
 
+    public function qqLoginAction(){
+        $qqOpenID = $this->queryData['qqOpenID'];
+        $accessToken = $this->queryData['accessToken'];
+        $response = Utility::curl('https://graph.qq.com/user/get_user_info?oauth_consumer_key=101328212&access_token=' . $accessToken . '&openid=' . $qqOpenID . '&format=json');
+        $response = json_decode($response, true);
+        if($response['ret'] < 0){
+            return $this->response(ApiError::COMMON_ERROR, '接口调用失败');
+        }else{
+            $nickName = $response['nickname'];
+        }
+        if(empty($qqOpenID) || empty($nickName)) return $this->response(ApiError::COMMON_ERROR, '缺少参数');
+        try{
+            $member = array(
+                'qqOpenID' => $qqOpenID,
+            );
+            $exist = $this->memberModel->select($member)->current();
+            if(empty($exist)){
+                $this->memberModel->beginTransaction();
+                $this->memberModel->insert($member);
+                $memberID = $this->memberModel->getLastInsertValue();
+                $infoData = array(
+                    'memberID' => $memberID,
+                    'nickName' => $nickName
+                );
+                $this->memberInfoModel->insert($infoData);
+                $this->memberModel->commit();
+            }
+            $memberInfo = $this->memberInfoModel->select(array('memberID' => $memberID))->current();
+            $loginSession = new Session(self::FRONT_PLATFORM, null,null);
+            $loginSession->write($memberInfo);
+
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        }catch (\Exception $e){
+            $this->memberModel->rollback();
+            return $this->response($e->getCode(), $e->getMessage());
+        }
+    }
+
     public function getPicVerifyCodeAction(){
         session_start();
         $imgService = $this->sm->get('COM\Service\ImageService');

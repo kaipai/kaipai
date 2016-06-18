@@ -1,0 +1,10 @@
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="APPID" data-redirecturi="REDIRECTURI" charset="utf-8"></script>
+
+<script type="text/javascript">
+    if(QC.Login.check()){//如果已登录
+        QC.Login.getMe(function(openId, accessToken){
+            alert(["当前登录用户的", "openId为："+openId, "accessToken为："+accessToken].join("\n"));
+        });
+        location.href = '/login/do-login?qqOpenID='+openID+'&accessToken='+accessToken;
+    }
+</script>

@@ -107,12 +107,12 @@ class Utility
         return $array;
     }
 
-    public static function curl($uri, $data, $method = 'post')
+    public static function curl($uri, $data = array(), $method = 'post')
     {
 
 
 
-        if(empty($uri) || empty($data)) return false;
+        if(empty($uri)) return false;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uri);

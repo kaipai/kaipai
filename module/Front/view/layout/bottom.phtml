@@ -144,5 +144,12 @@ echo $this->render('/front/common/post-illegal');
             });
         });
 
+        $(document).on('click', '#qq-login-btn', function(){
+            QC.Login.showPopup({
+                appID : '101328212',
+                redirectURI : 'http://kaipai123.com/notify/qq-login'
+            })
+        });
+
     });
 </script>
