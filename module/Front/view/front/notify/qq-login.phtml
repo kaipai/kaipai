@@ -3,8 +3,8 @@
 <script type="text/javascript">
     if(QC.Login.check()){//如果已登录
         QC.Login.getMe(function(openId, accessToken){
-            alert(["当前登录用户的", "openId为："+openId, "accessToken为："+accessToken].join("\n"));
+            location.href = '/login/do-login?qqOpenID='+openID+'&accessToken='+accessToken;
         });
-        location.href = '/login/do-login?qqOpenID='+openID+'&accessToken='+accessToken;
+
     }
 </script>
