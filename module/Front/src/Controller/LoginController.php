@@ -82,6 +82,8 @@ class LoginController extends Front{
                 );
                 $this->memberInfoModel->insert($infoData);
                 $this->memberModel->commit();
+            }else{
+                $memberID = $exist['memberID'];
             }
             $memberInfo = $this->memberInfoModel->select(array('memberID' => $memberID))->current();
             $loginSession = new Session(self::FRONT_PLATFORM, null,null);
