@@ -50,4 +50,20 @@ class ArticleController extends Front{
         return $this->view;
 
     }
+
+    public function settingAction(){
+        $settingName = $this->queryData['settingName'];
+        $settingInfo = $this->siteSettingModel->select(array('settingName' => $settingName))->current();
+        $this->view->setVariables(array(
+            'settingInfo' => $settingInfo
+        ));
+        return $this->view;
+    }
+
+    public function settingDetailAction(){
+        $this->view->setNoLayout();
+        $settingName = $this->queryData['settingName'];
+        $this->view->setVariables(array('settingName' => $settingName));
+        return $this->view;
+    }
 }

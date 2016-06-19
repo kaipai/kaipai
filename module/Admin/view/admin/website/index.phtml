@@ -1,3 +1,8 @@
+<?php
+echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.config.js');
+echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.all.js');
+echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
+?>
 <?php echo $this->render('/admin/common/upload-img'); ?>
 <div class="wrapper">
 
@@ -25,9 +30,22 @@
                                     </td>
                                 </tr>
                     <?php
-                            }elseif($v['fieldType'] == 'textArea'){
+                            }elseif($v['fieldType'] == 'textarea'){
                     ?>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"><?php echo $v['remark'] ?></label>
+                                            <div class="col-sm-4">
+                                                <script id="<?php echo $v['settingName'] ?>" name="<?php echo $v['settingName'] ?>" type="text/plain" style="width:700px;height:300px;"><?php echo $v['settingValue']; ?></script>
 
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <script>
+                                    UE.getEditor('<?php echo $v['settingName']; ?>');
+                                </script>
                     <?php
                             }elseif($v['fieldType'] == 'select'){
                     ?>
