@@ -4,6 +4,25 @@ namespace Api\Model;
 use COM\Model;
 class ProductCategoryFilterOption extends Model{
 
+    public function getOptions($page, $limit){
+        $select = $this->getSql()->select();
+        $select->join(array('b' => 'ProductCategoryFilter'), 'ProductCategoryFilterOption.productCategoryFilterID = b.productCategoryFilterID', array('filterName'));
+        $select->join(array('c' => 'ProductCategory'), 'b.productCategoryID = c.productCategoryID', array('categoryName'));
+        $select->order(array('b.productCategoryID asc', 'b.productCategoryFilterID asc'));
+        $paginator = $this->paginate($select);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($limit);
+        $pages = $paginator->getPages();
+        $data = $paginator->getCurrentItems()->getArrayCopy();
+        $total = $paginator->getTotalItemCount();
+        $result = array(
+            'data' => $data,
+            'pages' => $pages,
+            'total' => $total
+        );
+
+        return $result;
+    }
 
     public function getCategoryFilters($where = array()){
         $select = $this->getSelect();

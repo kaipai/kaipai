@@ -1,0 +1,38 @@
+<div class="wrapper">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <?php echo (isset($info['productCategoryID'])) ? '编辑拍品分类ID:' . $info['productCategoryID'] : '新增拍品分类'; ?>
+                <a class="text-right" style="float:right;" href="<?php echo '/admin/' . $this->layout()->controllerName . '/index' ?>">返回</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="container mtop40" style="margin-bottom: 50px; height: auto;">
+                <form class="form-horizontal" action="/admin/<?php echo $this->layout()->controllerName; ?>/add" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">拍品分类名称</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="categoryName" value="<?php echo !empty($info['categoryName']) ? $info['categoryName'] : ''; ?>">
+                        </div>
+                    </div>
+                    <!--<div class="form-group">
+                        <label class="col-sm-2 control-label">说明</label>
+                        <div class="col-sm-4">
+                            <script id="editor" name="articleContent" type="text/plain" style="width:700px;height:300px;"><?/*= (isset($info['desc'])) ? $info['desc'] : ''; */?></script>
+
+                        </div>
+                    </div>-->
+                    <input type="hidden" name="productCategoryID" value="<?php if(!empty($info['productCategoryID'])) echo $info['productCategoryID']; ?>"/>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a class="btn btn-primary editModal" onclick="">确定</a>
+                        </div>
+                    </div>
+                </form>
+
+                <input type="hidden" name="location-url" value="/admin/<?php echo $this->layout()->controllerName; ?>/index"/>
+            </div>
+        </div>
+    </div>
+</div>

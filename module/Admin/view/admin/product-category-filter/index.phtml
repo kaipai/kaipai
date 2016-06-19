@@ -3,7 +3,7 @@
 
     <div id="table_toolbar">
         <div class="pull-left">
-            <a  class="btn btn-primary" href="/admin/<?php echo  $this->layout()->controllerName;?>/add-view"><i class="fa fa-pencil"></i>新增</a>
+            <a  class="btn btn-primary" href="/admin/<?php echo $this->layout()->controllerName;?>/add-view"><i class="fa fa-pencil"></i>新增</a>
         </div>
     </div>
     <div class="adv-table">
@@ -16,7 +16,7 @@
 
         table = $('#table-pagination').bootstrapTable({
             method: 'get',
-            url: '/admin/<?=$this->layout()->controllerName;?>/list',
+            url: '/admin/<?php echo $this->layout()->controllerName;?>/list',
             cache: false,
             height: "auto",
             striped: true,
@@ -31,14 +31,20 @@
             sidePagination: 'server',
             clickToSelect: true,
             columns: [{
-                field: 'productCategoryID',
-                title: '拍品分类ID',
+                field: 'productCategoryFilterID',
+                title: '拍品分类筛选项ID',
                 align: 'center',
                 valign: 'middle'
                 /*sortable: true*/
             }, {
                 field: 'categoryName',
                 title: '拍品分类名称',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
+            },{
+                field: 'filterName',
+                title: '拍品分类筛选项名称',
                 align: 'center',
                 valign: 'middle',
                 width: '200px'
@@ -53,9 +59,9 @@
     });
     function operateFormatter(value, row, index) {
         return [
-            "<a title='编辑' href=\"/admin/<?php echo $this->layout()->controllerName;?>/add-view?productCategoryID="+row.productCategoryID+"\" ><i class=\"glyphicon glyphicon-edit\"></i></a>",
+            "<a title='编辑' href=\"/admin/<?php echo $this->layout()->controllerName;?>/add-view?productCategoryFilterID="+row.productCategoryFilterID+"\" ><i class=\"glyphicon glyphicon-edit\"></i></a>",
             '<a title="删除" href="javascript:void(0)" class="remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
-            ' cbody="确认删除吗？" url="/admin/<?php echo $this->layout()->controllerName;?>/del" method="post" params="productCategoryID='+ row.productCategoryID +'">'+
+            ' cbody="确认删除吗？" url="/admin/<?php echo $this->layout()->controllerName;?>/del" method="post" params="productCategoryFilterID='+ row.productCategoryFilterID +'">'+
             '<i class="glyphicon glyphicon-remove"></i>'+
             '</a>'
         ].join('');

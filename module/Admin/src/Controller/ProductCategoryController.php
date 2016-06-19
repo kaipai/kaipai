@@ -11,47 +11,48 @@ class ProductCategoryController extends Admin{
         return $this->view;
     }
 
-    public function listAction(){
-        $offset = $this->request->getQuery('offset', $this->offset);
-        $limit = $this->request->getQuery('limit', $this->limit);
-        $where = array();
-
-        $data = array();
-
-        $data['total'] = $this->productCategoryModel->getCount($where);
-
-        $data['rows'] = $this->productCategoryModel->getList($where, "productCategoryID desc", $offset, $limit);
-
-        return $this->adminResponse($data);
+    public function addViewAction(){
+        $productCategoryID = $this->queryData['productCategoryID'];
+        if(!empty($productCategoryID)){
+            $info = $this->productCategoryModel->select(array('productCategoryID' => $productCategoryID))->current();
+        }
+        $this->view->setVariables(array(
+            'info' => $info
+        ));
+        return $this->view;
     }
 
     public function addAction(){
-        $productCategoryData = $this->postData;
-        $this->productCategoryModel->insert($productCategoryData);
 
-        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
+        if(!empty($this->postData['productCategoryID'])){
+            $update = $this->postData;
+            unset($update['productCategoryID']);
+            $this->productCategoryModel->update($update, array('productCategoryID' => $this->postData['productCategoryID']));
+        }else{
+            unset($this->postData['productCategoryID']);
+            $this->productCategoryModel->insert($this->postData);
+        }
+
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
+
     }
 
-    public function updateAction(){
-        $productCategoryID = $this->postData['productCategoryID'];
-        $set = $this->postData;
+    public function listAction(){
 
-        $where = array(
-            'productCategoryID' => $productCategoryID
-        );
-        $this->productCategoryModel->update($set, $where);
+        $res = $this->productCategoryModel->getCategories($this->pageNum, $this->limit);
 
-        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
+        $this->adminResponse(array('rows' => $res['data'], 'total' => $res['total']));
+
+        return $this->response;
     }
 
     public function delAction(){
         $productCategoryID = $this->postData['productCategoryID'];
-        $where = array(
-            'productCategoryID' => $productCategoryID
-        );
 
-        $this->productCategoryModel->delete($where);
-        return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
+        $this->productCategoryModel->delete(array('productCategoryID' => $productCategoryID));
+
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '删除成功');
     }
+
 
 }
