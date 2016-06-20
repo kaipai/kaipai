@@ -24,7 +24,7 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
         </div>
         <div class="exc_rank_r">
             <?php
-                if(!empty($_memberInfo['storeID'])){
+                if(!empty($_memberInfo['storeID']) && $_memberInfo['storeID'] == $storeInfo['storeID']){
             ?>
                     <a href="/member/store-setting">更改抬头图片</a><a href="/member/store-setting">进入店铺设置</a>
             <?php
