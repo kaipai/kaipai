@@ -129,14 +129,14 @@ class LoginController extends Front{
         if(empty($this->postData)) return $this->view;
         $mobile = $this->postData['mobile'];
         $password = $this->postData['password'];
-        $confirmPassword = $this->postData['confirmPassword'];
+        //$confirmPassword = $this->postData['confirmPassword'];
         $nickName = $this->postData['nickName'];
-        if(empty($mobile) || empty($password) || empty($confirmPassword) || empty($nickName)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if(empty($mobile) || empty($password) || /*empty($confirmPassword) ||*/ empty($nickName)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
         if(strlen($password) < 6) return $this->response(ApiError::PASSWORD_LT_SIX_WORDS, ApiError::PASSWORD_LT_SIX_WORDS_MSG);
-        if($password != $confirmPassword){
+        /*if($password != $confirmPassword){
             return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
-        }
+        }*/
         $verifyCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
         if($verifyCode != $this->postData['verifyCode']){
             return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
