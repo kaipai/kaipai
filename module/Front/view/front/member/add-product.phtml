@@ -15,7 +15,7 @@
                 </select>
 
                 <span class="ind_x">*</span>
-                <span class="ml20"><a href="">类目说明 >></a></span>
+                <span class="ml20"><a href="javascript:;" class="category-introduction">类目说明 >></a></span>
             </div>
             <div class="ind_fg">
                 <div><span class="ind_dx">单选</span><span class="ind_dx1">请仔细选择筛选项，以便有更大几率被搜索显示</span></div>
@@ -833,6 +833,13 @@ echo $this->render('/front/common/transfer-account');
 
             $('#detail-imgs').val(detailImgs.join(','));
         })
+
+        $('.category-introduction').on('click', function(){
+            layer.open({
+                type : 1,
+                content : '<?php echo $_siteSettings['categoryIntroduction'] ?>'
+            });
+        });
     });
 
 </script>
