@@ -48,7 +48,7 @@
         </div>
         <div class="geren_spacecont">
             <div class="center">
-                <iframe src="/artist/artist-detail?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
+                <?php echo $info['artistDetail'] ?>
             </div>
         </div>
         <div class="geren_space_top" id="jinglizhuzuo">
@@ -59,7 +59,7 @@
         </div>
         <div class="geren_spacecont">
             <div class="center">
-                <iframe src="/artist/artist-awards?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
+                <?php echo $info['awards'] ?>
             </div>
         </div>
         <div class="geren_space_top" id="zuopinxinshang">
@@ -70,7 +70,7 @@
             </div>
             <div class="geren_spacecont">
                 <div class="center">
-                    <iframe src="/artist/artist-productions?artistID=<?php echo $info['artistID'] ?>" frameborder="0" width="100%"></iframe>
+                    <?php echo $info['productions'] ?>
                 </div>
             </div>
         </div>

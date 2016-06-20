@@ -4,7 +4,8 @@
 </div>
 <div class="center">
     <div class="page-box pb30 fz16">
-        <iframe src="/article/setting-detail?settingName=<?php echo $settingInfo['settingName'] ?>" frameborder="0" width="100%"></iframe>
-
+        <?php
+            echo $_siteSettings[$settingInfo['settingName']];
+        ?>
     </div>
 </div>
