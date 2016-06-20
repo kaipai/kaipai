@@ -175,6 +175,8 @@ class LoginController extends Front{
             'memberID' => $memberID,
             'nickName' => $nickName
         );
+        $loginSession = new Session(self::FRONT_PLATFORM, null,null);
+        $loginSession->write($memberInfo);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberInfo);
     }
