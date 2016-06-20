@@ -14,4 +14,8 @@ class NotifyController extends Front{
 
         return $this->view;
     }
+
+    public function wxAction(){
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+    }
 }
