@@ -120,7 +120,7 @@ class ProductController extends Front{
         $sourceSpecialID = $this->queryData['sourceSpecialID'];
         $sourceSpecialInfo = $this->specialModel->select(array('specialID' => $sourceSpecialID))->current();
         $where = array('productID' => $productID);
-        $productInfo = $this->productModel->select($where)->current();
+        $productInfo = $this->productModel->fetch($where);
 
         // properties
         $select = $this->productPropertyValueModel->getSelect();
@@ -151,6 +151,10 @@ class ProductController extends Front{
         $interestProduct = $this->memberProductInterestModel->select(array('productID' => $productID, 'memberID' => $this->memberInfo['memberID']))->current();
         $interestStore = $this->memberStoreInterestModel->select(array('storeID' => $productInfo['storeID'], 'memberID' => $this->memberInfo['memberID'],))->current();
 
+        foreach($auctionLogs as $k => $v){
+
+            $auctionLogs[$k]['nickName'] = Utility::getPrivateNickName($v['nickName']);
+        }
         $this->view->setVariables(array(
             'productInfo' => $productInfo,
             'properties' => $properties,

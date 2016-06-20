@@ -107,16 +107,16 @@
                     </li>
                     <?php if(!empty($productInfo['commission'])){
                     ?>
-                        <li>拥金：￥<?php echo $productInfo['currPrice'] * $productInfo['commission']; ?></li>
+                        <li>佣金：￥<?php echo $productInfo['currPrice'] * $productInfo['commission']; ?></li>
                     <?php
                     }else{
                     ?>
-                        <li>拥金：￥0</li>
+                        <li>佣金：￥0</li>
                     <?php
                     } ?>
 
-                    <li>保留价：有</li>
-                    <li>延时周期：5分/次</li>
+                    <li>保留价：<?php if(!empty($productInfo['existKeppPrice'])){echo '有';}else{echo '无';} ?></li>
+                    <li>延时周期：<?php if($productInfo['delayType'] == 1){echo '5分/次';}else{echo '无';} ?></li>
                     <li>
                         商家：
                         <a ui-sref="mainShop({'id':14})" class="blue"><?php echo $productInfo['storeName'] ?></a>
@@ -206,12 +206,6 @@
             <!--start 竞拍流程-->
             <div class="detailed-step">
                 <span>竞拍流程：</span>
-                <dl>
-                    <dt>
-                        <i class="icon1"></i>
-                    </dt>
-                    <dd>免/交保证金</dd>
-                </dl>
                 <dl>
                     <dt>
                         <i class="icon2"></i>
@@ -577,11 +571,11 @@ echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
         });
 
         $('#priceAdd').on('click', function(){
-            var val = parseInt($('#j_addprice').val()) + 1;
+            var val = parseInt($('#j_addprice').val()) + <?php echo $productInfo['auctionPerPrice'] ?>;
             $('#j_addprice').val(val);
         });
         $('#priceReduce').on('click', function(){
-            var val = parseInt($('#j_addprice').val())- 1;
+            var val = parseInt($('#j_addprice').val())- <?php echo $productInfo['auctionPerPrice'] ?>;
             $('#j_addprice').val(val);
         });
 

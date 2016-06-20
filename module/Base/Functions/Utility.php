@@ -228,4 +228,22 @@ class Utility
 
         return strip_tags($tmp[0][0]);
     }
+
+    public static function getPrivateNickName($nickName){
+        $count = mb_strlen($nickName, 'UTF-8') - 2;
+        $nickName = mb_substr($nickName, 0, 1, 'UTF-8');
+        $last = '';
+        if($count >= 1){
+            $last = mb_substr($nickName, -1, 1, 'UTF-8');
+        }
+
+
+        for($i = 0; $i <= $count; $i++){
+            $nickName .= '*';
+        }
+        $nickName .= $last;
+
+
+        return $nickName;
+    }
 }

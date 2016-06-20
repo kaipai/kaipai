@@ -54,7 +54,10 @@ class AuctionController extends Front{
         if($productInfo['currPrice'] >= $auctionPrice) return $this->response(ApiError::COMMON_ERROR, '出价应超过当前价格');
         if($productInfo['auctionStatus'] == 3) return $this->response(ApiError::COMMON_ERROR, '拍卖已结束');
         if($productInfo['auctionStatus'] != 2) return $this->response(ApiError::COMMON_ERROR, '拍卖尚未开始');
-
+        if($productInfo['storeID'] == $this->memberInfo['storeID']) return $this->response(ApiError::COMMON_ERROR, '不能对自己发布的拍品竞拍');
+        $auctionMember = $this->auctionMemberModel->select(array('productID' => $productID, 'memberID' => $this->memberInfo['memberID']))->current();
+        if(!empty($auctionMember) && $productInfo['currPrice'] == $auctionMember['myCurrPrice']) return $this->response(ApiError::COMMON_ERROR, '当前您已经是最高出价');
+        if($productInfo['auctionPerPrice'] != ($auctionPrice - $productInfo['currPrice'])) return $this->response(ApiError::COMMON_ERROR, '未按拍卖阶梯出价');
         try{
             $this->auctionModel->bidding($productID, $this->memberInfo['memberID'], $this->memberInfo['nickName'], $auctionPrice, $productInfo['auctionPerPrice']);
             return $this->response(ApiSuccess::COMMON_SUCCESS, '出价成功');
