@@ -88,12 +88,12 @@
                                 <span>
 
                                     <?php
-                                        if($v['auctionStatus'] == 2){
+                                        if(in_array($v['auctionStatus'], array(1, 2))){
                                     ?>
                                             <a href="javascript:;" class="withdraw-product-btn" product-id="<?php echo $v['productID'] ?>">下架</a>
                                     <?php
 
-                                        }elseif($v['auctionStatus'] == 1 || empty($v['auctionStatus'])){
+                                        }elseif(empty($v['auctionStatus'])){
                                     ?>
                                             <a href="javascript:;" class="publish-product-btn" product-id="<?php echo $v['productID'] ?>">上架</a>
                                     <?php

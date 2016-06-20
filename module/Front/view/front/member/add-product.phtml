@@ -705,7 +705,7 @@ echo $this->render('/front/common/transfer-account');
                     if(res.flag > 0){
                         window.open('/product/pre-view?productID=' + res.data['productID']);
                     }else{
-                        layer.alert(data.msg);
+                        layer.alert(res.msg);
                     }
 
                 }
@@ -721,11 +721,11 @@ echo $this->render('/front/common/transfer-account');
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        layer.alert(data.msg, function(){
+                        layer.alert(res.msg, function(){
                             location.href = '/member/product';
                         });
                     }else{
-                        layer.alert(data.msg);
+                        layer.alert(res.msg);
                     }
 
                 }
