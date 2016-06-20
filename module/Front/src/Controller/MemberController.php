@@ -563,6 +563,9 @@ class MemberController extends Front{
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
             }else{
                 $unitePayID = $this->memberOrderModel->genUnitePayID();
+                if(empty($this->siteSettings['specialMoney'])){
+                    $this->postData['isPaid'] = 1;
+                }
                 $this->specialModel->insert($this->postData);
 
                 $price = $this->siteSettings['specialMoney'];
@@ -760,6 +763,9 @@ class MemberController extends Front{
             }else{
                 $unitePayID = $this->memberOrderModel->genUnitePayID();
                 $product['unitePayID'] = $unitePayID;
+                if(empty($this->siteSettings['productMoney'])){
+                    $product['isPaid'] = 1;
+                }
                 $this->productModel->insert($product);
                 $productID = $this->productModel->getLastInsertValue();
             }
