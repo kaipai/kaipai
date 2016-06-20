@@ -17,23 +17,25 @@
         ->appendFile('/plugins/jquery-ui/jquery-ui.min.js')
         ->appendFile('/plugins/layer/layer.js');
     if(in_array($actionName, array('add-product', 'store-setting', 'add-special'))){
-        $this->headLink()
-            ->appendStylesheet('/jinren/style/jquery.wysiwyg.css');
         $this->headScript()
             ->appendFile('/diyUpload/js/webuploader.html5only.min.js')
-            ->appendFile('/diyUpload/js/diyUpload.js')
-            ->appendFile('/js/jquery.wysiwyg.js')
-            ->appendFile('/js/default.js');
+            ->appendFile('/diyUpload/js/diyUpload.js');
     }
     if($actionName == 'add-product'){
         $this->headLink()
             ->appendStylesheet('/diyUpload/css/webuploader.css')
             ->appendStylesheet('/diyUpload/css/diyUpload.css')
-            ->appendStylesheet('/style/jquery.wysiwyg.css')
             ->appendStylesheet('/style/default.css');
     }
     echo $this->headLink();
     echo $this->headScript();
+    ?>
+    <?php
+    if(in_array($actionName, array('add-product', 'store-setting', 'add-special'))) {
+        echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.config.js');
+        echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.all.js');
+        echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
+    }
     ?>
 </head>
 <body>

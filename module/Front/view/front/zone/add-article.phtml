@@ -1,6 +1,8 @@
-<link rel="stylesheet" href="/dist/styles/main/space.css">
-<link rel="stylesheet" href="/style/jquery.wysiwyg.css">
-<script type="application/javascript" src="/js/jquery.wysiwyg.js"></script>
+<?php
+    echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.config.js');
+    echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.all.js');
+    echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
+?>
 <div class="mySpace">
     <?php echo $this->render('banner'); ?>
     <div class="spacecont">
@@ -13,7 +15,7 @@
             <div class="space_xuz">
                 文章内容 <span class="space_xuzbtn">发布须知</span><span class="space_tixing">不得发布反动、暴恐、色情信息。</span></div>
             <div>
-                <textarea id="qqq"><?php if(!empty($info)) echo $info['memberArticleContent']; ?></textarea>
+                <script id="qqq" name="memberArticleContent" type="text/plain" style="width:700px;height:300px;"><?php if(!empty($info)) echo $info['memberArticleContent']; ?></script>
             </div>
             <div class="space_btn">
                 <span class="space_surebtn" id="confirm-btn">确认发表</span>
@@ -29,14 +31,15 @@
 
 <script>
     $(function(){
-        $('#qqq').wysiwyg({
+        /*$('#qqq').wysiwyg({
             controls:"bold,italic,|,undo,redo,image"
-        });
+        });*/
+        var qqq = UE.getEditor('qqq');
 
         $('#confirm-btn').on('click', function(){
             var data = {};
             data.memberArticleName = $('input[name=member-article-name]').val();
-            data.memberArticleContent = $('#qqq').val();
+            data.memberArticleContent = qqq.getContent();
             data.zoneID = <?php echo $_zoneInfo['memberID']; ?>;
             <?php
              if(!empty($info)){

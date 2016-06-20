@@ -51,8 +51,7 @@
                 <span class="ind_jrzz" style="float:left"> &nbsp</span>
 
                 <div style="width:540px; background:#fff; float:left">
-
-                      <textarea id="qqq"><?php echo !empty($_storeInfo['storeDesc']) ? $_storeInfo['storeDesc'] : ''?></textarea>
+                    <script id="qqq" name="storeDesc" type="text/plain" style="width:700px;height:300px;"><?php echo !empty($_storeInfo['storeDesc']) ? $_storeInfo['storeDesc'] : ''?></script>
                 </div>
             </div>
 
@@ -65,9 +64,10 @@
     $(function(){
         //alert(1);
 
-        $('#qqq').wysiwyg({
+        /*$('#qqq').wysiwyg({
             controls:"bold,italic,|,undo,redo,image"
-        });
+        });*/
+        var qqq = UE.getEditor('qqq');
 
         $('#add-store-category-btn').on('click', function(){
             $('#store-categories').after('<input type="text" value="" placeholder="分类名称" class="ind_dp1 storeCategory">');
@@ -82,7 +82,7 @@
             $('.storeCategory').each(function(){
                 storeCategory.push($(this).val());
             });
-            var storeDesc = $('#qqq').val();
+            var storeDesc = qqq.getContent();
             var storeName = $('#storeName').val();
             if(!storeName){
                 layer.open({

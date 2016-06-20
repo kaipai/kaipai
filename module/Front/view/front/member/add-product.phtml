@@ -1,3 +1,4 @@
+
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
@@ -72,7 +73,7 @@
                 </div>
                 <div class="ind_zpinfo_right">
                     <div style="width:700px;  background:#fff">
-                <textarea id="qqq"><?php if(!empty($productInfo)) echo $productInfo['productDetail']; ?></textarea>
+                        <script id="qqq" name="productDetail" type="text/plain" style="width:700px;height:300px;"><?php if(!empty($productInfo)) echo $productInfo['productDetail']; ?></script>
                     </div>
 
                 </div>
@@ -217,9 +218,10 @@ echo $this->render('/front/common/transfer-account');
 <script type="text/javascript">
     $(function(){
         //alert(1);
-        $('#qqq').wysiwyg({
+        /*$('#qqq').wysiwyg({
             controls:"bold,italic,|,undo,redo,image"
-        });
+        });*/
+        var qqq = UE.getEditor('qqq');
 
         <?php if(!empty($productInfo)){
         ?>
@@ -559,7 +561,7 @@ echo $this->render('/front/common/transfer-account');
             });
             data.productName = $('#product-name').val();
             data.detailImgs = $('#detail-imgs').val();
-            data.productDetail = $('#qqq').val();
+            data.productDetail = qqq.getContent();
             data.storePlateForm = $('input[name=Fruit]:checked').val();
 
             if(data.storePlateForm == 1){
@@ -714,6 +716,7 @@ echo $this->render('/front/common/transfer-account');
 
         $('#save-repo-btn').on('click', function(){
             var data = getProductFormData();
+            if(!data) return false;
             $.ajax({
                 url : '/member/save-product',
                 type : 'post',
@@ -734,6 +737,7 @@ echo $this->render('/front/common/transfer-account');
 
         $('#product-publish-btn').on('click', function(){
             var data = getProductFormData();
+            if(!data) return false;
             data.publish = 1;
             $.ajax({
                 url : '/member/save-product',
