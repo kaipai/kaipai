@@ -742,14 +742,25 @@ echo $this->render('/front/common/transfer-account');
                 success : function(res){
                     if(res.flag > 0){
                         if(res.data['unitePayID']){
-                            layer.open({
-                                skin: '',
-                                title:'',
-                                type: 1,
-                                content: $('#pay-div').html()
-                            });
-                            $('.pay-price:visible').html(<?php $_siteSettings['productMoney']; ?>);
-                            $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
+                            <?php
+                            if($_siteSettings['productMoney'] > 0) {
+                            ?>
+
+                                layer.open({
+                                    skin: '',
+                                    title: '',
+                                    type: 1,
+                                    content: $('#pay-div').html()
+                                });
+                                $('.pay-price:visible').html(<?php $_siteSettings['productMoney']; ?>);
+                                $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
+                            <?php
+                            }else{
+                            ?>
+                                location.href = '/member/product';
+                            <?php
+                            }
+                            ?>
                         }else{
                             layer.alert(res.msg, function(){
                                 location.href = '/member/product';
