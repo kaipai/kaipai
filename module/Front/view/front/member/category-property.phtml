@@ -1,15 +1,16 @@
 <?php
 foreach($properties as $v){
 ?>
-    <div class="<?php echo in_array($v['productCategoryPropertyID'], array(19, 20)) ? 'hide' : ''; ?> ind_btm category-property-<?php echo $v['productCategoryPropertyID']; ?>"><?php echo $v['propertyName']; ?>
+    <div class="<?php echo in_array($v['productCategoryPropertyID'], array(19, 20)) ? 'hide' : ''; ?> ind_btm category-property-<?php echo $v['productCategoryPropertyID']; ?>">
+        <span style="float:left;width:90px;"><?php echo $v['propertyName']; ?></span>
         <?php
             if($v['fieldType'] == 'input'){
         ?>
-                <input product-category-property-id="<?php echo $v['productCategoryPropertyID'] ?>" name="<?php echo $v['productCategoryPropertyID']; ?>" class="zz_input category-property category-property-<?php echo $v['productCategoryPropertyID'] ?>" type="text" placeholder="请输入<?php echo $v['propertyName']; ?>">
+                <input style="margin-left:0px;" product-category-property-id="<?php echo $v['productCategoryPropertyID'] ?>" name="<?php echo $v['productCategoryPropertyID']; ?>" class="zz_input category-property category-property-<?php echo $v['productCategoryPropertyID'] ?>" type="text" placeholder="请输入<?php echo $v['propertyName']; ?>">
         <?php
             }else{
         ?>
-                <select product-category-property-id="<?php echo $v['productCategoryPropertyID'] ?>" class="<?php echo $v['productCategoryPropertyID'] == 16 ? 'jinshizhuanke-ticai' : ''; ?> ind_year category-property category-property-<?php echo $v['productCategoryPropertyID'] ?>" name="<?php echo $v['productCategoryPropertyID']; ?>">
+                <select style="margin-left:0px;" product-category-property-id="<?php echo $v['productCategoryPropertyID'] ?>" class="<?php echo $v['productCategoryPropertyID'] == 16 ? 'jinshizhuanke-ticai' : ''; ?> ind_year category-property category-property-<?php echo $v['productCategoryPropertyID'] ?>" name="<?php echo $v['productCategoryPropertyID']; ?>">
                     <?php
                         $options = explode(',', $v['options']);
                         foreach($options as $v){
