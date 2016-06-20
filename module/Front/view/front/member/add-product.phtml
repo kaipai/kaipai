@@ -752,6 +752,7 @@ echo $this->render('/front/common/transfer-account');
                                     type: 1,
                                     content: $('#pay-div').html()
                                 });
+                                console.log('<?php echo $_siteSettings['productMoney'];  ?>');
                                 $('.pay-price:visible').html(<?php $_siteSettings['productMoney']; ?>);
                                 $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
                             <?php
