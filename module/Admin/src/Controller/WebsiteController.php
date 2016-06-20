@@ -24,7 +24,7 @@ class WebsiteController extends Admin{
     public function saveSettingsAction(){
         $settings = $this->siteSettingModel->getSettings();
         foreach($settings as $v){
-            if(!empty($this->postData[$v['settingName']])){
+            if(!empty($this->postData[$v['settingName']]) || $this->postData[$v['settingName']] === 0){
                 if($v['fieldType'] == 'multipleImg'){
                     $this->postData[$v['settingName']] = json_encode($this->postData[$v['settingName']]);
                 }
