@@ -96,6 +96,7 @@ class ProductController extends Front{
             $where[] = new Like('b.productName', '%' . $search . '%');
         }
         $where['b.isPaid'] = 1;
+        $where['b.isDel'] = 0;
         $where[] = new IsNull('b.specialID');
         if($order == 'default') $order = 'b.productID desc';
         if($order == 'instime') $order = 'b.instime ' . $sort;
