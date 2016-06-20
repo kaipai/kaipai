@@ -747,6 +747,16 @@ class MemberController extends Front{
         if(!empty($product['endTime'])){
             $product['endTime'] = strtotime($product['endTime']);
         }
+
+        if(!empty($product['publish'])){
+            if($product['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
+            if($product['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
+            if($product['endTime'] < $product['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
+            if($product['endTime'] > strtotime('+2 days', $product['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
+            $product['auctionStatus'] = 1;
+            unset($product['publish']);
+        }
+
         if(!empty($product['startPrice'])){
             $product['currPrice'] = $product['startPrice'];
         }
@@ -967,8 +977,12 @@ class MemberController extends Front{
         $productInfo = $this->productModel->select($where)->current();
 
         if(!empty($productInfo)){
-            $this->productModel->update(array('startTime' => time(), 'endTime' => strtotime('+1 day')), $where);
+            if($productInfo['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间设置错误');
+            if($productInfo['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间设置错误');
+            if($productInfo['endTime'] < $productInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
+            if($productInfo['endTime'] > strtotime('+2 days', $productInfo['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
         }
+
         $paidWhere = array_merge($where, array('isPaid' => 0));
         $products = $this->productModel->select($paidWhere)->toArray();
         if(!empty($products)){
@@ -976,7 +990,7 @@ class MemberController extends Front{
             $unitePayID = $this->memberOrderModel->genUnitePayID();
             $this->productModel->update(array('unitePayID' => $unitePayID), $where);
         }else{
-            $this->productModel->update(array('auctionStatus' => 2), $where);
+            $this->productModel->update(array('auctionStatus' => 1), $where);
         }
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '上架成功', array('unitePayID' => $unitePayID, 'price' => $price));

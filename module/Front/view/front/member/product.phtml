@@ -44,10 +44,19 @@
                         </div>
 
                         <?php
-                        if($v['auctionStatus'] == 1){
+                        if(empty($v['auctionStatus'])){
                         ?>
                             <div class="kp_shop_center01">
                                 <p>等待上架</p>
+
+                                <p><?php echo date('Y-m-d H:i:s', $v['startTime']); ?></p>
+                            </div>
+                        <?php
+                        }
+                        if($v['auctionStatus'] == 1){
+                        ?>
+                            <div class="kp_shop_center01">
+                                <p>即将开拍</p>
 
                                 <p><?php echo date('Y-m-d H:i:s', $v['startTime']); ?></p>
                             </div>
