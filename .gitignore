@@ -1,7 +1,7 @@
 /.idea/*
 /configs/autoload/local.php
 /public/uploads/*
-/ueditor/php/upload/image/
+/public/ueditor/php/upload/image/*
 /public/logs
 /library/CGJ/Service/Weixin/access_token.json
 /library/CGJ/Service/Weixin/token.json
