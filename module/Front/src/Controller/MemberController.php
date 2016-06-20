@@ -747,7 +747,7 @@ class MemberController extends Front{
         if(!empty($product['endTime'])){
             $product['endTime'] = strtotime($product['endTime']);
         }
-
+        if(empty($product['productName'])) return $this->response(ApiError::COMMON_ERROR, '请填写拍品名称');
         if(!empty($product['publish'])){
             if($product['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
             if($product['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
