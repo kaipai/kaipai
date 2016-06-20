@@ -91,7 +91,7 @@ class IndexController extends Front{
         $data = array(
             'mobile' => $mobile,
             'verifyCode' => $verifyCode,
-            'expireTime' => time(),
+            'expireTime' => time() + 600,
         );
         $this->mobileVerifyCodeModel->insert($data);
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
