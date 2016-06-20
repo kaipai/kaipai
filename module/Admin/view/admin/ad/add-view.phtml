@@ -56,7 +56,7 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');*/
                             <input type="text" class="" id="end-time" name="endTime" value="<?php echo !empty($adInfo['endTime']) ? date('Y-m-d H:i:s', $adInfo['endTime']) : ''; ?>" >
                         </div>
                     </div>
-                    <input type="hidden" name="adID" value="<? if(isset($adInfo['adID'])) echo $adInfo['adID']; ?>"/>
+                    <input type="hidden" name="adID" value="<?php if(isset($adInfo['adID'])) echo $adInfo['adID']; ?>"/>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <a class="btn btn-primary editModal" onclick="">确定</a>
