@@ -6,6 +6,7 @@ use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller\Front;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Predicate\IsNull;
 use Zend\Db\Sql\Predicate\Like;
 
@@ -120,6 +121,7 @@ class ProductController extends Front{
         $sourceSpecialID = $this->queryData['sourceSpecialID'];
         $sourceSpecialInfo = $this->specialModel->select(array('specialID' => $sourceSpecialID))->current();
         $where = array('productID' => $productID);
+        $this->productModel->update(array('viewCount' => new Expression('viewCount+1')), $where);
         $productInfo = $this->productModel->fetch($where);
 
         // properties

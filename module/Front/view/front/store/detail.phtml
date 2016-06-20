@@ -2,12 +2,12 @@
 echo $this->headLink()->appendStylesheet('/he/style/common.css')->appendStylesheet('/he/style/style.css');
 echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js/jquery.datePicker-min.js');
 ?>
-<div class="exc_bann">
+<div class="exc_bann" style="<?php if(!empty($storeInfo['storeBanner'])){?>background:url('<?php echo $storeInfo['storeBanner'];  ?>') no-repeat center top<?php } ?>">
     <div class="wrap1 pt0">
         <dl class="exc_b_l">
             <dt><img src="<?php echo $storeInfo['storeLogo'] ?>"></dt>
             <dd>
-                <span><?php echo $storeInfo['sotreName'];?></span> <a href="tencent://message/?uin=<?php echo $storeInfo['storeqq'] ?>&Site=www.kaipai123.com&Menu=yes" class="exc_b">联系卖家</a><br/><?php echo $storeInfo['storeSignature'] ?>
+                <span><?php echo $storeInfo['storeName'];?></span> <a href="tencent://message/?uin=<?php echo $storeInfo['storeqq'] ?>&Site=www.kaipai123.com&Menu=yes" class="exc_b">联系卖家</a><br/><?php echo $storeInfo['storeSignature'] ?>
             </dd>
         </dl>
         <!--<div class="exc_code"><img src="/he/images/code.gif"></div>-->
