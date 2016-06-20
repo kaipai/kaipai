@@ -611,13 +611,26 @@ class MemberController extends Front{
     }
 
     public function productAction(){
-        $products = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID'], new IsNull('Product.specialID')), $this->pageNum, $this->limit);
-
-        
+        $res = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID'], new IsNull('Product.specialID')), $this->pageNum, $this->limit);
+        $products = $res['data'];
+        foreach($products as $k => $v){
+            $startTime = $v['startTime'];
+            $endTime = $v['endTime'];
+            $products[$k]['startTimeYear'] = date('Y', $startTime);
+            $products[$k]['startTimeMonth'] = date('n', $startTime);
+            $products[$k]['startTimeDay'] = date('j', $startTime);
+            $products[$k]['startTimeHour'] = date('G', $startTime);
+            $products[$k]['startTimeMin'] = date('i', $startTime);
+            $products[$k]['endTimeYear'] = date('Y', $endTime);
+            $products[$k]['endTimeMonth'] = date('n', $endTime);
+            $products[$k]['endTimeDay'] = date('j', $endTime);
+            $products[$k]['endTimeHour'] = date('G', $endTime);
+            $products[$k]['endTimeMin'] = date('i', $endTime);
+        }
 
         $this->view->setVariables(array(
-            'products' => $products['data'],
-            'pages' => $products['pages'],
+            'products' => $products,
+            'pages' => $res['pages'],
         ));
         return $this->view;
     }
