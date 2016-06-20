@@ -902,7 +902,7 @@ class MemberController extends Front{
         $store['idPic'] = Utility::saveBaseCodePic($store['idPic']);
         $store['memberIdPic'] = Utility::saveBaseCodePic($store['memberIdPic']);
         $store['memberID'] = $this->memberInfo['memberID'];
-
+        $store['storeName'] = $this->memberInfo['nickName'];
 
         try{
             $this->storeModel->beginTransaction();
