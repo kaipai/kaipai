@@ -14,6 +14,7 @@ class Product extends Model{
         $where = array(
             'b.isRecommend' => 1,
             'b.auctionStatus' => BaseConst::AUCTION_STATUS_PROCESSING,
+            'b.isDel' => 0,
         );
         $order = array('b.instime desc');
 
@@ -26,6 +27,7 @@ class Product extends Model{
         $where = array(
             'b.isIndexRecommend' => 1,
             'b.auctionStatus' => array(1, 2),
+            'b.isDel' => 0,
         );
         $order = array('b.instime desc');
 
@@ -72,6 +74,7 @@ class Product extends Model{
             'specialID' => $specialID,
             'isSpecialRecommend' => 1,
             'auctionStatus' => array(1, 2),
+            'isDel' => 0,
         );
         $result = $this->setColumns(array('productName', 'listImg', 'productID', 'currPrice'))->select($where)->toArray();
         return $result;
@@ -82,6 +85,7 @@ class Product extends Model{
             'storeID' => $storeID,
             'isStoreRecommend' => 1,
             'auctionStatus' => array(1, 2),
+            'isDel' => 0,
         );
         $result = $this->setColumns(array('productName', 'listImg', 'productID', 'currPrice'))->select($where)->toArray();
         return $result;
