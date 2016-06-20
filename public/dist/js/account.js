@@ -137,7 +137,7 @@ $(document).on('click', '#register', function(){
                     time: 2000
                 });
             }else{
-                location.href = '/login/reg-succ';
+                location.href = '/';
             }
         }
 
