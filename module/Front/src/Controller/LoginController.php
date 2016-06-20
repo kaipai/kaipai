@@ -213,6 +213,7 @@ class LoginController extends Front{
     }
 
     public function regSuccAction(){
+        return $this->redirect()->toUrl('/');
         return $this->view;
     }
 
