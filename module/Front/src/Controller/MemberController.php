@@ -642,9 +642,11 @@ class MemberController extends Front{
 
             $this->storeModel->update($this->postData, $where);
 
-            $this->storeCategoryModel->delete(array('storeID' => $storeID));
+            //$this->storeCategoryModel->delete(array('storeID' => $storeID));
             foreach($storeCategory as $v){
-                if(!empty($v)){
+                $exist = $this->storeCategoryModel->select(array('storeID' => $storeID, 'storeCategoryName' => $v))->current();
+
+                if(!empty($v) && empty($exist)){
                     $tmp = array(
                         'storeID' => $storeID,
                         'storeCategoryName' => $v,
