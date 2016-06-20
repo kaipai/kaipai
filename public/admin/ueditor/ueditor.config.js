@@ -143,7 +143,7 @@
         //    }
         //}()
 
-        ,allHtmlEnabled:true //提交到后台的数据是否包含整个html字符串
+        ,allHtmlEnabled:false //提交到后台的数据是否包含整个html字符串
 
         //insertorderedlist
         //有序列表的下拉配置,值留空时支持多语言自动识别，若配置值，则以此值为准
