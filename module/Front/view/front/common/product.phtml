@@ -9,7 +9,7 @@ if($v['auctionStatus'] == 2){
         当前价
         <span>￥<?php echo $v['currPrice'] ?></span>
     </li>
-    <li class="lh32">距结束 <span class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></span></li>
+    <li class="lh32">距结束 <font class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></font></li>
     <li class="exc_list_img">
         <img src="<?php echo $v['listImg']; ?>" style="width:258px;height:260px;"> <font><strong><?php echo $v['auctionCount'] ?></strong>
             <br/>
