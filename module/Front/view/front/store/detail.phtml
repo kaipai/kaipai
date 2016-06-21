@@ -72,3 +72,10 @@
         echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/store/detail?storeID='. $storeInfo['storeID'] .'&auctionStatus=' . $auctionStatus . '&order=' . $order . '&sort=' . $sort . '&'));
     ?>
 </div>
+<script>
+    $(function(){
+        $(".yomibox2").each(function () {
+            $(this).yomi(_CurrentServerTime, 'product-list');
+        });
+    })
+</script>
