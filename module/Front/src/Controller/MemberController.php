@@ -999,10 +999,18 @@ class MemberController extends Front{
         $productID = $this->postData['productID'];
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
         $productInfo = $this->productModel->select($where)->current();
-
+        $update = array(
+            'auctionStatus' => 1
+        );
         if(!empty($productInfo)){
-            if($productInfo['startTime'] == strtotime(date('Y-01-01 00:01:00'))) $productInfo['startTime'] = time();
-            if($productInfo['endTime'] == strtotime(date('Y-01-01 00:01:00'))) $productInfo['endTime'] = strtotime('+1 day');
+            if($productInfo['startTime'] == strtotime(date('Y-01-01 00:01:00'))) {
+                $productInfo['startTime'] = time();
+                $update['startTime'] = $productInfo['startTime'];
+            }
+            if($productInfo['endTime'] == strtotime(date('Y-01-01 00:01:00'))) {
+                $productInfo['endTime'] = strtotime('+1 day');
+                $update['endTime'] = $productInfo['endTime'];
+            }
 
             if($productInfo['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间设置错误');
             if($productInfo['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间设置错误');
@@ -1017,7 +1025,7 @@ class MemberController extends Front{
             $unitePayID = $this->memberOrderModel->genUnitePayID();
             $this->productModel->update(array('unitePayID' => $unitePayID), $where);
         }else{
-            $this->productModel->update(array('auctionStatus' => 1), $where);
+            $this->productModel->update($update, $where);
         }
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '上架成功', array('unitePayID' => $unitePayID, 'price' => $price));
