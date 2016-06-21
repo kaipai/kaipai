@@ -107,7 +107,7 @@
                     </li>
                     <?php if(!empty($productInfo['commission'])){
                     ?>
-                        <li>佣金：￥<?php echo $productInfo['currPrice'] * $productInfo['commission']; ?></li>
+                        <li>佣金：￥<?php echo $productInfo['currPrice'] * round($productInfo['commission']/ 100, 2); ?></li>
                     <?php
                     }else{
                     ?>
