@@ -277,7 +277,7 @@
                 }
             });
         });
-
+        <?php if(!empty($info['finalUnitePayID'])){ ?>
         $('#confirm-pay-final-btn').on('click', function() {
             var data = {};
             data.unitePayID = <?php echo $info['finalUnitePayID'] ?>;
@@ -320,5 +320,6 @@
                 }
             });
         });
+        <?php } ?>
     })
 </script>
