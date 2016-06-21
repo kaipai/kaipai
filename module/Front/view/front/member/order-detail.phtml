@@ -39,7 +39,7 @@
                                 </div>
                             <div class="yg_ppname2"><?php echo date('Y-m-d', strtotime($info['instime'])) ?><br> <?php echo date('H:i', strtotime($info['instime'])) ?></div>
                         </div>
-                        <div class="yg_ppname3">成交价：<?php echo $info['productPrice'] ?>元 运费：<?php echo $info['deliveryPrice'] ?>元 佣金：<?php echo $info['commision'] ?>元</div>
+                        <div class="yg_ppname3">成交价：<?php echo $info['productPrice'] ?>元 <?php if(!empty($info['deliveryPrice'])){ ?>运费：<?php echo $info['deliveryPrice'] ?>元<?php } ?> <?php if(!empty($info['commision'])){?>佣金：<?php echo $info['commision'] ?>元<?php } ?></div>
                     </div>
                 </div>
 
