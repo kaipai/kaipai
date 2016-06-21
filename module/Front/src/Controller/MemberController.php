@@ -431,6 +431,21 @@ class MemberController extends Front{
 
     }
 
+    public function addInterestZoneAction(){
+        $zoneID = $this->postData['zoneID'];
+        $where = array('memberID' => $this->memberInfo['memberID'], 'interestedMemberID' => $zoneID);
+        $exist = $this->memberInterestModel->select($where)->current();
+        if(empty($exist)){
+            $this->memberInterestModel->insert($where);
+
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '关注成功');
+        }else{
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '已关注');
+        }
+
+    }
+
+
 
 
 
