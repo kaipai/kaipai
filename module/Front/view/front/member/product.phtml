@@ -361,7 +361,7 @@ echo $this->render('/front/common/transfer-account');
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        if(res.data['unitePayID']){
+                        if(res.data && res.data['unitePayID']){
                             layer.open({
                                 skin: '',
                                 title:'',
