@@ -17,7 +17,7 @@ class MemberController extends Front{
     public function init(){
 
         if(empty($this->memberInfo)) {
-            if($this->request->isXmlHttpRequest){
+            if($this->request->isXmlHttpRequest()){
                 return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
             }else{
                 return $this->redirect()->toUrl('/login/do-login');
