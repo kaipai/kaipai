@@ -42,13 +42,17 @@ class CrontabController extends Controller{
                         $productInfo = $this->productModel->select(array('productID' => $v['productID']))->current();
 
                         $orderData['productSnapshot'] = json_encode($productInfo);
-                        $payMoney = $productInfo['currPrice'] + $productInfo['commision'] + $productInfo['deliveryPrice'];
+                        $commision = 0;
+                        if(!empty($productInfo['commision'])){
+                            $commision = $productInfo['currPrice'] * round(($productInfo['commision']/ 100), 2);
+                        }
+                        $payMoney = $productInfo['currPrice'] + $commision + $productInfo['deliveryPrice'];
                         $this->memberOrderModel->insert($orderData);
                         $payData = array(
                             'unitePayID' => $unitePayID,
                             'payMoney' => $payMoney,
                             'productPrice' => $productInfo['currPrice'],
-                            'commision' => $productInfo['commision'],
+                            'commision' => $commision,
                             'deliveryPrice' => $productInfo['deliveryPrice'],
                         );
                         $this->memberPayDetailModel->insert($payData);
