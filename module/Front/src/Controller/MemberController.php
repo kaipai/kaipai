@@ -554,6 +554,11 @@ class MemberController extends Front{
             $this->postData['startTime'] = strtotime($this->postData['startTime']);
             $this->postData['endTime'] = strtotime($this->postData['endTime']);
             $this->postData['storeID'] = $this->_storeInfo['storeID'];
+
+            if($this->postData['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
+            if($this->postData['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
+            if($this->postData['endTime'] < $this->postData['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
+
             if(!empty($this->postData['specialID'])){
                 $where = array('specialID' => $this->postData['specialID'], 'storeID' => $this->_storeInfo['storeID']);
                 $specialInfo = $this->specialModel->select($where)->current();
@@ -749,6 +754,10 @@ class MemberController extends Front{
         }
 
         if(!empty($product['publish'])){
+
+            if($product['startTime'] == strtotime(date('Y-01-01 00:01:00'))) $product['startTime'] = time();
+            if($product['endTime'] == strtotime(date('Y-01-01 00:01:00'))) $product['endTime'] = strtotime('+1 day');
+
             if($product['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
             if($product['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
             if($product['endTime'] < $product['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
@@ -977,6 +986,9 @@ class MemberController extends Front{
         $productInfo = $this->productModel->select($where)->current();
 
         if(!empty($productInfo)){
+            if($productInfo['startTime'] == strtotime(date('Y-01-01 00:01:00'))) $productInfo['startTime'] = time();
+            if($productInfo['endTime'] == strtotime(date('Y-01-01 00:01:00'))) $productInfo['endTime'] = strtotime('+1 day');
+
             if($productInfo['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间设置错误');
             if($productInfo['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间设置错误');
             if($productInfo['endTime'] < $productInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
