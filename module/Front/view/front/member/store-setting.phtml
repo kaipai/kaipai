@@ -12,12 +12,12 @@
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺标志</div>
                 <div id="preview" class="dianpbai"><img id="imghead" src="<?php echo !empty($_storeInfo['storeLogo']) ? $_storeInfo['storeLogo'] : '/images/img_03.jpg'?>"></div>
-                <span><input type="file" onchange="previewImage(this)"/> </span>
+                <em style="color:red;">*200x200像素</em><span><input type="file" onchange="previewImage(this)"/> </span>
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺抬头</div>
                 <div id="preview1" class="dianpbai1"><img id="imghead1" src="<?php echo !empty($_storeInfo['storeBanner']) ? $_storeInfo['storeBanner'] : '/images/img_06.jpg'?>"></div>
-                <span><input type="file" onchange="previewImage1(this)"/> </span>
+                <em style="color:red;">*1200x300像素</em><span><input type="file" onchange="previewImage1(this)"/> </span>
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">店铺签名</span>
@@ -27,7 +27,7 @@
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺推荐<br>栏位底图</div>
                 <div id="preview2" class="dianpbai1"><img id="imghead2" src="<?php echo !empty($_storeInfo['recommendImg']) ? $_storeInfo['recommendImg'] : '/images/img_06.jpg'?>"></div>
-                <span><input type="file" onchange="previewImage2(this)"/> </span>
+                <em style="color:red;">*1200x300像素</em><span><input type="file" onchange="previewImage2(this)"/> </span>
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold" id="store-categories">拍品分类</div>
