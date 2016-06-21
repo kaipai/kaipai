@@ -85,7 +85,7 @@
                     <dt>出价金额：</dt>
                     <dd>
                         <a href="javascript:void(0)" id="priceReduce" class="cpxx_cleft"></a>
-                        <input class="d-jg" type="text" id="j_addprice" value="<?php echo $productInfo['currPrice'] + $productInfo['auctionPerPrice'] ?>"/>
+                        <input class="d-jg" type="text" id="j_addprice" value="<?php if(empty($auctionLogs)){echo $productInfo['currPrice'];}else{echo $productInfo['currPrice'] + $productInfo['auctionPerPrice'];}  ?>"/>
                         <a href="javascript:void(0)" id="priceAdd" class="cpxx_cright"></a>
                     </dd>
                 </dl>
