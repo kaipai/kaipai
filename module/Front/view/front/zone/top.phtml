@@ -12,6 +12,13 @@
             ?>
 
             <li><a href="/zone/about?zoneID=<?php echo $_zoneInfo['memberID'] ?>">关于我</a></li>
+            <?php
+            if(!$_isMyZone){
+            ?>
+                <li><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            <?php
+            }
+            ?>
             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
             <li class="space_img">
                 <img src="<?php echo $_zoneInfo['avatar'] ?>">
