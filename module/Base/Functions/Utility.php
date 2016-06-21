@@ -231,8 +231,9 @@ class Utility
 
     public static function getMemberArticleText($data){
         preg_match_all(Regexp::MEMBER_ARTICLE_CONTENT, $data, $tmp);
-
-        return strip_tags($tmp[0][0]);
+        $tmp = strip_tags($tmp[0][0]);
+        $tmp = str_replace(' ', '', $tmp);
+        return $tmp;
     }
 
     public static function getPrivateNickName($nickName){
