@@ -1,7 +1,6 @@
-<?php
-echo $this->headLink()->appendStylesheet('/he/style/common.css')->appendStylesheet('/he/style/style.css');
-echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js/jquery.datePicker-min.js');
-?>
+
+<link rel="stylesheet" type="text/css" href="/he/style/common.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/he/style/style.css" media="screen" />
 <div class="exc_bann" style="<?php if(!empty($storeInfo['storeBanner'])){?>background:url('<?php echo $storeInfo['storeBanner'];  ?>') no-repeat center top<?php } ?>">
     <div class="wrap1 pt0">
         <dl class="exc_b_l">
