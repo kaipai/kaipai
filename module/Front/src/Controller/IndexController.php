@@ -23,7 +23,7 @@ class IndexController extends Front{
         foreach($indexRecommendArticles as $k => $v){
             if(!empty($v['url'])){
                 $contents = file_get_contents($v['url']);
-                $indexRecommendArticles[$k]['articleContent'] = Utility::getMemberArticleText($contents);
+                $indexRecommendArticles[$k]['articleContent'] = Utility::mbCutStr(Utility::getMemberArticleText($contents), 30);
             }
         }
         $indexArticleList = $this->articleModel->getIndexArticleList();
