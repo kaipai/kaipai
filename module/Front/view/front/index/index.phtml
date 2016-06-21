@@ -90,7 +90,7 @@
             foreach($indexRecommendArticles as $v){
         ?>
                 <div class="news-item1">
-                    <a href="/article/detail?articleID=<?php echo $v['articleID'] ?>"><h4><?php echo $v['articleName'] ?></h4>
+                    <a href="<?php if(!empty($v['url'])){echo $v['url'];}else{ ?>/article/detail?articleID=<?php echo $v['articleID'] ?><?php } ?>"><h4><?php echo $v['articleName'] ?></h4>
 
                         <p class="news-item1-info">
                             <?php echo $v['articleContent'] ?><br>……</a>
