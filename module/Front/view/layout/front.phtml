@@ -12,14 +12,22 @@
             ->appendStylesheet($this->basePath() . '/plugins/jquery-ui/jquery.ui.datepicker.css')
             ->appendStylesheet($this->basePath() . '/dist/styles/common/common.css');
 
-        echo $this->headScript()
-            ->appendFile($this->basePath() . '/plugins/jquery/jquery.js')
+        if($_isIE){
+            $this->headScript()->appendFile($this->basePath() . '/plugins/jquery/jquery19.js');
+        }else{
+            $this->headScript()->appendFile($this->basePath() . '/plugins/jquery/jquery.js');
+        }
+
+        $this->headScript()
             ->appendFile($this->basePath() . '/plugins/jquery.lazyload/jquery.lazyload.min.js')
             ->appendFile($this->basePath() . '/dist/js/common.js')
             ->appendFile($this->basePath() . '/plugins/jquery-ui/jquery-ui.min.js')
             ->appendFile($this->basePath() . '/plugins/superSlide/jquery.SuperSlide.2.1.1.js')
             ->appendFile($this->basePath() . '/dist/js/main.js')
             ->appendFile('/plugins/layer/layer.js');
+
+        echo $this->headScript();
+
     ?>
     <script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101328212" data-redirecturi="http://<?php echo $_SERVER['HTTP_HOST'] ?>/notify/qq-login" charset="utf-8"></script>
 </head>

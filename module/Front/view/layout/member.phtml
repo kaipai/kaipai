@@ -10,8 +10,12 @@
         ->appendStylesheet('/plugins/layer/skin/layer.css')
         ->appendStylesheet('/dist/styles/common/common.css')
         ->appendStylesheet('/dist/styles/main/personal.css');
+    if($_isIE){
+        $this->headScript()->appendFile('/plugins/jquery/jquery19.js');
+    }else{
+        $this->headScript()->appendFile('/plugins/jquery/jquery.js');
+    }
     $this->headScript()
-        ->appendFile('/plugins/jquery/jquery.js')
         ->appendFile('/plugins/jquery.lazyload/jquery.lazyload.min.js')
         ->appendFile('/dist/js/common.js')
         ->appendFile('/plugins/jquery-ui/jquery-ui.min.js')

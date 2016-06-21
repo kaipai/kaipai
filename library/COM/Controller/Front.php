@@ -34,16 +34,24 @@ class Front extends Controller{
         foreach($tmp as $v){
             $siteSettings[$v['settingName']] = $v['settingValue'];
         }
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $isIE = 0;
+        if(strstr($userAgent, 'MSIE 6') || strstr($userAgent, 'MSIE 7') || strstr($userAgent, 'MSIE 8')){
+            $isIE = 1;
+        }
+
         $this->siteSettings = $siteSettings;
         $this->layout()->setVariables(array(
             '_memberInfo' => $this->memberInfo,
             '_categories' => $categories,
             '_siteSettings' => $siteSettings,
+            '_isIE' => $isIE,
         ));
         $this->view->setVariables(array(
             '_memberInfo' => $this->memberInfo,
             '_categories' => $categories,
             '_siteSettings' => $siteSettings,
+            '_isIE' => $isIE,
         ));
 
 
