@@ -16,11 +16,11 @@ echo $this->headScript()->appendFile('/he/js/jquery.min.js')->appendFile('/he/js
 <div class="exc_rank">
     <div class="wrap2">
         <div class="exc_rank_l">
-            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>">全 &nbsp;部</a>
-            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>&auctionStatus=2">正在拍卖</a>
-            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>&auctionStatus=1">即将拍卖</a>
-            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>&order=currPrice&sort=desc" class="rank_icon_x1">价&nbsp;格</a>
-            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>&order=interestedCount&sort=desc" class="rank_icon_x">关注人数</a>
+            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>" class="<?php if(empty($auctionStatus) && empty($order)) echo 'on'; ?>">全 &nbsp;部</a>
+            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>&auctionStatus=2" class="<?php if($auctionStatus == 2) echo 'on'; ?>">正在拍卖</a>
+            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>&auctionStatus=1" class="<?php if($auctionStatus == 1) echo 'on'; ?>">即将拍卖</a>
+            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>&order=currPrice&sort=desc" class="rank_icon_x1<?php if($order == 'currPrice') echo '_on'; ?>">价&nbsp;格</a>
+            <a href="/store/detail?storeID=<?php echo $storeInfo['storeID'] ?>&order=interestedCount&sort=desc" class="rank_icon_x<?php if($order == 'interestedCount') echo '_on'; ?>">关注人数</a>
         </div>
         <div class="exc_rank_r">
             <?php

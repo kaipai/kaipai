@@ -416,11 +416,33 @@ div.dp-popup td.disabled{cursor:default;}
     padding: 0px 40px 0px 15px;
     
 }
+
+.exc_rank_l a.rank_icon_x_on{
+    background:#7f0b00 url(../images/arrow_upon.png) no-repeat 90px center;
+    display: inline-block;
+    padding: 0px 40px 0px 15px; color: #fff;
+
+}
+
+
 .exc_rank_l a.rank_icon_x1{
     background:#eeeef0 url(../images/arrow_up.png) no-repeat 70px center;
     display: inline-block;
     padding: 0px 45px 0px 15px;
     
+}
+
+.exc_rank_l a.rank_icon_x1_on{
+    background:#7f0b00 url(../images/arrow_upon.png) no-repeat 70px center;
+    display: inline-block;color: #fff;
+    padding: 0px 45px 0px 15px;
+
+}
+.exc_rank_l a.on{
+
+    background: #7f0b00;
+    color: #fff;
+
 }
 .exc_rank_r a{
     color: #fff;

@@ -31,7 +31,7 @@ class MemberController extends Front{
                 '_storeInfo' => $this->_storeInfo
             ));
         }
-        if((empty($this->_storeInfo) || $this->_storeInfo['verifyStatus'] != 2) && in_array($this->actionName, array('add-product', 'product', 'special', 'store-order', 'setting'))){
+        if((empty($this->_storeInfo) || $this->_storeInfo['verifyStatus'] != 2) && in_array($this->actionName, array('add-product', 'product', 'special', 'store-order', 'setting', 'my-store'))){
             return $this->redirect()->toUrl('/member/store-join');
         }
     }
@@ -1043,5 +1043,10 @@ class MemberController extends Front{
 
         $this->view->setTemplate('/front/member/order-detail');
         return $this->view;
+    }
+
+    public function myStoreAction(){
+
+        return $this->redirect()->toUrl('/store/detail?storeID=' . $this->_storeInfo['storeID']);
     }
 }

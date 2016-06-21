@@ -59,7 +59,7 @@ class StoreController extends Front{
             'storeCategories' => $storeCategories,
             'pages' => $storeProducts['pages'],
             'auctionStatus' => $auctionStatus,
-            'order' => $order,
+            'order' => $this->queryData['order'],
             'sort' => $sort
         ));
         return $this->view;
