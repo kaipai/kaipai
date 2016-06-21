@@ -46,28 +46,29 @@
                                         <p><span class="yc_ysname">加价幅度</span> <span class="yc_money"><?php echo $v['auctionPerPrice'] ?></span></p>
                                     </div>
                                 </div>
-                                <div class="yc_ddfk yc_imgleft2">
+
                                     <?php
                                     if($v['auctionStatus'] == 2){
                                     ?>
-                                        <div class="gz_zzjx">正在进行</div>
+                                        <div class="yc_ddfk yc_imgleft2">
+                                            <div class="gz_zzjx">正在进行</div>
 
-                                        <?php
-                                        if(!empty($v['auctionMemberID'])){
+                                            <?php
+                                            if(!empty($v['auctionMemberID'])){
+                                                ?>
+                                                <div class="gz_jiaru">已加入拍卖</div>
+                                                <div class="gz_gr"><a href="/member/auction">进入个人</a></div>
+                                                <div class="gz_gr"><a href="/member/auction">竞拍列表>></a></div>
+                                            <?php
+                                            }else{
                                             ?>
-                                            <div class="gz_jiaru">已加入拍卖</div>
-                                            <div class="gz_gr"><a href="/member/auction">进入个人</a></div>
-                                            <div class="gz_gr"><a href="/member/auction">竞拍列表>></a></div>
-                                        <?php
-                                        }else{
-                                        ?>
-                                            <a href="javascript:;" class="join-auction-btn" product-id="<?php echo $v['productID'] ?>">
-                                                <div class="gz_ljjr">立即<br/>加入</div>
-                                            </a>
-                                        <?php
-                                        }
-                                        ?>
-
+                                                <a href="javascript:;" class="join-auction-btn" product-id="<?php echo $v['productID'] ?>">
+                                                    <div class="gz_ljjr">立即<br/>加入</div>
+                                                </a>
+                                            <?php
+                                            }
+                                            ?>
+                                        </div>
                                         <div class="yc_ddright yc_imgleft2">
                                             <p class="yc_p">距结束</p>
 
@@ -77,7 +78,9 @@
                                     }elseif($v['auctionStatus'] == 1 || empty($v['auctionStatus'])){
                                     ?>
                                         <div class="yc_ddfk yc_imgleft2">
-                                            <div class="gz_jjjx">即将进行</div>
+                                            <div class="yc_ddfk yc_imgleft2">
+                                                <div class="gz_jjjx">即将进行</div>
+                                            </div>
                                         </div>
                                         <div class="yc_ddright yc_imgleft2">
                                             <p class="yc_p">开始时间</p>
@@ -89,7 +92,10 @@
                                     }elseif($v['auctionStatus'] == 3){
                                     ?>
                                         <div class="yc_ddfk yc_imgleft2">
-                                            <div class="gz_yjs">已结束</div>
+
+                                            <div class="yc_ddfk yc_imgleft2">
+                                                <div class="gz_yjs">已结束</div>
+                                            </div>
                                         </div>
                                         <div class="yc_ddright yc_imgleft2">
                                             <p class="yc_p">结束时间</p>
@@ -102,7 +108,7 @@
                                     ?>
 
 
-                                </div>
+
 
                             </div>
                         </div>
