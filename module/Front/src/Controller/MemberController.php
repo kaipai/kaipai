@@ -781,7 +781,7 @@ class MemberController extends Front{
             unset($product['publish']);
         }
 
-        if(!empty($product['startPrice'])){
+        if(isset($product['startPrice'])){
             $product['currPrice'] = $product['startPrice'];
         }
 

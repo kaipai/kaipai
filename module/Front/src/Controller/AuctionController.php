@@ -29,8 +29,10 @@ class AuctionController extends Front{
     public function setProxyPriceAction(){
         $proxyPrice = $this->postData['proxyPrice'];
         $productID = $this->postData['productID'];
+        $productInfo = $this->productModel->select(array('productID' => $productID))->current();
+        if(empty($proxyPrice) || empty($productID) || empty($productInfo)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if($productInfo['storeID'] == $this->memberInfo['storeID']) return $this->response(ApiError::COMMON_ERROR, '不能对自己的拍品设置代理价');
 
-        if(empty($proxyPrice) || empty($productID)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         $this->auctionMemberModel->existAuctionMember($productID, $this->memberInfo['memberID']);
         $set = array(
             'proxyPrice' => $proxyPrice,
