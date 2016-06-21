@@ -141,7 +141,7 @@
         param.top = Math.round((maxHeight - param.height) / 2);
         return param;
     }
-
+    var lock = true;
     $('#submit-verify-btn').on('click', function(){
         var data = {};
         data.idNumber = $('#id-number').val();
@@ -179,21 +179,27 @@
             });
             return false;
         }
-        $.ajax({
-            url : '/member/store-verify',
-            dataType : 'json',
-            type : 'post',
-            data : data,
-            success : function(data){
-                if(data.flag > 0){
-                    location.href = '/member/store-join';
-                }else{
-                    layer.open({
-                        content : data.msg
-                    });
+
+        if(lock){
+            lock = false;
+            $.ajax({
+                url : '/member/store-verify',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(data){
+                    if(data.flag > 0){
+                        location.href = '/member/store-join';
+                    }else{
+                        layer.open({
+                            content : data.msg
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
     });
 
     var re = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;

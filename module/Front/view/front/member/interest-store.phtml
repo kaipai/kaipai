@@ -17,7 +17,7 @@
                     <?php
                         foreach($stores as $v){
                     ?>
-                            <li id="interest-store-<?php echo $v['storeID'] ?>">
+                            <li id="interest-store-<?php echo $v['storeID'] ?>" style="cursor: pointer;" onclick="location.href='/store/detail?storeID=<?php echo $v['storeID'] ?>';">
                                 <input type="checkbox" name="checkbox1" value="checkbox" store-id="<?php echo $v['storeID'] ?>" class="ind_checkbox add_lefimg01 interest-store-chk">
 
                                 <div class="gzsj_liimg"><img src="<?php echo $v['storeLogo'] ?>"></div>
