@@ -83,12 +83,17 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function orderDetailAction(){
+    public function orderDetailAction($storeView = 0){
         $orderID = $this->queryData['orderID'];
         $where = array(
             'MemberOrder.orderID' => $orderID,
-            'MemberOrder.memberID' => $this->memberInfo['memberID']
+
         );
+        if($storeView){
+            $where['MemberOrder.storeID'] = $this->memberInfo['storeID'];
+        }else{
+            $where['MemberOrder.memberID'] = $this->memberInfo['memberID'];
+        }
         $orderInfo = $this->memberOrderModel->getOrderDetail($where);
 
         if(empty($orderInfo)){
@@ -1068,7 +1073,7 @@ class MemberController extends Front{
 
     public function storeOrderDetailAction(){
         $this->view->setVariables(array('storeView' => 1));
-        $this->orderDetailAction();
+        $this->orderDetailAction(1);
 
         $this->view->setTemplate('/front/member/order-detail');
         return $this->view;
