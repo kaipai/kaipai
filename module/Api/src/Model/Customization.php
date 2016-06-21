@@ -26,6 +26,7 @@ class Customization extends Model{
     }
 
     public function getAllCustomizations($where){
+        $where = array_merge($where, array('Customization.isDel' => 0));
         $select = $this->getSql()->select();
         $select->join(array('b' => 'Artist'), 'Customization.artistID = b.artistID', array('artistName', 'shortDesc', 'artistAvatar'));
         $select->join(array('c' => 'ArtistCategory'), 'b.artistCategoryID = c.artistCategoryID', array('categoryName'));
