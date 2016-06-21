@@ -1,3 +1,4 @@
+
 var flag=0;
 $(document).on('click', '#rightArrow', function(){
     if(flag==1){
@@ -64,7 +65,13 @@ var current_url = window.location.href;
             $(_DOM).find(".yomihour").html(nol(hours));
             $(_DOM).find(".yomimin").html(nol(min));
             $(_DOM).find(".yomisec").html(nol(sec));
-            if(page == 'member-auction'){
+            if(page == 'product-list'){
+                if (range > 0) {
+                    $(_DOM).append("<em class='yomiday'></em>天<em class='yomihour'></em>时<em class='yomimin'></em>分<em class='yomisec'></em>秒");
+                } else {
+                    $(_DOM).append('<b>拍卖已结束</b>');
+                }
+            }else if(page == 'member-auction'){
                 if (range > 0) {
                     $(_DOM).append("<span class='gz_shi yomiday'></span><span class='gz_shi1'>天</span><span class='gz_shi yomihour'></span><span class='gz_shi1'>时</span><span class='gz_shi yomimin'></span><span class='gz_shi1'>分</span><span class='gz_shi yomisec'></span><span class='gz_shi1'>秒</span>");
                 } else {

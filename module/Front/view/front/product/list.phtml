@@ -32,7 +32,7 @@
                         当前价 <em>￥<?php echo $v['currPrice'] ?></em>
                     </p>
 
-                    <p class="indexPro-time">距结束 <?php echo $v['leftTime'] ?></p>
+                    <p class="indexPro-time">距结束 <span class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></span></p>
 
                     <div class="indexPro-img">
                         <img src="<?php echo $v['listImg']; ?>">
@@ -56,5 +56,9 @@
         if($('#products-page').length){
             $('#products-page').html('<?php echo $currPage; ?>/<em id="total-page"><?php echo $productsPage ?></em>');
         }
+
+        $(".yomibox2").each(function () {
+            $(this).yomi(_CurrentServerTime, 'product-list');
+        });
     })
 </script>
