@@ -5,6 +5,7 @@ use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\Api\Sms;
 use Base\ConstDir\BaseConst;
+use Base\Functions\Utility;
 use COM\Controller\Front;
 
 class IndexController extends Front{
@@ -19,6 +20,12 @@ class IndexController extends Front{
         $products = $this->productModel->getIndexRecommendProducts();
 
         $indexRecommendArticles = $this->articleModel->getIndexRecommendArticles();
+        foreach($indexRecommendArticles as $k => $v){
+            if(!empty($v['url'])){
+                $contents = file_get_contents($v['url']);
+                $indexRecommendArticles[$k]['articleContent'] = Utility::getMemberArticleText($contents);
+            }
+        }
         $indexArticleList = $this->articleModel->getIndexArticleList();
 
         $this->view->setVariables(array(
