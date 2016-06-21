@@ -136,7 +136,7 @@ class ProductController extends Front{
         }
 
         // auction logs
-        $auctionLogs = $this->auctionLogModel->select(array('productID' => $productID))->toArray();
+        $auctionLogs = $this->auctionLogModel->getLogs(array('productID' => $productID));
 
         //recommend products
         if(!empty($sourceSpecialID)){
