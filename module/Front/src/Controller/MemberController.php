@@ -601,11 +601,17 @@ class MemberController extends Front{
 
     public function specialVerifyAction(){
         $specialID = $this->postData['specialID'];
-        //$specialInfo = $this->specialModel->select(array('specialID' => $specialID))->current();
+        $specialInfo = $this->specialModel->select(array('specialID' => $specialID))->current();
         //$this->specialModel->update(array('verifyStatus' => 1), array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
-        $unitePayID = $this->memberOrderModel->genUnitePayID();
-        $this->specialModel->update(array('unitePayID' => $unitePayID), array('specialID' => $specialID));
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $this->siteSettings['specialMoney']));
+        if(empty($this->siteSettings['specialMoney']) || $specialInfo['isPaid']){
+            $this->specialModel->update(array('verifyStatus' => 1), array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '提交成功');
+
+        }else{
+            $unitePayID = $this->memberOrderModel->genUnitePayID();
+            $this->specialModel->update(array('unitePayID' => $unitePayID), array('specialID' => $specialID));
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $this->siteSettings['specialMoney']));
+        }
     }
 
     public function specialAction(){
