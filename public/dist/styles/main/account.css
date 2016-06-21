@@ -394,7 +394,8 @@
 
 /* 登录 */
 .leftImg {
-  margin-top: 70px; }
+    margin-top: 70px;width: 645px; overflow: hidden;
+}
 
 .login {
   width: 350px;
