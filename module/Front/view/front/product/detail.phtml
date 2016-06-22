@@ -66,7 +66,7 @@
                                     }else{
                                 ?>
                                         <span>即将开拍</span> <i>开拍时间</i>
-                                        <?php echo date('Y/m/d H:i:s', $productInfo['startTime']); ?>
+                                        <i><?php echo date('Y/m/d H:i:s', $productInfo['startTime']); ?></i>
                                 <?php
                                     }
                                 ?>
@@ -112,7 +112,7 @@
                         <div class="cpxx-date">
 
                             <span>拍卖已结束</span> <i>结束时间</i>
-                            <?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?>
+                            <i><?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?></i>
 
                             <div class="onlookers">围观人数：<?php echo $productInfo['viewCount']; ?></div>
 
