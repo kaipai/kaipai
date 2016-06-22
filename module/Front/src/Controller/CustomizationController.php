@@ -34,7 +34,7 @@ class CustomizationController extends Front{
 
         $customizationInfo = $this->customizationModel->fetch(array('customizationID' => $customizationID));
         $artistInfo = $this->artistModel->select(array('artistID' => $customizationInfo['artistID']))->current();
-        $orders = $this->memberOrderModel->getOrders(array('customizationID' => $customizationInfo['customizationID']));
+        $orders = $this->memberOrderModel->getOrders(array('customizationID' => $customizationInfo['customizationID'], 'orderStatus >= ?' => 2));
         $this->view->setVariables(array(
             'info' => $customizationInfo,
             'artistInfo' => $artistInfo,
