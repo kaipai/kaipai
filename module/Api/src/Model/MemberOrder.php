@@ -46,7 +46,7 @@ class MemberOrder extends Model{
         $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName'))
             ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney'))
             ->where($where);
-
+        $select->order('MemberOrder.instime asc');
         $orders = $this->selectWith($select)->toArray();
         return $orders;
     }
