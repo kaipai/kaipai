@@ -52,8 +52,9 @@ class AuctionController extends Front{
         if(empty($productID) || empty($auctionPrice)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
 
         $productInfo = $this->productModel->select(array('productID' => $productID, 'isDel' => 0))->current();
+        $auctionLog = $this->auctionLogModel->select(array('productID' => $productInfo['productID']))->current();
         if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
-        if($productInfo['currPrice'] >= $auctionPrice) return $this->response(ApiError::COMMON_ERROR, '出价应超过当前价格');
+        if($productInfo['currPrice'] >= $auctionPrice && !empty($auctionLog)) return $this->response(ApiError::COMMON_ERROR, '出价应超过当前价格');
         if($productInfo['auctionStatus'] == 3) return $this->response(ApiError::COMMON_ERROR, '拍卖已结束');
         if($productInfo['auctionStatus'] != 2) return $this->response(ApiError::COMMON_ERROR, '拍卖尚未开始');
         if($productInfo['storeID'] == $this->memberInfo['storeID']) return $this->response(ApiError::COMMON_ERROR, '不能对自己发布的拍品竞拍');
