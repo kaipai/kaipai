@@ -5,6 +5,7 @@ use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use COM\Controller\Front;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Predicate\Between;
 
 class SpecialController extends Front{
@@ -87,7 +88,7 @@ class SpecialController extends Front{
         foreach($products as $v){
             $specialInfo['auctionCount'] += $v['auctionCount'];
         }
-
+        $this->specialModel->update(array('viewCount' => new Expression('viewCount+1')), array('specialID' => $specialID));
         $this->view->setVariables(array(
             'specialInfo' => $specialInfo,
             'products' => $products,

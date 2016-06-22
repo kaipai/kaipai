@@ -57,20 +57,46 @@
             <?php
                 foreach($specials as $v){
             ?>
-                    <dl class="spe_con_list" style="cursor:pointer;" onclick="location.href='/special/detail?specialID=<?php echo $v['specialID']; ?>';">
-                        <dd>
-                            <h4><a href=""><?php  echo $v['specialName']?></a></h4>
+                    <?php
+                        if($v['auctionStatus'] == 1){
+                    ?>
+                            <dl class="spe_con_list" style="cursor:pointer;" onclick="location.href='/special/detail?specialID=<?php echo $v['specialID']; ?>';">
+                                <dd class="ztCalss2">
+                                    <h4><a href=""><?php  echo $v['specialName']?></a></h4>
 
-                            <p class="spe_str"><span>选送商家</span><?php echo $v['storeName'] ?></p>
+                                    <p class="spe_str"><span>选送商家</span><?php echo $v['storeName'] ?></p>
 
-                            <p class="ztTime yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></p>
-                            <ul class="mt20">
-                                <li class="spe_pri"><span><?php echo $v['interestedCount'] ?></span><br/>次围观</li>
+                                    <p class="ztTime">即将开拍 <?php echo date('m月d日 H时i分', $v['endTime']); ?></p>
+                                    <ul class="mt20">
+                                        <li class="spe_pri"><span><?php echo $v['viewCount'] ?></span><br/>次围观</li>
 
-                            </ul>
-                        </dd>
-                        <dt><img src="<?php echo $v['specialImg'] ?>" height="260" width="570"></dt>
-                    </dl>
+                                    </ul>
+                                </dd>
+                                <dt><img src="<?php echo $v['specialImg'] ?>" height="260" width="570"></dt>
+                            </dl>
+
+                    <?php
+                        }elseif($v['auctionStatus'] == 2){
+                    ?>
+                            <dl class="spe_con_list" style="cursor:pointer;" onclick="location.href='/special/detail?specialID=<?php echo $v['specialID']; ?>';">
+                                <dd>
+                                    <h4><a href=""><?php  echo $v['specialName']?></a></h4>
+
+                                    <p class="spe_str"><span>选送商家</span><?php echo $v['storeName'] ?></p>
+
+                                    <p class="ztTime yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></p>
+                                    <ul class="mt20">
+                                        <li class="spe_pri"><span><?php echo $v['viewCount'] ?></span><br/>次围观</li>
+
+                                    </ul>
+                                </dd>
+                                <dt><img src="<?php echo $v['specialImg'] ?>" height="260" width="570"></dt>
+                            </dl>
+
+                    <?php
+                        }
+                    ?>
+
             <?php
                 }
             ?>
