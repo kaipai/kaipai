@@ -791,6 +791,11 @@ class MemberController extends Front{
             $product['auctionStatus'] = 1;
             unset($product['publish']);
         }
+        if(!empty($product['specialID'])){
+            $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
+            if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = $specialInfo['startTime'];
+            if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = $specialInfo['endTime'];
+        }
 
         if(isset($product['startPrice'])){
             $product['currPrice'] = $product['startPrice'];
