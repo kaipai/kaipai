@@ -2,7 +2,7 @@
 if($v['auctionStatus'] == 2){
 ?>
 <ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?sourceSpecialID=<?php echo $specialInfo['specialID']; ?>&productID=<?php echo $v['productID']; ?>'">
-    <li class="lh32">
+    <li class="lh32 excTit">
         <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
     </li>
     <li class="lh32">
@@ -20,7 +20,7 @@ if($v['auctionStatus'] == 2){
 }elseif($v['auctionStatus'] == 3){
     ?>
     <ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?sourceSpecialID=<?php echo $specialInfo['specialID']; ?>&productID=<?php echo $v['productID']; ?>'">
-        <li class="lh32">
+        <li class="lh32 excTit">
             <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
         </li>
         <li class="lh32">
@@ -39,7 +39,7 @@ if($v['auctionStatus'] == 2){
 }else{
     ?>
     <ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?sourceSpecialID=<?php echo $specialInfo['specialID']; ?>&productID=<?php echo $v['productID']; ?>'">
-        <li class="lh32">
+        <li class="lh32 excTit">
             <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
         </li>
         <li class="lh32">

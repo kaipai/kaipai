@@ -490,6 +490,7 @@ div.dp-popup td.disabled{cursor:default;}
     font-size: 24px;
      font-weight: bold;
 }
+.exc_list .excTit{height:32px; overflow: hidden;}
 .exc_list li span.exc_q{
     color: #222 !important;
     font-size: 20px !important;
