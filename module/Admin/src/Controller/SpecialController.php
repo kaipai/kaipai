@@ -16,8 +16,8 @@ class SpecialController extends Admin{
         $res = $this->specialModel->getSpecials(array(), $this->pageNum, $this->limit);
         $rows = $res['data'];
         foreach($rows as $k => $v){
-            $rows[$k]['startTime'] = date('Y-m-d H:i:s', strtotime($v['startTime']));
-            $rows[$k]['endTime'] = date('Y-m-d H:i:s', strtotime($v['endTime']));
+            $rows[$k]['startTime'] = date('Y-m-d H:i:s', $v['startTime']);
+            $rows[$k]['endTime'] = date('Y-m-d H:i:s', $v['endTime']);
         }
 
         return $this->adminResponse(array('rows' => $rows, 'total' => $res['total']));
