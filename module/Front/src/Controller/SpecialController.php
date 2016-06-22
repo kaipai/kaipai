@@ -43,6 +43,7 @@ class SpecialController extends Front{
         if($filter == 'today'){
             $where['Special.startTime < ?'] = strtotime(date('Y-m-d 23:59:29'));
         }elseif($filter == 'tomorrow'){
+            $where['Special.startTime > ?'] = strtotime(date('Y-m-d 23:59:59'));
             $where['Special.startTime < ?'] = strtotime(date('Y-m-d 23:59:59', strtotime('+1 day')));
         }elseif($filter == 'on'){
             $where['Special.auctionStatus'] = array(1);
