@@ -725,7 +725,12 @@ echo $this->render('/front/common/transfer-account');
                 success : function(res){
                     if(res.flag > 0){
                         layer.alert(res.msg, function(){
-                            location.href = '/member/product';
+                            if(data.specialID){
+                                location.href = '/member/special-product?specialID='+data.specialID;
+                            }else{
+                                location.href = '/member/product';
+                            }
+
                         });
                     }else{
                         layer.alert(res.msg);
@@ -762,14 +767,24 @@ echo $this->render('/front/common/transfer-account');
                             <?php
                             }else{
                             ?>
-                                location.href = '/member/product';
+                                layer.alert(res.msg, function(){
+                                    if(data.specialID){
+                                        location.href = '/member/special-product?specialID='+data.specialID;
+                                    }else{
+                                        location.href = '/member/product';
+                                    }
+                                });
                             <?php
                             }
                             ?>
                         }else{
                             layer.alert(res.msg, function(){
-                                location.href = '/member/product';
-                            })
+                                if(data.specialID){
+                                    location.href = '/member/special-product?specialID='+data.specialID;
+                                }else{
+                                    location.href = '/member/product';
+                                }
+                            });
                         }
                     }else{
                         layer.alert(res.msg);
