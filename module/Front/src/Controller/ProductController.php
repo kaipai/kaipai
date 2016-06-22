@@ -174,6 +174,16 @@ class ProductController extends Front{
         return $this->view;
     }
 
+    public function iframeDetailAction(){
+        $this->view->setNoLayout();
+        $productID = $this->queryData['productID'];
+        $info = $this->productModel->setColumns(array('productDetail'))->select(array('productID' => $productID))->current();
+        $this->view->setVariables(array(
+            'info' => $info,
+        ));
+        return $this->view;
+    }
+
     public function preViewAction(){
         $productID = $this->queryData['productID'];
         $where = array('productID' => $productID);

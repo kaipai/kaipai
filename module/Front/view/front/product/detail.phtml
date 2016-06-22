@@ -1,4 +1,3 @@
-<?php echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.parse.js'); ?>
 <link rel="stylesheet" type="text/css" href="/dist/styles/main/good.css" media="screen" />
 <div class="center">
     <div class="s-nav">
@@ -325,12 +324,10 @@
                         <div class="detailed-xx-ultitle">
                             <b>拍品详情</b>
                         </div>
-                        <p id="product-detail">
-                            <?php echo $productInfo['productDetail'] ?>
-
-
-                        <p>
-                            <br></p>
+                        <div class="product-detail">
+                            <iframe src="/product/iframe-detail?productID=<?php echo $productInfo['productID'] ?>" frameborder="0px" width="100%" id="iframepage" name="iframepage" onload="iframeHeight('iframepage');">
+                            </iframe>
+                        </div>
 
                         <!--产品图 end-->
                     </div>
@@ -518,8 +515,9 @@ echo $this->render('set-proxy-price');
 echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
 ?>
 <script type="text/javascript">
+
     $(function () {
-        uParse('#product-detail', {rootPath : '/admin/ueditor/'});
+
         //产品详情图片展示
         CloudZoom.quickStart();
         _PageTag = "detail";

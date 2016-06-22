@@ -67,3 +67,20 @@
         </div>
     </div>
 </div>
+<script>
+    function iframeHeight(id) {
+
+        var ifm= document.getElementById(id);
+
+        var subWeb = document.frames ? document.frames[id].document :
+
+            ifm.contentDocument;
+
+        if(ifm != null && subWeb != null) {
+
+            ifm.height = subWeb.body.scrollHeight;
+
+        }
+
+    }
+</script>

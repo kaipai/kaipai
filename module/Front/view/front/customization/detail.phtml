@@ -116,7 +116,8 @@
                     <p class="ty_hjiang">个人简历</p>
 
                     <p class="ty_jianjie1">
-                        <?php echo $artistInfo['artistDetail'] ?>
+                        <iframe src="/artist/artist-detail?artistID=<?php echo $artistInfo['artistID'] ?>" frameborder="0px" width="100%" id="iframepage" name="iframepage" onload="iframeHeight('iframepage');">
+                        </iframe>
                     </p>
 
                     <div class="ty_jianjie2"></div>
@@ -127,13 +128,15 @@
                 </div>-->
                 <div class="ty_main08" id="huo-jiang">
                     <p class="ty_hjiang">获奖及著作</p>
-                    <?php echo $artistInfo['awards'] ?>
+                    <iframe src="/artist/artist-awards?artistID=<?php echo $artistInfo['artistID'] ?>" frameborder="0px" width="100%" id="iframepage1" name="iframepage1" onload="iframeHeight('iframepage1');">
+                    </iframe>
                 </div>
                 <div class="ty_main09" id="xin-shang">
                     作品欣赏
                 </div>
                 <div class="ty_main10">
-                    <?php echo $artistInfo['productions'] ?>
+                    <iframe src="/artist/artist-productions?artistID=<?php echo $artistInfo['artistID'] ?>" frameborder="0px" width="100%" id="iframepage2" name="iframepage2" onload="iframeHeight('iframepage2');">
+                    </iframe>
                 </div>
 
 
