@@ -118,11 +118,13 @@ class ProductController extends Front{
 
     public function detailAction(){
         $productID = $this->queryData['productID'];
-        $sourceSpecialID = $this->queryData['sourceSpecialID'];
-        $sourceSpecialInfo = $this->specialModel->select(array('specialID' => $sourceSpecialID))->current();
         $where = array('productID' => $productID);
         $this->productModel->update(array('viewCount' => new Expression('viewCount+1')), $where);
         $productInfo = $this->productModel->fetch($where);
+        if(!empty($productInfo['specialID'])){
+            $sourceSpecialID = $productInfo['specialID'];
+            $sourceSpecialInfo = $this->specialModel->select(array('specialID' => $sourceSpecialID))->current();
+        }
 
         // properties
         $select = $this->productPropertyValueModel->getSelect();
