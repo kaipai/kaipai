@@ -47,57 +47,84 @@
         <!--中间详情 start-->
         <div class="cpxx-c">
             <!--top start-->
-            <div class="cpxx-c-top">
-                <h2><?php echo $productInfo['productName'] ?></h2>
-                <div class="cpxx-date">
-                    <?php
-                        if($productInfo['auctionStatus'] == 2 || 1){
-                    ?>
 
-                                <span>正在拍卖</span> <i>距结束</i>
-                                <div class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?>"></div>
 
+
+
+            <?php
+                if($productInfo['auctionStatus'] == 2 || $productInfo['auctionStatus'] == 1){
+            ?>
+                    <div class="cpxx-c-top">
+                        <h2><?php echo $productInfo['productName'] ?></h2>
+                            <div class="cpxx-date">
+                                <?php
+                                    if($productInfo['auctionStatus'] == 2){
+                                ?>
+                                        <span>正在拍卖</span> <i>距结束</i>
+                                        <div class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?>"></div>
+                                <?php
+                                    }else{
+                                ?>
+                                        <span>即将开拍</span> <i>开拍时间</i>
+                                        <?php echo date('Y/m/d H:i:s', $productInfo['startTime']); ?>
+                                <?php
+                                    }
+                                ?>
 
                                 <div class="onlookers">围观人数：<?php echo $productInfo['viewCount']; ?></div>
 
+                            </div>
+                    </div>
 
-                    <?php
-                        }elseif($productInfo['auctionStatus'] == 3){
-                    ?>
-                            <span>拍卖已结束</span> <i>结束时间 <?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?></i>
-                    <?php
-                        }
-                    ?>
-                </div>
-            </div>
-            <!--top end-->
-            <!--start detailed-price-->
-            <div class="detailed-price cpxx-c-c">
-                <dl>
-                    <dt class="present-price">当前价格：</dt>
-                    <dd>
-                        ￥
-                        <span class="f30"><?php echo $productInfo['currPrice']; ?></span>
-                    </dd>
-                </dl>
+                    <!--top end-->
+                    <!--start detailed-price-->
+                    <div class="detailed-price cpxx-c-c">
+                        <dl>
+                            <dt class="present-price">当前价格：</dt>
+                            <dd>
+                                ￥
+                                <span class="f30"><?php echo $productInfo['currPrice']; ?></span>
+                            </dd>
+                        </dl>
 
-                <dl>
-                    <dt>出价金额：</dt>
-                    <dd>
-                        <a href="javascript:void(0)" id="priceReduce" class="cpxx_cleft"></a>
-                        <input class="d-jg" type="text" id="j_addprice" value="<?php if(empty($auctionLogs)){echo $productInfo['currPrice'];}else{echo $productInfo['currPrice'] + $productInfo['auctionPerPrice'];}  ?>"/>
-                        <a href="javascript:void(0)" id="priceAdd" class="cpxx_cright"></a>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt></dt>
-                    <dd class="d-btnnav">
-                        <input name="我要出价" type="button" class="d-cj btn" id="my_biding" value="我要出价"/>
-                        <input name="设置代理价" type="button" class="d-zx btn" id="set-agent_biding" value="设置代理价"/>
-                    </dd>
-                </dl>
-            </div>
-            <!--end detailed-price-->
+                        <dl>
+                            <dt>出价金额：</dt>
+                            <dd>
+                                <a href="javascript:void(0)" id="priceReduce" class="cpxx_cleft"></a>
+                                <input class="d-jg" type="text" id="j_addprice" value="<?php if(empty($auctionLogs)){echo $productInfo['currPrice'];}else{echo $productInfo['currPrice'] + $productInfo['auctionPerPrice'];}  ?>"/>
+                                <a href="javascript:void(0)" id="priceAdd" class="cpxx_cright"></a>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt></dt>
+                            <dd class="d-btnnav">
+                                <input name="我要出价" type="button" class="d-cj btn" id="my_biding" value="我要出价"/>
+                                <input name="设置代理价" type="button" class="d-zx btn" id="set-agent_biding" value="设置代理价"/>
+                            </dd>
+                        </dl>
+                    </div>
+                    <!--end detailed-price-->
+            <?php
+                }elseif($productInfo['auctionStatus'] == 3){
+            ?>
+                    <div class="cpxx-c-top">
+                        <h2><?php echo $productInfo['productName'] ?></h2>
+                        <div class="cpxx-date">
+
+                            <span>拍卖已结束</span> <i>结束时间</i>
+                            <?php echo date('Y/m/d H:i:s', $productInfo['endTime']); ?>
+
+                            <div class="onlookers">围观人数：<?php echo $productInfo['viewCount']; ?></div>
+
+                        </div>
+                    </div>
+                    <div class="detailed-price cpxx-c-c"><h3 style="text-align:center;line-height:140px;font-size:24px;">拍卖已结束</h3></div>
+            <?php
+                }
+            ?>
+
+
+
             <div class="cpxx-sjxx">
                 <ul>
                     <li>起拍价：￥<?php echo $productInfo['startPrice']; ?></li>
