@@ -146,7 +146,7 @@
                     <li>延时周期：<?php if($productInfo['delayType'] == 1){echo '5分/次';}else{echo '无';} ?></li>
                     <li>
                         商家：
-                        <a ui-sref="mainShop({'id':14})" class="blue"><?php echo $productInfo['storeName'] ?></a>
+                        <a ui-sref="mainShop({'id':14})" class="blue" href="/store/detail?storeID=<?php echo $productInfo['storeID'] ?>"><?php echo $productInfo['storeName'] ?></a>
                     </li>
                 </ul>
             </div>
