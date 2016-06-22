@@ -148,23 +148,42 @@ echo $this->headLink()
         <div class="center ">
 
             <div class="sf_show">
-                <div class="sf_show_top">
-                    <p class="sf_title"><?php echo $specialInfo['specialName']; ?></p>
 
-                    <p class="sf_overtime yomibox2" data="<?php echo date('Y/m/d H:i:s', $specialInfo['endTime']); ?>">
+                    <?php
+                        if($specialInfo['auctionStatus'] == 1){
+                    ?>
+                        <div class="sf_show_top">
+                            <p class="sf_title"><?php echo $specialInfo['specialName']; ?></p>
 
-                    </p>
-                </div>
+                            <p class="sf_overtime" style="color: #61B6D8;">
+                                <em>即将开拍 <?php echo date('m月d日 H时i分', $specialInfo['startTime']); ?></em>
+                            </p>
+                        </div>
+                    <?php
+                        }elseif($specialInfo['auctionStatus'] == 2){
+                    ?>
+                        <div class="sf_show_top">
+                            <p class="sf_title"><?php echo $specialInfo['specialName']; ?></p>
+
+                            <p class="sf_overtime yomibox2" data="<?php echo date('Y/m/d H:i:s', $specialInfo['endTime']); ?>">
+
+                            </p>
+                        </div>
+                    <?php
+                        }
+                    ?>
+
+
                 <div class="sf_tip">
                     <ul>
                         <li>拍品：<?php echo $specialInfo['productCountLimit']; ?>件</li>
-                        <li>围观：<?php echo $specialInfo['interestedCount']; ?>次</li>
+                        <li>围观：<?php echo $specialInfo['viewCount']; ?>次</li>
                         <li>出价：<?php echo $specialInfo['auctionCount']; ?>次</li>
                     </ul>
                     <div>
             <span class="sf_spjg">
               送拍机构：
-              <a href="" class="sf_ys"><?php echo $specialInfo['storeName']; ?>></a>
+              <a href="/store/detail?storeID=<?php echo $specialInfo['storeID'] ?>" target="_blank" class="sf_ys"><?php echo $specialInfo['storeName']; ?>></a>
             </span>
             <span>
               <a href="">专场更多信息></a>
