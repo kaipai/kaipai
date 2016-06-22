@@ -152,10 +152,10 @@ echo $this->headLink()
                     <?php
                         if($specialInfo['auctionStatus'] == 1){
                     ?>
-                        <div class="sf_show_top">
+                        <div class="sf_show_top" style="background:#61B6D8 none repeat scroll 0% 0%">
                             <p class="sf_title"><?php echo $specialInfo['specialName']; ?></p>
 
-                            <p class="sf_overtime" style="color: #61B6D8;">
+                            <p class="sf_overtime">
                                 <em>即将开拍 <?php echo date('m月d日 H时i分', $specialInfo['startTime']); ?></em>
                             </p>
                         </div>
