@@ -112,7 +112,10 @@ class CrontabController extends Controller{
                 $data = $this->memberProductInterestModel->select(array('productID' => $v['productID']))->toArray();
 
                 foreach($data as $sv){
-                    $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您关注的拍品<<' . $v['productName'] . '>>' . '马上就要开拍了。'));
+                    $where = array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您关注的拍品<<' . $v['productName'] . '>>' . '马上就要开拍了。');
+                    $exist = $this->notificationModel->select($where)->current();
+                    if(!empty($exist)) continue;
+                    $this->notificationModel->insert($where);
                 }
             }
             $this->notificationModel->commit();
@@ -133,7 +136,10 @@ class CrontabController extends Controller{
             foreach($products as $v){
                 $data = $this->memberProductInterestModel->select(array('productID' => $v['productID']))->toArray();
                 foreach($data as $sv){
-                    $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您关注的拍品<<' . $v['productName'] . '>>' . '马上就要结束了。'));
+                    $where = array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您关注的拍品<<' . $v['productName'] . '>>' . '马上就要结束了。');
+                    $exist = $this->notificationModel->select($where)->current();
+                    if(!empty($exist)) continue;
+                    $this->notificationModel->insert($where);
                 }
             }
             $this->notificationModel->commit();

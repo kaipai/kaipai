@@ -1,4 +1,4 @@
-<?php echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.parse.min.js'); ?>
+<?php echo $this->inlineScript()->setFile('/admin/ueditor/ueditor.parse.js'); ?>
 <link rel="stylesheet" type="text/css" href="/dist/styles/main/good.css" media="screen" />
 <div class="center">
     <div class="s-nav">
@@ -314,27 +314,19 @@
                             <?php
                                 }
                             ?>
-                            <div class="dxu-li">
+                            <!--<div class="dxu-li">
                                 <span class="l">商品简介</span>
 
-                                <div class="r" id="product-detail"><?php echo $productInfo['productDetail'] ?></div>
-                            </div>
+                                <div class="r" id="product-detail"><?php /*echo $productInfo['productDetail'] */?></div>
+                            </div>-->
                         </ul>
                         <!--detailed-xx-ul start-->
                         <!--产品图 start-->
                         <div class="detailed-xx-ultitle">
-                            <b>拍品展示</b>
+                            <b>拍品详情</b>
                         </div>
-                        <p>
-                            <?php
-                                foreach($detailImgs as $v){
-                            ?>
-                            <img
-                                src="<?php echo $v; ?>"
-                                width="800px"></p>
-                            <?php
-                                }
-                            ?>
+                        <p id="product-detail">
+                            <?php echo $productInfo['productDetail'] ?>
 
 
                         <p>
@@ -527,7 +519,7 @@ echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
 ?>
 <script type="text/javascript">
     $(function () {
-        uParse('#product-detail');
+        uParse('#product-detail', {rootPath : '/admin/ueditor/'});
         //产品详情图片展示
         CloudZoom.quickStart();
         _PageTag = "detail";
