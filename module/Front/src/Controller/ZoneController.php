@@ -123,10 +123,15 @@ class ZoneController extends Front{
         if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
         try{
             $where = array('memberID' => $this->memberInfo['memberID'], 'memberArticleID' => $memberArticleID);
+
+
             $existLog = $this->memberArticleFavoriteLogModel->select($where)->current();
             if(empty($existLog)){
                 $this->memberArticleFavoriteLogModel->insert($where);
-                $this->memberArticleModel->update(array('favoriteCount' => new Expression('favoriteCount+1')), $where);
+                $this->memberArticleModel->update(array('favoriteCount' => new Expression('favoriteCount+1')), array('memberArticleID' => $memberArticleID));
+
+                $memberArticleInfo = $this->memberArticleModel->select(array('memberArticleID' => $memberArticleID))->current();
+                $this->notificationModel->insert(array('type' => 5, 'memberID' => $memberArticleInfo['memberID'], 'content' => '您的文章<<' . $memberArticleInfo['memberArticleName'] . '>>被' . $this->memberInfo['nickName'] . '喜欢。'));
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '点赞成功');
             }else{
                 return $this->response(ApiError::COMMON_ERROR, '已点赞');
@@ -147,6 +152,9 @@ class ZoneController extends Front{
             if(empty($existMark)){
                 $this->memberArticleMarkModel->insert($where);
                 $this->memberArticleModel->update(array('markCount' => new Expression('markCount+1')), $where);
+
+                $memberArticleInfo = $this->memberArticleModel->select(array('memberArticleID' => $memberArticleID))->current();
+                $this->notificationModel->insert(array('type' => 5, 'memberID' => $memberArticleInfo['memberID'], 'content' => '您的文章<<' . $memberArticleInfo['memberArticleName'] . '>>被' . $this->memberInfo['nickName'] . '收藏。'));
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '收藏成功');
             }else{
                 return $this->response(ApiError::COMMON_ERROR, '收藏失败');

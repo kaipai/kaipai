@@ -30,6 +30,13 @@ class SpecialController extends Admin{
             'specialID' => $specialID
         );
         unset($this->postData['specialID']);
+        $specialInfo = $this->specialModel->getFullInfo($where);
+
+        if($this->postData['verifyStatus'] == 2){
+            $this->notificationModel->insert(array('type' => 3, 'memberID' => $specialInfo['memberID'], 'content' => '您的<<' . $specialInfo['specialName'] . '>>专场审核已通过。'));
+        }elseif($this->postData['verifyStatus'] == 3){
+            $this->notificationModel->insert(array('type' => 3, 'memberID' => $specialInfo['memberID'], 'content' => '您的<<' . $specialInfo['specialName'] . '>>专场审核未通过，请修改。'));
+        }
         $this->specialModel->update($this->postData, $where);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');

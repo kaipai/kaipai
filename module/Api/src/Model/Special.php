@@ -33,4 +33,14 @@ class Special extends Model{
         );
         return $result;
     }
+
+    public function getFullInfo($where){
+        $select = $this->getSelect();
+        $select->join(array('b' => 'Store'), 'Special.storeID = b.storeID', array('storeName'));
+        $select->join(array('c' => 'MemberInfo'), 'b.storeID = c.storeID', array('memberID'));
+        $select->where($where);
+        $res = $this->selectWith($select)->current();
+
+        return $res;
+    }
 }

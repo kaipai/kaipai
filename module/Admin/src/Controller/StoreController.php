@@ -27,6 +27,12 @@ class StoreController extends Admin{
             'storeID' => $storeID
         );
         unset($this->postData['storeID']);
+        $storeInfo = $this->storeModel->select($where)->current();
+        if($this->postData['verifyStatus'] == 2){
+            $this->notificationModel->insert(array('type' => 2, 'memberID' => $storeInfo['memberID'], 'content' => '您的加盟申请已通过。'));
+        }elseif($this->postData['verifyStatus'] == 3){
+            $this->notificationModel->insert(array('type' => 2, 'memberID' => $storeInfo['memberID'], 'content' => '您的加盟申请未通过，请修改。'));
+        }
         $this->storeModel->update($this->postData, $where);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');

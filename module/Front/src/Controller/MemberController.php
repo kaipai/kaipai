@@ -7,6 +7,7 @@ use Base\Functions\Utility;
 use COM\Controller\Front;
 use Zend\Authentication\Storage\Session;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Predicate\Between;
 use Zend\Db\Sql\Predicate\IsNull;
 use Zend\Db\Sql\Where;
 
@@ -37,6 +38,35 @@ class MemberController extends Front{
     }
 
     public function notificationAction(){
+        $type = $this->queryData['type'] ? $this->queryData['type'] : 1;
+        $where = array(
+            'Notification.memberID' => $this->memberInfo['memberID'],
+        );
+        if(!empty($type)) $where['Notification.type'] = $type;
+        if($type == 3){
+            $where[] = new Between('Notification.instime', date('Y-m-d H:i:s', strtotime('-3 days')), date('Y-m-d H:i:s'));
+        }
+        if($type == 4){
+            $where[] = new Between('Notification.instime', date('Y-m-d H:i:s', strtotime('-3 months')), date('Y-m-d H:i:s'));
+        }
+        if($type == 1){
+            $where = new Where();
+            $where->and->equalTo('Notification.type', $type);
+            $where->and->nest()->or->equalTo('Notification.memberID', $this->memberInfo['memberID'])->or->isNull('Notification.memberID');
+
+        }
+
+
+        $res = $this->notificationModel->getNotifications($where, $this->pageNum, $this->limit);
+        $notifications = $res['data'];
+        $total = $this->notificationModel->getTotalNotifications(array('memberID' => $this->memberInfo['memberID']));
+        $this->view->setVariables(array(
+            'notifications' => $notifications,
+            'pages' => $res['pages'],
+            'type' => $type,
+            'total' => $total,
+            'typeTotal' => $res['total'],
+        ));
         return $this->view;
     }
 
@@ -439,6 +469,9 @@ class MemberController extends Front{
     public function addInterestZoneAction(){
         $zoneID = $this->postData['zoneID'];
         $where = array('memberID' => $this->memberInfo['memberID'], 'interestedMemberID' => $zoneID);
+
+        $this->notificationModel->insert(array('type' => 5, 'memberID' => $zoneID, 'content' => '您的空间已被' . $this->memberInfo['nickName'] . '关注。'));
+
         $exist = $this->memberInterestModel->select($where)->current();
         if(empty($exist)){
             $this->memberInterestModel->insert($where);
@@ -1064,9 +1097,18 @@ class MemberController extends Front{
         $orderID = $this->postData['orderID'];
         if($haveDelivery && (empty($deliveryType) || empty($deliveryNum))) return $this->response(ApiError::COMMON_ERROR, '请填写物流信息');
         try{
+
             $this->memberOrderModel->beginTransaction();
             $this->memberOrderDeliveryModel->update(array('deliveryTypeID' => $deliveryType, 'deliveryNum' => $deliveryNum), array('orderID' => $orderID));
             $this->memberOrderModel->update(array('orderStatus' => 4), array('orderStatus' => 3, 'orderID' => $orderID, 'storeID' => $this->_storeInfo['storeID']));
+
+
+            $orderInfo = $this->memberOrderModel->select(array('orderID' => $orderID))->current();
+            $productSnapshot = json_decode($orderInfo['productSnapshot'], true);
+            $productName = $productSnapshot['productName'];
+            $this->notificationModel->insert(array('type' => 4, 'memberID' => $orderInfo['memberID'], 'content' => '您购得的拍品<<' . $productName . '>>已发货。'));
+
+
             $this->memberOrderModel->commit();
 
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');

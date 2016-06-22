@@ -24,12 +24,12 @@ abstract class BasePay
      */
     public function notify($unitePayID, $useRechargeMoney = 0){
         $orderModel = $this->memberOrderModel;
+        $where = array(
+            'unitePayID' => $unitePayID
+        );
+        $orderInfo = $orderModel->getOrderInfo($unitePayID);
+        if($orderInfo['orderStatus'] != 1) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
         try{
-            $where = array(
-                'unitePayID' => $unitePayID
-            );
-            $orderInfo = $orderModel->getOrderInfo($unitePayID);
-            if($orderInfo['orderStatus'] != 1) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $orderModel->beginTransaction();
             $this->memberPayDetailModel->update(array('paidMoney' => $orderInfo['payMoney'], 'payTime' => time()), $where);
             if(!empty($orderInfo['customizationID'])){
@@ -38,10 +38,18 @@ abstract class BasePay
             }else{
                 $orderModel->update(array('orderStatus' => 3), $where);
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $useRechargeMoney)), array('storeID' => $orderInfo['storeID']));
+
+                $storeInfo = $this->storeModel->setColumns(array('memberID'))->select(array('storeID' => $orderInfo['storeID']))->current();
+                $productSnapshot = json_decode($orderInfo['productSnapshot'], true);
+                $productName = $productSnapshot['productName'];
+                $this->notificationModel->insert(array('type' => 4, 'memberID' => $storeInfo['memberID'], 'content' => '您的拍品<<' . $productName . '>>已被付款, 请发货。'));
+
             }
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));
             }
+
+
             $orderModel->commit();
             return true;
         }catch(\Exception $e){

@@ -1,0 +1,61 @@
+<div class="wrapper">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                推送公告
+                <a class="text-right" style="float:right;" href="<?php echo '/admin/' . $this->layout()->controllerName . '/index' ?>">返回</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="container mtop40" style="margin-bottom: 50px; height: auto;">
+                <form class="form-horizontal" action="/admin/<?php echo $this->layout()->controllerName; ?>/add" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">推送类型</label>
+
+                        <div class="col-sm-4">
+                            <input type="radio" name="type" value="1" checked /> 单个用户
+                            <input type="radio" name="type" value="2" /> 所有用户
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="mobile-input">
+                        <label class="col-sm-2 control-label">手机号</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="mobile" value="">
+                        </div>
+                    </div>
+                    <div class="form-group" id="mobile-input">
+                        <label class="col-sm-2 control-label">内容</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="content" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a class="btn btn-primary editModal" onclick="">确定</a>
+                        </div>
+                    </div>
+                </form>
+
+                <input type="hidden" name="location-url" value="/admin/<?php echo $this->layout()->controllerName; ?>/index"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('input[name=type]').on('click', function(){
+            var value = $(this).val();
+            if(value == 1){
+                $('#mobile-input').show();
+            }else{
+                $('#mobile-input').hide();
+            }
+        });
+    })
+
+
+</script>

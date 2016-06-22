@@ -72,6 +72,26 @@ return array(
                         )
                     )
                 ),
+                'crontab-interest-product-start' => array(
+                    'options' => array(
+                        'route' => 'crontab-interest-product-start',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'interest-product-start'
+                        )
+                    )
+                ),
+                'crontab-interest-product-end' => array(
+                    'options' => array(
+                        'route' => 'crontab-interest-product-end',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'interest-product-end'
+                        )
+                    )
+                ),
             )
         )
     ),

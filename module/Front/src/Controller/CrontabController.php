@@ -1,6 +1,7 @@
 <?php
 namespace Front\Controller;
 
+use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\Sms;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
@@ -19,12 +20,26 @@ class CrontabController extends Controller{
             foreach($expireProducts as $v){
                 if(!empty($v['keepPrice']) && $v['keepPrice'] > $v['currPrice']){
                     $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
+
+                    $auctionMembers = $this->auctionMemberModel->select(array('productID' => $v['productID']))->toArray();
+                    foreach($auctionMembers as $sv){
+                        $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您未成功竞得<<' . $v['productName'] . '>>。'));
+                    }
+
                     $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
                 }else{
                     if(empty($v['auctionMemberID'])){
                         $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
                     }else{
                         $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
+
+                        $auctionMembers = $this->auctionMemberModel->select(array('productID' => $v['productID'], 'auctionMemberID != ?' => $v['auctionMemberID']))->toArray();
+                        foreach($auctionMembers as $sv){
+                            $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您未成功竞得<<' . $v['productName'] . '>>。'));
+                        }
+                        $this->notificationModel->insert(array('type' => 3, 'memberID' => $v['auctionMemberID'], 'content' => '您已成功竞得<<' . $v['productName'] . '>>。'));
+
+
                         $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
                         $this->auctionMemberModel->update(array('status' => 1), array('auctionMemberID' => $v['auctionMemberID']));
 
@@ -87,6 +102,50 @@ class CrontabController extends Controller{
 
         return $this->response;
     }
+
+    public function interestProductStartAction(){
+        $products = $this->productModel->setColumns(array('productID', 'productName'))->select(array('auctionStatus' => 1, 'startTime < ?' => time() + 900, 'isPaid' => 1))->toArray();
+        try{
+            $this->notificationModel->beginTransaction();
+            foreach($products as $v){
+
+                $data = $this->memberProductInterestModel->select(array('productID' => $v['productID']))->toArray();
+
+                foreach($data as $sv){
+                    $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您关注的拍品<<' . $v['productName'] . '>>' . '马上就要开拍了。'));
+                }
+            }
+            $this->notificationModel->commit();
+
+            return $this->response;
+        }catch (\Exception $e){
+            $this->notificationModel->rollback();
+
+            return $this->response;
+        }
+    }
+
+    public function interestProductEndAction(){
+        $products = $this->productModel->select(array('auctionStatus' => 2, 'endTime < ?' => time() + 1200, 'isPaid' => 1))->toArray();
+
+        try{
+            $this->notificationModel->beginTransaction();
+            foreach($products as $v){
+                $data = $this->memberProductInterestModel->select(array('productID' => $v['productID']))->toArray();
+                foreach($data as $sv){
+                    $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您关注的拍品<<' . $v['productName'] . '>>' . '马上就要结束了。'));
+                }
+            }
+            $this->notificationModel->commit();
+
+            return $this->response;
+        }catch (\Exception $e){
+            $this->notificationModel->rollback();
+
+            return $this->response;
+        }
+    }
+
 
 
 }

@@ -38,4 +38,14 @@ class AuctionMember extends Model{
 
         return $result;
     }
+
+    public function getTopBid($productID){
+        $select = $this->getSelect();
+        $select->columns(array('memberID'));
+        $select->join(array('b' => 'Product'), 'AuctionMember.productID = b.productID and AuctionMember.myCurrPrice = b.currPrice', array());
+        $select->where(array('AuctionMember.productID' => $productID));
+        $res = $this->selectWith($select)->current();
+
+        return $res;
+    }
 }
