@@ -107,7 +107,7 @@
                     </li>
                     <?php if(!empty($productInfo['commission'])){
                     ?>
-                        <li>佣金：￥<?php echo $productInfo['currPrice'] * round($productInfo['commission']/ 100, 2); ?></li>
+                        <li>佣金：￥<?php echo $productInfo['commission']; ?>%</li>
                     <?php
                     }else{
                     ?>
@@ -115,7 +115,7 @@
                     <?php
                     } ?>
 
-                    <li>保留价：<?php if(!empty($productInfo['existKeppPrice'])){echo '有';}else{echo '无';} ?></li>
+                    <li>保留价：<?php if(!empty($productInfo['existKeepPrice'])){echo '有';}else{echo '无';} ?></li>
                     <li>延时周期：<?php if($productInfo['delayType'] == 1){echo '5分/次';}else{echo '无';} ?></li>
                     <li>
                         商家：
