@@ -7,7 +7,7 @@ class AuctionLog extends Model{
     public function getLogs($where){
         $select = $this->getSelect();
         $select->where($where);
-        $select->order('instime Desc');
+        $select->order('auctionLogID Desc');
         $res = $this->selectWith($select)->toArray();
         return $res;
     }
