@@ -332,7 +332,7 @@
                                     <li >
                                         <span class="num_02"><?php echo $v['nickName'] ?></span>
                                         <span class="num_03"><?php echo $v['auctionPrice'] ?></span>
-                                        <span class="num_04"><?php echo date('m-d H:i') ?></span>
+                                        <span class="num_04"><?php echo date('m-d H:i', strtotime($v['instime'])) ?></span>
                                     </li>
                                 </li>
                             <?php
