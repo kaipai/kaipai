@@ -781,8 +781,8 @@ class MemberController extends Front{
 
         if(!empty($product['publish'])){
 
-            if($product['startTime'] == strtotime(date('Y-01-01 00:01:00'))) $product['startTime'] = time();
-            if($product['endTime'] == strtotime(date('Y-01-01 00:01:00'))) $product['endTime'] = strtotime('+1 day');
+            if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = time();
+            if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = strtotime('+1 day');
 
             if($product['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
             if($product['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
@@ -1014,11 +1014,11 @@ class MemberController extends Front{
             'auctionStatus' => 1
         );
         if(!empty($productInfo)){
-            if($productInfo['startTime'] == strtotime(date('Y-01-01 00:01:00'))) {
+            if($productInfo['startTime'] == strtotime(date('Y-01-01 00:00:00'))) {
                 $productInfo['startTime'] = time();
                 $update['startTime'] = $productInfo['startTime'];
             }
-            if($productInfo['endTime'] == strtotime(date('Y-01-01 00:01:00'))) {
+            if($productInfo['endTime'] == strtotime(date('Y-01-01 00:00:00'))) {
                 $productInfo['endTime'] = strtotime('+1 day');
                 $update['endTime'] = $productInfo['endTime'];
             }
