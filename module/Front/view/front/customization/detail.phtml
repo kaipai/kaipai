@@ -142,17 +142,26 @@
 
             </div>
             <div class="hide">
-                <?php
-                foreach($orders as $v){
-                    ?>
-                    <tr class="ty_tabletd">
-                        <td><?php echo $v['nickName'] ?></td>
-                        <td><?php echo $v['payMoney']; ?></td>
-                        <td><?php echo date('m-d H:i', strtotime($v['instime'])) ?></td>
-                    </tr>
-                <?php
-                }
-                ?>
+                <div style="height:auto">
+                    <table>
+                        <tr class="ty_tabletr">
+                            <td width="30%">订制买家</td>
+                            <td width="30%">出价</td>
+                            <td width="40%">出价时间</td>
+                        </tr>
+                        <?php
+                        foreach($orders as $v){
+                            ?>
+                            <tr class="ty_tabletd">
+                                <td><?php echo $v['nickName'] ?></td>
+                                <td><?php echo $v['payMoney']; ?></td>
+                                <td><?php echo date('m-d H:i', strtotime($v['instime'])) ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </table>
+                </div>
             </div>
             <div class="hide">
 
