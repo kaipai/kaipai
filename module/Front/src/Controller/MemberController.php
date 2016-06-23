@@ -38,7 +38,7 @@ class MemberController extends Front{
     }
 
     public function notificationAction(){
-        $type = $this->queryData['type'] ? $this->queryData['type'] : 1;
+        $type = $this->queryData['type'];
         $where = array(
             'Notification.memberID' => $this->memberInfo['memberID'],
         );
