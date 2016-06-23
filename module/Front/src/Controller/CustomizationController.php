@@ -6,10 +6,13 @@ use COM\Controller\Front;
 class CustomizationController extends Front{
 
     public function indexAction(){
-        $artistCategoryID = !empty($this->queryData['artistCategoryID']) ? $this->queryData['artistCategoryID'] : 1;
+        $artistCategoryID = $this->queryData['artistCategoryID'];
         $artistCategories = $this->artistCategoryModel->select()->toArray();
-
-        $customizations = $this->customizationModel->getAllCustomizations(array('b.artistCategoryID' => $artistCategoryID));
+        $where = array();
+        if(!empty($artistCategoryID)){
+            $where['b.artistCategoryID'] = $artistCategoryID;
+        }
+        $customizations = $this->customizationModel->getAllCustomizations($where);
 
         $this->view->setVariables(array(
             'artistCategories' => $artistCategories,

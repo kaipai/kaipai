@@ -12,7 +12,7 @@
     <div class="center">
         <ul>
             <li>专业领域></li>
-
+            <li class="<?php if(empty($artistCategoryID)) echo 'on'; ?>" style="cursor: pointer;" onclick="location.href='/customization/index'">全部</li>
             <?php
             foreach($artistCategories as $v){
             ?>
