@@ -209,12 +209,15 @@ class ZoneController extends Front{
 
     public function addMessageAction(){
         if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
+        if($this->memberInfo['memberID'] == $this->_zoneInfo['memberID']) return $this->response(ApiError::COMMON_ERROR, '不能给自己留言');
+        if(empty($this->postData['content'])) return $this->response(ApiError::COMMON_ERROR, '内容不能为空');
         try{
             $this->postData['senderID'] = $this->memberInfo['memberID'];
             $this->postData['memberID'] = $this->_zoneInfo['memberID'];
             unset($this->postData['zoneID']);
             $this->memberMessageModel->insert($this->postData);
             $this->memberInfoModel->update(array('messageCount' => new Expression('messageCount+1')), array('memberID' => $this->postData['memberID']));
+            $this->notificationModel->insert(array('type' => 5, 'memberID' => $this->_zoneInfo['memberID'], 'content' => '您的空间有一条新留言。'));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功');
         }catch (\Exception $e){
             return $this->response(ApiError::COMMON_ERROR, '添加失败');

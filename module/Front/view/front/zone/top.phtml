@@ -41,14 +41,14 @@
             }else{
                 ?>
                 <li><a href="javascript:;" class="add-interest-zone-btn" zone-id="<?php echo $_zoneInfo['memberID'] ?>">关注空间</a></li>
-                <li><a href="javascript:;">我要留言</a></li>
+                <li><a href="javascript:;" class="add-message-btn">我要留言</a></li>
             <?php
             } ?>
 
         </ul>
     </div>
 </div>
-
+<?php echo $this->render('add-message'); ?>
 <script>
     $(function(){
         $('.add-interest-zone-btn').on('click', function(){
@@ -67,6 +67,39 @@
                         loginPOP();
                     }else{
                         layer.alert(response.msg);
+                    }
+                }
+            });
+        });
+
+        $('.add-message-btn').on('click', function(){
+            layer.open({
+                skin : 'loginBox',
+                title : '留言',
+                type : 1,
+                content : $('#add-message-div').html()
+            });
+        });
+
+        $(document).on('click', '.add-message-div-btn:visible', function(){
+            var data = {
+                content : $('input[name=msg-content]:visible').val(),
+                zoneID : <?php echo $_zoneInfo['memberID'] ?>
+            };
+            $.ajax({
+                url : '/zone/add-message',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            layer.closeAll();
+                        });
+                    }else if(res.flag == -102){
+                        loginPOP();
+                    }else{
+                        layer.alert(res.msg);
                     }
                 }
             });
