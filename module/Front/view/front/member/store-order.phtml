@@ -127,8 +127,14 @@
                 dataType : 'json',
                 type : 'post',
                 data : data,
-                success : function(response){
-                    layer.alert(response.msg);
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
                 }
             });
         }
@@ -136,7 +142,6 @@
         $('.cancel-order-btn').on('click', function(){
             var data = {};
             data.orderID = $(this).attr('order-id');
-            $('#order-item-' + data.orderID).remove();
             cancelOrder(data);
 
         });
@@ -152,7 +157,6 @@
             checkedOrders.each(function(){
                 var tmpOrderID = $(this).attr('order-id');
                 data.orderID.push(tmpOrderID);
-                $('#order-item-' + tmpOrderID).remove();
             });
             cancelOrder(data);
         });

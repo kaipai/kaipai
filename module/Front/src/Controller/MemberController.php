@@ -332,11 +332,15 @@ class MemberController extends Front{
 
     public function cancelOrderAction(){
         $orderID = $this->postData['orderID'];
-        if(!empty($orderID)){
-            $this->memberOrderModel->update(array('orderStatus' => -1), array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID'], 'orderStatus <= ?' => 1));
-        }
+        $where = array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']);
+        $orderInfo = $this->memberOrderModel->select($where)->current();
+        if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if($orderInfo['orderStatus'] <= 1) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
+
+        $this->memberOrderModel->update(array('orderStatus' => -1), $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
+
     }
 
     public function confirmDeliveryDoneAction(){
@@ -519,9 +523,12 @@ class MemberController extends Front{
 
     public function storeCancelOrderAction(){
         $orderID = $this->postData['orderID'];
-        if(!empty($orderID)){
-            $this->memberOrderModel->update(array('orderStatus' => -1), array('orderID' => $orderID, 'storeID' => $this->memberInfo['storeID'], 'orderStatus <= ?' => 1));
-        }
+        $where = array('orderID' => $orderID, 'storeID' => $this->memberInfo['storeID']);
+        $orderInfo = $this->memberOrderModel->select($where)->current();
+        if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if($orderInfo['orderStatus'] <= 1) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
+
+        $this->memberOrderModel->update(array('orderStatus' => -1), $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
     }
