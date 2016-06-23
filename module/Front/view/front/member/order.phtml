@@ -51,10 +51,10 @@
                             if($v['orderStatus'] == 1){
                                 ?>
                                 <div class="yc_ddfk yc_imgleft2">
-                                    <div class="yc_ddfk1">等待付款</div>
+                                    <div class="yc_ddfk1" style="cursor: pointer;" onclick="location.href='/member/order-detail?orderID=<?php echo $v['orderID'] ?>';">等待付款</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="javascript:;">等待买家付款</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">等待买家付款</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
