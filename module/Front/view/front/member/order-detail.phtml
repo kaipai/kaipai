@@ -67,7 +67,7 @@
                                 <li class="" pay-type="4"><img src="/jinren/images/zf_20.png"> 银行汇款</li>
                             </ul>
                         </div>
-                    <?php }else{
+                    <?php }elseif($info['orderStatus'] == 5 && $info['orderType'] == 2){
                     ?>
                         <div class="yg_fk">
                             尾款金额 <?php echo $info['finalPrice']; ?> <span class="yg_sfmoney1">实付金额</span><span class="yg_sfmoney"><?php echo $info['finalPrice']; ?></span>
