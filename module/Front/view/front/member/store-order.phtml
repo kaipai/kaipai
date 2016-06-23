@@ -34,12 +34,7 @@
                         <span class="yc_pm2" style="background: none;"><?php echo $v['nickName'] ?></span>
                         <span class="yc_pm3 lxmj"><a href="tencent://message/?uin=<?php echo $v['qq'] ?>&Site=www.kaipai123.com&Menu=yes">联系买家</a></span>
                         <span class="yc_pm4"><a href="javascript:;" class="post-error-btn">网站申诉</a></span>
-                        <?php if ($v['orderStatus'] < 1) {
-                        ?>
                         <span class="yc_pm5" ><a href = "javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>" > 删除</a ></span >
-                            <?php
-                                }
-                            ?>
                         </div>
                         <div class="ys_tip6">
                             <div class="yc_imgleft"><img src="<?php echo $v['product']['listImg']; ?>"></div>
