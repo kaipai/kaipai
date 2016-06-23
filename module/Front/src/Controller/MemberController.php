@@ -351,12 +351,16 @@ class MemberController extends Front{
         );
         $orderInfo = $this->memberOrderModel->fetch($where);
         if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
-        $storeInfo = $this->storeModel->select(array('storeID' => $orderInfo['storeID']))->current();
+
         try{
             $this->memberOrderModel->beginTransaction();
             $this->memberOrderModel->update(array('orderStatus' => 5), $where);
-            $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('storeID' => $orderInfo['storeID']));
-            $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'unitePayID' => $orderInfo['unitePayID'], 'source' => '订单确认收货打款'));
+            if(!empty($orderInfo['storeID'])){
+                $storeInfo = $this->storeModel->select(array('storeID' => $orderInfo['storeID']))->current();
+                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('storeID' => $orderInfo['storeID']));
+                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'unitePayID' => $orderInfo['unitePayID'], 'source' => '订单确认收货打款'));
+            }
+
             $this->memberOrderModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
         }catch (\Exception $e){
