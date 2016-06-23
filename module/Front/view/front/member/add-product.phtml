@@ -150,9 +150,9 @@
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">佣金</span>
-                    <input name="yogjin" type="radio" class="ind_checkbox commission" id="commission-radio"/>
-                    <input class="mt_input2" type="text" placeholder="" id="commission" value="0"> %
-                    <input checked name="yogjin" type="radio" class="ind_checkbox wu commission" id="commission-radio-wu"/> 无
+                    <input name="yogjin" type="radio" class="ind_checkbox commision" id="commision-radio"/>
+                    <input class="mt_input2" type="text" placeholder="" id="commision" value="0"> %
+                    <input checked name="yogjin" type="radio" class="ind_checkbox wu commision" id="commision-radio-wu"/> 无
                 </div>
                 <div class="mt20">
                     <span class="ind_jrzz bold">保留价</span>
@@ -315,14 +315,14 @@ echo $this->render('/front/common/transfer-account');
 
         $('#start-price').val('<?php echo $productInfo['startPrice'] ?>');
         $('#auction-per-price').val('<?php echo $productInfo['auctionPerPrice'] ?>');
-        <?php if(!empty($productInfo['commission'])){
+        <?php if(!empty($productInfo['commision'])){
         ?>
-            $('#commission-radio').attr('checked', 'checked');
-            $('#commission').val('<?php echo $productInfo['commission'] ?>');
+            $('#commision-radio').attr('checked', 'checked');
+            $('#commision').val('<?php echo $productInfo['commision'] ?>');
         <?php
         }else{
         ?>
-            $('#commission-radio-wu').attr('checked', 'checked');
+            $('#commision-radio-wu').attr('checked', 'checked');
         <?php
         } ?>
         <?php if(!empty($productInfo['existKeepPrice'])){
@@ -610,8 +610,8 @@ echo $this->render('/front/common/transfer-account');
             }
             data.startPrice = $('#start-price').val();
             data.auctionPerPrice = $('#auction-per-price').val();
-            if(!$('.commission:checked').hasClass('wu')){
-                data.commission = $('#commission').val();
+            if(!$('.commision:checked').hasClass('wu')){
+                data.commision = $('#commision').val();
             }
             if(!$('.keep-price:checked').hasClass('wu')){
                 data.existKeepPrice = 1;
