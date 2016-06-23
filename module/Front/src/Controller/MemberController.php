@@ -515,6 +515,8 @@ class MemberController extends Front{
 
 
 
+
+
     public function storeCancelOrderAction(){
         $orderID = $this->postData['orderID'];
         if(!empty($orderID)){
@@ -606,24 +608,39 @@ class MemberController extends Front{
             ));
             return $this->view;
         }else{
-            $this->postData['productCountLimit'] = intval($this->postData['productCountLimit']);
-            if(!($this->postData['productCountLimit'] >= 20 && $this->postData['productCountLimit'] <= 60)){
-                return $this->response(ApiError::COMMON_ERROR, '拍品数量限制在20-60个');
+            if(isset($this->postData['productCountLimit'])){
+                $this->postData['productCountLimit'] = intval($this->postData['productCountLimit']);
+                if(!($this->postData['productCountLimit'] >= 20 && $this->postData['productCountLimit'] <= 60)){
+                    return $this->response(ApiError::COMMON_ERROR, '拍品数量限制在20-60个');
+                }
             }
-            $this->postData['specialImg'] = Utility::saveBaseCodePic($this->postData['specialImg']);
-            $this->postData['specialBanner'] = Utility::saveBaseCodePic($this->postData['specialBanner']);
-            $this->postData['startTime'] = strtotime($this->postData['startTime']);
-            $this->postData['endTime'] = strtotime($this->postData['endTime']);
+            if(!empty($this->postData['specialImg'])){
+                $this->postData['specialImg'] = Utility::saveBaseCodePic($this->postData['specialImg']);
+            }
+            if(!empty($this->postData['specialBanner'])){
+                $this->postData['specialBanner'] = Utility::saveBaseCodePic($this->postData['specialBanner']);
+            }
+            if(!empty($this->postData['startTime'])){
+                $this->postData['startTime'] = strtotime($this->postData['startTime']);
+                if($this->postData['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
+            }
+            if(!empty($this->postData['endTime'])){
+                $this->postData['endTime'] = strtotime($this->postData['endTime']);
+                if($this->postData['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
+
+                if($this->postData['endTime'] < $this->postData['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
+            }
+
             $this->postData['storeID'] = $this->_storeInfo['storeID'];
 
-            if($this->postData['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
-            if($this->postData['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
-            if($this->postData['endTime'] < $this->postData['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
+
 
             if(!empty($this->postData['specialID'])){
                 $where = array('specialID' => $this->postData['specialID'], 'storeID' => $this->_storeInfo['storeID']);
                 $specialInfo = $this->specialModel->select($where)->current();
                 if(empty($specialInfo)) return $this->response(ApiError::COMMON_ERROR, '专场不存在');
+                if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '审核通过, 该专场不能被编辑');
+
                 unset($this->postData['specialID']);
                 $this->specialModel->update($this->postData, $where);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
@@ -674,7 +691,7 @@ class MemberController extends Front{
     public function specialProductAction(){
         $specialID = $this->queryData['specialID'];
         $special = $this->specialModel->select(array('specialID' => $specialID))->current();
-        $products = $this->productModel->select(array('specialID' => $specialID))->toArray();
+        $products = $this->productModel->select(array('specialID' => $specialID, 'isDel' => 0))->toArray();
         $this->view->setVariables(array(
             'special' => $special,
             'products' => $products,
@@ -820,23 +837,31 @@ class MemberController extends Front{
             $product['endTime'] = strtotime($product['endTime']);
         }
 
+        if(!empty($product['specialID'])){
+            $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
+            if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = $specialInfo['startTime'];
+            if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = $specialInfo['endTime'];
+
+            if($product['startTime'] < $specialInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间早于专场开始时间');
+            if($product['endTime'] > $specialInfo['endTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间晚于专场结束时间');
+        }
+
         if(!empty($product['publish'])){
 
             if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = time();
             if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = strtotime('+1 day');
 
+
             if($product['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
             if($product['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
-            if($product['endTime'] < $product['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
+            if($product['endTime'] < $product['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间早于开始时间');
             if($product['endTime'] > strtotime('+2 days', $product['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
+
             $product['auctionStatus'] = 1;
             unset($product['publish']);
         }
-        if(!empty($product['specialID'])){
-            $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
-            if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = $specialInfo['startTime'];
-            if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = $specialInfo['endTime'];
-        }
+
+
 
         if(isset($product['startPrice'])){
             $product['currPrice'] = $product['startPrice'];
@@ -1137,5 +1162,16 @@ class MemberController extends Front{
     public function myStoreAction(){
 
         return $this->redirect()->toUrl('/store/detail?storeID=' . $this->_storeInfo['storeID']);
+    }
+
+    public function cancelKeepPriceAction(){
+        $productID = $this->request->getPost('productID');
+        $where = array(
+            'productID' => $productID,
+            'storeID' => $this->_storeInfo['storeID'],
+        );
+        $this->productModel->update(array('keepPrice' => 0, 'existKeepPrice' => 0), $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
     }
 }

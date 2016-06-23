@@ -88,7 +88,7 @@
                                 <span>
 
                                     <?php
-                                        if(in_array($v['auctionStatus'], array(1, 2))){
+                                        if(in_array($v['auctionStatus'], array(1))){
                                     ?>
                                             <a href="javascript:;" class="withdraw-product-btn" product-id="<?php echo $v['productID'] ?>">下架</a>
                                     <?php
@@ -111,7 +111,18 @@
                                         ?></a>
                                 </span>
                             </div>
-                            <div class="kp_bj"><a start-time-year="<?php echo $v['startTimeYear'] ?>" start-time-month="<?php echo $v['startTimeMonth'] ?>" start-time-hour="<?php echo $v['startTimeHour'] ?>" start-time-minute="<?php echo $v['startTimeMin'] ?>" end-time-year="<?php echo $v['endTimeYear'] ?>" end-time-month="<?php echo $v['endTimeMonth'] ?>" end-time-hour="<?php echo $v['endTimeHour'] ?>" end-time-minute="<?php echo $v['endTimeMin'] ?>" href="javascript:;" class="choose-auction-time" product-id="<?php echo $v['productID'] ?>">选择拍卖时间>></a></div>
+                            <div class="kp_bj">
+                                <?php if($v['auctionStatus'] == 1 || empty($v['auctionStatus'])){
+                                ?>
+                                    <a start-time-year="<?php echo $v['startTimeYear'] ?>" start-time-month="<?php echo $v['startTimeMonth'] ?>" start-time-hour="<?php echo $v['startTimeHour'] ?>" start-time-minute="<?php echo $v['startTimeMin'] ?>" end-time-year="<?php echo $v['endTimeYear'] ?>" end-time-month="<?php echo $v['endTimeMonth'] ?>" end-time-hour="<?php echo $v['endTimeHour'] ?>" end-time-minute="<?php echo $v['endTimeMin'] ?>" href="javascript:;" class="choose-auction-time" product-id="<?php echo $v['productID'] ?>">选择拍卖时间>></a>
+                                <?php
+                                }else{
+                                ?>
+                                    <a href="javascript:;" class="cancel-keep-price-btn" product-id="<?php echo $v['productID'] ?>">取消保留价>></a>
+                                <?php
+                                } ?>
+
+                            </div>
                         </div>
                     </div>
             <?php
@@ -186,18 +197,23 @@ echo $this->render('/front/common/transfer-account');
 
         function delProduct(productID){
             $.ajax({
-                url : '/member/del-product',
+                url : '/member/save-product',
                 type : 'post',
                 dataType : 'json',
-                data : {productID : productID},
-                success : function(data){
-                    layer.alert(data.msg);
+                data : {productID : productID, isDel : 1},
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert('删除成功', function(){
+                            location.reload();
+                        })
+                    }else{
+                        layer.alert(res.msg);
+                    }
                 }
             });
         }
         $('.del-product-btn').on('click', function(){
             var productID = $(this).attr('product-id');
-            $('#product-li-' + productID).remove();
             delProduct(productID);
         })
         $('#del-products-btn').on('click', function(){
@@ -212,8 +228,6 @@ echo $this->render('/front/common/transfer-account');
             checkedProducts.each(function(){
                 tmp = $(this).attr('product-id');
                 productID.push(tmp);
-                $('#product-li-' + tmp).remove();
-
             });
             delProduct(productID);
         });
@@ -248,13 +262,11 @@ echo $this->render('/front/common/transfer-account');
                 }
             });
         });
-        $('.cancel-keep-price').on('click', function(){
+        $('.cancel-keep-price-btn').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
-            data.keepPrice = 0;
-            data.existKeepPrice = 0;
             $.ajax({
-                url : '/member/save-product',
+                url : '/member/cancel-keep-price',
                 type : 'post',
                 dataType : 'json',
                 data : data,
@@ -334,6 +346,28 @@ echo $this->render('/front/common/transfer-account');
             var auctionEndTimeMinute = $('.layer-end-time-minute:visible').val();
             data.endTime = auctionEndTimeYear + '-' + auctionEndTimeMonth + '-' + auctionEndTimeDay + ' ' + auctionEndTimeHour + ':' + auctionEndTimeMinute + ':00';
 
+            $.ajax({
+                url : '/member/save-product',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('.cancel-keep-price').on('click', function(){
+            var data = {};
+            data.productID = $(this).attr('product-id');
+            data.keepPrice = 0;
+            data.existKeepPrice = 0;
             $.ajax({
                 url : '/member/save-product',
                 dataType : 'json',

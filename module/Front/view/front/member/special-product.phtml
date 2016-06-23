@@ -91,12 +91,18 @@
 
         function delProduct(productID){
             $.ajax({
-                url : '/member/del-product',
+                url : '/member/save-product',
                 type : 'post',
                 dataType : 'json',
-                data : {productID : productID},
-                success : function(data){
-                    layer.alert(data.msg);
+                data : {productID : productID, isDel : 1},
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert('删除成功', function(){
+                            location.reload();
+                        })
+                    }else{
+                        layer.alert(res.msg);
+                    }
                 }
             });
         }
@@ -125,8 +131,6 @@
             checkedProducts.each(function(){
                 tmp = $(this).attr('product-id');
                 productID.push(tmp);
-                $('#product-li-' + tmp).remove();
-
             });
             delProduct(productID);
         });

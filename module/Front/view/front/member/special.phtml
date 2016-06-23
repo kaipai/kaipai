@@ -200,13 +200,20 @@ echo $this->render('/front/common/transfer-account');
         $('.del-special-btn').on('click', function(){
             var data = {};
             data.specialID = $(this).attr('special-id');
+            data.isDel = 1;
             $.ajax({
-                url : '/member/del-special',
+                url : '/member/add-special',
                 type : 'post',
                 dataType : 'json',
                 data : data,
                 success : function(res){
-                    layer.alert(res.msg);
+                    if(res.flag > 0){
+                        layer.alert('删除成功', function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
                 }
             });
         });
