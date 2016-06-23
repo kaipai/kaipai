@@ -7,10 +7,13 @@ class ArtistController extends Front{
 
 
     public function recommendAction(){
-        $artistCategoryID = !empty($this->queryData['artistCategoryID']) ? $this->queryData['artistCategoryID'] : 1;
+        $artistCategoryID = $this->queryData['artistCategoryID'];
         $artistCategories = $this->artistCategoryModel->select()->toArray();
-
-        $artists = $this->artistModel->getArtists(array('Artist.artistCategoryID' => $artistCategoryID), $this->pageNum, $this->limit);
+        $where = array('Artist.type' => 1);
+        if(!empty($artistCategoryID)){
+            $where['Artist.artistCategoryID'] = $artistCategoryID;
+        }
+        $artists = $this->artistModel->getArtists($where, $this->pageNum, $this->limit);
 
         $this->view->setVariables(array(
             'artistCategories' => $artistCategories,

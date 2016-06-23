@@ -3,7 +3,7 @@
 
 <div class="mingjia-top">
     <div class="center">
-        <h4 class="fl">特邀名家</h4>
+        <h4 class="fl">潜力推荐</h4>
 
         <p class="fl">
             <?php echo $_siteSettings['artistTopText']; ?></p>
@@ -12,7 +12,9 @@
 <div class="mingjia-nav">
     <div class="center ">
         <ul>
+
             <li>专业领域></li>
+            <li class="<?php if(empty($artistCategoryID)) echo 'on'; ?>" style="cursor: pointer;" onclick="location.href='/artist/recommend'">全部</li>
             <?php
             foreach($artistCategories as $v){
                 ?>

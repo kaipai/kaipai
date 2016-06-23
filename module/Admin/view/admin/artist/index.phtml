@@ -59,6 +59,19 @@
                     return str;
                 }
             }, {
+                field: 'type',
+                title: '类型',
+                align: 'center',
+                width: '200px',
+                valign: 'middle',
+                formatter : function(value, row, index){
+                    if(value == 1){
+                        return '潜力推荐';
+                    }else if(value == 2){
+                        return '定制商品';
+                    }
+                }
+            }, {
                 field: 'shortDesc',
                 title: '简介',
                 align: 'center',

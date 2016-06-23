@@ -25,7 +25,16 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">列表图片</label>
+                        <label for="inputPassword3" class="col-sm-2 control-label">类型</label>
+                        <div class="col-sm-4">
+                            <select class="form-control input-sm m-bot15" name="type">
+                                <option value="1">潜力推荐</option>
+                                <option value="2">定制商品</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">头像</label>
 
                         <div class="col-sm-10 col-md-10 access-upload" id="artistAvatar-div">
                             <a id="artistAvatar" >
@@ -42,7 +51,7 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">类别</label>
+                        <label for="inputPassword3" class="col-sm-2 control-label">艺术领域</label>
                         <div class="col-sm-4">
                             <select class="form-control input-sm m-bot15" name="artistCategoryID">
                                 <?php foreach ($categories as $v){ ?>
