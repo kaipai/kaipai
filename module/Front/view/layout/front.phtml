@@ -80,8 +80,11 @@
                 dateFormat: 'yy-mm-dd',
                 onSelect: function (dateText, inst) {
                     window.top.location.href = '/special/index?date=' + dateText;
-                }
+                },
+                defaultDate:'<?php echo $date; ?>'
             });
+
+            
         }
 
         function addFavorite2() {

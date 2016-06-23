@@ -39,6 +39,12 @@
                                     </span>
                                 </div>
                             <?php
+                            }elseif($v['auctionStatus'] == 2){
+                            ?>
+                                <div class="kp_name kp_nameing">
+                                    当前价 <span><?php echo $v['currPrice']; ?></span>
+                                </div>
+                            <?php
                             }
                             ?>
                         </div>

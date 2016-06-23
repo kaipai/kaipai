@@ -32,6 +32,9 @@ class SpecialController extends Front{
             'date' => $date,
 
         ));
+        $this->layout()->setVariables(array(
+            'date' => $date,
+        ));
         return $this->view;
     }
 

@@ -146,6 +146,23 @@
                 align: 'center',
                 valign: 'middle'
             },{
+                field: 'delivery',
+                title: '收货人信息',
+                align: 'center',
+                valign: 'middle',
+                formatter : function(value, row, index){
+                    var str = '';
+                    if(value.receiverName){
+                        str += '收货人姓名: ' + value.receiverName + '<br />';
+                        str += '收货人电话: ' + value.receiverMobile + '<br />';
+                        str += '收货人地址: ' + value.receiverAddr;
+                    }
+
+
+
+                    return str;
+                }
+            },{
                 field: 'orderStatus',
                 title: '订单状态',
                 align: 'center',

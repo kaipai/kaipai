@@ -49,7 +49,16 @@ class OrderController extends Admin{
             $orders['data'][$k]['price'] = $tmp['price'];
             $orders['data'][$k]['depositPrice'] = $tmp['depositPrice'];
             $orders['data'][$k]['listImg'] = $tmp['listImg'];
+            $delivery = $this->memberOrderDeliveryModel->getOrderDelivery(array('MemberOrderDelivery.orderID' => $v['orderID']));
+            $orders['data'][$k]['delivery'] = array(
+                'receiverName' => $delivery['receiverName'],
+                'receiverMobile' => $delivery['receiverMobile'],
+                'receiverAddr' => $delivery['receiverAddr']
+            );
+            $orders['data'][$k]['receiverMobile'] = $delivery['receiverMobile'];
+            $orders['data'][$k]['receiverAddr'] = $delivery['receiverAddr'];
         }
+
         return $this->adminResponse(array('rows' => $orders['data'], 'total' => $orders['total']));
     }
 
