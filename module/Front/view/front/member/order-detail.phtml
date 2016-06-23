@@ -109,7 +109,7 @@
                         <!--<a href=""><span class="yg_qrzf2"> 稍后付款</span></a>-->
                     </div>
                 <?php
-                }else{
+                }elseif($info['orderStatus'] == 5 && $info['orderType'] == 2){
                 ?>
                     <div class="yg_qrzf">
                         <a href="javascript:;" id="confirm-pay-final-btn"><span class="yg_qrzf1"> 确认支付</span></a>
