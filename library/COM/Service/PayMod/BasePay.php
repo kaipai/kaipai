@@ -37,7 +37,7 @@ abstract class BasePay
                 $this->customizationModel->update(array('lastNum' => new Expression('lastNum+1'), 'boughtCount' => new Expression('boughtCount+1')));
             }else{
                 $orderModel->update(array('orderStatus' => 3), $where);
-                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $useRechargeMoney)), array('storeID' => $orderInfo['storeID']));
+
 
                 $storeInfo = $this->storeModel->setColumns(array('memberID'))->select(array('storeID' => $orderInfo['storeID']))->current();
                 $productSnapshot = json_decode($orderInfo['productSnapshot'], true);
@@ -47,6 +47,12 @@ abstract class BasePay
             }
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));
+                if(!empty($orderInfo['customizationID'])){
+                    $source = '余额付款-定制商品定金';
+                }else{
+                    $source = '余额付款-竞拍拍品';
+                }
+                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $useRechargeMoney, 'unitePayID' => $unitePayID, 'source' => $source, 'type' => 2));
             }
 
 
@@ -70,6 +76,7 @@ abstract class BasePay
             $memberInfo = $this->memberInfoModel->select(array('storeID' => $product['storeID']))->current();
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $memberInfo['memberID']));
+                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $memberInfo['memberID'], 'money' => $useRechargeMoney, 'unitePayID' => $unitePayID, 'source' => '余额付款-添加拍品', 'type' => 2));
             }
             $this->productModel->commit();
             return true;
@@ -90,6 +97,7 @@ abstract class BasePay
             $memberInfo = $this->memberInfoModel->select(array('storeID' => $special['storeID']))->current();
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $memberInfo['memberID']));
+                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $memberInfo['memberID'], 'money' => $useRechargeMoney, 'unitePayID' => $unitePayID, 'source' => '余额付款-添加专场', 'type' => 2));
             }
             $this->specialModel->commit();
             return true;
@@ -108,6 +116,7 @@ abstract class BasePay
             $this->memberPayDetailModel->update(array('paidMoney' => $orderInfo['payMoney']), array('unitePayID' => $unitePayID));
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));
+                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $useRechargeMoney, 'unitePayID' => $unitePayID, 'source' => '余额付款-定制商品尾款', 'type' => 2));
             }
             $this->memberOrderModel->commit();
             return true;
