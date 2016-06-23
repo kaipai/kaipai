@@ -154,14 +154,47 @@
             <div class="cpxx-sjxxd">
                 <p>
                     特色服务：
-			<span>
-				<i></i>
-				资质授权
-			</span>
-			<span>
-				<i></i>
-				7天承保
-			</span>
+
+                <?php if(!empty($productInfo['auctionAuth'])){
+                ?>
+                    <span>
+                        <i></i>
+                        文物拍卖资质
+                    </span>
+                <?php
+                } ?>
+                <?php if(!empty($productInfo['fidelity'])){
+                    ?>
+                    <span>
+                        <i></i>
+                        保真
+                    </span>
+                <?php
+                } ?>
+                <?php if(!empty($productInfo['certificateCard'])){
+                    ?>
+                    <span>
+                        <i></i>
+                        省级资质机构以上鉴定证书
+                    </span>
+                <?php
+                } ?>
+                <?php if(!empty($productInfo['authorAuth'])){
+                    ?>
+                    <span>
+                        <i></i>
+                        作者授权
+                    </span>
+                <?php
+                } ?>
+                <?php if(!empty($productInfo['refundInDays'])){
+                    ?>
+                    <span>
+                        <i></i>
+                        三日内可退
+                    </span>
+                <?php
+                } ?>
 
                 </p>
 
