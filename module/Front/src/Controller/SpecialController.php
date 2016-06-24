@@ -64,7 +64,7 @@ class SpecialController extends Front{
         $specials = $this->specialModel->getSpecials($where, $page, $limit, $order = 'Special.startTime asc');
 
 
-        $recommendProducts = $this->productModel->getProducts(array('Product.isSpecialRecommend' => 1), 1, 20, array('Product.instime desc'));
+        $recommendProducts = $this->productModel->getProducts(array('Product.isSpecialTodayRecommend' => 1), 1, 20, array('Product.instime desc'));
 
         $stores = $this->storeModel->getHotStores(1, 20);
 
