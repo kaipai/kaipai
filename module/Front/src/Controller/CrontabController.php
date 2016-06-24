@@ -158,7 +158,7 @@ class CrontabController extends Controller{
         }
     }
 
-    public function delUnSoldProductAction(){
+    public function delUnsoldProductAction(){
 
         $this->productModel->update(array('isDel' => 1), array('isUnSold' => 1, 'auctionStatus' => 0, 'endTime < ?' => strtotime('-3 days')));
 

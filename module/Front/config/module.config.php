@@ -92,6 +92,16 @@ return array(
                         )
                     )
                 ),
+                'crontab-del-unsold-product' => array(
+                    'options' => array(
+                        'route' => 'crontab-del-unsold-product',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'del-unsold-product'
+                        )
+                    )
+                ),
             )
         )
     ),
