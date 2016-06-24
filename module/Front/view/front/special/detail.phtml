@@ -165,7 +165,7 @@ echo $this->headLink()
                         <div class="sf_show_top">
                             <p class="sf_title"><?php echo $specialInfo['specialName']; ?></p>
 
-                            <p class="sf_overtime yomibox2" data="<?php echo date('Y/m/d H:i:s', $specialInfo['endTime']); ?>">
+                            <p class="sf_overtime yomibox2-special" data="<?php echo date('Y/m/d H:i:s', $specialInfo['endTime']); ?>">
 
                             </p>
                         </div>
@@ -233,8 +233,11 @@ echo $this->headLink()
 <?php echo $this->render('/front/common/paginate', array('url' => '/special/detail?order=' . $order . '&specialID=' . $specialInfo['specialID'] . '&', 'pages' => $pages)); ?>
 <script>
     $(function(){
-        $(".yomibox2").each(function () {
+        $(".yomibox2-special").each(function () {
             $(this).yomi(_CurrentServerTime, 'special-detail')
+        });
+        $(".yomibox2").each(function () {
+            $(this).yomi(_CurrentServerTime, 'product-list')
         });
     })
 </script>

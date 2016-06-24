@@ -97,7 +97,7 @@ var current_url = window.location.href;
                 }
             }else if(page == 'special-detail'){
                 if (range > 0) {
-                    $(_DOM).append('<span class="sf_shi sf_malt yomiday"></span><span class="sf_fen">天</span><span class="sf_shi sf_malt yomihour"></span><span class="sf_fen">时</span><span class="sf_shi yomimin"></span><span class="sf_fen">分</span><span class="sf_shi yomisec">20</span><span class="sf_fen">秒</span>');
+                    $(_DOM).append('距结束<span class="sf_shi sf_malt yomiday"></span><span class="sf_fen">天</span><span class="sf_shi sf_malt yomihour"></span><span class="sf_fen">时</span><span class="sf_shi yomimin"></span><span class="sf_fen">分</span><span class="sf_shi yomisec">20</span><span class="sf_fen">秒</span>');
                 } else {
                     $(_DOM).append('<b>拍卖已结束</b>');
                 }
