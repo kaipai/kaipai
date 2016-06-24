@@ -9,7 +9,7 @@
         <?php
         for($i = 1; $i <= 12; $i++){
             ?>
-            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+            <option <?php if(date('n') == $i) echo 'selected'; ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
         <?php
         }
         ?>
@@ -23,7 +23,7 @@
                         <select class="kp_ml9 layer-start-time-hour" id="start-time-hour">
                             <?php for($i = 0; $i < 24; $i++){
                                 ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
+                                <option <?php if(date('G') == $i) echo 'selected'; ?> value="<?php echo $i; ?>"><?php echo $i;?></option>
                             <?php
                             } ?>
                         </select>
@@ -34,7 +34,7 @@
                             <?php for($i = 0; $i <= 59; $i++){
                                 $tmp = $i < 10 ? '0' . $i : $i;
                                 ?>
-                                <option value="<?php echo $tmp; ?>"><?php echo $tmp;?></option>
+                                <option <?php if(date('i') == $tmp) echo 'selected'; ?> value="<?php echo $tmp; ?>"><?php echo $tmp;?></option>
                             <?php
                             } ?>
                         </select>
@@ -53,7 +53,7 @@
         <?php
         for($i = 1; $i <= 12; $i++){
             ?>
-            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+            <option <?php if(date('n') == $i) echo 'selected'; ?> value="<?php echo $i; ?>"><?php echo $i; ?></option>
         <?php
         }
         ?>
@@ -67,7 +67,7 @@
                         <select class="kp_ml9 layer-end-time-hour" id="end-time-hour">
                             <?php for($i = 0; $i < 24; $i++){
                                 ?>
-                                <option value="<?php echo $i; ?>"><?php echo $i;?></option>
+                                <option <?php if(date('G') == $i) echo 'selected'; ?> value="<?php echo $i; ?>"><?php echo $i;?></option>
                             <?php
                             } ?>
                         </select>
@@ -78,7 +78,7 @@
                             <?php for($i = 0; $i <= 59; $i++){
                                 $tmp = $i < 10 ? '0' . $i : $i;
                                 ?>
-                                <option value="<?php echo $tmp; ?>"><?php echo $tmp;?></option>
+                                <option <?php if(date('i') == $tmp) echo 'selected'; ?> value="<?php echo $tmp; ?>"><?php echo $tmp;?></option>
                             <?php
                             } ?>
                         </select>
@@ -112,12 +112,13 @@ $(function(){
                         ?>
                                 $('#start-time-day').val(<?php echo $productInfo['startTimeDay'] ?>);
                         <?php
-                            }
-                        ?>
-                        <?php
-                            if(!empty($specialInfo)){
+                            }elseif(!empty($specialInfo)){
                         ?>
                                 $('#start-time-day').val(<?php echo $specialInfo['startTimeDay'] ?>);
+                        <?php
+                            }else{
+                        ?>
+                                $('#start-time-day').val(<?php echo date('j') ?>);
                         <?php
                             }
                         ?>
@@ -128,12 +129,13 @@ $(function(){
                         ?>
                                 $('#end-time-day').val(<?php echo $productInfo['endTimeDay'] ?>);
                         <?php
-                            }
-                        ?>
-                        <?php
-                            if(!empty($specialInfo)){
+                            }elseif(!empty($specialInfo)){
                         ?>
                                 $('#end-time-day').val(<?php echo $specialInfo['endTimeDay'] ?>);
+                        <?php
+                            }else{
+                        ?>
+                                $('#end-time-day').val(<?php echo date('j') ?>);
                         <?php
                             }
                         ?>
