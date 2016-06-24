@@ -25,7 +25,7 @@
                 <div class="ys_tip2" id="order-item-<?php echo $v['orderID'] ?>">
                     <div class="ys_tip3">
                         <div class="ys_tip4">
-                            <span><?php if($v['orderStatus'] > 1){echo '&nbsp';}else{?> <input type="checkbox" name="checkbox1" value="checkbox" order-id="<?php echo $v['orderID'] ?>" class="ind_checkbox order-item-chk"><?php }?><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
+                            <span><input type="checkbox" name="checkbox1" value="checkbox" order-id="<?php echo $v['orderID'] ?>" class="ind_checkbox order-item-chk"><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
                             <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
 
 
