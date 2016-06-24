@@ -1138,6 +1138,7 @@ class MemberController extends Front{
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
         $productInfo = $this->productModel->select($where)->current();
         if(!empty($productInfo)){
+            if($productInfo['auctionStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '拍卖正在进行中, 无法下架');
             $this->productModel->update(array('auctionStatus' => new Expression('null')), $where);
         }
         return $this->response(ApiSuccess::COMMON_SUCCESS, '下架成功');
