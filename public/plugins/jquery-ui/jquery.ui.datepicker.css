@@ -61,7 +61,7 @@
 
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus, .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, .ui-state-hover a, .ui-state-hover a:hover, .ui-state-active a, .ui-state-active a:link, .
  a:visited { background: #61bec8; color: #ffffff }
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  { background: #545454; color: #ffffff }
+.ui-state-highlight,/* .ui-widget-content .ui-state-highlight, */.ui-widget-header .ui-state-highlight  { background: #545454; color: #ffffff }
 
 
 .date-pop .ui-datepicker { width: 253px; height: auto; padding: 0; border: 0 none }
@@ -79,7 +79,8 @@
 .date-pop .ui-datepicker td  { border: 1px solid #bbbbbb; padding: 0 }
 .date-pop .ui-datepicker td a { background-position: 0 -39px }
 .date-pop .ui-datepicker td a.ui-state-hover { background: #61bec8; color: #ffffff }
-.date-pop .ui-datepicker td.ui-datepicker-other-month a, .date-pop td.ui-datepicker-today a.ui-state-hover, .date-pop .ui-datepicker td.ui-datepicker-other-month a, .date-pop .ui-state-highlight, .date-pop .ui-widget-content .ui-state-highlight, .date-pop .ui-widget-header .ui-state-highlight, .date-pop td.ui-datepicker-current-day a.ui-state-active, .date-pop td.ui-datepicker-current-day a.ui-state-hover { background: #ffffff; background-image: none; color: #aaaaaa }
+.date-pop .ui-datepicker td.ui-datepicker-other-month a, .date-pop td.ui-datepicker-today a.ui-state-hover, .date-pop .ui-datepicker td.ui-datepicker-other-month a/*, .date-pop .ui-state-highlight, .date-pop .ui-widget-content .ui-state-highlight, .date-pop .ui-widget-header .ui-state-highlight, .date-pop td.ui-datepicker-current-day a.ui-state-active, .date-pop td.ui-datepicker-current-day a.ui-state-hover*/ { background: #ffffff; background-image: none; color: #aaaaaa }
+.date-pop td.ui-datepicker-current-day a.ui-state-active{background: #7f0b00; color: #ffffff}
 
 
 .date-pop .ui-datepicker td a.ui-state-hover, #show-page .date-pop .ui-datepicker td a.ui-state-active { background: #61bec8; color: #ffffff }
