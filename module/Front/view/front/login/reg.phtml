@@ -75,7 +75,7 @@
                         <label>
                             <input id="service-term" type="checkbox">
                             我已经阅读并同意
-                            <a href="javascript:;">《开拍网用户服务条款》</a>
+                            <a href="javascript:;" class="register-protocol-link">《开拍网用户服务条款》</a>
 
                         </label>
                     </p>
@@ -100,3 +100,15 @@
 
 
 </div>
+
+<script>
+
+    $(function(){
+        $('.register-protocol-link').on('click', function(){
+            layer.open({
+                type : 1,
+                content : '<?php echo $_siteSettings['registerProtocol'] ?>'
+            });
+        });
+    })
+</script>

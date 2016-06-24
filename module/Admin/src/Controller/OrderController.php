@@ -73,7 +73,7 @@ class OrderController extends Admin{
         try{
             $this->memberOrderDeliveryModel->beginTransaction();
             $this->memberOrderDeliveryModel->update(array('deliveryTypeID' => $deliveryTypeID, 'deliveryNum' => $deliveryNum), array('orderID' => $orderID));
-            $this->memberOrderModel->update(array('orderStatus' => 4), array('orderID' => $orderID));
+            $this->memberOrderModel->update(array('orderStatus' => 5), array('orderID' => $orderID));
             $this->memberOrderDeliveryModel->commit();
             return $this->response(AdminSuccess::COMMON_SUCCESS, '发货成功');
         }catch (\Exception $e){

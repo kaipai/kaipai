@@ -58,7 +58,7 @@
                                     <div class="yc_ddfk1">等待付款</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="">等待买家付款</a></p>
+                                    <p class="yc_p"><a href="javascript:;">等待买家付款</a></p>
                                     <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
@@ -68,7 +68,7 @@
                                     <div class="yc_ddfk1 set-delivery-type" style="cursor: pointer;" order-id="<?php echo $v['orderID']; ?>">请发货</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="">买家已付款</a></p>
+                                    <p class="yc_p"><a href="javascript:;">买家已付款</a></p>
                                     <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
@@ -78,14 +78,17 @@
                                     <div class="yc_ddfk1">等待收货</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="">卖家已发货</a></p>
+                                    <p class="yc_p"><a href="javascript:;">卖家已发货</a></p>
                                     <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 5){
                                 ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1">交易成功</div>
+                                </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="">买家已收货</a></p>
+                                    <p class="yc_p"><a href="javascript:;">买家已收货</a></p>
                                     <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php

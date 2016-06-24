@@ -27,6 +27,8 @@
                         <div class="ys_tip4">
                             <span><?php if($v['orderStatus'] > 1){echo '&nbsp';}else{?> <input type="checkbox" name="checkbox1" value="checkbox" order-id="<?php echo $v['orderID'] ?>" class="ind_checkbox order-item-chk"><?php }?><?php echo date('Y-m-d', strtotime($v['instime'])); ?></span>
                             <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
+
+
                             <span class="yc_pm2"><img src="<?php echo $v['storeLogo'] ?>" alt=""><em><?php echo $v['storeName'] ?></em></span>
                             <span class="yc_pm3 lxmj"><a href="tencent://message/?uin=<?php echo $v['storeqq'] ?>&Site=www.kaipai123.com&Menu=yes">联系卖家</a></span>
                             <span class="yc_pm4"><a href="javascript:;" class="post-error-btn">网站申诉</a></span>
@@ -35,7 +37,7 @@
                         <div class="ys_tip6">
                             <div class="yc_imgleft"><img style="cursor:pointer;" onclick="location.href='<?php if($v['orderType'] == 1){ ?>/product/detail?productID=<?php echo $v['productID']; ?><?php }else{ ?>/customization/detail?customizationID=<?php echo $v['customizationID']; ?><?php } ?>';" src="<?php echo $v['product']['listImg']; ?>"></div>
                             <div class="yc_imgleft1">
-                                <p class="yc_imgleft2"><span class="yc_ysname"><?php echo $v['product']['productName'] ?></span> <span class="yc_money"><?php echo $v['productPrice'] ?></span>
+                                <p class="yc_imgleft2"><span class="yc_ysname"><?php echo $v['product']['productName'] ?></span> <span class="yc_money"><?php if($v['orderType'] == 2){ echo sprintf('%.2f', $v['payMoney'] / $v['customizationCount'], 2) . 'X' . $v['customizationCount']; }else{ echo $v['productPrice']; } ?></span>
                                 </p>
 
                                 <div class="yc_ysname1">
@@ -90,27 +92,31 @@
                             }elseif($v['orderStatus'] == 5){
                                 ?>
                                 <?php
-                                    if($v['orderType'] == 2){
-                                ?>
+                                    /*if($v['orderType'] == 2){
+                                */?><!--
                                         <div class="yc_ddfk yc_imgleft2">
                                             <div class="yc_ddfk1">待付尾款</div>
                                         </div>
-                                <?php
-                                    }
+                                --><?php
+/*                                    }*/
                                 ?>
+
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_ddfk1">交易成功</div>
+                                </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="javascript:;">买家已收货</a></p>
+                                    <p class="yc_p"><a href="javascript:;">商品已发货</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
-                            }elseif($v['orderStatus'] == 6){
-                                ?>
+                            }/*elseif($v['orderStatus'] == 6){
+                                */?><!--
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">已付全款</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php /*echo $v['orderID'] */?>">订单详情</a></p>
                                 </div>
-                            <?php
-                            }
+                            --><?php
+/*                            }*/
                             ?>
                         </div>
                     </div>

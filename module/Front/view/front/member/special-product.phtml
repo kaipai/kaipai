@@ -162,7 +162,7 @@
         $('.edit-start-price-btn').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
-            data.startPrice = $(this).previous('input').val();
+            data.startPrice = $(this).prev('input').val();
             $.ajax({
                 url : '/member/save-product',
                 type : 'post',
@@ -176,7 +176,7 @@
         $('.edit-keep-price-btn').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
-            data.keepPrice = $(this).previous('input').val();
+            data.keepPrice = $(this).prev('input').val();
             data.existKeepPrice = 1;
             $.ajax({
                 url : '/member/save-product',
