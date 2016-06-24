@@ -14,11 +14,18 @@ class SpecialController extends Front{
         $categoryThemeOptions = $this->productCategoryFilterOptionModel->getThemeOptions();
         $specialProductCategoryID = $this->queryData['specialProductCategoryID'];
         $date = $this->queryData['date'];
-        if(empty($date)) $date = date('Y-m-d');
-        $where = array(
-            'Special.startTime > ?' => strtotime($date . ' 00:00:00'),
-            'Special.startTime < ?' => strtotime($date . ' 23:59:59'),
-        );
+        if(empty($date)) {
+            $date = date('Y-m-d');
+            $where = array(
+                'Special.startTime > ?' => strtotime($date . ' 00:00:00'),
+            );
+        }else{
+            $where = array(
+                'Special.startTime > ?' => strtotime($date . ' 00:00:00'),
+                'Special.startTime < ?' => strtotime($date . ' 23:59:59'),
+            );
+        }
+
         if(!empty($specialProductCategoryID)){
             $where['Special.specialProductCategoryID'] = $specialProductCategoryID;
         }

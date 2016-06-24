@@ -34,7 +34,7 @@ echo $this->headLink()->appendStylesheet('/he/style/style.css');
         </div>
     </div>
     <div class="show_mot">
-        <span class="show_tim"><?php echo date('Y年m月d日', strtotime($date)); ?><font>[显示网站所有专场]</font></span>
+        <span class="show_tim"><?php echo date('Y年m月d日', strtotime($date)); ?><font style="cursor:pointer;" onclick="location.href='/special/index';">[显示网站所有专场]</font></span>
         <!--  <span class="show_w">
             <a><i class="show_icon"></i>图片显示</a> |
             <a class="pl10"><i class="show_icon1"></i>列表显示</a>
