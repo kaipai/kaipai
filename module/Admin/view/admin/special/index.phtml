@@ -9,9 +9,53 @@
         <table id="table-pagination" class="bootstrap_table"></table>
     </div>
 
+
+    <div class="row">
+        <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="edit_modal_label">专场审核</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="editForm" role="form" method="post" action="/admin/<?php echo $this->layout()->controllerName; ?>/update">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label for="desc" class="col-sm-2 col-md-2 control-label">不通过原因</label>
+                                            <div class="col-sm-10 col-md-10">
+                                                <input type="text" class="form-control" id="deny-reason" name="denyReason" value="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="hidden"  name="specialID" id="special-id" value="" />
+                            <input type="hidden"  name="verifyStatus" value="3" />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                        <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
+
+    $('#edit_modal').on("show.bs.modal",function(e){
+        var btn = $(e.relatedTarget);
+        var id = btn.attr('special-id');
+
+        $("#special-id").val(id);
+    });
+
 $(function(){
     table = $('#table-pagination').bootstrapTable({
         method: 'get',
@@ -106,14 +150,15 @@ $(function(){
                         str = '未提交审核';
                     }else if(value == 1){
                         var links = [
-                            '<a title="审核通过" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核通过吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="specialID='+ row.specialID +'&verifyStatus=2&auctionStatus=1"><i class="glyphicon glyphicon-ok"></i></a>',
-                            '<a title="审核不通过" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核不通过吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="specialID='+ row.specialID +'&verifyStatus=3"><i class="glyphicon glyphicon-remove"></i></a>'
+                            '<a title="审核通过" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认审核通过吗？" url="/admin/<?php echo $this->layout()->controllerName;?>/update" method="post" params="specialID='+ row.specialID +'&verifyStatus=2&auctionStatus=1"><i class="glyphicon glyphicon-ok"></i></a>',
+                            '<a title="审核不通过" href="javascript:void(0)" class="col-md-4 text-success" boxsize="modal-sm" special-id="' + row.specialID + '" data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-remove"></i></a>'
                         ];
                         str = links.join(' ');
                     }else if(value == 2){
                         str = '审核通过';
                     }else if(value == 3){
                         str = '审核未通过';
+                        str += '<br /> 原因:' + row.denyReason;
                     }
                     return str;
                 }

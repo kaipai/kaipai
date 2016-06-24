@@ -853,27 +853,34 @@ class MemberController extends Front{
             $product['startTime'] = $specialInfo['startTime'];
             $product['endTime'] = $specialInfo['endTime'];
             $product['auctionStatus'] = $specialInfo['auctionStatus'];
+
+            if(empty($product['productID'])){
+                $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
+
+                if(($specialInfo['productCount'] + 1) > $specialInfo['productCountLimit']) return $this->response(ApiError::COMMON_ERROR, '超过拍品数量限制');
+            }
             //if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = $specialInfo['startTime'];
             //if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = $specialInfo['endTime'];
 
             //if($product['startTime'] < $specialInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间早于专场开始时间');
             //if($product['endTime'] > $specialInfo['endTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间晚于专场结束时间');
+        }else{
+            if(!empty($product['publish'])){
+
+                if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = time();
+                if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = strtotime('+1 day');
+
+
+                if($product['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
+                if($product['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
+                if($product['endTime'] < $product['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间早于开始时间');
+                if($product['endTime'] > strtotime('+2 days', $product['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
+
+                $product['auctionStatus'] = 1;
+            }
         }
+        unset($product['publish']);
 
-        if(!empty($product['publish'])){
-
-            if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = time();
-            if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = strtotime('+1 day');
-
-
-            if($product['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
-            if($product['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
-            if($product['endTime'] < $product['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间早于开始时间');
-            if($product['endTime'] > strtotime('+2 days', $product['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
-
-            $product['auctionStatus'] = 1;
-            unset($product['publish']);
-        }
 
 
 
@@ -907,6 +914,10 @@ class MemberController extends Front{
                     $this->productPropertyValueModel->delete(array('productID' => $where['productID']));
                 }
                 $productID = $where['productID'];
+
+                if(!empty($productInfo['specialID']) && $product['isDel']){
+                    $this->specialModel->update(array('productCount' => new Expression('productCount-1')), array('specialID' => $productInfo['specialID']));
+                }
             }else{
                 $unitePayID = $this->memberOrderModel->genUnitePayID();
                 $product['unitePayID'] = $unitePayID;
@@ -915,6 +926,9 @@ class MemberController extends Front{
                 }
                 $this->productModel->insert($product);
                 $productID = $this->productModel->getLastInsertValue();
+                if(!empty($product['specialID'])){
+                    $this->specialModel->update(array('productCount' => new Expression('productCount+1')), array('specialID' => $product['specialID']));
+                }
             }
 
             if(!empty($data['productCategoryFilters'])){
@@ -1036,14 +1050,6 @@ class MemberController extends Front{
             $this->storeModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
-    }
-
-    public function delProductAction(){
-        $productID = $this->postData['productID'];
-        if(!empty($productID)){
-            $this->productModel->update(array('isDel' => 1), array('productID' => $productID));
-        }
-        return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
     }
 
     public function recommendProductAction(){

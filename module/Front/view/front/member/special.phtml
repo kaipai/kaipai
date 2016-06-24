@@ -35,7 +35,7 @@
                         <?php
                             }elseif($v['auctionStatus'] == 2) {
                                 ?>
-                                <div class="kp_tj_left  cj_zzjx">
+                                <div class="kp_tj_left cj_zzjx">
                                     <p>正在进行</p>
                                 </div>
                             <?php
@@ -44,7 +44,7 @@
                                 <div class="kp_tj_left cj_yjs">
                                     <p>已结束</p>
 
-                                    <div class="cj_jtip">拍卖结束时刻后<br>保留72小时</div>
+                                    <div class="cj_jtip">拍卖结束时候后<br>保留72小时</div>
                                     <div class="cj_ad"><a href="javascript:;" class="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
                                 </div>
                         <?php
@@ -59,7 +59,8 @@
                             }elseif(empty($v['auctionStatus'])){
                         ?>
                                 <div class="kp_tj_left">
-                                    <p>准备提交</p>
+
+                                    <p><?php echo $v['verifyStatus'] == 3 ? '等待修改' : '准备提交';?></p>
 
                                     <div class="cj_ad"><a href="javascript:;" class="special-verify-btn" special-id="<?php echo $v['specialID'] ?>"> 提交</a> <a href="/member/add-special?specialID=<?php echo $v['specialID'] ?>"> 编辑</a> <a href="javascript:;" class="del-special-btn" special-id="<?php echo $v['specialID'] ?>"> 删除</a></div>
                                 </div>
@@ -70,7 +71,7 @@
                         <div class="kp_tj_right">
                             <table>
                                 <tr>
-                                    <td class="cj_info1" rowspan="3"><img src="<?php echo $v['specialImg'] ?>"></td>
+                                    <td class="cj_info1" rowspan="3"><img <?php if($v['verifyStatus'] == 2){?>style="cursor: pointer;" onclick="location.href='/special/detail?specialID=<?php echo $v['specialID']; ?>'" <?php } ?> src="<?php echo $v['specialImg'] ?>"></td>
                                     <td class="cj_info2" colspan="3">
                                         [创建时间] <?php echo date('Y-m-d', strtotime($v['instime'])) ?>
                                     </td>
@@ -78,7 +79,7 @@
                                 <tr>
                                     <td class="cj_info2" rowspan="2"><?php echo $v['specialName']; ?></td>
                                     <td class="cj_info3">
-                                        <?php echo $v['productCount']; ?>
+                                        <?php echo $v['productCountLimit']; ?>
                                     </td>
                                     <td class="cj_info4">
                                         <?php
@@ -98,9 +99,16 @@
                                     <td class="cj_info3">
                                         <a href="/member/special-product?specialID=<?php echo $v['specialID']; ?>">管理拍品</a>
                                     </td>
-                                    <!--<td class="cj_info4">
-                                        <a href="javascript:;" class="check-verify-status">查询>></a>
-                                    </td>-->
+                                    <?php
+                                        if($v['verifyStatus'] == 3){
+                                    ?>
+                                            <td class="cj_info4">
+                                                <a href="javascript:;" onclick="layer.alert('<?php echo $v['denyReason']; ?>');" class="check-verify-status">查询>></a>
+                                            </td>
+                                    <?php
+                                        }
+                                    ?>
+
                                 </tr>
                             </table>
                         </div>
