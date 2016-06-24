@@ -711,7 +711,7 @@ class MemberController extends Front{
     }
 
     public function productAction(){
-        $res = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID'], new IsNull('Product.specialID')), $this->pageNum, $this->limit);
+        $res = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID'], new IsNull('Product.specialID'), 'Product.auctionStatus != ?' => 3), $this->pageNum, $this->limit);
         $products = $res['data'];
         foreach($products as $k => $v){
             $startTime = $v['startTime'];
@@ -1139,7 +1139,7 @@ class MemberController extends Front{
         $productInfo = $this->productModel->select($where)->current();
         if(!empty($productInfo)){
             if($productInfo['auctionStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '拍卖正在进行中, 无法下架');
-            $this->productModel->update(array('auctionStatus' => new Expression('null')), $where);
+            $this->productModel->update(array('auctionStatus' => 0), $where);
         }
         return $this->response(ApiSuccess::COMMON_SUCCESS, '下架成功');
     }

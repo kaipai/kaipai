@@ -144,7 +144,7 @@ echo $this->headLink()
     }
 </style>
 <div class="kp_main">
-    <div class="theme_sf_banner">
+    <div class="theme_sf_banner" style="<?php if(!empty($specialInfo['specialImg'])){ ?>background:url(<?php echo $specialInfo['specialImg'] ?>) no-repeat top center;<?php } ?>">
         <div class="center ">
 
             <div class="sf_show">

@@ -6,6 +6,7 @@ use Base\ConstDir\Api\Sms;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Controller;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Predicate\Between;
 use Zend\Db\Sql\Predicate\IsNotNull;
 use Zend\Db\Sql\Predicate\IsNull;
@@ -19,17 +20,22 @@ class CrontabController extends Controller{
             $this->productModel->beginTransaction();
             foreach($expireProducts as $v){
                 if(!empty($v['keepPrice']) && $v['keepPrice'] > $v['currPrice']){
-                    $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
+                    $this->productModel->update(array('auctionStatus' => 0, 'isUnSold' => 1), array('productID' => $v['productID']));
 
                     $auctionMembers = $this->auctionMemberModel->select(array('productID' => $v['productID']))->toArray();
                     foreach($auctionMembers as $sv){
                         $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您未成功竞得<<' . $v['productName'] . '>>。'));
                     }
 
-                    $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
+                    //$this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
+                    $this->auctionMemberModel->delete(array('productID' => $v['productID']));
+                    $this->auctionLogModel->delete(array('productID' => $v['productID']));
+                    $this->memberProductInterestModel->delete(array('productID' => $v['productID']));
+                    $this->productModel->update(array('currPrice' => new Expression('startPrice')), array('productID' => $v['productID']));
                 }else{
                     if(empty($v['auctionMemberID'])){
-                        $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
+                        $this->productModel->update(array('auctionStatus' => 0, 'isUnSold' => 1), array('productID' => $v['productID']));
+                        $this->memberProductInterestModel->delete(array('productID' => $v['productID']));
                     }else{
                         $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
 
@@ -150,6 +156,13 @@ class CrontabController extends Controller{
 
             return $this->response;
         }
+    }
+
+    public function delUnSoldProductAction(){
+
+        $this->productModel->update(array('isDel' => 1), array('isUnSold' => 1, 'auctionStatus' => 0, 'endTime < ?' => strtotime('-3 days')));
+
+        return $this->response;
     }
 
 

@@ -37,7 +37,7 @@
                         <span class="yc_pm5" ><a href = "javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>" > 删除</a ></span >
                         </div>
                         <div class="ys_tip6">
-                            <div class="yc_imgleft"><img src="<?php echo $v['product']['listImg']; ?>"></div>
+                            <div class="yc_imgleft"><img style="cursor:pointer;" onclick="location.href='<?php if($v['orderType'] == 1){ ?>/product/detail?productID=<?php echo $v['productID']; ?><?php }else{ ?>/customization/detail?customizationID=<?php echo $v['customizationID']; ?><?php } ?>';" src="<?php echo $v['product']['listImg']; ?>"></div>
                             <div class="yc_imgleft1">
                                 <p class="yc_imgleft2"><span class="yc_ysname"><?php echo $v['product']['productName'] ?></span> <span class="yc_money"><?php echo $v['productPrice'] ?></span>
                                 </p>

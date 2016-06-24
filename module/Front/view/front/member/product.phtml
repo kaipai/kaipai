@@ -21,7 +21,7 @@
             ?>
                     <div class="kp_shop" id="product-li-<?php echo $v['productID'] ?>">
                         <div class="kp_shop_left">
-                            <img src="<?php echo $v['listImg'] ?>">
+                            <img style="cursor:pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID'] ?>';" src="<?php echo $v['listImg'] ?>">
                             <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox add_lefimg01 product-item" product-id="<?php echo $v['productID'] ?>">
                         </div>
                         <div class="kp_shop_center">
@@ -120,7 +120,7 @@
                             <div class="kp_bj">
                                 <?php if($v['auctionStatus'] == 1 || empty($v['auctionStatus'])){
                                 ?>
-                                    <a start-time-year="<?php echo $v['startTimeYear'] ?>" start-time-month="<?php echo $v['startTimeMonth'] ?>" start-time-hour="<?php echo $v['startTimeHour'] ?>" start-time-minute="<?php echo $v['startTimeMin'] ?>" end-time-year="<?php echo $v['endTimeYear'] ?>" end-time-month="<?php echo $v['endTimeMonth'] ?>" end-time-hour="<?php echo $v['endTimeHour'] ?>" end-time-minute="<?php echo $v['endTimeMin'] ?>" href="javascript:;" class="choose-auction-time" product-id="<?php echo $v['productID'] ?>">选择拍卖时间>></a>
+                                    <a start-time-year="<?php echo $v['startTimeYear'] ?>" start-time-month="<?php echo $v['startTimeMonth'] ?>" start-time-day="<?php echo $v['startTimeDay'] ?>" start-time-hour="<?php echo $v['startTimeHour'] ?>" start-time-minute="<?php echo $v['startTimeMin'] ?>" end-time-year="<?php echo $v['endTimeYear'] ?>" end-time-month="<?php echo $v['endTimeMonth'] ?>" end-time-day="<?php echo $v['endTimeDay'] ?>" end-time-hour="<?php echo $v['endTimeHour'] ?>" end-time-minute="<?php echo $v['endTimeMin'] ?>" href="javascript:;" class="choose-auction-time" product-id="<?php echo $v['productID'] ?>">选择拍卖时间>></a>
                                 <?php
                                 }else{
                                 ?>

@@ -54,7 +54,8 @@
                     <script id="qqq" name="specialDesc" type="text/plain" style="width:700px;height:300px;"><?php if(!empty($specialInfo)){echo $specialInfo['specialDesc'];} ?></script>
                 </div>
             </div>
-            <div class="ind_licj" id="add-special-btn">立即创建</div>
+
+            <div class="ind_licj" id="add-special-btn"><?php echo !empty($specialInfo) ? '提交修改' : '立即创建' ?></div>
 
 
         </div>
@@ -164,7 +165,7 @@ echo $this->render('/front/common/transfer-account');
             data : data,
             success : function(res){
                 if(res.flag > 0){
-                    if(res.data['unitePayID']){
+                    if(res.data && res.data['unitePayID']){
                         <?php
                             if($_siteSettings['specialMoney'] > 0) {
                         ?>
