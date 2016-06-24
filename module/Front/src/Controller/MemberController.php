@@ -850,11 +850,14 @@ class MemberController extends Front{
 
         if(!empty($product['specialID'])){
             $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
-            if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = $specialInfo['startTime'];
-            if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = $specialInfo['endTime'];
+            $product['startTime'] = $specialInfo['startTime'];
+            $product['endTime'] = $specialInfo['endTime'];
+            $product['auctionStatus'] = $specialInfo['auctionStatus'];
+            //if($product['startTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['startTime'] = $specialInfo['startTime'];
+            //if($product['endTime'] == strtotime(date('Y-01-01 00:00:00'))) $product['endTime'] = $specialInfo['endTime'];
 
-            if($product['startTime'] < $specialInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间早于专场开始时间');
-            if($product['endTime'] > $specialInfo['endTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间晚于专场结束时间');
+            //if($product['startTime'] < $specialInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间早于专场开始时间');
+            //if($product['endTime'] > $specialInfo['endTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间晚于专场结束时间');
         }
 
         if(!empty($product['publish'])){
