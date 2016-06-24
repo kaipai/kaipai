@@ -84,7 +84,7 @@
 
                                     <p class="spe_str"><span>选送商家</span><?php echo $v['storeName'] ?></p>
 
-                                    <p class="ztTime yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></p>
+                                    <p class="ztTime yomibox2-special" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></p>
                                     <ul class="mt20">
                                         <li class="spe_pri"><span><?php echo $v['viewCount'] ?></span><br/>次围观</li>
 
@@ -189,8 +189,11 @@
     });
 
     $(function(){
-        $(".yomibox2").each(function () {
+        $(".yomibox2-special").each(function () {
             $(this).yomi(_CurrentServerTime, 'special-today')
+        });
+        $(".yomibox2").each(function () {
+            $(this).yomi(_CurrentServerTime, 'product-list')
         });
     })
 </script>
