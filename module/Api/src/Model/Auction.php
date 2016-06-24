@@ -8,7 +8,7 @@ use Zend\Db\Sql\Expression;
 class Auction extends Model{
 
     public function bidding($productID, $memberID, $nickName, $auctionPrice, $auctionPerPrice = 0){
-        $productInfo = $this->productModel->setColumns(array('productName', 'delayType', 'specialID'))->select(array('productID' => $productID))->current();
+        $productInfo = $this->productModel->setColumns(array('productName', 'delayType', 'specialID', 'endTime'))->select(array('productID' => $productID))->current();
         $proxyMember = $this->auctionMemberModel->getDetail(array('AuctionMember.productID' => $productID, 'AuctionMember.memberID != ?' => $memberID, 'AuctionMember.proxyPrice > ?' => $auctionPrice));
         try{
             $this->productModel->beginTransaction();
@@ -21,8 +21,9 @@ class Auction extends Model{
                 'currPrice' =>  $auctionPrice,
                 'auctionCount' => new Expression('auctionCount + 1')
             );
-            if($productInfo['delayType'] == 1){
-                $newEndTime = time() + 300;
+            $newEndTime = time() + 300;
+            if($productInfo['delayType'] == 1 && $newEndTime > $productInfo['endTime']){
+
                 $productUpdate['endTime'] = $newEndTime;
                 if(!empty($productInfo['specialID'])){
                     $this->specialModel->update(array('endTime' => $newEndTime), array('specialID' => $productInfo['specialID']));
