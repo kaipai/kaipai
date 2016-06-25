@@ -1,0 +1,108 @@
+<div class="kp_main" xmlns="http://www.w3.org/1999/html">
+    <div class="center">
+        <!-- left部分 -->
+        <?php echo $this->render('left', array('leftTab' => 'my-recharge')); ?>
+        <!-- right部分 -->
+        <div class="kp_right kp_dtbg">
+            <div class="kp_dttop1">
+                <div class="kp_dttop">*保留近半年交易明细记录</div>
+            </div>
+            <div class="kp_dttop2">
+                <div class="kp_dtmy"></div>
+                <div class="kp_dtye">开拍余额</div>
+                <div class="kp_dtye1"><?php echo $_memberInfo['rechargeMoney'] ?></div>
+                <div class="kp_bd" style="cursor: pointer;" onclick="location.href='/member/bind-card';">绑定银行卡</div>
+                <div class="kp_tx do-withdraw-btn" style="cursor:pointer;">提现</div>
+            </div>
+            <div class="kp_dtsx">
+                <form method="post" action="/member/my-recharge" id="query-order-form" />
+                    <a class="kp_dtsx1">交易明细查询</a>
+                    <span><input type="text" name="startTimeYear" class="kp_dtdate"></span>
+                    <a>年</a>
+                    <span><input type="text" name="startTimeMonth" class="kp_dtdate"></span>
+                    <a>月</a>
+                    <span><input type="text" name="startTimeDay" class="kp_dtdate"></span>
+                    <a>日</a>
+                    <a>——</a>
+                    <span><input type="text" name="endTimeYear" class="kp_dtdate"></span>
+                    <a>年</a>
+                    <span><input type="text" name="endTimeMonth" class="kp_dtdate"></span>
+                    <a>月</a>
+                    <span><input type="text" name="endTimeDay" class="kp_dtdate"></span>
+                    <a>日</a>
+                    <span class="kp_dtbtn" onclick="$('#query-order-form').submit();" style="cursor:pointer;">查询</span>
+                </form>
+            </div>
+            <div class="kp_dtlist">
+                <a>近期明细</a>
+
+                <div class="kp_dtlist1">
+                    <span class="kp_dttime">时间</span>
+                    <span>丨</span>
+                    <span class="kp_dtdt">交易流水号</span>
+                    <span class="kp_dtmy1">金额</span>
+                    <span class="kp_dtdt1">详情</span>
+                </div>
+            </div>
+            <?php
+                foreach($logs as $v){
+            ?>
+                    <div class="kp_dtlist2 kp_dtfont">
+                        <div class="kp_dtleft ">
+                            <div><?php echo $v['instime'] ?></div>
+                            <div><?php echo $v['unitePayID'] ?></div>
+                        </div>
+                        <div class="kp_dtleft1">
+                            <div><?php echo $v['type'] == 1 ? '+' : '-'; ?><?php echo $v['money'] ?></div>
+                        </div>
+                        <div class="kp_dtleft2">
+                            <div><?php echo $v['source']; ?></div>
+
+                        </div>
+                    </div>
+            <?php
+                }
+            echo !empty($logs) ? $this->render('/front/common/paginate', array('url' => '/member/my-recharge', 'pages' => $pages)) : '';
+            ?>
+        </div>
+    </div>
+</div>
+<?php
+echo $this->render('post-withdraw');
+?>
+<script>
+    $(function(){
+        $('.do-withdraw-btn').on('click', function(){
+            layer.open({
+                skin: 'loginBox',
+                title: '提现',
+                type : 1,
+                content : $('#post-withdraw')
+            });
+        });
+        $(document).on('click', '.post-withdraw-btn:visible', function(){
+            var data = {};
+            data.money = $('input[name=withdraw-money]:visible').val();
+            if(!data.money){
+                layer.alert('请输入金额');
+                return false;
+            }
+
+            $.ajax({
+                url : '/member/post-withdraw',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        })
+    })
+</script>

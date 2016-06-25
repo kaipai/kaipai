@@ -1195,4 +1195,65 @@ class MemberController extends Front{
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
     }
+
+    public function myRechargeAction(){
+        $where = array(
+            'MemberRechargeMoneyLog.memberID' => $this->memberInfo['memberID'],
+        );
+        if(!empty($this->postData)){
+            $startTimeYear = $this->postData['startTimeYear'];
+            $startTimeMonth = $this->postData['startTimeMonth'];
+            $startTimeDay = $this->postData['startTimeDay'];
+            $endTimeYear = $this->postData['endTimeYear'];
+            $endTimeMonth = $this->postData['endTimeMonth'];
+            $endTimeDay = $this->postData['endTimeDay'];
+
+            $startTime = $startTimeYear . '-' . $startTimeMonth . '-' . $startTimeDay . ' 00:00:00';
+            $endTime = $endTimeYear . '-' . $endTimeMonth . '-' . $endTimeDay . ' 00:00:00';
+            $where[] = new Between('MemberRechargeMoneyLog.instime', $startTime, $endTime);
+        }
+
+        $res = $this->memberRechargeMoneyLogModel->getLogs($where, $this->pageNum, $this->limit);
+        $logs = $res['data'];
+
+        $this->view->setVariables(array(
+            'logs' => $logs,
+            'pages' => $res['pages'],
+        ));
+        return $this->view;
+    }
+
+    public function bindCardAction(){
+        if(!empty($this->postData)){
+            $verifyCode = $this->mobileVerifyCodeModel->getLastVerifyCode($this->postData['cardMobile']);
+            if($verifyCode != $this->postData['verifyCode']){
+                return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
+            }
+            unset($this->postData['verifyCode']);
+            $this->storeModel->update($this->postData, array('storeID' => $this->_storeInfo['storeID']));
+
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '绑定成功');
+        }
+        return $this->view;
+    }
+
+    public function postWithdrawAction(){
+        $this->postData['memberID'] = $this->memberInfo['memberID'];
+        $this->postData['storeID'] = $this->memberInfo['storeID'];
+        $this->postData['money'] = floatval($this->postData['money']);
+        if(empty($this->postData['money'])) return $this->response(ApiError::COMMON_ERROR, '请输入金额');
+        if($this->postData['money'] > $this->memberInfo['rechargeMoney']) return $this->response(ApiError::COMMON_ERROR, '提现金额大于余额, 提现失败');
+        try{
+            $this->withdrawLogModel->beginTransaction();
+            $this->withdrawLogModel->insert($this->postData);
+            $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $this->postData['money'])), array('memberID' => $this->memberInfo['memberID']));
+            $this->memberRechargeMoneyLogModel->insert(array('memberID' => $this->memberInfo['memberID'], 'money' => $this->postData['money'], 'source' => '提现', 'type' => 2));
+            $this->withdrawLogModel->commit();
+
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '提交成功, 待审核');
+        }catch (\Exception $e){
+            $this->withdrawLogModel->rollback();
+            return $this->response(ApiError::COMMON_ERROR, '提现失败');
+        }
+    }
 }

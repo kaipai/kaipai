@@ -2,22 +2,20 @@
 namespace Api\Model;
 
 use COM\Model;
-class MemberRechargeMoneyLog extends Model{
-
-    public function getLogs($where, $page = 1, $limit = 15){
+class WithdrawLog extends Model{
+    public function getLogs($page, $limit){
         $select = $this->getSelect();
-        $select->where($where);
-        $select->order('instime desc');
+        $select->join(array('b' => 'Store'), 'WithdrawLog.storeID = b.storeID', array('storeName', 'cardOwnerName', 'cardNum', 'cardMobile'));
+        $select->order('WithdrawLog.instime desc');
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);
         $data = $paginator->getCurrentItems()->getArrayCopy();
         $total = $paginator->getTotalItemCount();
-        $pages = $paginator->getPages();
+
         $res = array(
             'data' => $data,
-            'total' => $total,
-            'pages' => $pages,
+            'total' => $total
         );
         return $res;
     }

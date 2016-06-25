@@ -58,14 +58,14 @@
                 valign: 'middle',
                 width:200
 
-            },{
+            },/*{
                 field: 'finalPayMoney',
                 title: '尾款金额',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
-            },
+            },*/
             {
                 field: 'businessID',
                 title: '订单业务号',
@@ -100,9 +100,9 @@
                         s += '银行转账';
                         if(row.orderStatus == 1){
                             s += '<a title="确认到账" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认到账吗?" url="/admin/<?=$this->layout()->controllerName;?>/confirm-paid" method="post" params="unitePayID='+ row.unitePayID +'&type=1"><i class="glyphicon glyphicon-ok"></i></a>';
-                        }else if(row.orderStatus == 5 && row.orderType == 2){
+                        }/*else if(row.orderStatus == 5 && row.orderType == 2){
                             s += '<a title="确认尾款到账" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认到账吗?" url="/admin/<?=$this->layout()->controllerName;?>/confirm-paid" method="post" params="unitePayID='+ row.unitePayID +'&type=4"><i class="glyphicon glyphicon-ok"></i></a>';
-                        }
+                        }*/
                     }
 
                     return s;

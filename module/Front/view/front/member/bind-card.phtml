@@ -1,0 +1,124 @@
+<div class="kp_main">
+    <div class="center ">
+
+        <!-- left部分 -->
+        <?php echo $this->render('left', array('leftTab' => 'my-recharge')); ?>
+        <!-- right部分 -->
+        <div class="kp_right kp_dtbg">
+            <div>
+                <span class="kp_bd1">绑定银行卡</span>
+                <span class="kp_yhkbd">*请绑定持卡人本人的银行卡</span>
+            </div>
+            <div class="kp_yhkname">
+                <a>持卡人</a>
+                <input type="text" name="card-owner-name" value="<?php echo $_storeInfo['cardOwnerName'] ?>" class="kp_yhktext"></div>
+            <div class="kp_yhkname">
+                <a>卡号</a>
+                <input type="text" name="card-num" value="<?php echo $_storeInfo['cardNum'] ?>" class="kp_yhktext1"></div>
+            <div class="kp_yhkname">
+                <a>请输入银行联系手机</a>
+                <input type="text" name="mobile" value="<?php echo $_storeInfo['cardMobile'] ?>" class="kp_yhktext2">
+                <span class="kp_yhkdx btn_getcode" style="cursor: pointer;">获取短信验证码&gt;&gt;</span>
+            </div>
+            <div class="kp_yhkname1">
+                <a>输入短信验证码</a>
+                <input type="text" name="verify-code" class="kp_yhktext3"></div>
+            <div class="kp_yhkname ">
+                <div class="kp_bd2 confirm-bind" style="cursor:pointer;">确认绑定</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //倒计时
+    function regCodeTimeinterval() {
+        var currTime = J_btn_getcode.find('b').html();
+        var newTime = parseInt(currTime) - 1;
+        if (newTime) {
+            J_btn_getcode.find('b').html(newTime);
+        } else {
+            clearInterval(regCodeInterval);
+            J_btn_getcode.removeClass('btn_code_yz');
+            J_btn_getcode.html('重新发送');
+            reSend = true;
+        }
+    };
+    var reSend = true;
+    var J_btn_getcode = $('.btn_getcode:visible');
+    $(document).on('click', '.btn_getcode:visible', function(){
+        var data = {};
+        data.mobile = $('input[name=mobile]:visible').val();
+        if(!data.mobile){
+            layer.alert('请输入手机号');
+            return false;
+        }
+        if (reSend) {
+            var flag = 1;
+            $.ajax({
+                url : '/index/get-verify-code',
+                type : 'post',
+                async : false,
+                data : data,
+                dataType : 'json',
+                success : function(data) {
+                    if(data.flag <= 0){
+                        flag = 0;
+                        layer.open({
+                            type: 0,
+                            icon: 2,
+                            content: data.msg,
+                            shadeClose: true,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+            if(!flag) return;
+            reSend = false; //禁止反复发送
+            var html = '<b>5</b>秒重新获取';
+            J_btn_getcode.addClass('btn_code_yz');
+            J_btn_getcode.html(html);
+            regCodeInterval = setInterval(function() {
+                regCodeTimeinterval();
+            }, 1000);
+        }
+    });
+
+    $('.confirm-bind').on('click', function(){
+        var data = {};
+        data.cardOwnerName = $('input[name=card-owner-name]').val();
+        data.cardNum = $('input[name=card-num]').val();
+        data.cardMobile = $('input[name=mobile]').val();
+        data.verifyCode = $('input[name=verify-code]').val();
+        if(!data.cardOwnerName){
+            layer.alert('请输入持卡人姓名');
+            return false;
+        }
+        if(!data.cardNum){
+            layer.alert('请输入卡号');
+            return false;
+        }
+        if(!data.cardMobile){
+            layer.alert('请输入银行联系手机');
+            return false;
+        }
+        if(!data.verifyCode){
+            layer.alert('请输入短信验证码');
+            return false;
+        }
+        $.ajax({
+            url : '/member/bind-card',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(res){
+                if(res.flag > 0){
+                    layer.alert(res.msg);
+                }else{
+                    layer.alert(res.msg);
+                }
+            }
+        });
+    });
+</script>
