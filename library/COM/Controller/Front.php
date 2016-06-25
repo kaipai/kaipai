@@ -36,7 +36,11 @@ class Front extends Controller{
         }
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         $isIE = 0;
+        $isLowIE = 0;
         if(strstr($userAgent, 'MSIE 6') || strstr($userAgent, 'MSIE 7') || strstr($userAgent, 'MSIE 8')){
+            if(strstr($userAgent, 'MSIE 6') || strstr($userAgent, 'MSIE 7')){
+                $isLowIE = 1;
+            }
             $isIE = 1;
         }
 
@@ -46,12 +50,14 @@ class Front extends Controller{
             '_categories' => $categories,
             '_siteSettings' => $siteSettings,
             '_isIE' => $isIE,
+            '_isLowID' => $isLowIE,
         ));
         $this->view->setVariables(array(
             '_memberInfo' => $this->memberInfo,
             '_categories' => $categories,
             '_siteSettings' => $siteSettings,
             '_isIE' => $isIE,
+            '_isLowID' => $isLowIE,
         ));
 
 
