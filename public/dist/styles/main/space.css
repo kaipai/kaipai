@@ -74,3 +74,7 @@
 .pro_name ul li.pro_na1{ background:url(../../images/go_03.jpg) no-repeat  scroll 160px center }
 .pro_zs{ margin-top: 80px; color: #000}
 .pro_zscont{ line-height: 30px; margin-top: 10px}
+.art-msgList{padding: 0 0 0 48px;}
+.art-msgList li{  line-height: 24px;padding: 10px 0 }
+.art-msgList li .msgLi-tit{font-weight: bold;
+}

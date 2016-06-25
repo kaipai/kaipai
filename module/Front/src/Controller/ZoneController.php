@@ -90,12 +90,15 @@ class ZoneController extends Front{
     }
 
     public function messageAction(){
-        $where = array('memberID' => $this->_zoneInfo['memberID']);
+        $where = array('MemberMessage.memberID' => $this->_zoneInfo['memberID'], 'MemberMessage.pid' => 0);
         $res = $this->memberMessageModel->getMessages($where, $this->pageNum, $this->limit);
         $messages = $res['data'];
-
+        foreach($messages as $k => $v){
+            $tmp = $this->memberMessageModel->getMessages(array('MemberMessage.pid' => $v['messageID']), 1, 100);
+            $messages[$k]['childs'] = $tmp['data'];
+        }
         $this->view->setVariables(array(
-            'data' => $messages,
+            'messages' => $messages,
             'pages' => $res['pages'],
         ));
         return $this->view;
@@ -209,7 +212,7 @@ class ZoneController extends Front{
 
     public function addMessageAction(){
         if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
-        if($this->memberInfo['memberID'] == $this->_zoneInfo['memberID']) return $this->response(ApiError::COMMON_ERROR, '不能给自己留言');
+        if($this->memberInfo['memberID'] == $this->_zoneInfo['memberID'] && empty($this->postData['pid'])) return $this->response(ApiError::COMMON_ERROR, '不能给自己留言');
         if(empty($this->postData['content'])) return $this->response(ApiError::COMMON_ERROR, '内容不能为空');
         try{
             $this->postData['senderID'] = $this->memberInfo['memberID'];

@@ -1922,3 +1922,193 @@ body {
 .kp_back ul li{border-bottom: 1px  dashed #8f8b8a; line-height: 40px; height: 80px; overflow: hidden; bottom: 0px; vertical-align: middle;}
 .kp_tixing{ font-size: 14px; padding-left: 20px; padding-right: 20px; padding-top: 20px}
 .kp_tixxm{ color: #ed8000 !important}
+
+.kp_dtbg{
+    background: #fff;
+    padding:10px;
+    margin:auto;
+    overflow: hidden;
+    height: 900px;
+}
+.kp_dttop{
+    padding-right: 10px;
+    float: right;
+}
+.kp_dtmy{
+    background: url("../images/kpdt01.jpg") left no-repeat;
+    height: 48px;
+    float: left;
+
+    width: 48px;
+
+
+}
+.kp_dttop1{
+    overflow: hidden;
+
+}
+.kp_dttop2{
+    overflow: hidden;
+    border-bottom: 1px solid #919191;
+    padding-bottom: 10px;
+}
+.kp_dtye{
+    margin-top: 10px;
+    margin-left: 30px;
+    float: left;
+}
+.kp_dtye1{
+    margin-top: 10px;
+    margin-left: 10px;
+    float: left;
+
+}
+.kp_tx{
+    float: right;
+    width: 190px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    margin-top: 10px;
+    background: #810100;
+    color: #fff;
+    margin-left: 20px;
+}
+.kp_bd{
+    float: right;
+    width: 190px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    margin-top: 10px;
+    background: #92c9c3;
+    color: #fff;
+    margin-left: 20px;
+}
+.kp_bd1{
+    width: 190px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    margin-top: 10px;
+    background: #92c9c3;
+    color: #fff;
+    margin-left: 15px;
+    display: inline-block;
+}
+.kp_dtsx{
+    padding:10px 20px;
+    padding-right: 0px;
+    overflow: hidden;
+
+}
+.kp_dtdate{
+    height: 26px;
+    width: 46px;
+    line-height: 26px;
+    text-align: center;
+    margin-left:10px;
+}
+.kp_dtsx1{
+    margin-right: 150px;
+}
+.kp_dtbtn{
+    float: right;
+    width: 58px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    background: #810100;
+    color: #fff;
+
+}
+.kp_dtlist{
+    padding:10px 20px;
+    padding-bottom: 20xp;
+    border-bottom: 1px solid #919191;
+}
+.kp_dtlist1{
+    margin-top:20px;
+}
+.kp_dttime{
+
+}
+.kp_dtdt{
+    margin-right:250px;
+
+}
+.kp_dtmy1{
+    margin-right: 130px;
+}
+.kp_dtfont{
+    font-size: 14px;
+    overflow: hidden;
+}
+.kp_dtleft{
+    float: left;
+}
+.kp_dtleft1{
+    float: left;
+    margin-left: 250px;
+}
+.kp_dtleft2{
+    float: left;
+    margin-left: 70px;
+    width: 300px;
+}
+.kp_dtlist2{
+    padding:10px 20px;
+    padding-bottom: 20xp;
+    border-bottom: 1px solid #d3d3d3;
+}
+.kp_dtlist3{
+    padding:10px 20px;
+    padding-bottom: 20xp;
+
+}
+.kp_yhkbd{
+    margin-left: 20px;
+    display: inline-block;
+}
+.kp_yhkname{
+    margin-left: 100px;
+    margin-top: 20px;
+}
+.kp_yhkname1{
+    margin-left: 130px;
+    margin-top: 20px;
+}
+.kp_yhktext{
+    width: 290px;
+    height: 30px;
+    margin-left: 20px;
+}
+.kp_yhktext1{
+    width: 290px;
+    height: 30px;
+    margin-left: 35px;
+}
+.kp_yhktext2{
+    width: 192px;
+    height: 30px;
+    margin-left: 20px;
+}
+.kp_yhktext3{
+    width: 192px;
+    height: 30px;
+    margin-left: 20px;
+}
+.kp_yhkdx{
+    margin-left: 20px;
+}
+.kp_bd2{
+
+    width: 190px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    margin-top: 10px;
+    background: #810100;
+    color: #fff;
+
+}

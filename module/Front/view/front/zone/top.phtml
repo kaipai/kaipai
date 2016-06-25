@@ -86,6 +86,10 @@
                 content : $('input[name=msg-content]:visible').val(),
                 zoneID : <?php echo $_zoneInfo['memberID'] ?>
             };
+            var messageID = $(this).attr('message-id');
+            if(messageID){
+                data.pid = messageID;
+            }
             $.ajax({
                 url : '/zone/add-message',
                 dataType : 'json',
@@ -94,7 +98,12 @@
                 success : function(res){
                     if(res.flag > 0){
                         layer.alert(res.msg, function(){
-                            layer.closeAll();
+                            if(data.pid){
+                                location.reload();
+                            }else{
+                                layer.closeAll();
+                            }
+
                         });
                     }else if(res.flag == -102){
                         loginPOP();
@@ -103,6 +112,16 @@
                     }
                 }
             });
+        });
+
+        $('.reply-member-message-btn').on('click', function(){
+            layer.open({
+                skin : 'loginBox',
+                title : '回复留言',
+                type : 1,
+                content : $('#add-message-div').html()
+            });
+            $('.add-message-div-btn:visible').attr('message-id', $(this).attr('message-id'));
         });
     })
 </script>

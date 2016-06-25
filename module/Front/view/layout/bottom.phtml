@@ -94,6 +94,12 @@ echo $this->render('/front/common/post-illegal');
 <div id="public-content" class="hide">
 
 </div>
+
+<div class="updataBrowser" id="updataBrowser">
+    <div class="center">
+        当前浏览器版本过底，为了更好体验请升级浏览器，推荐：<a target="_blank" href="http://firefox.com.cn/download/">火狐浏览器</a>、<a href="http://www.google.cn/chrome" target="_blank">谷歌浏览器</a>
+    </div>
+</div>
 <script>
     $(function(){
         $(document).on('click', '.pay-type-list li', function(){
@@ -108,6 +114,7 @@ echo $this->render('/front/common/post-illegal');
                 content : $('#post-error-div').html()
             });
         });
+
         $(document).on('click', '.post-error-div-btn:visible', function(){
             var data = {
                 content : $('input[name=errorContent]:visible').val()

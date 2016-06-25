@@ -5,9 +5,11 @@ use COM\Model;
 class MemberMessage extends Model
 {
 
-    public function getMessages($where, $page, $limit, $order = '')
+    public function getMessages($where, $page = 1, $limit = 15, $order = '')
     {
         $select = $this->getSelect();
+        $select->join(array('b' => 'MemberInfo'), 'MemberMessage.senderID = b.memberID', array('senderName' => 'nickName'));
+        $select->join(array('c' => 'MemberInfo'), 'MemberMessage.memberID = c.memberID', array('receiverName' => 'nickName'));
         $select->where($where);
         if (empty($order)) {
             $order = 'MemberMessage.instime desc';

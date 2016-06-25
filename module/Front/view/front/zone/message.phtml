@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="/dist/styles/main/space.css">
+
+<div class="mySpace">
+    <?php echo $this->render('banner'); ?>
+    <div class="spacecont">
+        <?php echo $this->render('top') ?>
+        <div class="center ">
+            <div class="space_li1 space_wz2">
+
+                <div class="space_pinlun">
+                    <?php
+                        foreach($messages as $v){
+                    ?>
+                            <div class="space_cominfo">
+                                <div class="space_cominfo_left">
+                                    <div>
+                                        <span class="space_cominfo_name"><?php echo $v['senderName'] ?></span>
+                                        <span class="font16"><?php echo $v['instime']; ?></span>
+                                    </div>
+                                    <div class="space_cominfo_nr">
+                                        <?php echo $v['content'] ?>
+                                    </div>
+                                    <ul class="art-msgList">
+                                    <?php
+                                        if(!empty($v['childs'])){
+                                            foreach($v['childs'] as $sv){
+                                    ?>
+                                                <li>
+                                                    <span class="msgLi-tit"><?php echo $sv['senderName'] ?></span>
+                                                    ：<?php echo $sv['content'] ?>
+                                                </li>
+                                    <?php
+                                            }
+                                    ?>
+
+                                    <?php
+                                        }
+                                    ?>
+                                    </ul>
+                                </div>
+                                <div class="space_cominfo_right">
+                                    <ul>
+                                        <li>
+                                            <a href="javascript:;" class="post-illegal-btn" coreID="<?php echo $v['messageID'] ?>" type="3">举报</a>
+                                        </li>
+                                        <li class="space_no">
+                                            <a href="javascript:;" class="reply-member-message-btn" message-id="<?php echo $v['messageID'] ?>">回复>></a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                    <?php
+                        }
+                    ?>
+                </div>
+            </div>
+            <?php echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/zone/message?zoneID=' . $_zoneInfo['memberID'])); ?>
+        </div>
+
+
+    </div>
+
+</div>
+
