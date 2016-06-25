@@ -32,17 +32,48 @@
         <!--logo and iconic logo end-->
 
 
+
+
+
+
         <div class="left-side-inner">
             <!--sidebar nav start-->
-            <ul class="nav nav-pills nav-stacked custom-nav">
+            <!--<ul class="nav nav-pills nav-stacked custom-nav">
                 <li class="menu-list nav-active">
-                    <a href="#"><i class="fa fa-plane"></i><span class=""></span>网站管理</a>
-                    <ul class="sub-menu-list nav nav-second-level">
+                    <a href="#"><i class="fa fa-plane"></i><span class=""></span>网站管理</a>-->
+                    <!--<ul class="sub-menu-list nav nav-second-level">-->
+                    <ul class="nav nav-pills nav-stacked custom-nav">
                         <li class="<?php if ($controllerName == 'website') { ?> active<?php } ?>">
                             <a href="/admin/website/index"  class="text-success">网站设置</a>
                         </li>
-                        <li class="<?php if ($controllerName == 'ad') { ?> active<?php } ?>">
+                        <li class="<?php if ($controllerName == 'ad') { ?> active<?php } ?> menu-list">
                             <a href="/admin/ad/index"  class="text-success">广告管理</a>
+                            <ul class="sub-menu-list nav nav-second-level custom-nav">
+                                <li class="<?php if ($controllerName == 'ad' && ($actionName == 'index-banner' || $position == 1)) { ?> active<?php } ?>">
+                                    <a href="/admin/ad/index-banner"  class="text-success">首页banner</a>
+                                </li>
+                                <li class="<?php if ($controllerName == 'ad' && ($actionName == 'index-second' || $position == 2)) { ?> active<?php } ?>">
+                                    <a href="/admin/ad/index-second"  class="text-success">首页第二排广告位</a>
+                                </li>
+                                <li class="<?php if ($controllerName == 'ad' && ($actionName == 'index-third-left' || $position == 3)) { ?> active<?php } ?>">
+                                    <a href="/admin/ad/index-third-left"  class="text-success">首页第三排左侧广告位</a>
+                                </li>
+                                <li class="<?php if ($controllerName == 'ad' && ($actionName == 'index-third-right' || $position == 4)) { ?> active<?php } ?>">
+                                    <a href="/admin/ad/index-third-right"  class="text-success">首页第三排右侧广告位</a>
+                                </li>
+                                <li class="<?php if ($controllerName == 'ad' && ($actionName == 'product-list-left' || $position == 5)) { ?> active<?php } ?>">
+                                    <a href="/admin/ad/product-list-left"  class="text-success">拍品列表左侧广告位</a>
+                                </li>
+                                <li class="<?php if ($controllerName == 'ad' && ($actionName == 'product-list-right' || $position == 6)) { ?> active<?php } ?>">
+                                    <a href="/admin/ad/product-list-right"  class="text-success">拍品列表右侧广告位</a>
+                                </li>
+                                <li class="<?php if ($controllerName == 'ad' && ($actionName == 'special-index' || $position == 7)) { ?> active<?php } ?>">
+                                    <a href="/admin/ad/special-index"  class="text-success">专场拍卖首页广告位</a>
+                                </li>
+                                <li class="<?php if ($controllerName == 'ad' && ($actionName == 'login-ad' || $position == 8)) { ?> active<?php } ?>">
+                                    <a href="/admin/ad/login-ad"  class="text-success">登录页左侧广告位</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="<?php if ($controllerName == 'customization') { ?> active<?php } ?>">
                             <a href="/admin/customization/index"  class="text-success">定制商品管理</a>
@@ -97,8 +128,8 @@
                             <a href="/admin/notification/index"  class="text-success">网站公告</a>
                         </li>
                     </ul>
-               </li>
-            </ul>
+              <!-- </li>
+            </ul>-->
 
         </div>
     </div>

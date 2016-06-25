@@ -14,9 +14,11 @@ class AdController extends Admin{
     public function listAction(){
         $offset = $this->request->getQuery('offset', $this->offset);
         $limit = $this->request->getQuery('limit', $this->limit);
+        $position = $this->request->getQuery('position');
         $where = array();
 
         $data = array();
+        $where['position'] = $position;
 
         $data['total'] = $this->adModel->getCount($where);
 
@@ -42,13 +44,22 @@ class AdController extends Admin{
 
     public function addViewAction(){
         $adID = $this->request->getQuery('adID');
+        $position = $this->request->getQuery('position');
+
         if(!empty($adID)){
             $adInfo = $this->adModel->select(array('adID' => $adID))->current();
             $this->view->setVariable('adInfo', $adInfo);
+            $position = $adInfo['position'];
         }
 
         $positions = BaseConst::$adPositions;
         $this->view->setVariable('positions', $positions);
+        $this->view->setVariables(array(
+            'position' => $position,
+        ));
+        $this->layout()->setVariables(array(
+            'position' => $position,
+        ));
 
         return $this->view;
     }
@@ -70,6 +81,70 @@ class AdController extends Admin{
 
         $this->adModel->update(array('isDel' => 1), $where);
         return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
+    }
+
+    public function indexBannerAction(){
+        $this->view->setVariables(array(
+            'position' => 1,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
+    }
+
+    public function indexSecondAction(){
+        $this->view->setVariables(array(
+            'position' => 2,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
+    }
+
+    public function indexThirdLeftAction(){
+        $this->view->setVariables(array(
+            'position' => 3,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
+    }
+
+    public function indexThirdRightAction(){
+        $this->view->setVariables(array(
+            'position' => 4,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
+    }
+
+    public function productListLeftAction(){
+        $this->view->setVariables(array(
+            'position' => 5,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
+    }
+
+    public function productListRightAction(){
+        $this->view->setVariables(array(
+            'position' => 6,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
+    }
+
+    public function specialIndexAction(){
+        $this->view->setVariables(array(
+            'position' => 7,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
+    }
+
+    public function loginAdAction(){
+        $this->view->setVariables(array(
+            'position' => 8,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
     }
 
 }

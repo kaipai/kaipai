@@ -30,7 +30,7 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');*/
                         <div class="col-sm-4">
                             <select class="form-control input-sm m-bot15" name="position">
                                 <?php foreach ($positions as $k => $v){ ?>
-                                    <option value="<?php echo $k; ?>" <?php if(isset($adInfo['position']) && $k == $adInfo['position']){echo 'selected';} ?>><?php echo $v; ?></option>
+                                    <option value="<?php echo $k; ?>" <?php if($k == $position){echo 'selected';} ?>><?php echo $v; ?></option>
                                 <?php } ?>
                             </select>
                         </div>
