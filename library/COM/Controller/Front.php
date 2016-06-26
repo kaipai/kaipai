@@ -34,6 +34,12 @@ class Front extends Controller{
         foreach($tmp as $v){
             $siteSettings[$v['settingName']] = $v['settingValue'];
         }
+        $qq = mt_rand(1, 3);
+        if($qq == 2 && !empty($siteSettings['qq2'])){
+            $siteSettings['qq'] = $siteSettings['qq2'];
+        }elseif($qq == 3 && !empty($siteSettings['qq3'])){
+            $siteSettings['qq'] = $siteSettings['qq3'];
+        }
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         $isIE = 0;
         $isLowIE = 0;
