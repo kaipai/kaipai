@@ -31,14 +31,16 @@ class ProductController extends Admin{
         $where = array(
             'productID' => $productID
         );
-        if(isset($this->postData['auctionStatus']) && $this->postData['auctionStatus'] == 0){
-            $this->auctionMemberModel->delete($where);
-            $this->auctionLogModel->delete($where);
-            $this->memberProductInterestModel->delete($where);
-        }
+
         unset($this->postData['productID']);
         $this->productModel->update($this->postData, $where);
 
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
+    }
+
+    public function withdrawAction(){
+        $productID = $this->postData['productID'];
+        $this->productModel->withdraw($productID);
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
     }
 }

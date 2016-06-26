@@ -192,7 +192,7 @@ $(function(){
     function operateFormatter(value, row, index) {
         return [
             '<a title="强制下架" href="javascript:void(0)" class="remove ml10 col-md-4 confirm-btn text-danger" boxsize="modal-sm" ctitle="确认提示"' +
-            ' cbody="确认强制下架吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="auctionStatus=0&verifyStatus=0&specialID='+ row.specialID +'">'+
+            ' cbody="确认强制下架吗？" url="/admin/<?=$this->layout()->controllerName;?>/withdraw" method="post" params="specialID='+ row.specialID +'">'+
             '<i class="glyphicon glyphicon-remove"></i>'+
             '</a>'
         ].join('');

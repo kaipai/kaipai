@@ -34,11 +34,22 @@ class SpecialController extends Admin{
 
         if($this->postData['verifyStatus'] == 2){
             $this->notificationModel->insert(array('type' => 3, 'memberID' => $specialInfo['memberID'], 'content' => '您的<<' . $specialInfo['specialName'] . '>>专场审核已通过。'));
+            $this->productModel->update(array('auctionStatus' => 1), $where);
         }elseif($this->postData['verifyStatus'] == 3){
             $this->notificationModel->insert(array('type' => 3, 'memberID' => $specialInfo['memberID'], 'content' => '您的<<' . $specialInfo['specialName'] . '>>专场审核未通过，请修改。'));
+            $this->productModel->update(array('auctionStatus' => 0), $where);
         }
+
         $this->specialModel->update($this->postData, $where);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
+    }
+
+    public function withdrawAction(){
+        $specialID = $this->postData['specialID'];
+
+        $this->specialModel->withdraw($specialID);
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
+
     }
 }

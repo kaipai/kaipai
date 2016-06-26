@@ -44,4 +44,21 @@ class Special extends Model{
 
         return $res;
     }
+
+    public function withdraw($specialID){
+        $where = array(
+            'specialID' => $specialID
+        );
+        $products = $this->productModel->select($where)->toArray();
+        $productIDs = array();
+        foreach($products as $v){
+            $productIDs[] = $v['productID'];
+        }
+        if(!empty($productIDs)){
+            $this->productModel->withdraw($productIDs);
+        }
+        $this->specialModel->update(array('auctionStatus' => 0, 'verifyStatus' => 0), array('specialID' => $specialID));
+
+        return true;
+    }
 }

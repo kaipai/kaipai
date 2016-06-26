@@ -654,6 +654,9 @@ class MemberController extends Front{
 
                 unset($this->postData['specialID']);
                 $this->specialModel->update($this->postData, $where);
+                if(!empty($this->postData['startTime']) && !empty($this->postData['endTime'])){
+                    $this->productModel->update(array('startTime' => $this->postData['startTime'], 'endTime' => $this->postData['endTime']));
+                }
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
             }else{
                 $unitePayID = $this->memberOrderModel->genUnitePayID();

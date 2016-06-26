@@ -52,6 +52,8 @@ class ProductController extends Front{
         $where = array();
         if(!empty($productCategoryID)){
             $where['b.productCategoryID'] = $productCategoryID;
+        }else{
+            $where[] = new IsNull('b.specialID');
         }
         if(!empty($productCategoryFilterOptionID)){
             $where['ProductFilterOption.productCategoryFilterOptionID'] = $productCategoryFilterOptionID;
@@ -98,7 +100,7 @@ class ProductController extends Front{
         }
         $where['b.isPaid'] = 1;
         $where['b.isDel'] = 0;
-        $where[] = new IsNull('b.specialID');
+
         if($order == 'default') $order = 'b.productID desc';
         if($order == 'instime') $order = 'b.instime ' . $sort;
         if($order == 'price') $order = 'b.currPrice ' . $sort;

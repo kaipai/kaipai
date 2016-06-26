@@ -100,6 +100,23 @@ class Product extends Model{
         return $products;
     }
 
+    public function withdraw($productID){
+        try{
+            $where = array(
+                'productID' => $productID,
+            );
+            $this->productModel->update(array('auctionStatus' => 0), $where);
+            $this->auctionMemberModel->delete($where);
+            $this->auctionLogModel->delete($where);
+            $this->memberProductInterestModel->delete($where);
+
+            return true;
+        }catch (\Exception $e){
+            return false;
+        }
+
+    }
+
 
 
 }
