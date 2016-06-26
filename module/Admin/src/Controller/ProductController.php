@@ -31,6 +31,11 @@ class ProductController extends Admin{
         $where = array(
             'productID' => $productID
         );
+        if(isset($this->postData['auctionStatus']) && $this->postData['auctionStatus'] == 0){
+            $this->auctionMemberModel->delete($where);
+            $this->auctionLogModel->delete($where);
+            $this->memberProductInterestModel->delete($where);
+        }
         unset($this->postData['productID']);
         $this->productModel->update($this->postData, $where);
 
