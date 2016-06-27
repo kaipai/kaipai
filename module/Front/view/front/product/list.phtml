@@ -1,9 +1,11 @@
-<ul class="indexPro">
-    <?php
-        foreach($products as $v){
-    ?>
-            <?php if($v['auctionStatus'] == 1){
+<?php if($show == 'pic') { ?>
+
+    <ul class="indexPro">
+        <?php
+        foreach ($products as $v) {
             ?>
+            <?php if ($v['auctionStatus'] == 1) {
+                ?>
                 <li class="start" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
                     <h3><?php echo $v['productName'] ?></h3>
 
@@ -22,9 +24,9 @@
                     </div>
                 </li>
             <?php
-            }else{
+            } else {
 
-            ?>
+                ?>
                 <li onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
                     <h3><?php echo $v['productName'] ?></h3>
 
@@ -32,7 +34,9 @@
                         当前价 <em>￥<?php echo $v['currPrice'] ?></em>
                     </p>
 
-                    <p class="indexPro-time">距结束 <span class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></span></p>
+                    <p class="indexPro-time">距结束 <span class="yomibox2"
+                                                       data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></span>
+                    </p>
 
                     <div class="indexPro-img">
                         <img src="<?php echo $v['listImg']; ?>">
@@ -45,11 +49,49 @@
             <?php
             } ?>
 
-    <?php
+        <?php
         }
-    ?>
+        ?>
 
-</ul>
+    </ul>
+<?php
+}else{
+?>
+    <dl class="proTextList">
+        <dt>
+            <span class="item1">类别</span>
+            <span class="item2">拍品</span>
+            <span class="item3">当前价</span>
+            <span class="item4">拍卖时间</span>
+        </dt>
+
+        <?php
+        foreach ($products as $v) {
+            ?>
+            <?php if ($v['auctionStatus'] == 1) {
+                ?>
+
+            <?php
+            } else {
+
+                ?>
+                <dd>
+                    <span class="item1"><?php echo $v['categoryName'] ?></span>
+                    <span class="item2" style="cursor:pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'"><?php echo $v['productName'] ?></span>
+                    <span class="item3">￥<?php echo $v['currPrice'] ?></span>
+                    <span class="item4">距结束：<em class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></em></span>
+                </dd>
+            <?php
+            } ?>
+
+        <?php
+        }
+        ?>
+    </dl>
+
+<?php
+}
+?>
 
 <script>
     $(function(){

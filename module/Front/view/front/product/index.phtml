@@ -95,7 +95,7 @@
                             ?>
                             <ul>
                                 <li class="fl_tc">
-                                    <a href=""></a>
+                                    <a href="javascript:;">
                                     <?php echo $v['filterName'] ?>
                                     </a>
                                 </li>
@@ -104,7 +104,7 @@
                                     foreach($v['options'] as $sv) {
                                         ?>
                                         <li class="fl_li_other">
-                                            <a href=""><?php echo $sv['optionName'] ?></a>
+                                            <a href="javascript:;" class="product-category-filter-option" product-category-filter-option-id="<?php echo $sv['optionID']; ?>"><?php echo $sv['optionName'] ?></a>
                                         </li>
                                     <?php
                                     }
@@ -171,9 +171,14 @@
                     </li>
 
                     <li class="tpli">
-                        <a href="">
+                        <a href="/product/index?show=pic">
                             显示图片
                             <img src="/yaoqin/images/ss_05.jpg"></a>
+                    </li>
+                    <li class="">
+                        <a href="/product/index?show=list">
+                            列表显示
+                            <img src="/yaoqin/images/ss_07.jpg"></a>
                     </li>
                     <li>
                         <a href="">合并店铺</a>
@@ -272,10 +277,14 @@
             if($('.product-status.hover').length){
                 params.status = $('.product-status.hover').attr('status');
             }
+            if($('.product-category-filter-option.hover').length){
+                params.productCategoryFilterOptionID = $('.product-category-filter-option.hover').attr('product-category-filter-option-id');
+            }
             params.priceBegin = $('#price-begin').val();
             params.priceEnd = $('#price-end').val();
             params.productCategoryID = '<?php echo $categoryInfo['productCategoryID']; ?>';
             params.search = '<?php echo $search; ?>';
+            params.show = '<?php echo $show; ?>';
             $.ajax({
                 type : 'post',
                 url : '/product/list',
@@ -358,6 +367,13 @@
             refresh(params)
         });
         $('#price-search-btn').on('click', function(){
+            refresh(params)
+        });
+        $('.product-category-filter-option').on('click', function(){
+            $(this).parent().siblings().each(function(){
+                $(this).find('a').removeClass('hover');
+            });
+            $(this).addClass('hover');
             refresh(params)
         });
         $('.product-status').on('click', function(){

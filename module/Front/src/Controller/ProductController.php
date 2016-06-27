@@ -12,6 +12,7 @@ use Zend\Db\Sql\Predicate\Like;
 
 class ProductController extends Front{
     public function indexAction(){
+        $show = $this->queryData['show'] ? $this->queryData['show'] : 'pic';
         $search = $this->queryData['search'];
         $productCategoryID = $this->queryData['productCategoryID'];
         $categoryInfo = $this->productCategoryModel->select(array('productCategoryID' => $productCategoryID))->current();
@@ -28,6 +29,7 @@ class ProductController extends Front{
             'leftAds' => $leftAds,
             'rightAds' => $rightAds,
             'search' => $search,
+            'show' => $show,
         ));
         return $this->view;
     }
@@ -49,6 +51,7 @@ class ProductController extends Front{
         $isAuthorAuth = $this->postData['isAuthorAuth'];
         $productStatus = $this->postData['status'];
         $search = $this->postData['search'];
+        $show = $this->postData['show'];
         $where = array();
         if(!empty($productCategoryID)){
             $where['b.productCategoryID'] = $productCategoryID;
@@ -114,6 +117,7 @@ class ProductController extends Front{
             'productsCount' => $products['productsCount'],
             'productsPage' => ceil($products['productsCount'] / $this->limit),
             'currPage' => $this->pageNum,
+            'show' => $show,
         ));
         return $this->view;
     }
