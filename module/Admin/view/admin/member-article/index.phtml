@@ -44,11 +44,29 @@
                 title: '用户文章内容',
                 align: 'center',
                 valign: 'middle',
-                width:200
+                width:200,
+                formatter: function(value, index, row){
+                    return '<a target="_blank" href="'+ value +'">文章内容</a>';
+                }
 
             },{
                 field: 'isIllegal',
                 title: '是否被举报',
+                align: 'center',
+                valign: 'middle',
+                formatter : function(value, row, index){
+                    var str = '';
+                    if(value == 1){
+                        str += '是';
+                    }else{
+                        str += '否';
+                    }
+                    return str;
+                }
+
+            },{
+                field: 'joinAward',
+                title: '是否报名有奖征文',
                 align: 'center',
                 valign: 'middle',
                 formatter : function(value, row, index){

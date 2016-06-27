@@ -10,8 +10,8 @@
                     </div>
                     <div class="space_title_right">
                         <ul>
-                            <!--<li>报名【有奖征文】</li>-->
                             <?php if($_isMyZone) {?>
+                            <li class="join-award-article" member-article-id="<?php echo $info['memberArticleID']; ?>" style="cursor: pointer">报名【有奖征文】</li>
                             <li><a href="/zone/add-article?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $info['memberArticleID'] ?>">编辑</a></li>
                             <li class="space_title_del"><a href="javascript:;" class="del-member-article" member-article-id="<?php echo $info['memberArticleID'] ?>">删除</a></li>
                             <?php } ?>
@@ -128,6 +128,21 @@
                     }else{
                         layer.alert(res.msg);
                     }
+                }
+            });
+        });
+
+        $('.join-award-article').on('click', function(){
+            var data = {};
+            data.memberArticleID = $(this).attr('member-article-id');
+            data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+            $.ajax({
+                url : '/zone/join-award-article',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    layer.alert(res.msg);
                 }
             });
         });

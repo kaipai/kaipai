@@ -234,5 +234,11 @@ class ZoneController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
     }
 
+    public function joinAwardArticleAction(){
+        $memberArticleID = $this->postData['memberArticleID'];
+        $this->memberArticleModel->update(array('joinAward' => 1), array('memberArticleID' => $memberArticleID));
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '报名成功');
+    }
+
 
 }

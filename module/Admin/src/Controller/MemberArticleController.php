@@ -13,9 +13,14 @@ class MemberArticleController extends Admin{
 
         $data = array();
         $result = $this->memberArticleModel->getArticles($where, $this->pageNum, $this->limit);
+        $rows = $result['data'];
+
+        foreach($rows as $k => $v){
+            $rows[$k]['memberArticleContent'] = '/zone/article-detail?zoneID=' . $v['memberID'] . '&memberArticleID=' . $v['memberArticleID'];
+        }
         $data['total'] = $result['total'];
 
-        $data['rows'] = $result['data'];
+        $data['rows'] = $rows;
 
         return $this->adminResponse($data);
     }
