@@ -74,7 +74,7 @@
                     <span class="item1"><?php echo $v['categoryName'] ?></span>
                     <span class="item2" style="cursor:pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'"><?php echo $v['productName'] ?></span>
                     <span class="item3">￥<?php echo $v['currPrice'] ?></span>
-                    <span class="item4">开始时间：<em><?php echo date('Y/m/d H:i:s', $v['startTime']); ?></em></span>
+                    <span class="item4">开始时间：<em><?php echo date('Y-m-d H:i:s', $v['startTime']); ?></em></span>
                 </dd>
             <?php
             } else {
