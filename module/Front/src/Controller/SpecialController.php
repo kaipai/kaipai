@@ -15,7 +15,7 @@ class SpecialController extends Front{
         $specialProductCategoryID = $this->queryData['specialProductCategoryID'];
         $date = $this->queryData['date'];
         if(empty($date)) {
-            $date = date('Y-m-d');
+            $date = date('Y-m-d 00:00:00');
             $where = array(
                 'Special.startTime > ?' => strtotime($date . ' 00:00:00'),
             );
