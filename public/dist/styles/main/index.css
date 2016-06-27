@@ -516,7 +516,7 @@
 .sf_banner{background:url(../images/sf.jpg) no-repeat top center;  height: 307px; width: 100%; position: relative;}
 .sf_banner .sf_show{ width: 368px; height: 194px; background: #fff; position: absolute;top: 62px;left: 18px;}
 .sf_banner .sf_show .sf_show_top{ height: 102px; width: 348px; background: #800000; color: #fff; padding-left: 10px; padding-right: 10px}
-.sf_banner .sf_show .sf_show_top .sf_title{ line-height: 60px; font-size: 28px}
+.sf_banner .sf_show .sf_show_top .sf_title{ height: 60px;line-height: 60px; font-size: 28px;overflow: hidden;}
 .sf_shi{ font-size: 24px; font-weight: bold;}
 .sf_fen{font-size: 16px;}
 .sf_overtime{font-size: 16px;}
