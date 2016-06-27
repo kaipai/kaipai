@@ -55,7 +55,7 @@
                             <div class="kp_shop_center01">
                                 <p>等待上架</p>
 
-                                <p><?php echo date('Y-m-d H:i:s', $v['startTime']); ?></p>
+                                <p><?php echo !empty($v['startTime']) ? date('Y-m-d H:i:s', $v['startTime']) : ''; ?></p>
                             </div>
                         <?php
                         }

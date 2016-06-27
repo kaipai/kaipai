@@ -719,16 +719,18 @@ class MemberController extends Front{
         foreach($products as $k => $v){
             $startTime = $v['startTime'];
             $endTime = $v['endTime'];
-            $products[$k]['startTimeYear'] = date('Y', $startTime);
-            $products[$k]['startTimeMonth'] = date('n', $startTime);
-            $products[$k]['startTimeDay'] = date('j', $startTime);
-            $products[$k]['startTimeHour'] = date('G', $startTime);
-            $products[$k]['startTimeMin'] = date('i', $startTime);
-            $products[$k]['endTimeYear'] = date('Y', $endTime);
-            $products[$k]['endTimeMonth'] = date('n', $endTime);
-            $products[$k]['endTimeDay'] = date('j', $endTime);
-            $products[$k]['endTimeHour'] = date('G', $endTime);
-            $products[$k]['endTimeMin'] = date('i', $endTime);
+            if(!empty($startTime)){
+                $products[$k]['startTimeYear'] = date('Y', $startTime);
+                $products[$k]['startTimeMonth'] = date('n', $startTime);
+                $products[$k]['startTimeDay'] = date('j', $startTime);
+                $products[$k]['startTimeHour'] = date('G', $startTime);
+                $products[$k]['startTimeMin'] = date('i', $startTime);
+                $products[$k]['endTimeYear'] = date('Y', $endTime);
+                $products[$k]['endTimeMonth'] = date('n', $endTime);
+                $products[$k]['endTimeDay'] = date('j', $endTime);
+                $products[$k]['endTimeHour'] = date('G', $endTime);
+                $products[$k]['endTimeMin'] = date('i', $endTime);
+            }
         }
 
         $this->view->setVariables(array(
@@ -876,6 +878,8 @@ class MemberController extends Front{
                 if($product['endTime'] > strtotime('+2 days', $product['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
 
                 $product['auctionStatus'] = 1;
+            }elseif(empty($product['productID'])){
+                unset($product['startTime'], $product['endTime']);
             }
         }
         unset($product['publish']);

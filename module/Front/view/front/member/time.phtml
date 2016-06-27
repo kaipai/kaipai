@@ -106,36 +106,36 @@ $(function(){
                         options += '<option value="'+ i +'">' + i + '</option>';
                     }
                     if(type == 1){
-                        $('#start-time-day').html(options);
+                        $('.layer-start-time-day:visible').html(options);
                         <?php
-                            if(!empty($productInfo)){
+                            if(!empty($productInfo['startTimeDay'])){
                         ?>
-                                $('#start-time-day').val(<?php echo $productInfo['startTimeDay'] ?>);
+                                $('.layer-start-time-day:visible').val(<?php echo $productInfo['startTimeDay'] ?>);
                         <?php
-                            }elseif(!empty($specialInfo)){
+                            }elseif(!empty($specialInfo['startTimeDay'])){
                         ?>
-                                $('#start-time-day').val(<?php echo $specialInfo['startTimeDay'] ?>);
+                                $('.layer-start-time-day:visible').val(<?php echo $specialInfo['startTimeDay'] ?>);
                         <?php
                             }else{
                         ?>
-                                $('#start-time-day').val(<?php echo date('j') ?>);
+                                $('.layer-start-time-day:visible').val(<?php echo date('j') ?>);
                         <?php
                             }
                         ?>
                     }else{
-                        $('#end-time-day').html(options);
+                        $('.layer-end-time-day:visible').html(options);
                         <?php
-                            if(!empty($productInfo)){
+                            if(!empty($productInfo['endTimeDay'])){
                         ?>
-                                $('#end-time-day').val(<?php echo $productInfo['endTimeDay'] ?>);
+                                $('.layer-end-time-day:visible').val(<?php echo $productInfo['endTimeDay'] ?>);
                         <?php
-                            }elseif(!empty($specialInfo)){
+                            }elseif(!empty($specialInfo['endTimeDay'])){
                         ?>
-                                $('#end-time-day').val(<?php echo $specialInfo['endTimeDay'] ?>);
+                                $('.layer-end-time-day:visible').val(<?php echo $specialInfo['endTimeDay'] ?>);
                         <?php
                             }else{
                         ?>
-                                $('#end-time-day').val(<?php echo date('j') ?>);
+                                $('.layer-end-time-day:visible').val(<?php echo date('j') ?>);
                         <?php
                             }
                         ?>
@@ -144,26 +144,32 @@ $(function(){
             }
         });
     }
-    refreshTimeDay(<?php echo date('Y'); ?>, 1, 1);
-    refreshTimeDay(<?php echo date('Y'); ?>, 1, 2);
-    $('#start-time-year').on('change', function(){
-        var year = $('#start-time-year').val();
-        var month = $('#start-time-month').val();
+    var startYear = $('.layer-start-time-year:visible').val();
+    var startMonth = $('.layer-end-time-month:visible').val();
+    var endYear = $('.layer-end-time-year:visible').val();
+    var endMonth = $('.layer-end-time-month:visible').val();
+
+
+    refreshTimeDay(startYear, startMonth, 1);
+    refreshTimeDay(endYear, endMonth, 2);
+    $('.layer-start-time-year:visible').on('change', function(){
+        var year = $('.layer-start-time-year:visible').val();
+        var month = $('.layer-start-time-month:visible').val();
         refreshTimeDay(year, month, 1);
     });
-    $('#start-time-month').on('change', function(){
-        var year = $('#start-time-year').val();
-        var month = $('#start-time-month').val();
+    $('.layer-start-time-month:visible').on('change', function(){
+        var year = $('.layer-start-time-year:visible').val();
+        var month = $('.layer-start-time-month:visible').val();
         refreshTimeDay(year, month, 1);
     });
-    $('#end-time-year').on('change', function(){
-        var year = $('#end-time-year').val();
-        var month = $('#end-time-month').val();
+    $('.layer-end-time-year:visible').on('change', function(){
+        var year = $('.layer-end-time-year:visible').val();
+        var month = $('.layer-end-time-month:visible').val();
         refreshTimeDay(year, month, 2);
     });
-    $('#end-time-month').on('change', function(){
-        var year = $('#end-time-year').val();
-        var month = $('#end-time-month').val();
+    $('.layer-end-time-month:visible').on('change', function(){
+        var year = $('.layer-end-time-year:visible').val();
+        var month = $('.layer-end-time-month:visible').val();
         refreshTimeDay(year, month, 2);
     });
 });
