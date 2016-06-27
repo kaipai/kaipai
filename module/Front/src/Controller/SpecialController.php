@@ -16,15 +16,11 @@ class SpecialController extends Front{
         $date = $this->queryData['date'];
         if(empty($date)) {
             $date = date('Y-m-d 00:00:00');
-            $where = array(
-                'Special.startTime > ?' => strtotime($date . ' 00:00:00'),
-            );
-        }else{
-            $where = array(
-                'Special.startTime > ?' => strtotime($date . ' 00:00:00'),
-                'Special.startTime < ?' => strtotime($date . ' 23:59:59'),
-            );
         }
+        $where = array(
+            'Special.startTime > ?' => strtotime($date . ' 00:00:00'),
+            'Special.startTime < ?' => strtotime($date . ' 23:59:59'),
+        );
 
         if(!empty($specialProductCategoryID)){
             $where['Special.specialProductCategoryID'] = $specialProductCategoryID;
