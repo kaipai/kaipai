@@ -20,7 +20,7 @@ class CrontabController extends Controller{
             $this->productModel->beginTransaction();
             foreach($expireProducts as $v){
                 if(!empty($v['keepPrice']) && $v['keepPrice'] > $v['currPrice']){
-                    $this->productModel->update(array('auctionStatus' => 0, 'isUnSold' => 1), array('productID' => $v['productID']));
+                    $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'isUnSold' => 1), array('productID' => $v['productID']));
 
                     $auctionMembers = $this->auctionMemberModel->select(array('productID' => $v['productID']))->toArray();
                     foreach($auctionMembers as $sv){
@@ -34,7 +34,7 @@ class CrontabController extends Controller{
                     $this->productModel->update(array('currPrice' => new Expression('startPrice')), array('productID' => $v['productID']));
                 }else{
                     if(empty($v['auctionMemberID'])){
-                        $this->productModel->update(array('auctionStatus' => 0, 'isUnSold' => 1), array('productID' => $v['productID']));
+                        $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'isUnSold' => 1), array('productID' => $v['productID']));
                         $this->memberProductInterestModel->delete(array('productID' => $v['productID']));
                     }else{
                         $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
@@ -90,7 +90,7 @@ class CrontabController extends Controller{
     }
 
     public function productsOnAction(){
-        $this->productModel->update(array('auctionStatus' => 2), array('auctionStatus' => array(0, 1), 'startTime < ?' => time(), 'endTime > ?' => time(), 'isPaid' => 1, 'isUnSold' => 0));
+        $this->productModel->update(array('auctionStatus' => 2), array('auctionStatus' => array(0, 1), 'startTime < ?' => time(), 'endTime > ?' => time(), 'isPaid' => 1));
 
         return $this->response;
     }
