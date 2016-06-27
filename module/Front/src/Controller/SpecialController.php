@@ -55,6 +55,7 @@ class SpecialController extends Front{
             $where['Special.startTime < ?'] = strtotime(date('Y-m-d 23:59:59', strtotime('+1 day')));
         }elseif($filter == 'on'){
             $where['Special.auctionStatus'] = array(1);
+            $where['Special.startTime < ?'] = strtotime('+7 days');
         }
 
 
