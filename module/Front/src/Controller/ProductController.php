@@ -30,6 +30,7 @@ class ProductController extends Front{
             'rightAds' => $rightAds,
             'search' => $search,
             'show' => $show,
+            'productCategoryID' => $productCategoryID,
         ));
         return $this->view;
     }
