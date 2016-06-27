@@ -12,6 +12,7 @@ class ProductFilterOption extends Model{
 
             $select = new Select();
             $select->from(array('b' => 'Product'));
+            $select->join(array('c' => 'ProductCategory'), 'b.productCategoryID = c.productCategoryID', array('categoryName'));
             $select->where($where);
             $select->offset($offset);
             $select->limit($limit);
@@ -20,6 +21,7 @@ class ProductFilterOption extends Model{
             $select = $this->getSelect();
             $select->columns(array())
                 ->join(array('b' => 'Product'), 'ProductFilterOption.productID = b.productID')
+                ->join(array('c' => 'ProductCategory'), 'b.productCategoryID = c.productCategoryID', array('categoryName'))
                 ->where($where)
                 ->offset($offset)
                 ->limit($limit);
