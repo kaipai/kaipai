@@ -90,7 +90,7 @@ class CrontabController extends Controller{
     }
 
     public function productsOnAction(){
-        $this->productModel->update(array('auctionStatus' => 2), array('auctionStatus' => array(0, 1), 'startTime < ?' => time(), 'isPaid' => 1, 'isUnSold' => 0));
+        $this->productModel->update(array('auctionStatus' => 2), array('auctionStatus' => array(0, 1), 'startTime < ?' => time(), 'endTime > ?' => time(), 'isPaid' => 1, 'isUnSold' => 0));
 
         return $this->response;
     }

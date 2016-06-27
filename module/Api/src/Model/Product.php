@@ -4,6 +4,7 @@ namespace Api\Model;
 use Base\ConstDir\BaseConst;
 use Base\Functions\Utility;
 use COM\Model;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Predicate\IsNotNull;
 use Zend\Http\Header\Warning;
 
@@ -105,7 +106,7 @@ class Product extends Model{
             $where = array(
                 'productID' => $productID,
             );
-            $this->productModel->update(array('auctionStatus' => 0), $where);
+            $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null')), $where);
             $this->auctionMemberModel->delete($where);
             $this->auctionLogModel->delete($where);
             $this->memberProductInterestModel->delete($where);
