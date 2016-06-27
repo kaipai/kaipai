@@ -20,6 +20,7 @@ class SpecialController extends Front{
         $where = array(
             'Special.startTime > ?' => strtotime($date . ' 00:00:00'),
             'Special.startTime < ?' => strtotime($date . ' 23:59:59'),
+            'Special.verifyStatus' => 2,
         );
 
         if(!empty($specialProductCategoryID)){
