@@ -253,4 +253,47 @@ class Utility
 
         return $nickName;
     }
+
+    public static function toXml($data)
+    {
+
+        $xml = "<xml>";
+        foreach ($data as $key=>$val)
+        {
+            if (is_numeric($val)){
+                $xml.="<".$key.">".$val."</".$key.">";
+            }else{
+                $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+            }
+        }
+        $xml.="</xml>";
+        return $xml;
+    }
+
+    public static function decodeXml($xml){
+
+        libxml_disable_entity_loader(true);
+        $data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+
+        return $data;
+    }
+
+    public static function toUrlParams($data){
+        $buff = "";
+        foreach ($data as $k => $v)
+        {
+            if($k != "sign" && $v != "" && !is_array($v)){
+                $buff .= $k . "=" . $v . "&";
+            }
+        }
+
+        $buff = trim($buff, "&");
+        return $buff;
+    }
+
+    public static function returnXml($data){
+        header("Content-Type:application/xml;Charset=utf-8");
+        $data = Utility::toXml($data);
+        die(urldecode($data));
+    }
 }

@@ -125,6 +125,9 @@ class OrderController extends Front{
                 $this->memberPayDetailModel->update(array('payType' => $payType), array('unitePayID' => $unitePayID));
 
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG);
+            }elseif($payType == 5){
+                $payPic = $this->sm->get('COM\Service\PayMod\WxPay')->doPay($unitePayID, $price);
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payPic));
             }else{
                 return $this->response(ApiError::COMMON_ERROR, '请选择支付方式');
             }
@@ -162,6 +165,9 @@ class OrderController extends Front{
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
             }elseif($payType == 4){
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG);
+            }elseif($payType == 5){
+                $payPic = $this->sm->get('COM\Service\PayMod\WxPay')->productDoPay($unitePayID, $price);
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payPic));
             }else{
                 return $this->response(ApiError::COMMON_ERROR, '请选择支付方式');
             }
@@ -196,6 +202,9 @@ class OrderController extends Front{
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
             }elseif($payType == 4){
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG);
+            }elseif($payType == 5){
+                $payPic = $this->sm->get('COM\Service\PayMod\WxPay')->specialDoPay($unitePayID, $price);
+                return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payPic));
             }else{
                 return $this->response(ApiError::COMMON_ERROR, '请选择支付方式');
             }
@@ -204,7 +213,7 @@ class OrderController extends Front{
         }
     }
 
-    public function payFinalAction(){
+    /*public function payFinalAction(){
         $unitePayID = $this->postData['unitePayID'];
         $payType = $this->postData['payType'];
         $payDetail = $this->memberPayDetailModel->select(array('unitePayID' => $unitePayID))->current();
@@ -237,5 +246,5 @@ class OrderController extends Front{
         }else{
             return $this->response(ApiError::COMMON_ERROR, '支付号错误');
         }
-    }
+    }*/
 }

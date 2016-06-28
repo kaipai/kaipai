@@ -5,6 +5,8 @@ namespace Front\Controller;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
+use Base\ConstDir\WeiXin;
+use Base\Functions\Utility;
 use COM\Controller\Front;
 
 class PayController extends Front
@@ -281,8 +283,118 @@ class PayController extends Front
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
+    public function wxNotifyAction(){
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $postData = Utility::decodeXml($xml);
+        /*$postData =  array(
+            'return_code' => 'SUCCESS',
+            'result_code' => 'SUCCESS',
+            'out_trade_no' => '1606231043392673',
+            'total_fee' => '399'
+        );*/
+        if ($postData['return_code'] == 'SUCCESS' && $postData['result_code'] == 'SUCCESS') {
+            $unitePayID = $postData['out_trade_no'];
+            $price = $postData['total_fee'];
+            $payDetail = $this->memberOrderModel->getOrderInfo($unitePayID);
+            if ($payDetail['payMoney'] * 100 == $price && $payDetail['orderStatus'] == 1) {
 
-    public function aliFinalNotifyAction()
+                $this->sm->get("COM\Service\PayMod\WxPay")->notify($unitePayID);
+                $requestUri = $_SERVER['REQUEST_URI'];
+                $data = array(
+                    'money' => $payDetail['payMoney'],
+                    'payNotifyInfo' => $requestUri,
+                    'postData' => json_encode($postData),
+                    'unitePayID' => $unitePayID,
+                    'payType' => 5,
+                    'type' => 1,
+                );
+                $this->payNotifyLogModel->insert($data);
+
+                Utility::returnXml(array('return_code' => 'SUCCESS', 'return_msg' => '成功'));
+            } else {
+                Utility::returnXml(array('return_code' => 'FAIL', 'return_msg' => '金额错误'));
+            }
+
+        } else {
+            Utility::returnXml(array('return_code' => 'FAIL', 'return_msg' => '失败'));
+        }
+    }
+
+    public function wxProductNotifyAction(){
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $postData = Utility::decodeXml($xml);
+        /*$postData =  array(
+            'return_code' => 'SUCCESS',
+            'result_code' => 'SUCCESS',
+            'out_trade_no' => '1606231043392673',
+            'total_fee' => '399'
+        );*/
+        if ($postData['return_code'] == 'SUCCESS' && $postData['result_code'] == 'SUCCESS') {
+            $unitePayID = $postData['out_trade_no'];
+            $price = $postData['total_fee'];
+            $payDetail = $this->productModel->select(array('unitePayID' => $unitePayID))->current();
+            if($this->siteSettings['productMoney'] * 100 == $price && $payDetail['isPaid'] == 0) {
+                $this->sm->get("COM\Service\PayMod\WxPay")->productNotify($unitePayID);
+                $requestUri = $_SERVER['REQUEST_URI'];
+                $data = array(
+                    'money' => $this->siteSettings['productMoney'],
+                    'payNotifyInfo' => $requestUri,
+                    'postData' => json_encode($postData),
+                    'unitePayID' => $unitePayID,
+                    'payType' => 5,
+                    'type' => 2,
+                );
+                $this->payNotifyLogModel->insert($data);
+
+                Utility::returnXml(array('return_code' => 'SUCCESS', 'return_msg' => '成功'));
+            } else {
+                Utility::returnXml(array('return_code' => 'FAIL', 'return_msg' => '金额错误'));
+            }
+
+        } else {
+            Utility::returnXml(array('return_code' => 'FAIL', 'return_msg' => '失败'));
+        }
+    }
+
+    public function wxSpecialNotifyAction()
+    {
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $postData = Utility::decodeXml($xml);
+        /*$postData =  array(
+            'return_code' => 'SUCCESS',
+            'result_code' => 'SUCCESS',
+            'out_trade_no' => '1606231043392673',
+            'total_fee' => '399'
+        );*/
+        if ($postData['return_code'] == 'SUCCESS' && $postData['result_code'] == 'SUCCESS') {
+            $unitePayID = $postData['out_trade_no'];
+            $price = $postData['total_fee'];
+            $payDetail = $this->specialModel->select(array('unitePayID' => $unitePayID))->current();
+            if ($this->siteSettings['specialMoney'] * 100 == $price && $payDetail['isPaid'] == 0) {
+                $this->sm->get("COM\Service\PayMod\WxPay")->specialNotify($unitePayID);
+                $requestUri = $_SERVER['REQUEST_URI'];
+                $data = array(
+                    'money' => $this->siteSettings['specialMoney'],
+                    'payNotifyInfo' => $requestUri,
+                    'postData' => json_encode($postData),
+                    'unitePayID' => $unitePayID,
+                    'payType' => 5,
+                    'type' => 3,
+                );
+                $this->payNotifyLogModel->insert($data);
+
+                Utility::returnXml(array('return_code' => 'SUCCESS', 'return_msg' => '成功'));
+            } else {
+                Utility::returnXml(array('return_code' => 'FAIL', 'return_msg' => '金额错误'));
+            }
+
+        } else {
+            Utility::returnXml(array('return_code' => 'FAIL', 'return_msg' => '失败'));
+        }
+    }
+
+
+    /*public function aliFinalNotifyAction()
     {
         include LIB . '/COM/Service/PayMod/lib/ali/alipay.php';
         $request = $this->request;
@@ -329,9 +441,9 @@ class PayController extends Front
             $this->response->setContent('fail');
         }
         return $this->response;
-    }
+    }*/
 
-    public function unionFinalNotifyAction()
+    /*public function unionFinalNotifyAction()
     {
         include LIB . '/COM/Service/PayMod/lib/Union/unionpay.php';
         $config = $this->sm->get('Config');
@@ -361,15 +473,15 @@ class PayController extends Front
         }
 
         return $this->response;
-    }
+    }*/
 
 
-    public function aliFinalReturnAction(){
+    /*public function aliFinalReturnAction(){
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
     public function unionFinalReturnAction(){
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-    }
+    }*/
 
 }

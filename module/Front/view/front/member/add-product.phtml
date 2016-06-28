@@ -829,6 +829,15 @@ echo $this->render('/front/common/transfer-account');
                                 type: 1,
                                 content: $('#transfer-account').html()
                             });
+                        }else if(res.flag == 5){
+                            layer.alert('申请开通中');
+                            return false;
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: '<img src="' + res.data['coreData'] + '" />'
+                            });
                         }
                     }else{
                         layer.alert(res.msg);
