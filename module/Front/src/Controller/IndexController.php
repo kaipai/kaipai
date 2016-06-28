@@ -11,8 +11,6 @@ use COM\Controller\Front;
 class IndexController extends Front{
 
     public function indexAction(){
-        $this->qrcodeService->png('http://www.baidu.com');
-        die;
         $banners = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_BANNER);
         $indexSecondAd = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_SECOND);
         $indexThirdLeftAd = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_THIRD_LEFT);
