@@ -2,6 +2,7 @@
 namespace Admin\Controller;
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Predicate\Like;
 
 class MemberArticleCommentController extends Admin{
     public function indexAction(){
@@ -12,6 +13,10 @@ class MemberArticleCommentController extends Admin{
         $where = array(
             'pid' => 0,
         );
+        $search = $this->queryData['search'];
+        if(!empty($search)){
+            $where[] = new Like('c.memberArticleName', '%' . $search . '%');
+        }
 
         $data = array();
         $result = $this->memberArticleCommentModel->getComments($where, $this->pageNum, $this->limit);
