@@ -133,7 +133,7 @@ class OrderController extends Front{
             }
 
         }catch (\Exception $e){
-            $this->memberOrderModel->rollback();
+            //$this->memberOrderModel->rollback();
 
             return $this->response($e->getCode(), $e->getMessage());
         }

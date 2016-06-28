@@ -11,7 +11,6 @@ use Base\Functions\Utility;
 
 class WxPay extends BasePay
 {
-    private $sm = '';
     private $appid = 'wx42eaae1f8572ba8e';  //支付appid
     private $orderUrl = 'https://api.mch.weixin.qq.com/pay/unifiedorder';   //微信统一下单地址
     private $key = 'c55459626311ab62f2c71b03487f7d7d';  //支付秘钥
@@ -31,6 +30,7 @@ class WxPay extends BasePay
         );
 
         $return = $this->unifiedOrder($data);
+
         if($return['return_code'] == 'SUCCESS' && $return['result_code'] == 'SUCCESS'){
             $codePath = $this->sm->get('COM\Service\QrcodeService')->png($return['code_url']);
             return $codePath;
@@ -97,7 +97,9 @@ class WxPay extends BasePay
         $data['sign'] = $this->makeSign($data);
         $data['notify_url'] = $this->notifyUrl;
         $data['spbill_create_ip'] = $this->spbill_create_ip;
+
         $data = Utility::toXml($data);
+
         $result = $this->postXmlCurl($data, $this->orderUrl);
         $result = Utility::decodeXml($result);
 
@@ -137,15 +139,16 @@ class WxPay extends BasePay
             //设置证书
             //使用证书：cert 与 key 分别属于两个.pem文件
             curl_setopt($ch,CURLOPT_SSLCERTTYPE,'PEM');
-            curl_setopt($ch,CURLOPT_SSLCERT, WxPayConfig::SSLCERT_PATH);
+            curl_setopt($ch,CURLOPT_SSLCERT, '');
             curl_setopt($ch,CURLOPT_SSLKEYTYPE,'PEM');
-            curl_setopt($ch,CURLOPT_SSLKEY, WxPayConfig::SSLKEY_PATH);
+            curl_setopt($ch,CURLOPT_SSLKEY, '');
         }
         //post提交方式
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
         //运行curl
         $data = curl_exec($ch);
+
         //返回结果
         if($data){
             curl_close($ch);
