@@ -6,7 +6,58 @@
     <table id="table-javascript" class="bootstrap_table"></table>
 </div>
 
+
+<!-- Edit Modal Start -->
+<div class="row">
+    <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="edit_modal_label">封停</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="editForm" role="form" method="post" action="/admin/<?php echo $this->layout()->controllerName;?>/close">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-md-2 control-label">封停时间</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="closeType">
+
+                                                <option value="1">1个月</option>
+                                                <option value="2">3个月</option>
+                                                <option value="3">永久</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden"  name="memberID" value="" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                    <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Modal End -->
+
+
 <script>
+    $('#edit_modal').on("show.bs.modal",function(e){
+        var btn = $(e.relatedTarget);
+        var memberID = btn.attr('rid');
+        $('input[name=memberID]').val(memberID);
+    });
+
+
     $('#table-javascript').bootstrapTable({
         method: 'get',
         url: '/admin/member/list',
@@ -104,6 +155,32 @@
                 align: 'center',
                 valign: 'middle',
                 width:200
+            },{
+                field: 'memberID',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                formatter:function(value, row, index){
+                    var s = '';
+
+                    if(row.closeType > 0){
+
+                        if(row.closeType == 1){
+                            s += '封停一个月';
+                        }else if(row.closeType == 2){
+                            s += '封停三个月';
+                        }else if(row.closeType == 3){
+                            s += '永久封停';
+                        }
+                        s += '<a title="解除封停" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认解除吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="memberID='+ row.memberID +'&closeType=0"><i class="glyphicon glyphicon-plus"></i></a>';
+                    }else{
+                        s += '<a title="封停" href="javascript:void(0)"  class="col-md-4" rid="' + value + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-minus"></i></a>';
+                    }
+
+
+
+                    return s;
+                }
             }]
     });
 

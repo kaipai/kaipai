@@ -119,13 +119,24 @@
                             </div>
                             <div class="kp_bj">
                                 <?php if($v['auctionStatus'] == 1 || empty($v['auctionStatus'])){
+                                    if(empty($v['specialID'])){
                                 ?>
                                     <a start-time-year="<?php echo $v['startTimeYear'] ?>" start-time-month="<?php echo $v['startTimeMonth'] ?>" start-time-day="<?php echo $v['startTimeDay'] ?>" start-time-hour="<?php echo $v['startTimeHour'] ?>" start-time-minute="<?php echo $v['startTimeMin'] ?>" end-time-year="<?php echo $v['endTimeYear'] ?>" end-time-month="<?php echo $v['endTimeMonth'] ?>" end-time-day="<?php echo $v['endTimeDay'] ?>" end-time-hour="<?php echo $v['endTimeHour'] ?>" end-time-minute="<?php echo $v['endTimeMin'] ?>" href="javascript:;" class="choose-auction-time" product-id="<?php echo $v['productID'] ?>">选择拍卖时间>></a>
                                 <?php
+                                    }else{
+                                ?>
+                                        专场拍品
+                                <?php
+                                    }
                                 }else{
+
                                 ?>
                                     <a href="javascript:;" class="cancel-keep-price-btn" product-id="<?php echo $v['productID'] ?>">取消保留价>></a>
                                 <?php
+                                    if(empty($v['specialID'])){
+                                        echo '<br />专场拍品';
+                                    }
+
                                 } ?>
 
                             </div>

@@ -543,6 +543,7 @@ class MemberController extends Front{
 
         $productInfo = $this->productModel->select(array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']))->current();
         if(!empty($productInfo)){
+            $specialID = $productInfo['specialID'];
             $productCategoryFilterOptions = $this->productFilterOptionModel->select(array('productID' => $productID))->toArray();
             $productPropertyValues = $this->productPropertyValueModel->select(array('productID' => $productID))->toArray();
             $productInfo['detailImgs'] = json_decode($productInfo['detailImgs'], true);
@@ -714,7 +715,7 @@ class MemberController extends Front{
     }
 
     public function productAction(){
-        $res = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID'], new IsNull('Product.specialID'), 'Product.auctionStatus != ?' => 3), $this->pageNum, $this->limit);
+        $res = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID'], 'Product.auctionStatus != ?' => 3), $this->pageNum, $this->limit);
         $products = $res['data'];
         foreach($products as $k => $v){
             $startTime = $v['startTime'];
@@ -1103,30 +1104,35 @@ class MemberController extends Front{
     public function publishProductAction(){
         $productID = $this->postData['productID'];
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
-        $productInfo = $this->productModel->select($where)->current();
         $update = array(
             'auctionStatus' => 1
         );
-        if(!empty($productInfo)){
-            if($productInfo['startTime'] < time()) {
-                $productInfo['startTime'] = time();
-                $update['startTime'] = $productInfo['startTime'];
-            }
-            if($productInfo['endTime'] < time()) {
-                $productInfo['endTime'] = strtotime('+1 day');
-                $update['endTime'] = $productInfo['endTime'];
-            }
 
-            if($productInfo['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间设置错误');
-            if($productInfo['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间设置错误');
-            if($productInfo['endTime'] < $productInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
-            if($productInfo['endTime'] > strtotime('+2 days', $productInfo['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
+        $products = $this->productModel->select($where)->toArray();
+
+        foreach($products as $productInfo){
+            if(!empty($productInfo)){
+                if($productInfo['startTime'] < time()) {
+                    $productInfo['startTime'] = time();
+                    $update['startTime'] = $productInfo['startTime'];
+                }
+                if($productInfo['endTime'] < time()) {
+                    $productInfo['endTime'] = strtotime('+1 day');
+                    $update['endTime'] = $productInfo['endTime'];
+                }
+
+                if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
+                if($productInfo['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间设置错误');
+                if($productInfo['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间设置错误');
+                if($productInfo['endTime'] < $productInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
+                if($productInfo['endTime'] > strtotime('+2 days', $productInfo['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
+            }
         }
 
         $paidWhere = array_merge($where, array('isPaid' => 0));
-        $products = $this->productModel->select($paidWhere)->toArray();
-        if(!empty($products)){
-            $price = $this->siteSettings['productMoney'] * count($products);
+        $paidProducts = $this->productModel->select($paidWhere)->toArray();
+        if(!empty($paidProducts)){
+            $price = $this->siteSettings['productMoney'] * count($paidProducts);
             $unitePayID = $this->memberOrderModel->genUnitePayID();
             $this->productModel->update(array('unitePayID' => $unitePayID), $where);
         }else{
@@ -1139,11 +1145,14 @@ class MemberController extends Front{
     public function withdrawProductAction(){
         $productID = $this->postData['productID'];
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
-        $productInfo = $this->productModel->select($where)->current();
-        if(!empty($productInfo)){
+        $products = $this->productModel->select($where)->toArray();
+        foreach($products as $productInfo){
+            if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场下架');
             if($productInfo['auctionStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '拍卖正在进行中, 无法下架');
-            $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null')), $where);
         }
+
+        $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null')), $where);
+
         return $this->response(ApiSuccess::COMMON_SUCCESS, '下架成功');
     }
 

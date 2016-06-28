@@ -25,20 +25,28 @@ class MemberController extends Admin{
         return $this->adminResponse($data);
     }
 
+    public function updateAction(){
+        $memberID = $this->postData['memberID'];
 
+        $where = array(
+            'memberID' => $memberID
+        );
+        unset($this->postData['memberID']);
 
-    public function delAction(){
+        $this->memberInfoModel->update($this->postData, $where);
 
-        $adminID = $this->request->getPost("adminID");
-        if(empty($adminID)){
-            return $this->response(AdminError::PARAMETER_MISSING, AdminError::PARAMETER_MISSING_MSG);
-        }
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
+    }
 
-        try{
-            $this->adminModel->delete(array("adminID" => $adminID));
-            return $this->response(AdminSuccess::COMMON_SUCCESS, AdminSuccess::COMMON_SUCCESS_MSG);
-        }catch (\Exception $e){
-            return $this->response(AdminError::DATA_DELETE_FAILED, AdminError::DATA_DELETE_FAILED_MSG);
-        }
+    public function closeAction(){
+        $memberID = $this->postData['memberID'];
+
+        $where = array(
+            'memberID' => $memberID
+        );
+        $this->postData['closeTime'] = time();
+        $this->memberInfoModel->update($this->postData, $where);
+
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
     }
 }

@@ -3,6 +3,7 @@ namespace COM\Controller;
 
 use Base\ConstDir\Regexp;
 use COM\Controller;
+use Zend\Authentication\Storage\Session;
 
 class Front extends Controller{
     protected $version;
@@ -26,6 +27,16 @@ class Front extends Controller{
         $this->layout()->setVariable('adminName', $this->adminInfo['username']);
 
         $this->checkLogin(self::FRONT_PLATFORM);
+
+        if(!empty($this->memberInfo) && !$this->memberInfoModel->isAvailable($this->memberInfo)){
+            $session = new Session(self::FRONT_PLATFORM);
+            $session->clear();
+            setcookie('autoCode', '', time(), '/');
+            return $this->redirect()->toUrl('/login/do-login');
+        }
+
+
+
 
         $categories = $this->productCategoryModel->select()->toArray();
 

@@ -39,6 +39,9 @@ class LoginController extends Front{
 
         $memberInfo = $this->memberModel->selectWith($select)->current();
         if(!empty($memberInfo)){
+            if(!$this->memberInfoModel->isAvailable($memberInfo)){
+                return $this->response(ApiError::COMMON_ERROR, '账号被封停');
+            }
             $loginSession = new Session(self::FRONT_PLATFORM, null,null);
             $loginSession->write($memberInfo);
             if($rememberMe){

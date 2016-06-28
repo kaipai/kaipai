@@ -38,4 +38,16 @@ class StoreController extends Admin{
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
     }
 
+    public function closeAction(){
+        $storeID = $this->postData['storeID'];
+
+        $where = array(
+            'storeID' => $storeID
+        );
+        $this->postData['storeCloseTime'] = time();
+        $this->storeModel->update($this->postData, $where);
+
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
+    }
+
 }
