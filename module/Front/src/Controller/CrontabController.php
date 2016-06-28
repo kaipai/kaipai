@@ -98,13 +98,26 @@ class CrontabController extends Controller{
 
 
     public function specialsOnAction(){
+        $specials = $this->specialModel->setColumns(array('specialID', 'startTime', 'endTime'))->select(array('auctionStatus' => 1, 'startTime < ?' => time(), 'isPaid' => 1))->toArray();
         $this->specialModel->update(array('auctionStatus' => 2), array('auctionStatus' => 1, 'startTime < ?' => time(), 'isPaid' => 1));
+        if(!empty($specials)){
+
+            foreach($specials as $v){
+                $this->productModel->update(array('auctionStatus' => 2, 'startTime' => $v['startTime'], 'endTime' => $v['endTime']), array('specialID' => $v['specialID']));
+            }
+        }
 
         return $this->response;
     }
 
     public function specialsOffAction(){
+        $specials = $this->specialModel->setColumns(array('specialID', 'startTime', 'endTime'))->select(array('auctionStatus' => 2, 'endTime < ?' => time(), 'isPaid' => 1))->toArray();
         $this->specialModel->update(array('auctionStatus' => 3), array('auctionStatus' => 2, 'endTime < ?' => time(), 'isPaid' => 1));
+        if(!empty($specials)){
+            foreach($specials as $v){
+                $this->productModel->update(array('auctionStatus' => 3, 'startTime' => $v['startTime'], 'endTime' => $v['endTime']), array('specialID' => $v['specialID']));
+            }
+        }
 
         return $this->response;
     }
