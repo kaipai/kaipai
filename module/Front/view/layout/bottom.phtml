@@ -128,7 +128,7 @@ echo $this->render('/front/common/post-illegal');
             });
         });
 
-        $('.post-illegal-btn').on('click', function(){
+        $(document).on('click', '.post-illegal-btn', function(){
             var data = {
                 coreID : $(this).attr('coreID'),
                 type : $(this).attr('type')

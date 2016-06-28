@@ -16,8 +16,8 @@ class NotificationController extends Admin{
         $content = $this->postData['content'];
 
         if($type == 1){
-            $mobile = $this->postData['mobile'];
-            $memberInfo = $this->memberInfoModel->setColumns(array('memberID'))->select(array('mobile' => $mobile))->current();
+            $nickName = $this->postData['nickName'];
+            $memberInfo = $this->memberInfoModel->setColumns(array('memberID'))->select(array('nickName' => $nickName))->current();
             $this->notificationModel->insert(array('type' => 1, 'memberID' => $memberInfo['memberID'], 'content' => $content));
         }elseif($type == 2){
             $this->notificationModel->insert(array('type' => 1, 'content' => $content));

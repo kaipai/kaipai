@@ -9,7 +9,7 @@
 <script>
     $('#table-javascript').bootstrapTable({
         method: 'get',
-        url: '/admin/member-article/list',
+        url: '/admin/<?php echo $this->layout()->controllerName; ?>/list',
         cache: false,
         toolbar:"#toolbar",
         height: "auto",
@@ -24,8 +24,8 @@
         clickToSelect: true,
         columns: [
             {
-                field: 'memberArticleID',
-                title: '用户文章ID',
+                field: 'memberArticleCommentID',
+                title: '用户文章评论ID',
                 align: 'center',
                 valign: 'middle',
                 width:200
@@ -33,53 +33,21 @@
             },
             {
                 field: 'memberArticleName',
-                title: '用户文章名称',
+                title: '文章名称',
                 align: 'center',
                 valign: 'middle',
                 width:200
 
             },
             {
-                field: 'memberArticleContent',
-                title: '用户文章内容',
+                field: 'commentContent',
+                title: '评论内容',
                 align: 'center',
                 valign: 'middle',
-                width:200,
-                formatter: function(value, index, row){
-                    return '<a target="_blank" href="'+ value +'">文章内容</a>';
-                }
+                width:200
 
-            },{
-                field: 'isIllegal',
-                title: '是否被举报',
-                align: 'center',
-                valign: 'middle',
-                formatter : function(value, row, index){
-                    var str = '';
-                    if(value == 1){
-                        str += '是';
-                    }else{
-                        str += '否';
-                    }
-                    return str;
-                }
-
-            },{
-                field: 'joinAward',
-                title: '是否报名有奖征文',
-                align: 'center',
-                valign: 'middle',
-                formatter : function(value, row, index){
-                    var str = '';
-                    if(value == 1){
-                        str += '是';
-                    }else{
-                        str += '否';
-                    }
-                    return str;
-                }
-
-            },{
+            },
+           {
                 field: 'operate',
                 title: '操作',
                 align: 'center',
@@ -87,12 +55,13 @@
                 formatter:function(value, row, index){
                     return [
                         '<a title="删除" href="javascript:void(0)" class="remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
-                        ' cbody="确认删除吗？" url="/admin/<?=$this->layout()->controllerName;?>/del" method="post" params="memberArticleID='+ row.memberArticleID +'">'+
+                        ' cbody="确认删除吗？" url="/admin/<?=$this->layout()->controllerName;?>/del" method="post" params="memberArticleCommentID='+ row.memberArticleCommentID +'">'+
                         '<i class="glyphicon glyphicon-remove"></i>'+
                         '</a>'
                     ].join('');
                 }
-            }]
+            }
+            ]
     });
 
 </script>

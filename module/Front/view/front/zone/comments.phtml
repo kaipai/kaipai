@@ -11,11 +11,57 @@
             </div>
             <div class="space_cominfo_right">
                 <ul>
-                    <!--<li class="space_no"><a href="javascript:;" class="post-illgeal-btn" coreID="<?php /*echo $v['memberArticleCommentID'] */?>" type="2">举报</a></li>-->
-                    <!--<li class="space_no"><a href="">回复>></a></li>-->
+                    <li class="space_no"><a href="javascript:;" class="post-illegal-btn" coreID="<?php echo $v['memberArticleCommentID'] ?>" type="2">举报</a></li>
+                    <!--<li class="space_no"><a href="javascript:;" class="reply-comment-btn" member-article-id="<?php /*echo $v['memberArticleID'] */?>" comment-id="<?php /*echo $v['memberArticleCommentID'] */?>">回复>></a></li>-->
                 </ul>
             </div>
         </div>
 <?php
     }
 ?>
+<?php echo $this->render('reply-comment'); ?>
+<script>
+    $(function(){
+        $('.reply-comment-btn').on('click', function(){
+            layer.open({
+                skin : 'loginBox',
+                title : '回复评论',
+                type : 1,
+                content : $('#reply-comment-div').html()
+            });
+            $('.reply-comment-div-btn:visible').attr('pid', $(this).attr('comment-id'));
+            $('.reply-comment-div-btn:visible').attr('member-article-id', $(this).attr('member-article-id'));
+        });
+
+        $(document).on('click', '.reply-comment-div-btn:visible', function(){
+            var data = {
+                commentContent : $('input[name=commentContent]:visible').val(),
+                zoneID : <?php echo $_zoneInfo['memberID'] ?>,
+                pid : $(this).attr('pid'),
+                memberArticleID : $(this).attr('member-article-id')
+            };
+            $.ajax({
+                url : '/zone/add-comment',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            if(data.pid){
+                                location.reload();
+                            }else{
+                                layer.closeAll();
+                            }
+
+                        });
+                    }else if(res.flag == -102){
+                        loginPOP();
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    })
+</script>

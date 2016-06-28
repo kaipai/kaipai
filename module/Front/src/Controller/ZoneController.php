@@ -77,10 +77,16 @@ class ZoneController extends Front{
 
     public function commentsAction(){
         $memberArticleID = $this->queryData['memberArticleID'];
-        $where = array('memberArticleID' => $memberArticleID);
+        $where = array('MemberArticleComment.memberArticleID' => $memberArticleID, 'pid' => 0);
         $res = $this->memberArticleCommentModel->getComments($where, $this->pageNum, $this->limit);
         $comments = $res['data'];
-
+        foreach($comments as $k => $v){
+            $where = array(
+                'pid' => $v['memberArticleCommentID'],
+            );
+            $childs = $this->memberArticleCommentModel->getComments($where, 1, 100);
+            $comments[$k]['childs'] = $childs;
+        }
         $this->view->setVariables(array(
             'comments' => $comments,
             'pages' => $res['pages'],
@@ -203,7 +209,10 @@ class ZoneController extends Front{
             unset($this->postData['zoneID']);
             $this->postData['senderID'] = $this->memberInfo['memberID'];
             $this->memberArticleCommentModel->insert($this->postData);
-            $this->memberArticleModel->update(array('commentCount' => new Expression('commentCount+1')), array('memberArticleID' => $this->postData['memberArticleID']));
+            if(empty($this->postData['pid'])){
+                $this->memberArticleModel->update(array('commentCount' => new Expression('commentCount+1')), array('memberArticleID' => $this->postData['memberArticleID']));
+            }
+
             return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功');
         }catch (\Exception $e){
             return $this->response(ApiError::COMMON_ERROR, '添加失败');

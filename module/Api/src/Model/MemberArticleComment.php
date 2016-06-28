@@ -7,6 +7,7 @@ class MemberArticleComment extends Model{
     public function getComments($where, $page, $limit, $order = ''){
         $select = $this->getSelect();
         $select->join(array('b' => 'MemberInfo'), 'MemberArticleComment.senderID = b.memberID', array('nickName'));
+        $select->join(array('c' => 'MemberArticle'), 'MemberArticleComment.memberArticleID = c.memberArticleID', array('memberArticleName'));
         $select->where($where);
 
         if(empty($order)){

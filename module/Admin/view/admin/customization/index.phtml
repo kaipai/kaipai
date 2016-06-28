@@ -208,9 +208,9 @@
     });
     function operateFormatter(value, row, index) {
         return [
-            "<a title='编辑' href=\"/admin/<?=$this->layout()->controllerName;?>/add-view?customizationID="+row.customizationID+"\" ><i class=\"glyphicon glyphicon-edit\"></i></a>",
+            "<a title='编辑' href=\"/admin/<?php echo $this->layout()->controllerName;?>/add-view?customizationID="+row.customizationID+"\" ><i class=\"glyphicon glyphicon-edit\"></i></a>",
             '<a title="删除" href="javascript:void(0)" class="remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
-            ' cbody="确认删除' + row.title + '吗？" url="/admin/<?=$this->layout()->controllerName;?>/del" method="post" params="customizationID='+ row.customizationID +'">'+
+            ' cbody="确认删除' + row.title + '吗？" url="/admin/<?php echo $this->layout()->controllerName;?>/del" method="post" params="customizationID='+ row.customizationID +'">'+
             '<i class="glyphicon glyphicon-remove"></i>'+
             '</a>'
         ].join('');
