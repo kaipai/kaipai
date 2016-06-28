@@ -892,6 +892,7 @@ class MemberController extends Front{
             $product['currPrice'] = $product['startPrice'];
         }
 
+
         if(!empty($data['productID'])){
 
             $where = array(
@@ -900,11 +901,11 @@ class MemberController extends Front{
             );
             $products = $this->productModel->select($where)->toArray();
             foreach($products as $productInfo){
+                if(empty($product['specialID']) && !empty($productInfo['specialID']) && !empty($product['startTime']) && !empty($product['endTime'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
                 if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
                 if(!empty($productInfo['auctionStatus']) && $productInfo['auctionStatus'] != 1) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
             }
         }
-
 
         try{
             $this->productModel->beginTransaction();

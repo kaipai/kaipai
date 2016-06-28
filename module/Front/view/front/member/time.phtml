@@ -15,7 +15,7 @@
         ?>
     </select>
     <span class="kp_ml8">月</span>
-    <select class="kp_ml9 layer-start-time-day" id="start-time-day">
+    <select class="kp_ml9 layer-start-time-day" id="start-time-day" day="<?php echo date('j') ?>">
 
     </select>
     <span class="kp_ml8">日</span>
@@ -59,7 +59,7 @@
         ?>
     </select>
     <span class="kp_ml8">月</span>
-    <select class="kp_ml9 layer-end-time-day" id="end-time-day">
+    <select class="kp_ml9 layer-end-time-day" id="end-time-day" day="<?php echo date('j') ?>">
 
     </select>
     <span class="kp_ml8">日</span>
@@ -118,7 +118,8 @@ $(function(){
                         <?php
                             }else{
                         ?>
-                                $('.layer-start-time-day:visible').val(<?php echo date('j') ?>);
+                                var day =
+                                $('.layer-start-time-day:visible').val($('.layer-start-time-day:visible').attr('day'));
                         <?php
                             }
                         ?>
@@ -135,7 +136,7 @@ $(function(){
                         <?php
                             }else{
                         ?>
-                                $('.layer-end-time-day:visible').val(<?php echo date('j') ?>);
+                                $('.layer-end-time-day:visible').val($('.layer-end-time-day:visible').attr('day'));
                         <?php
                             }
                         ?>

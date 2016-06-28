@@ -119,21 +119,19 @@
                             </div>
                             <div class="kp_bj">
                                 <?php if($v['auctionStatus'] == 1 || empty($v['auctionStatus'])){
-                                    if(empty($v['specialID'])){
+
                                 ?>
                                     <a start-time-year="<?php echo $v['startTimeYear'] ?>" start-time-month="<?php echo $v['startTimeMonth'] ?>" start-time-day="<?php echo $v['startTimeDay'] ?>" start-time-hour="<?php echo $v['startTimeHour'] ?>" start-time-minute="<?php echo $v['startTimeMin'] ?>" end-time-year="<?php echo $v['endTimeYear'] ?>" end-time-month="<?php echo $v['endTimeMonth'] ?>" end-time-day="<?php echo $v['endTimeDay'] ?>" end-time-hour="<?php echo $v['endTimeHour'] ?>" end-time-minute="<?php echo $v['endTimeMin'] ?>" href="javascript:;" class="choose-auction-time" product-id="<?php echo $v['productID'] ?>">选择拍卖时间>></a>
                                 <?php
-                                    }else{
-                                ?>
-                                        专场拍品
-                                <?php
+                                    if(!empty($v['specialID'])) {
+                                        echo '<br />专场拍品';
                                     }
                                 }else{
 
                                 ?>
                                     <a href="javascript:;" class="cancel-keep-price-btn" product-id="<?php echo $v['productID'] ?>">取消保留价>></a>
                                 <?php
-                                    if(empty($v['specialID'])){
+                                    if(!empty($v['specialID'])){
                                         echo '<br />专场拍品';
                                     }
 
@@ -313,12 +311,12 @@ echo $this->render('/front/common/transfer-account');
             $('.choose-auction-time-confirm-btn:visible').attr('product-id', productID);
             if(startTimeYear) $('.layer-start-time-year:visible').val(startTimeYear);
             if(startTimeMonth) $('.layer-start-time-month:visible').val(startTimeMonth);
-            if(startTimeDay) $('.layer-start-time-day:visible').val(startTimeDay);
+            if(startTimeDay) $('.layer-start-time-day:visible').attr('day', startTimeDay);
             if(startTimeHour) $('.layer-start-time-hour:visible').val(startTimeHour);
             if(startTimeMinute) $('.layer-start-time-minute:visible').val(startTimeMinute);
             if(endTimeYear) $('.layer-end-time-year:visible').val(endTimeYear);
             if(endTimeMonth) $('.layer-end-time-month:visible').val(endTimeMonth);
-            if(endTimeDay) $('.layer-end-time-day:visible').val(endTimeDay);
+            if(endTimeDay) $('.layer-end-time-day:visible').attr('day', endTimeDay);
             if(endTimeHour) $('.layer-end-time-hour:visible').val(endTimeHour);
             if(endTimeMinute) $('.layer-end-time-minute:visible').val(endTimeMinute);
         });
