@@ -149,8 +149,17 @@ echo $this->headLink()
 
             <div class="sf_show">
 
+                    <?php if($specialInfo['auctionStatus'] == 0){
+                    ?>
+                        <div class="sf_show_top" style="background:#61B6D8 none repeat scroll 0% 0%">
+                            <p class="sf_title"><?php echo $specialInfo['specialName']; ?></p>
+
+                            <p class="sf_overtime">
+                                <em>开拍时间 <?php echo date('m月d日 H时i分', $specialInfo['startTime']); ?></em>
+                            </p>
+                        </div>
                     <?php
-                        if($specialInfo['auctionStatus'] == 1){
+                        }elseif($specialInfo['auctionStatus'] == 1){
                     ?>
                         <div class="sf_show_top" style="background:#61B6D8 none repeat scroll 0% 0%">
                             <p class="sf_title"><?php echo $specialInfo['specialName']; ?></p>
