@@ -898,16 +898,18 @@ class MemberController extends Front{
                 'productID' => $product['productID'],
                 'storeID' => $product['storeID']
             );
-            $productInfo = $this->productModel->select($where)->current();
-            if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
-            if(!empty($productInfo['auctionStatus']) && $productInfo['auctionStatus'] != 1) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
+            $products = $this->productModel->select($where)->toArray();
+            foreach($products as $productInfo){
+                if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
+                if(!empty($productInfo['auctionStatus']) && $productInfo['auctionStatus'] != 1) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
+            }
         }
 
 
         try{
             $this->productModel->beginTransaction();
 
-            if(!empty($productInfo)){
+            if(!empty($products)){
                 unset($product['productID']);
                 $this->productModel->update($product, $where);
                 if(!empty($data['productCategoryFilters'])){
@@ -918,10 +920,12 @@ class MemberController extends Front{
                     $this->productPropertyValueModel->delete(array('productID' => $where['productID']));
                 }
                 $productID = $where['productID'];
-
-                if(!empty($productInfo['specialID']) && $product['isDel']){
-                    $this->specialModel->update(array('productCount' => new Expression('productCount-1')), array('specialID' => $productInfo['specialID']));
+                foreach($products as $productInfo){
+                    if(!empty($productInfo['specialID']) && $product['isDel']){
+                        $this->specialModel->update(array('productCount' => new Expression('productCount-1')), array('specialID' => $productInfo['specialID']));
+                    }
                 }
+
             }else{
                 $unitePayID = $this->memberOrderModel->genUnitePayID();
                 $product['unitePayID'] = $unitePayID;
@@ -958,7 +962,7 @@ class MemberController extends Front{
             }
 
             $this->productModel->commit();
-            if(!empty($productInfo)){
+            if(!empty($products)){
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功', array('productID' => $productID));
             }else{
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('productID' => $productID, 'unitePayID' => $unitePayID));
