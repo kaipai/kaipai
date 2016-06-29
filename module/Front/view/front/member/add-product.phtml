@@ -837,7 +837,7 @@ echo $this->render('/front/common/transfer-account');
                                 content: '<img src="/qrcode/' + res.data['coreData'] + '" />'
                             });
                         }
-                        setInterval('checkOrderStatus(' + data.unitePayID + ', 1)', 2000);
+                        setInterval('checkOrderStatus(' + data.unitePayID + ', 2)', 2000);
                     }else{
                         layer.alert(res.msg);
                     }

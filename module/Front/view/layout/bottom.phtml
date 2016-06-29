@@ -167,6 +167,10 @@ function checkOrderStatus(unitePayID, type){
             if(res.data && res.data['orderStatus'] > 1){
                 if(data.type == 1){
                     location.reload();
+                }else if(data.type == 2){
+                    location.href = '/member/product';
+                }else if(data.type == 3){
+                    location.href = '/member/special';
                 }
 
             }
