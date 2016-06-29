@@ -525,14 +525,27 @@ class MemberController extends Front{
             $where = array(
                 'orderID' => $unitePayID,
             );
-        }else{
+            $order = $this->memberOrderModel->select($where)->current();
+            $orderStatus = $order['orderStatus'];
+        }elseif($type == 2){
             $where = array(
                 'unitePayID' => $unitePayID
             );
-        }
-        $order = $this->memberOrderModel->select($where)->current();
+            $product = $this->productModel->select($where)->current();
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('orderStatus' => $order['orderStatus']));
+            $orderStatus = $product['isPaid'] ? 2 : 1;
+
+        }elseif($type == 3){
+            $where = array(
+                'unitePayID' => $unitePayID
+            );
+            $special = $this->specialModel->select($where)->current();
+
+            $orderStatus = $special['isPaid'] ? 2 : 1;
+        }
+
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('orderStatus' => $orderStatus));
     }
 
 
