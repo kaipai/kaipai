@@ -80,6 +80,13 @@ class OrderController extends Front{
         $orderRemark = $this->postData['orderRemark'];
         $orderInfo = $this->memberOrderModel->select(array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']))->current();
         if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if($orderInfo['orderType'] == 1){
+            $tmp = json_decode($orderInfo['productSnapshot'], true);
+            $productName = $tmp['productName'];
+        }elseif($orderInfo['orderType'] == 2){
+            $tmp = json_decode($orderInfo['customizationSnapshot'], true);
+            $productName = $tmp['title'];
+        }
         try{
             $this->memberOrderModel->beginTransaction();
 
@@ -116,17 +123,17 @@ class OrderController extends Front{
 
                 }
             }if($payType == 2){
-                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->doPay($unitePayID, $price);
+                $payUrl = $this->sm->get('COM\Service\PayMod\AliPay')->doPay($unitePayID, $price, $productName);
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payUrl));
             }elseif($payType == 3){
-                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->doPay($unitePayID, $price);
+                $payForm = $this->sm->get('COM\Service\PayMod\UnionPay')->doPay($unitePayID, $price, $productName);
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payForm));
             }elseif($payType == 4){
                 $this->memberPayDetailModel->update(array('payType' => $payType), array('unitePayID' => $unitePayID));
 
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG);
             }elseif($payType == 5){
-                $payPic = $this->sm->get('COM\Service\PayMod\WxPay')->doPay($unitePayID, $price);
+                $payPic = $this->sm->get('COM\Service\PayMod\WxPay')->doPay($unitePayID, $price, $productName);
                 return $this->response($payType, ApiSuccess::COMMON_SUCCESS_MSG, array('coreData' => $payPic));
             }else{
                 return $this->response(ApiError::COMMON_ERROR, '请选择支付方式');

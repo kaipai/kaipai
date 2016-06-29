@@ -20,9 +20,9 @@ class WxPay extends BasePay
     private $notifyUrl = "http://www.kaipai123.com/pay/wx-notify"; //异步通知地址
     private $spbill_create_ip = '114.55.36.109';
 
-    public function doPay($unitePayID = null, $price) {
+    public function doPay($unitePayID = null, $price, $productName = '收款') {
         $data = array(
-            'body' => '收款',
+            'body' => $productName,
             'out_trade_no' => $unitePayID,
             'total_fee' => $price * 100,
         );
@@ -38,7 +38,7 @@ class WxPay extends BasePay
 
     public function productDoPay($unitePayID = null, $price) {
         $data = array(
-            'body' => '收款',
+            'body' => '发布拍品收费',
             'out_trade_no' => $unitePayID,
             'total_fee' => $price * 100,
         );
@@ -54,7 +54,7 @@ class WxPay extends BasePay
 
     public function specialDoPay($unitePayID = null, $price) {
         $data = array(
-            'body' => '收款',
+            'body' => '发布专场收费',
             'out_trade_no' => $unitePayID,
             'total_fee' => $price * 100,
         );

@@ -36,7 +36,7 @@ class Unionpay
         $this->params['orderId'] = $order['OrderID'];
         $this->params['txnTime'] = date('YmdHis');
         $this->params['txnAmt'] = $order['OrderPrice'] * 100;
-        $this->params['reqReserved'] = base64_encode(json_encode(array('pay_type' => \Base\ConstDir\BaseConst::PAY_TYPE_UNION)));
+        $this->params['reqReserved'] = base64_encode(json_encode(array('pay_type' => 3)));
         $params = $this->params;
         sign($params);
         $result = sendHttpRequest($params, SDK_App_Request_Url);

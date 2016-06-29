@@ -13,12 +13,12 @@ class AliPay extends BasePay
     /**
      * 支付
      */
-    public function doPay($unitePayID = null, $price) {
+    public function doPay($unitePayID = null, $price, $productName = '收款') {
         include_once __DIR__ . '/lib/ali/alipay.php';
         $config = $this->sm->get('Config');
         $aliConfig = $config[getenv('APP_ENV')]['aliConfig'];
         $aliPayment = new \AlipayPayment($aliConfig);
-        $subject = '收款';
+        $subject = $productName;
         $orderInfo = array(
             "out_trade_no" => $unitePayID, //流水编号       必填
             "subject" => $subject, //订单名称	必填
