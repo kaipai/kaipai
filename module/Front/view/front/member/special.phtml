@@ -198,15 +198,14 @@ echo $this->render('/front/common/transfer-account');
                                 content: $('#transfer-account').html()
                             });
                         }else if(res.flag == 5){
-                            layer.alert('申请开通中');
-                            return false;
                             layer.open({
                                 skin: '',
                                 title:'',
                                 type: 1,
-                                content: '<img src="' + res.data['coreData'] + '" />'
+                                content: '<img src="/qrcode/' + res.data['coreData'] + '" />'
                             });
                         }
+                        setInterval('checkOrderStatus(' + data.unitePayID + ', 1)', 2000);
                     }else{
                         layer.alert(res.msg);
                     }
