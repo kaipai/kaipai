@@ -11,17 +11,15 @@ use Base\Functions\Utility;
 
 class WxPay extends BasePay
 {
-    private $appid = 'wx42eaae1f8572ba8e';  //支付appid
+    private $appid = 'wxc6ddef538eda87f6';  //支付appid
     private $orderUrl = 'https://api.mch.weixin.qq.com/pay/unifiedorder';   //微信统一下单地址
-    private $key = 'c55459626311ab62f2c71b03487f7d7d';  //支付秘钥
-    private $mch_id = '1268988901';  //商户号
+    private $key = 'e67b60d56f721f84f8a551fae4a651a3';  //支付秘钥
+    private $mch_id = '1311663901';  //商户号
     private $trade_type = 'NATIVE';  //支付类型
     private $nonceStrLength = 32; //随机数成成位数
     private $notifyUrl = "http://www.kaipai123.com/pay/wx-notify"; //异步通知地址
     private $spbill_create_ip = '114.55.36.109';
-    /**
-     * 支付
-     */
+
     public function doPay($unitePayID = null, $price) {
         $data = array(
             'body' => '收款',
