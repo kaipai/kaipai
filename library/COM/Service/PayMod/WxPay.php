@@ -28,7 +28,7 @@ class WxPay extends BasePay
         );
 
         $return = $this->unifiedOrder($data);
-
+var_dump($return);
         if($return['return_code'] == 'SUCCESS' && $return['result_code'] == 'SUCCESS'){
             $codePath = $this->sm->get('COM\Service\QrcodeService')->png($return['code_url']);
             return $codePath;
