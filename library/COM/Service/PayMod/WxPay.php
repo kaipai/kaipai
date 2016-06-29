@@ -92,10 +92,9 @@ class WxPay extends BasePay
         $data['trade_type'] = $this->trade_type;//商户号
         $data['time_start'] = date("YmdHis",time());   //订单开始时间
         $data['time_expire'] = date("YmdHis",time()+300);   //订单失效时间
-        $data['sign'] = $this->makeSign($data);
         $data['notify_url'] = $this->notifyUrl;
         $data['spbill_create_ip'] = $this->spbill_create_ip;
-
+        $data['sign'] = $this->makeSign($data);
         $data = Utility::toXml($data);
 
         $result = $this->postXmlCurl($data, $this->orderUrl);
