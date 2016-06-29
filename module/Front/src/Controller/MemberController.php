@@ -358,7 +358,7 @@ class MemberController extends Front{
             if(!empty($orderInfo['storeID'])){
                 $storeInfo = $this->storeModel->fetch(array('storeID' => $orderInfo['storeID']));
                 if(!empty($storeInfo['fees'])){
-                    $siteFees = $orderInfo['paidMoney'] * $storeInfo['fees'];
+                    $siteFees = $orderInfo['productPrice'] * $storeInfo['fees'];
                     $this->memberPayDetailModel->update(array('siteFees' => $siteFees), array('unitePayID' => $orderInfo['unitePayID']));
                     $orderInfo['paidMoney'] -= $siteFees;
 
