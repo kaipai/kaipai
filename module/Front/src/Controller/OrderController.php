@@ -188,7 +188,7 @@ class OrderController extends Front{
         $payType = $this->postData['payType'];
         $specialInfo = $this->specialModel->select(array('unitePayID' => $unitePayID))->current();
         if(!empty($specialInfo)){
-            $price = $this->siteSettings['speicalMoney'];
+            $price = $this->siteSettings['specialMoney'];
 
             if($payType == 1){
                 if($price > $this->memberInfo['rechargeMoney']){
