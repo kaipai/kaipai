@@ -10,12 +10,15 @@ use Base\ConstDir\Admin\AdminSuccess;
 class StoreController extends Admin{
 
     public function indexAction(){
+        $levels = $this->storeLevelModel->select()->toArray();
 
+        $this->view->setVariables(array('levels' => $levels));
         return $this->view;
     }
 
     public function listAction(){
         $res = $this->storeModel->getStores($this->pageNum, $this->limit);
+
 
         return $this->adminResponse(array('rows' => $res['data'], 'total' => $res['total']));
     }

@@ -356,9 +356,18 @@ class MemberController extends Front{
             $this->memberOrderModel->beginTransaction();
             $this->memberOrderModel->update(array('orderStatus' => 5), $where);
             if(!empty($orderInfo['storeID'])){
-                $storeInfo = $this->storeModel->select(array('storeID' => $orderInfo['storeID']))->current();
+                $storeInfo = $this->storeModel->fetch(array('storeID' => $orderInfo['storeID']));
+                if(!empty($storeInfo['fees'])){
+                    $siteFees = $orderInfo['paidMoney'] * $storeInfo['fees'];
+                    $this->memberPayDetailModel->update(array('siteFees' => $siteFees), array('unitePayID' => $orderInfo['unitePayID']));
+                    $orderInfo['paidMoney'] -= $siteFees;
+
+                }
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('storeID' => $orderInfo['storeID']));
                 $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'unitePayID' => $orderInfo['unitePayID'], 'source' => '订单确认收货打款'));
+                if(!empty($siteFees)){
+                    $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $siteFees, 'unitePayID' => $orderInfo['unitePayID'], 'source' => '网站佣金', 'type' => 2));
+                }
             }
 
             $this->memberOrderModel->commit();

@@ -48,12 +48,62 @@
 </div>
 <!-- Edit Modal End -->
 
+<!-- Edit Modal Start -->
+<div class="row">
+    <div class="modal form-modal fade" id="edit_modal2" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="edit_modal_label2">设置店铺等级</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="editForm2" role="form" method="post" action="/admin/<?php echo $this->layout()->controllerName;?>/update">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 col-md-2 control-label">店铺等级</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" name="level">
+                                                <?php foreach($levels as $v){
+                                                ?>
+                                                <option value="<?php echo $v['level']; ?>"><?php echo $v['levelName']; ?></option>
+                                                <?php
+                                                } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden"  name="storeID" value="" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                    <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Modal End -->
+
 <script>
 
     $('#edit_modal').on("show.bs.modal",function(e){
         var btn = $(e.relatedTarget);
         var storeID = btn.attr('rid');
-        $('input[name=storeID]').val(storeID);
+        $('#edit_modal input[name=storeID]').val(storeID);
+    });
+    $('#edit_modal2').on("show.bs.modal",function(e){
+        var btn = $(e.relatedTarget);
+        var storeID = btn.attr('rid');
+        var level = btn.attr('level');
+        $('#edit_modal2 input[name=storeID]').val(storeID);
+        $('#edit_modal2 select[name=level]').val(level);
     });
 
     $('#table-javascript').bootstrapTable({
@@ -76,24 +126,21 @@
                 field: 'storeID',
                 title: '店铺ID',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },
             {
                 field: 'storeName',
                 title: '店铺名',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },
             {
                 field: 'storeSignature',
                 title: '店铺签名',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             }/*,{
                 field: 'storeDesc',
@@ -107,7 +154,6 @@
                 title: '店铺LOGO',
                 align: 'center',
                 valign: 'middle',
-                width:200,
                 formatter:function(value, row, index){
                     var str = '<img src="' + value + '" width="100px" />';
                     return str;
@@ -116,15 +162,13 @@
                 field: 'idNumber',
                 title: '身份证号',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },{
                 field: 'idPic',
                 title: '身份证图片',
                 align: 'center',
                 valign: 'middle',
-                width:200,
                 formatter:function(value, row, index){
                     var str = '<img src="' + value + '" width="100px" />';
                     return str;
@@ -134,7 +178,6 @@
                 title: '本人手持身份证图片',
                 align: 'center',
                 valign: 'middle',
-                width:200,
                 formatter:function(value, row, index){
                     var str = '<img src="' + value + '" width="100px" />';
                     return str;
@@ -143,13 +186,12 @@
                 field: 'storeMobile',
                 title: '商铺绑定手机号',
                 align: 'center',
-                valign: 'middle',
+                valign: 'middle'
             },{
                 field: 'verifyStatus',
                 title: '审核状态',
                 align: 'center',
                 valign: 'middle',
-                width:200,
                 formatter:function(value, row, index){
                     var str = '';
                     if(value == 1){
@@ -171,7 +213,6 @@
                 title: '是否推荐',
                 align: 'center',
                 valign: 'middle',
-                width:200,
                 formatter:function(value, row, index){
                     if(value == 0){
                         var str = '<a title="推荐" href="javascript:void(0)" class="col-md-4 text-danger  confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认推荐吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&isRecommend=1"><i class="glyphicon glyphicon-remove"></i></a>';
@@ -186,7 +227,6 @@
                 title: '是否热门',
                 align: 'center',
                 valign: 'middle',
-                width:200,
                 formatter:function(value, row, index){
                     if(value == 0){
                         var str = '<a title="热门" href="javascript:void(0)" class="col-md-4 text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认热门吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&isHot=1"><i class="glyphicon glyphicon-remove"></i></a>';
@@ -196,6 +236,11 @@
                     return str;
                 }
 
+            },{
+                field: 'levelName',
+                title: '店铺等级',
+                align: 'center',
+                valign: 'middle'
             },{
                 field: 'storeID',
                 title: '操作',
@@ -217,7 +262,7 @@
                     }else{
                         s += '<a title="封停" href="javascript:void(0)"  class="col-md-4" rid="' + value + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-minus"></i></a>';
                     }
-
+                    s += '<a href="javascript:void(0)" level="' + row.level + '"  class="col-md-4" rid="' + value + '"  data-toggle="modal" data-target="#edit_modal2">设置等级</a>';
 
 
                     return s;
