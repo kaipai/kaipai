@@ -276,7 +276,7 @@
                                 content: '<img src="/qrcode/' + res.data['coreData'] + '" />'
                             });
                         }
-
+                        setInterval('checkOrderStatus(' + data.orderID + ', 1)', 2000);
                     }else{
                         layer.alert(res.msg);
                     }

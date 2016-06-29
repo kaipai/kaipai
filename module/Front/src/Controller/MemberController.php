@@ -518,6 +518,23 @@ class MemberController extends Front{
 
     }
 
+    public function orderStatusAction(){
+        $unitePayID = $this->postData['unitePayID'];
+        $type = $this->postData['type'];
+        if($type == 1){
+            $where = array(
+                'orderID' => $unitePayID,
+            );
+        }else{
+            $where = array(
+                'unitePayID' => $unitePayID
+            );
+        }
+        $order = $this->memberOrderModel->select($where)->current();
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('orderStatus' => $order['orderStatus']));
+    }
+
 
 
 
