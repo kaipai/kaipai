@@ -39,7 +39,7 @@ class Product extends Model{
     public function fetch($where = array()){
         $select = $this->getSelect();
         $select->join(array('b' => 'ProductCategory'), 'Product.productCategoryID = b.productCategoryID', array('categoryName'));
-        $select->join(array('c' => 'Store'), 'Product.storeID = c.storeID', array('storeName'));
+        $select->join(array('c' => 'Store'), 'Product.storeID = c.storeID', array('storeName', 'storeqq'));
         $select->where($where);
 
         return $this->selectWith($select)->current();
