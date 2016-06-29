@@ -499,6 +499,16 @@ class MemberController extends Front{
 
     }
 
+    public function removeInterestZoneAction(){
+        $zones = $this->postData['zones'];
+        $where = array('memberID' => $this->memberInfo['memberID'], 'interestedMemberID' => $zones);
+
+        $this->memberInterestModel->delete($where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '取关成功');
+
+    }
+
 
 
 

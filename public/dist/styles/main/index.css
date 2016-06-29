@@ -562,6 +562,7 @@
 .proTextList span.item3{width:90px;}
 .proTextList span.item4{width:300px; float: right;}
 .proTextList dd span.item4{background: url(/dist/img/common/li.png)0 center no-repeat; text-indent: 20px;text-align: left;}
+.proTextList dd.status2 span.item4{background: url(/dist/img/common/li2.png) 0 center no-repeat;}
 /*.proTextList dd span.item4 em{padding-left: 20px;}*/
 .proTextList dd:after {
     visibility: hidden;

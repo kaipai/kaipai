@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="/dist/styles/main/space.css">
+<div class="mySpace">
+    <?php echo $this->render('banner'); ?>
+    <div class="spacecont">
+        <?php echo $this->render('top') ?>
+        <div class="center ">
+
+            <div class="ys_top">
+                <div class="ys_top">
+                    <div class="gzsj_qx remove-interest-batch" style="cursor: pointer;">取消关注</div>
+                </div>
+            </div>
+            <div class="gzsj_li clearfix">
+                <ul>
+                    <?php
+                        foreach($data as $v){
+                    ?>
+                            <li>
+                                <input type="checkbox" name="checkbox1" value="checkbox" zone-id="<?php echo $v['memberID'] ?>" class="ind_checkbox add_lefimg01 zone-item">
+
+                                <div class="gzsj_liimg">
+                                    <a target="_blank" href="/zone/index?zoneID=<?php echo $v['memberID'] ?>"><img src="<?php echo $v['avatar'] ?>"></a>
+                                </div>
+                                <div class="gzsj_litit"><?php echo $v['nickName'] ?></div>
+                            </li>
+                    <?php
+                        }
+                    ?>
+                </ul>
+            </div>
+            <?php
+            if(!empty($data)){
+                echo $this->render('/front/common/paginate', array('url' => '/zone/interested-zones?' , 'pages' => $pages));
+            }
+
+            ?>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('.remove-interest-batch').on('click', function(){
+            var checkedZones = $('.zone-item:checked');
+            if(!checkedZones.length){
+                layer.alert('请选择空间');
+                return false;
+            }
+            var data = {};
+            data.zones = new Array();
+
+            checkedZones.each(function(){
+                tmp = $(this).attr('zone-id');
+
+                data.zones.push(tmp);
+            });
+
+            $.ajax({
+                url : '/member/remove-interest-zone',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+    })
+</script>

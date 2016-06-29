@@ -70,7 +70,7 @@
             ?>
             <?php if ($v['auctionStatus'] == 1) {
                 ?>
-                <dd>
+                <dd class="status2">
                     <span class="item1"><?php echo $v['categoryName'] ?></span>
                     <span class="item2" style="cursor:pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'"><?php echo $v['productName'] ?></span>
                     <span class="item3">￥<?php echo $v['currPrice'] ?></span>

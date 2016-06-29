@@ -113,10 +113,10 @@ class ZoneController extends Front{
     public function interestedZonesAction(){
         $where = array('MemberInterest.memberID' => $this->_zoneInfo['memberID']);
         $res = $this->memberInterestModel->getInterestMembers($where, $this->pageNum, $this->limit);
-        $messages = $res['data'];
+        $members = $res['data'];
 
         $this->view->setVariables(array(
-            'data' => $messages,
+            'data' => $members,
             'pages' => $res['pages'],
         ));
         return $this->view;

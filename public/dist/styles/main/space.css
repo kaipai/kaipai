@@ -78,3 +78,19 @@
 .art-msgList li{  line-height: 24px;padding: 10px 0 }
 .art-msgList li .msgLi-tit{font-weight: bold;
 }
+/*=========================================关注商家=================================================*/
+.gzsj_li{ margin-top: 40px}
+.gzsj_li ul li{ float: left; width: 166px; height: 170px; margin:0 15px 20px 15px; border: 1px solid #c2beb3; padding: 18px; position: relative;}
+.gzsj_liimg{text-align: center;margin-top: 20px;}
+.gzsj_liimg img{ margin: auto; width:97px; height: 95px }
+.gzsj_litit{ margin-top: 18px; text-align: center;}
+.ys_top .gzsj_qx{ color: #999; margin-left: 328px; float: right;}
+.ind_checkbox{width: 20px;height: 20px; vertical-align: middle;}
+.add_lefimg01{position: absolute;top:4px; left: 4px; z-index: 4}
+.add_lefimg img{width: 100%; height: 100%}
+.ys_top {margin-top: 10px; overflow: hidden;}
+.ys_top ul li{ float: left; margin-right: 34px; cursor: pointer; color: #000; font-weight: bold;}
+.ys_acted{color: #820000 !important}
+.ys_searhc{margin-right: 0px !important; background: #820000; color: #fff !important;cursor: pointer; line-height: 28px; display: inline-block; width: 60px; text-align: center; }
+.ys_input{ width: 340px; height: 22px; padding-left: 10px; margin-left: 0px !important; margin-right: 0px !important }
+.ys_searhc1{ margin-right: 0px !important}
