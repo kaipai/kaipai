@@ -152,31 +152,27 @@ echo $this->render('/front/common/post-illegal');
                 redirectURI : 'http://<?php echo $_SERVER['HTTP_HOST'] ?>/notify/qq-login'
             })
         });
+});
+function checkOrderStatus(type, unitePayID){
+    var data = {};
+    data.type = type;
+    data.unitePayID = unitePayID;
+    $.ajax({
+        url : '/member/order-status',
+        dataType : 'json',
+        type : 'post',
+        data : data,
+        success : function(res){
 
-
-        function checkOrderStatus(type, unitePayID){
-            var data = {};
-            data.type = type;
-            data.unitePayID = unitePayID;
-            $.ajax({
-                url : '/member/order-status',
-                dataType : 'json',
-                type : 'post',
-                data : data,
-                success : function(res){
-
-                    if(res.data && res.data['orderStatus'] > 1){
-                        if(data.type == 1){
-                            location.reload();
-                        }
-
-                    }
-
+            if(res.data && res.data['orderStatus'] > 1){
+                if(data.type == 1){
+                    location.reload();
                 }
-            });
+
+            }
 
         }
+    });
 
-
-});
+}
 </script>
