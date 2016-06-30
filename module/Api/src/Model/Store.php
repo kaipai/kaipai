@@ -5,7 +5,7 @@ use COM\Model;
 class Store extends Model{
     public function getStores($page, $limit){
         $select = $this->getSelect();
-        $select->join(array('b' => 'storeLevel'), 'Store.level = b.level', array('levelName'), 'left');
+        $select->join(array('b' => 'StoreLevel'), 'Store.level = b.level', array('levelName'), 'left');
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);
