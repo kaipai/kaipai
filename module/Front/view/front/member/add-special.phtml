@@ -165,30 +165,9 @@ echo $this->render('/front/common/transfer-account');
             data : data,
             success : function(res){
                 if(res.flag > 0){
-                    if(res.data && res.data['unitePayID']){
-                        <?php
-                            if($_siteSettings['specialMoney'] > 0) {
-                        ?>
-                            layer.open({
-                                skin: '',
-                                title: '',
-                                type: 1,
-                                content: $('#pay-div').html()
-                            });
-                            $('.pay-price:visible').html(<?php echo $_siteSettings['specialMoney']; ?>);
-                            $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
-                        <?php
-                            }else{
-                        ?>
-                                location.href = '/member/special';
-                        <?php
-                            }
-                        ?>
-                    }else{
-                        layer.alert(res.msg, function(){
-                            location.href = '/member/special';
-                        });
-                    }
+                    layer.alert(res.msg, function(){
+                        location.href = '/member/special';
+                    });
                 }else{
                     layer.open({
                         content : res.msg
@@ -196,59 +175,6 @@ echo $this->render('/front/common/transfer-account');
                 }
             }
         });
-
-        $(document).on('click', '.confirm-pay:visible', function(){
-            var data = {};
-            data.payType = $('.selected-pay-type').attr('pay-type');
-            if(!data.payType) {
-                layer.alert('请选择付款方式');
-                return false;
-            }
-            data.unitePayID = $('.pay-price:visible').attr('unite-pay-id');
-            $.ajax({
-                url : '/order/pay-special',
-                dataType : 'json',
-                type : 'post',
-                data : data,
-                success : function(res){
-                    if(res.flag > 0){
-                        if(res.flag == 1){
-                            layer.alert(res.msg, function(){
-                                location.reload();
-                            });
-                        }else if(res.flag == 2){
-                            layer.alert('申请开通中');
-                            return false;
-                            location.href = res.data['coreData'];
-                        }else if(res.flag == 3){
-                            layer.alert('申请开通中');
-                            return false;
-                            $('#public-content').html(res.data['coreData']);
-                            document.pay_form.submit();
-                        }else if(res.flag == 4){
-                            layer.open({
-                                skin: '',
-                                title:'',
-                                type: 1,
-                                content: $('#transfer-account').html()
-                            });
-                        }else if(res.flag == 5){
-                            layer.open({
-                                skin: '',
-                                title:'',
-                                type: 1,
-                                content: '<img src="/qrcode/' + res.data['coreData'] + '" />'
-                            });
-                        }
-                        setInterval('checkOrderStatus(' + data.unitePayID + ', 3)', 2000);
-                    }else{
-                        layer.alert(res.msg);
-                    }
-                }
-            });
-        });
-
-
     });
 
 
