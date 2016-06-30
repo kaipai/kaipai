@@ -15,6 +15,7 @@ class NotificationController extends Front{
             'memberID' => $this->memberInfo['memberID']
         );
         if(!empty($type)) $where['type'] = $type;
+        $this->notificationModel->update(array('read' => 1), $where);
         $notifications = $this->notificationModel->getList($where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $notifications);
