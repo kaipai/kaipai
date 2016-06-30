@@ -709,16 +709,12 @@ class MemberController extends Front{
                 }
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
             }else{
-                $this->postData['unitePayID'] = $unitePayID = $this->memberOrderModel->genUnitePayID();
-                if(empty($this->siteSettings['specialMoney'])){
-                    $this->postData['isPaid'] = 1;
-                }
+
                 $this->specialModel->insert($this->postData);
 
-                $price = $this->siteSettings['specialMoney'];
 
 
-                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('unitePayID' => $unitePayID, 'price' => $price));
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功');
             }
 
 
@@ -730,8 +726,10 @@ class MemberController extends Front{
         $specialID = $this->postData['specialID'];
         $specialInfo = $this->specialModel->select(array('specialID' => $specialID))->current();
         //$this->specialModel->update(array('verifyStatus' => 1), array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
-        if(empty($this->siteSettings['specialMoney']) || $specialInfo['isPaid']){
-            $this->specialModel->update(array('verifyStatus' => 1), array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
+        $update = array('verifyStatus' => 1);
+        if(empty($this->siteSettings['specialMoney']) || !empty($specialInfo['isPaid'])){
+            $update['isPaid'] = 1;
+            $this->specialModel->update($update, array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '提交成功');
 
         }else{
