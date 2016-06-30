@@ -23,7 +23,7 @@
                     }else{
                     ?>
                         <span class="yc_pm2"><img src="<?php echo $info['storeLogo'] ?>" alt="" style="float: none;"><em style="float: none;"><?php echo $info['storeName'] ?></em></span>
-                        <span class="yc_pm3 lxmj1 "><a qq="<?php echo $info['orderType'] == 1 ? $info['storeqq'] : $_siteSettings['qq']; ?>" href="javascript:;" class="tencent-qq">联系卖家</a></span>
+                        <span class="yc_pm3 lxmj1 "><a qq="<?php echo $info['orderType'] == 1 ? $info['storeqq'] : $_siteSettings['qq']; ?>" href="javascript:;" class="tencent-qq"><?php echo $info['orderType'] == 1 ? '联系卖家' : '联系客服'; ?></a></span>
                     <?php
                     }
                     ?>
