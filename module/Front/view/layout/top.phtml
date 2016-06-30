@@ -47,7 +47,7 @@
 
                                 <a class="nameA" ui-sref="indexPersonal" href="/member/order"><?php  echo $_memberInfo['nickName'] ?></a>
                                 <a href="/member/log-out">退出</a>
-                                <a href="/member/notification">站内提醒(<em style="color: #ed8000;"><?php echo $_memberInfo['notReadCount'] ?></em>)</a>
+                                <a href="/member/notification">站内提醒(<em style="color: #ed8000;"><?php echo $_memberInfo['notReadCount'] ?  $_memberInfo['notReadCount'] : 0?></em>)</a>
                             <?php
                             }else{
                             ?>

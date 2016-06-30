@@ -52,7 +52,7 @@
             <a href="/">首页</a>
             <a ui-sref="goodList" href="/member/auction">我的开拍</a>
             |
-            <a ui-sref="goodList" href="/member/notification">站内提醒(<em style="color: #ed8000;"><?php echo $_memberInfo['notReadCount'] ?></em>)</a>
+            <a ui-sref="goodList" href="/member/notification">站内提醒(<em style="color: #ed8000;"><?php echo $_memberInfo['notReadCount'] ?  $_memberInfo['notReadCount'] : 0?></em>)</a>
 
             <a ui-sref="goodList" href="/member/settings">帐户设置</a>
 

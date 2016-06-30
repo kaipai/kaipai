@@ -1,5 +1,7 @@
 <?php
 
+$cookieDomain = str_Replace('www.', '', $_SERVER['SERVER_NAME']);
+ini_set("session.cookie_domain", $cookieDomain);
 if(defined('ZF2')){
     if(isset($loader)){
         $loader->add('Zend',ZF2);

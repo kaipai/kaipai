@@ -49,7 +49,7 @@
 .space_fbcom{ background: #87c4bd; color: #fff; text-align: center;line-height:38px; color: #fff; margin-top:125px; cursor: pointer;}
 .space_cominfo{overflow: hidden;border-bottom: 1px dashed #8a857f;padding: 20px 40px}
 .space_cominfo_left{ float: left; width: 910px }
-.space_cominfo_right{ float: right; width: 150px}
+.space_cominfo_right{ float: right; width: 170px}
 .space_cominfo_name{ font-size: 20px; color: #000}
 .space_cominfo_nr{ margin-top: 20px}
 .space_cominfo_right ul li{ float: left; padding-left: 10px; padding-right: 10px; border-right:1px solid #8a857f;}

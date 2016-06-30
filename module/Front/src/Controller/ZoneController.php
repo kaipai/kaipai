@@ -38,7 +38,11 @@ class ZoneController extends Front{
     }
 
     public function indexAction(){
-        $res = $this->memberArticleModel->getArticles(array('MemberArticle.memberID' => $this->_zoneInfo['memberID']), $this->pageNum, $this->limit);
+        $where = array('MemberArticle.memberID' => $this->_zoneInfo['memberID']);
+        if(!$this->_isMyZone){
+            $where['MemberArticle.isHide'] = 0;
+        }
+        $res = $this->memberArticleModel->getArticles($where, $this->pageNum, $this->limit);
         $articles = $res['data'];
         foreach($articles as $k => $v){
             $articles[$k]['memberArticleContent'] = Utility::mbCutStr(strip_tags($v['memberArticleContent']), 100);
@@ -189,13 +193,15 @@ class ZoneController extends Front{
                     $memberArticleID = $this->postData['memberArticleID'];
                     unset($this->postData['memberArticleID'], $this->postData['zoneID']);
                     $this->memberArticleModel->update($this->postData, array('memberArticleID' => $memberArticleID));
+                    return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
                 }else{
                     $this->postData['memberID'] = $this->memberInfo['memberID'];
                     unset($this->postData['zoneID']);
                     $this->memberArticleModel->insert($this->postData);
                     $memberArticleID = $this->memberArticleModel->getLastInsertValue();
+                    return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功', array('memberArticleID' => $memberArticleID));
                 }
-                return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功', array('memberArticleID' => $memberArticleID));
+
             }
 
         }catch (\Exception $e){

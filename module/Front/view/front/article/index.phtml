@@ -35,7 +35,7 @@
                             <div class="space_li">
                                 <div class="space_title">
                                     <div class="space_title_left"><span class="font30"><?php echo $v['articleName'] ?></span><span class="font16">（<?php echo $v['instime'] ?>）</span></div>
-                                    <div class="space_lookall"><a href="/article/detail?articleID=<?php echo $v['articleID'] ?>">查看全文>></a></div>
+                                    <div class="space_lookall"><a href="<?php echo !empty($v['url']) ? $v['url'] : '/article/detail?articleID=' . $v['articleID']; ?>">查看全文>></a></div>
                                 </div>
                                 <div class="c"></div>
                                 <div class="space_conts">
@@ -58,7 +58,7 @@
                         <div class="space_li">
                             <div class="space_title">
                                 <div class="space_title_left"><span class="font30"><?php echo $v['articleName'] ?></span><span class="font16">（<?php echo $v['instime'] ?>）</span></div>
-                                <div class="space_lookall"><a href="/article/detail?articleID=<?php echo $v['articleID'] ?>">查看全文>></a></div>
+                                <div class="space_lookall"><a href="<?php echo !empty($v['url']) ? $v['url'] : '/article/detail?articleID=' . $v['articleID']; ?>">查看全文>></a></div>
                             </div>
                             <div class="c"></div>
                         </div>

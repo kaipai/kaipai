@@ -18,7 +18,10 @@
                         </div>
                         <div class="space_cominfo_right">
                             <ul>
-                                <li class="space_no"><a href="javascript:;" class="post-illegal-btn" coreID="<?php echo $v['memberArticleID'] ?>" type="1">举报</a></li>
+                                <li><a href="javascript:;" class="member-article-hide-btn" data="<?php echo $v['isHide'] ? 0 : 1 ?>" member-article-id="<?php echo $v['memberArticleID'] ?>"><?php echo $v['isHide'] ? '显示' : '隐藏' ?></a></li>
+                                <li><a href="/zone/article-detail?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $v['memberArticleID'] ?>">编辑</a></li>
+                                <li class="space_no"><a href="javascript:;" class="member-article-del-btn" member-article-id="<?php echo $v['memberArticleID'] ?>">删除</a></li>
+                                <!--<li class="space_no"><a href="javascript:;" class="post-illegal-btn" coreID="<?php /*echo $v['memberArticleID'] */?>" type="1">举报</a></li>-->
                                 <!--<li class="space_no"><a href="">回复>></a></li>-->
                             </ul>
                         </div>
@@ -34,3 +37,48 @@
     </div>
 
 </div>
+<script>
+    $('.member-article-hide-btn').on('click', function(){
+        var data = {};
+        data.memberArticleID = $(this).attr('member-article-id');
+        data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+        data.isHide = $(this).attr('data');
+        $.ajax({
+            url : '/zone/add-article',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(res){
+                if(res.flag > 0){
+                    layer.alert(res.msg, function(){
+                        location.reload();
+                    });
+                }else{
+                    layer.alert(res.msg);
+                }
+            }
+        });
+    });
+
+    $('.member-article-del-btn').on('click', function(){
+        var data = {};
+        data.memberArticleID = $(this).attr('member-article-id');
+        data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+        data.isDel = 1;
+        $.ajax({
+            url : '/zone/add-article',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(res){
+                if(res.flag > 0){
+                    layer.alert(res.msg, function(){
+                        location.reload();
+                    });
+                }else{
+                    layer.alert(res.msg);
+                }
+            }
+        });
+    });
+</script>
