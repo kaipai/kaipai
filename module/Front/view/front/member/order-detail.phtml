@@ -17,13 +17,13 @@
                     if(!empty($storeView)){
                     ?>
                         <span class="yc_pm2" style="background: none;"><?php echo $info['nickName'] ?></span>
-                        <span class="yc_pm3 lxmj1 "><a href="tencent://message/?uin=<?php echo $info['qq'] ?>&Site=www.kaipai123.com&Menu=yes">联系买家</a></span>
+                        <span class="yc_pm3 lxmj1 "><a qq="<?php echo $info['qq'] ?>" href="javascript:;" class="tencent-qq">联系买家</a></span>
 
                     <?php
                     }else{
                     ?>
                         <span class="yc_pm2"><img src="<?php echo $info['storeLogo'] ?>" alt="" style="float: none;"><em style="float: none;"><?php echo $info['storeName'] ?></em></span>
-                        <span class="yc_pm3 lxmj1 "><a href="tencent://message/?uin=<?php echo $info['storeqq'] ?>&Site=www.kaipai123.com&Menu=yes">联系卖家</a></span>
+                        <span class="yc_pm3 lxmj1 "><a qq="<?php echo $info['orderType'] == 1 ? $info['storeqq'] : $_siteSettings['qq']; ?>" href="javascript:;" class="tencent-qq">联系卖家</a></span>
                     <?php
                     }
                     ?>

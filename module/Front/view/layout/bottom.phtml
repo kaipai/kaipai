@@ -152,6 +152,15 @@ echo $this->render('/front/common/post-illegal');
                 redirectURI : 'http://<?php echo $_SERVER['HTTP_HOST'] ?>/notify/qq-login'
             })
         });
+
+        $('.tencent-qq').on('click', function(){
+            var qq = $(this).attr('qq');
+            if(!qq){
+                layer.alert('未设置qq');
+                return false;
+            }
+            window.open('tencent://message/?uin=' + qq + '&Site=www.kaipai123.com&Menu=yes');
+        });
 });
 function checkOrderStatus(unitePayID, type){
     var data = {};
@@ -179,4 +188,5 @@ function checkOrderStatus(unitePayID, type){
     });
 
 }
+
 </script>
