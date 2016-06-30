@@ -31,7 +31,7 @@ class AuctionMember extends Model{
         $select = $this->getSelect();
         $select->columns(array('proxyPrice', 'myCurrPrice', 'status', 'auctionMemberID'));
         $select->join(array('b' => 'Product'), 'AuctionMember.productID = b.productID');
-        $select->join(array('c' => 'Store'), 'b.storeID = c.storeID', array('storeName', 'storeLogo'));
+        $select->join(array('c' => 'Store'), 'b.storeID = c.storeID', array('storeName', 'storeLogo', 'storeqq'));
         $select->where($where);
 
         $result = $this->selectWith($select)->toArray();

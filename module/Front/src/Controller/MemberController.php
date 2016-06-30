@@ -151,17 +151,12 @@ class MemberController extends Front{
     }
 
     public function auctionAction(){
-        $auctions = $this->auctionMemberModel->getAuctionList(array('AuctionMember.memberID' => $this->memberInfo['memberID'], 'b.auctionStatus' => 2));
 
-        $this->view->setVariables(array(
-
-            'auctions' => $auctions
-        ));
         return $this->view;
     }
 
     public function auctionListAction(){
-        $auctions = $this->auctionMemberModel->getAuctionList(array('AuctionMember.memberID' => $this->memberInfo['memberID']));
+        $auctions = $this->auctionMemberModel->getAuctionList(array('AuctionMember.memberID' => $this->memberInfo['memberID'], 'b.auctionStatus' => 2));
 
         $this->view->setVariables(array(
 
