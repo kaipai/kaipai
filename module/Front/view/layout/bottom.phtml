@@ -153,7 +153,7 @@ echo $this->render('/front/common/post-illegal');
             })
         });
 
-        $('.tencent-qq').on('click', function(){
+        $(document).on('click', '.tencent-qq', function(){
             var qq = $(this).attr('qq');
             if(!qq){
                 layer.alert('未设置qq');
