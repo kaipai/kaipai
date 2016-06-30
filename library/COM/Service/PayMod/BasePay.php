@@ -42,7 +42,7 @@ abstract class BasePay
                 $storeInfo = $this->storeModel->setColumns(array('memberID'))->select(array('storeID' => $orderInfo['storeID']))->current();
                 $productSnapshot = json_decode($orderInfo['productSnapshot'], true);
                 $productName = $productSnapshot['productName'];
-                $this->notificationModel->insert(array('type' => 4, 'memberID' => $storeInfo['memberID'], 'content' => '您的拍品<<' . $productName . '>>已被付款, 请发货。'));
+                $this->notificationModel->insert(array('type' => 4, 'memberID' => $storeInfo['memberID'], 'content' => '您的拍品<<' . $productName . '>>已被付款, 请在72小时内发货，否则卖家可投诉客服处理。'));
 
             }
             if(!empty($useRechargeMoney)){
