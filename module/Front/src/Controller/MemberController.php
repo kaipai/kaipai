@@ -762,7 +762,12 @@ class MemberController extends Front{
     }
 
     public function productAction(){
-        $res = $this->productModel->getProducts(array('Product.storeID' => $this->memberInfo['storeID'], 'Product.auctionStatus != ?' => 3), $this->pageNum, $this->limit);
+        $auctionStatus = $this->queryData['auctionStatus'];
+        $where = array('Product.storeID' => $this->memberInfo['storeID'], 'Product.auctionStatus != ?' => 3);
+        if(!empty($auctionStatus)){
+            $where['Product.auctionStatus'] = $auctionStatus;
+        }
+        $res = $this->productModel->getProducts($where, $this->pageNum, $this->limit);
         $products = $res['data'];
         foreach($products as $k => $v){
             $startTime = $v['startTime'];
@@ -784,6 +789,7 @@ class MemberController extends Front{
         $this->view->setVariables(array(
             'products' => $products,
             'pages' => $res['pages'],
+            'auctionStatus' => $auctionStatus,
         ));
         return $this->view;
     }
