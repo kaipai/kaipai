@@ -709,7 +709,7 @@ class MemberController extends Front{
                 }
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
             }else{
-                $unitePayID = $this->memberOrderModel->genUnitePayID();
+                $this->postData['unitePayID'] = $unitePayID = $this->memberOrderModel->genUnitePayID();
                 if(empty($this->siteSettings['specialMoney'])){
                     $this->postData['isPaid'] = 1;
                 }
