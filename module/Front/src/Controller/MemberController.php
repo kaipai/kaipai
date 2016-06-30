@@ -335,7 +335,7 @@ class MemberController extends Front{
         $where = array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']);
         $orderInfo = $this->memberOrderModel->select($where)->current();
         if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
-        if($orderInfo['orderStatus'] > 1) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
+        if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
 
         $this->memberOrderModel->update(array('orderStatus' => -1), $where);
 
@@ -700,7 +700,7 @@ class MemberController extends Front{
                 $where = array('specialID' => $this->postData['specialID'], 'storeID' => $this->_storeInfo['storeID']);
                 $specialInfo = $this->specialModel->select($where)->current();
                 if(empty($specialInfo)) return $this->response(ApiError::COMMON_ERROR, '专场不存在');
-                if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '审核通过, 该专场不能被编辑');
+                if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
 
                 unset($this->postData['specialID']);
                 $this->specialModel->update($this->postData, $where);
@@ -911,6 +911,7 @@ class MemberController extends Front{
                 $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
 
                 if(($specialInfo['productCount'] + 1) > $specialInfo['productCountLimit']) return $this->response(ApiError::COMMON_ERROR, '超过拍品数量限制');
+                if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
             }
 
         }else{
@@ -949,6 +950,10 @@ class MemberController extends Front{
             $products = $this->productModel->select($where)->toArray();
             foreach($products as $productInfo){
                 if(empty($product['specialID']) && !empty($productInfo['specialID']) && !empty($product['startTime']) && !empty($product['endTime'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
+                if(!empty($productInfo['specialID'])){
+                    $specialInfo = $this->specialModel->select(array('specialID' => $productInfo['specialID']))->current();
+                    if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
+                }
                 if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
                 if(!empty($productInfo['auctionStatus']) && $productInfo['auctionStatus'] != 1) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
             }
