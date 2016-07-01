@@ -35,7 +35,7 @@ class Front extends Controller{
             return $this->redirect()->toUrl('/login/do-login');
         }
         if(!empty($this->memberInfo)){
-            $this->memberInfo['notReadCount'] = $this->notificationModel->getCount(array('memberID' => $this->memberInfo['memberID']));
+            $this->memberInfo['notReadCount'] = $this->notificationModel->getCount(array('memberID' => $this->memberInfo['memberID'], 'read' => 0));
         }
 
 

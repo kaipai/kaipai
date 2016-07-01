@@ -60,6 +60,7 @@ class MemberController extends Front{
         $res = $this->notificationModel->getNotifications($where, $this->pageNum, $this->limit);
         $notifications = $res['data'];
         $total = $this->notificationModel->getTotalNotifications(array('memberID' => $this->memberInfo['memberID']));
+        $this->notificationModel->update(array('read' => 1), array('memberID' => $this->memberInfo['memberID']));
         $this->view->setVariables(array(
             'notifications' => $notifications,
             'pages' => $res['pages'],
