@@ -43,6 +43,8 @@ class StoreController extends Front{
         $where = array('isStoreRecommend' => 0, 'storeID' => $storeID);
         if(!empty($auctionStatus)){
             $where['Product.auctionStatus'] = $auctionStatus;
+        }else{
+            $where['Product.auctionStatus'] = array(1, 2);
         }
         $where[] = new IsNull('Product.specialID');
         $storeProducts = $this->productModel->getProducts($where, $this->pageNum, $this->limit, $order);
