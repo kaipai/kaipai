@@ -32,7 +32,7 @@ class StoreController extends Front{
         );
         $storeInfo = $this->storeModel->fetch($where);
         $storeCategories = $this->storeCategoryModel->select(array('storeID' => $storeID))->toArray();
-        $storeRecommendProducts = $this->productModel->getProducts(array('isStoreRecommend' => 1, 'storeID' => $storeID));
+        $storeRecommendProducts = $this->productModel->getProducts(array('isStoreRecommend' => 1, 'storeID' => $storeID, 'auctionStatus' => array(1, 2)));
         $storeRecommendProductsData = $storeRecommendProducts['data'];
         foreach($storeRecommendProductsData as $k => $v){
             $storeRecommendProductsData[$k]['leftTime'] = Utility::getLeftTime(time(), $v['endTime']);
