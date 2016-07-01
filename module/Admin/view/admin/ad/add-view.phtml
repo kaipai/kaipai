@@ -13,7 +13,7 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');*/
         </div>
         <div class="panel-body">
             <div class="container mtop40" style="margin-bottom: 50px; height: auto;">
-                <input name="location-url" type="hidden" value="/admin/<?php echo $this->layout()->controllerName ?>/index" />
+                <input name="location-url" type="hidden" value="/admin/<?php echo $this->layout()->controllerName ?>/index?position=<?php echo $position; ?>" />
 
                 <form class="form-horizontal" action="/admin/<?php echo $this->layout()->controllerName ?>/<?= (isset($adInfo)) ? "update" : "add"; ?>" method="post">
                     <div class="form-group">

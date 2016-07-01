@@ -7,7 +7,26 @@ use COM\Controller\Admin;
 
 class AdController extends Admin{
     public function indexAction(){
-
+        $position = $this->queryData['position'];
+        if($position == BaseConst::AD_POSITION_INDEX_BANNER){
+            return $this->redirect()->toUrl('/admin/ad/index-banner');
+        }elseif($position == BaseConst::AD_POSITION_INDEX_SECOND){
+            return $this->redirect()->toUrl('/admin/ad/index-second');
+        }elseif($position == BaseConst::AD_POSITION_INDEX_THIRD_LEFT){
+            return $this->redirect()->toUrl('/admin/ad/index-third-left');
+        }elseif($position == BaseConst::AD_POSITION_INDEX_THIRD_RIGHT){
+            return $this->redirect()->toUrl('/admin/ad/index-third-right');
+        }elseif($position == BaseConst::AD_POSITION_PRODUCT_LIST_LEFT){
+            return $this->redirect()->toUrl('/admin/ad/product-list-left');
+        }elseif($position == BaseConst::AD_POSITION_PRODUCT_LIST_RIGHT){
+            return $this->redirect()->toUrl('/admin/ad/product-list-right');
+        }elseif($position == BaseConst::AD_POSITION_SPECIAL_INDEX){
+            return $this->redirect()->toUrl('/admin/ad/special-index');
+        }elseif($position == BaseConst::AD_POSITION_LOGIN_AD){
+            return $this->redirect()->toUrl('/admin/ad/login-ad');
+        }elseif($position == BaseConst::AD_POSITION_SPECIAL_INDEX_SECOND){
+            return $this->redirect()->toUrl('/admin/ad/special-index-second');
+        }
         return $this->view;
     }
 
