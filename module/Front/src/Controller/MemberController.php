@@ -154,11 +154,16 @@ class MemberController extends Front{
     public function auctionAction(){
         $auctions = $this->auctionMemberModel->getAuctionList(array('AuctionMember.memberID' => $this->memberInfo['memberID'], 'b.auctionStatus' => 2, 'b.isDel' => 0));
 
-        $this->view->setVariables(array(
+        if($this->request->isXmlHttpRequest()){
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $auctions);
+        }else{
+            $this->view->setVariables(array(
 
-            'auctions' => $auctions
-        ));
-        return $this->view;
+                'auctions' => $auctions
+            ));
+            return $this->view;
+        }
+
     }
 
     public function profileAction(){

@@ -12,7 +12,7 @@
             <?php
             foreach($auctions as $v){
                 ?>
-                <div class="ys_tip2">
+                <div class="ys_tip2 refresh-product-<?php echo $v['productID'] ?>">
                     <div class="ys_tip3">
                         <div class="ys_tip4">
                             <span class="yc_pm1">[拍卖时间] <?php echo date('Y-m-d', $v['startTime']) ?></span>
@@ -23,17 +23,17 @@
                             <div class="yc_imgleft"><img style="cursor:pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID'] ?>';" src="<?php echo $v['listImg']; ?>"></div>
                             <div class="yc_imgleft1">
                                 <p class="yc_imgleft2"><span class="yc_ysname"><?php echo $v['productName'] ?></span> <span
-                                        class="yc_money ff7">￥<?php echo $v['currPrice'] ?></span></p>
+                                        class="yc_money ff7 refresh-product-curr-price">￥<?php echo $v['currPrice'] ?></span></p>
 
                                 <div class="yc_ysname1">
                                     <p><span class="yc_ysname">加价幅度</span> <span class="yc_money"><?php echo $v['auctionPerPrice'] ?></span></p>
                                 </div>
                             </div>
-                            <div class="yc_ddfk yc_imgleft2">
+                            <div class="yc_ddfk yc_imgleft2 refresh-product-middle">
                                 <?php
                                 if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
                                     ?>
-                                    <a href="">
+                                    <a href="javascript:;">
                                         <div class="gz_ccdlj">超出代理价</div>
                                     </a>
                                 <?php
@@ -45,7 +45,7 @@
                                 <?php
                                 }elseif($v['currPrice'] <= $v['myCurrPrice']){
                                     ?>
-                                    <a href="">
+                                    <a href="javascript:;">
                                         <div class="gz_lx">领先</div>
                                     </a>
                                 <?php
@@ -56,22 +56,16 @@
                                 <div class="gz_jiaru gz_gr"><a href="javascript:;" proxy-price="<?php echo $v['proxyPrice'] ?>" class="set-proxy-price-btn" product-id="<?php echo $v['productID'];?>">设置代理价></a></div>
                             </div>
                             <div class="yc_ddright yc_imgleft2">
-                                <?php
-                                if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
-                                    ?>
-                                    <p class="yc_p">竞价已超出代理价</p>
-                                <?php
-                                }elseif($v['currPrice'] > $v['myCurrPrice']){
-                                    ?>
-                                    <p class="yc_p">出价已被超越</p>
-                                <?php
-                                }elseif($v['currPrice'] <= $v['myCurrPrice']){
-                                    ?>
-                                    <p class="yc_p">当前为最高价</p>
-                                <?php
-                                }
-                                ?>
 
+                                <p class="yc_p refresh-product-right"><?php
+                                    if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
+                                        echo '竞价已超出代理价';
+                                    }elseif($v['currPrice'] > $v['myCurrPrice']){
+                                        echo '出价已被超越';
+                                    }elseif($v['currPrice'] <= $v['myCurrPrice']){
+                                        echo '当前为最高价';
+                                    }
+                                    ?></p>
 
                                 <p class="yc_p">距结束：</p>
 
@@ -161,9 +155,47 @@
                 }
             });
         });
+    });
+    function refreshAuctionList(){
+        $.ajax({
+            url : '/member/auction',
+            dataType : 'json',
+            type : 'post',
+            success : function(res){
+                var result = res.data;
+
+                for(var i in result){
+                    var tmp = result[i];
+                    var div = $('.refresh-product-' + tmp['productID']);
+                    var middle = '';
+                    var right = '';
+                    div.find('.refresh-product-curr-price').html(tmp['currPrice']);
+
+                    if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
+                        middle += '<a href="javascript:;"><div class="gz_ccdlj">超出代理价</div></a>';
+                    }else if(tmp['currPrice'] > tmp['myCurrPrice']){
+                        middle += '<a href="javascript:;" class="post-price-btn" product-id="' + tmp['productID'] + '" auction-per-price="' + tmp['auctionPerPrice'] + '" curr-price="' + tmp['currPrice'] + '"><div class="njp_cj">出价</div></a>';
+                    }else if(tmp['currPrice'] <= tmp['myCurrPrice']){
+                        middle += '<a href="javascript:;"><div class="gz_lx">领先</div></a>';
+                    }
+                    middle += '<div class="gz_jiaru gz_gr"><a href="javascript:;" proxy-price="' + tmp['proxyPrice'] + '" class="set-proxy-price-btn" product-id="' + tmp['productID'] + '">设置代理价></a></div>';
 
 
+                    if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
+                        right += '竞价已超出代理价';
+                    }else if(tmp['currPrice'] > tmp['myCurrPrice']){
+                        right += '出价已被超越';
+                    }else if(tmp['currPrice'] <= tmp['myCurrPrice']){
+                        right += '当前为最高价';
+                    }
 
-    })
 
+                    div.find('.refresh-product-middle').html(middle);
+                    div.find('.refresh-product-right').html(right);
+                }
+            }
+        });
+    }
+    refreshAuctionList();
+    setInterval('refreshAuctionList()', 5000);
 </script>

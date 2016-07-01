@@ -28,6 +28,7 @@ class Controller extends AbstractActionController{
     protected $order;
     protected $sort;
     protected $siteSettings;
+    protected $dataType;
     const FRONT_PLATFORM = 'FRONT';
     const ADMIN_PLATFORM = 'ADMIN';
 
@@ -55,6 +56,7 @@ class Controller extends AbstractActionController{
         $this->pageNum = $this->postData['pageNum'] ? $this->postData['pageNum'] : $this->queryData['pageNum'];
         $this->limit = $this->postData['limit'] ? $this->postData['limit'] : $this->queryData['limit'];
         $this->offset = $this->postData['offset'] ? $this->postData['offset'] : $this->queryData['offset'];
+        $this->dataType = $this->postData['dataType'] ? $this->postData['dataType'] : $this->queryData['dataType'];
         if(!empty($this->pageNum) && !empty($this->limit)){
             $this->offset = ($this->pageNum - 1) * $this->limit;
         }elseif(!empty($this->offset)){
