@@ -18,7 +18,7 @@ class LoginController extends Front{
 
     public function doLoginAction(){
         if(empty($this->postData)) {
-            $ad = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_INDEX_THIRD_RIGHT);
+            $ad = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_LOGIN_AD);
             $ad = current($ad);
             $this->view->setVariables(array(
                 'ad' => $ad,
