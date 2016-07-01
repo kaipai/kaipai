@@ -147,4 +147,12 @@ class AdController extends Admin{
         return $this->view;
     }
 
+    public function specialIndexSecondAction(){
+        $this->view->setVariables(array(
+            'position' => 9,
+        ));
+        $this->view->setTemplate('/admin/ad/index');
+        return $this->view;
+    }
+
 }

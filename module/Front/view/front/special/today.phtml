@@ -48,7 +48,7 @@
     <div class="wrap2">
         <div class="spe_name_l"><a href="/special/today" class="<?php if($filter == 'today'){ echo 'active'; } ?>">今日专场<i></i></a><a href="/special/today?filter=tomorrow" class="<?php if($filter == 'tomorrow'){ echo 'active'; } ?>">明日专场<i></i></a><a href="/special/today?filter=on" class="<?php if($filter == 'on'){ echo 'active'; } ?>">正在预展<i></i></a>
         </div>
-        <div class="spe_name_r"><img src="images/banner_pw.jpg" height="120"></div>
+        <div class="spe_name_r"><a href="<?php echo $secondAds['url'] ?>" target="_blank"><img src="<?php echo $secondAds['img'] ?>" height="120"></a></div>
     </div>
 </div>
 <div class="wrap4">

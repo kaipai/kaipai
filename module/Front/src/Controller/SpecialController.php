@@ -67,6 +67,7 @@ class SpecialController extends Front{
         $stores = $this->storeModel->getHotStores(1, 20);
 
         $ads = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_SPECIAL_INDEX);
+        $secondAds = current($this->adModel->getAdByPosition(BaseConst::AD_POSITION_SPECIAL_INDEX_SECOND));
         $this->view->setVariables(array(
             'recommendProducts' => $recommendProducts['data'],
             'filter' => $filter,
@@ -75,6 +76,7 @@ class SpecialController extends Front{
 
             'stores' => $stores['data'],
             'ads' => $ads,
+            'secondAds' => $secondAds,
         ));
         return $this->view;
     }
