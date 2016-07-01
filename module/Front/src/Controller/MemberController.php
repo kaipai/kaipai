@@ -569,7 +569,7 @@ class MemberController extends Front{
         $where = array('orderID' => $orderID, 'storeID' => $this->memberInfo['storeID']);
         $orderInfo = $this->memberOrderModel->select($where)->current();
         if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
-        if($orderInfo['orderStatus'] > 1) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
+        if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
 
         $this->memberOrderModel->update(array('orderStatus' => -1), $where);
 
