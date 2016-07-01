@@ -152,7 +152,7 @@ class MemberController extends Front{
     }
 
     public function auctionAction(){
-        $auctions = $this->auctionMemberModel->getAuctionList(array('AuctionMember.memberID' => $this->memberInfo['memberID'], 'b.auctionStatus' => 2));
+        $auctions = $this->auctionMemberModel->getAuctionList(array('AuctionMember.memberID' => $this->memberInfo['memberID'], 'b.auctionStatus' => 2, 'b.isDel' => 0));
 
         $this->view->setVariables(array(
 
@@ -175,6 +175,7 @@ class MemberController extends Front{
         $auctionStatus = $this->queryData['auctionStatus'];
         $where = new Where();
         $where->and->equalTo('MemberProductInterest.memberID', $this->memberInfo['memberID']);
+        $where->and->equalTo('b.isDel', 0);
         if(!empty($auctionStatus)){
             $where->and->equalTo('b.auctionStatus', $auctionStatus);
         }
