@@ -4,7 +4,7 @@
         <!-- left部分 -->
         <div class="kp_left">
             <div class="kp_biaot">
-                <p class="kp_p">站内提醒 (<span class="kp_tixxm"><?php echo $total; ?></span>)</p>
+                <p class="kp_p">站内提醒 (<span class="kp_tixxm"><?php echo $_memberInfo['notReadCount'] ?  $_memberInfo['notReadCount'] : 0?></span>)</p>
                 <ul class="kp_ul mt10">
                     <a href="/member/notification?type=1">
                         <li>网站公告</li>
