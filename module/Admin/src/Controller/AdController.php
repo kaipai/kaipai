@@ -15,7 +15,7 @@ class AdController extends Admin{
         $offset = $this->request->getQuery('offset', $this->offset);
         $limit = $this->request->getQuery('limit', $this->limit);
         $position = $this->request->getQuery('position');
-        $where = array();
+        $where = array('isDel' => 0);
 
         $data = array();
         $where['position'] = $position;
