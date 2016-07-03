@@ -99,6 +99,42 @@ class LoginController extends Front{
         }
     }
 
+    public function wxLoginAction(){
+        $code = $this->queryData['coed'];
+        $token = Utility::curl('https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx8599ed3526a343ea&secret=bf4aa929f93736b3f09c177ed8e609ab&code=' . $code . '&grant_type=authorization_code', array(), 'get');
+        $token = json_decode($token, true);
+        if(!empty($token['access_token'])){
+            $userInfo = Utility::curl('https://api.weixin.qq.com/sns/userinfo?access_token=' . $token['access_token'] . '&openid=' . $token['openid'], array(), 'get');
+            $userInfo = json_decode($userInfo, true);
+            if(!empty($userInfo['nickName'])){
+                $nickName = $userInfo['nickName'];
+                $member = array(
+                    'nickName' => $nickName,
+                );
+                $exist = $this->memberModel->select($member)->current();
+                if(empty($exist)){
+                    $this->memberModel->beginTransaction();
+                    $this->memberModel->insert($member);
+                    $memberID = $this->memberModel->getLastInsertValue();
+                    $infoData = array(
+                        'memberID' => $memberID,
+                        'nickName' => $nickName
+                    );
+                    $this->memberInfoModel->insert($infoData);
+                    $this->memberModel->commit();
+                }else{
+                    $memberID = $exist['memberID'];
+                }
+                $memberInfo = $this->memberInfoModel->select(array('memberID' => $memberID))->current();
+                $loginSession = new Session(self::FRONT_PLATFORM, null,null);
+                $loginSession->write($memberInfo);
+
+                return $this->redirect()->toUrl('/');
+            }
+        }
+        $this->redirect()->toUrl('/login/do-login');
+    }
+
     public function getPicVerifyCodeAction(){
         session_start();
         $imgService = $this->sm->get('COM\Service\ImageService');
