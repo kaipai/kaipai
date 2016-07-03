@@ -110,7 +110,7 @@ class LoginController extends Front{
             if(!empty($userInfo['nickname'])){
                 $nickName = $userInfo['nickname'];
                 $member = array(
-                    'nickName' => $nickName,
+                    'wxOpenID' => $token['openid'],
                 );
                 $exist = $this->memberModel->select($member)->current();
                 if(empty($exist)){
