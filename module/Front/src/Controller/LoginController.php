@@ -103,13 +103,12 @@ class LoginController extends Front{
         $code = $this->queryData['code'];
         $token = Utility::curl('https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx8599ed3526a343ea&secret=bf4aa929f93736b3f09c177ed8e609ab&code=' . $code . '&grant_type=authorization_code', array(), 'get');
         $token = json_decode($token, true);
-        var_dump($token['access_token']);die;
         if(!empty($token['access_token'])){
             $userInfo = Utility::curl('https://api.weixin.qq.com/sns/userinfo?access_token=' . $token['access_token'] . '&openid=' . $token['openid'], array(), 'get');
 
             $userInfo = json_decode($userInfo, true);
-            if(!empty($userInfo['nickName'])){
-                $nickName = $userInfo['nickName'];
+            if(!empty($userInfo['nickname'])){
+                $nickName = $userInfo['nickname'];
                 $member = array(
                     'nickName' => $nickName,
                 );
