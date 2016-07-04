@@ -8,7 +8,9 @@ class CustomizationController extends Front{
     public function indexAction(){
         $artistCategoryID = $this->queryData['artistCategoryID'];
         $artistCategories = $this->artistCategoryModel->select()->toArray();
-        $where = array();
+        $where = array(
+            'Customization.endTime < ?' => time(),
+        );
         if(!empty($artistCategoryID)){
             $where['b.artistCategoryID'] = $artistCategoryID;
         }
