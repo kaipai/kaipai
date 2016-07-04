@@ -40,7 +40,7 @@
             'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink', 'anchor', '|',
+            /*'link', 'unlink', 'anchor', '|',*/
             'imagenone', /*'imageleft', 'imageright', 'imagecenter',*/ '|',
             'simpleupload', 'insertimage',
             //'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map',
