@@ -43,7 +43,7 @@ class StoreController extends Front{
 
         if(!empty($order) && !empty($sort)) $order = $order .' '. $sort;
         $where = new Where();
-        $where->equalTo('isStoreRecommend', 0)->equalTo('storeID', $storeID);
+        $where->equalTo('storeID', $storeID);
         if(!empty($auctionStatus)){
             $where->equalTo('Product.auctionStatus', $auctionStatus);
         }else{
