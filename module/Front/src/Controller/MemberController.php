@@ -697,6 +697,7 @@ class MemberController extends Front{
                 $where = array('specialID' => $this->postData['specialID'], 'storeID' => $this->_storeInfo['storeID']);
                 $specialInfo = $this->specialModel->select($where)->current();
                 if(empty($specialInfo)) return $this->response(ApiError::COMMON_ERROR, '专场不存在');
+                if($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
                 if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
 
                 unset($this->postData['specialID']);
@@ -914,6 +915,7 @@ class MemberController extends Front{
                 $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
 
                 if(($specialInfo['productCount'] + 1) > $specialInfo['productCountLimit']) return $this->response(ApiError::COMMON_ERROR, '超过拍品数量限制');
+                if($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
                 if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
             }
 
@@ -955,6 +957,7 @@ class MemberController extends Front{
                 if(empty($product['specialID']) && !empty($productInfo['specialID']) && !empty($product['startTime']) && !empty($product['endTime'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
                 if(!empty($productInfo['specialID'])){
                     $specialInfo = $this->specialModel->select(array('specialID' => $productInfo['specialID']))->current();
+                    if($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
                     if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
                 }
                 if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
