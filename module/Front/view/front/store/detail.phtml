@@ -69,7 +69,9 @@
     </div>
     <br style="clear: both;" />
     <?php
-        echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/store/detail?storeID='. $storeInfo['storeID'] .'&storeCategoryID=' . $storeCategoryID . '&auctionStatus=' . $auctionStatus . '&order=' . $order . '&sort=' . $sort . '&'));
+        if(!empty($storeProducts)){
+            echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/store/detail?storeID='. $storeInfo['storeID'] .'&storeCategoryID=' . $storeCategoryID . '&auctionStatus=' . $auctionStatus . '&order=' . $order . '&sort=' . $sort . '&'));
+        }
     ?>
 </div>
 <script>
