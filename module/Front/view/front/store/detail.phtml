@@ -38,7 +38,7 @@
             <?php
                 foreach($storeCategories as $v){
             ?>
-                    <a href="javascript:;" class="inner_f"><font>●</font><?php echo $v['storeCategoryName'] ?></a>
+                    <a href="/store/detail?storeID=<?php echo $storeInfo['storeID']; ?>&storeCategoryID=<?php echo $v['storeCategoryID']; ?>" class="inner_f"><font>●</font><?php echo $v['storeCategoryName'] ?></a>
             <?php
                 }
             ?>
@@ -47,18 +47,18 @@
         </font>
     </div>
 </div>
-<?php if(!empty($storeRecommendProducts)){ ?>
+<?php /*if(!empty($storeRecommendProducts)){ */?><!--
 <div class="exc_tj">
     <div class="wrap2">
         <h3>店铺精选</h3>
         <?php
-            foreach($storeRecommendProducts as $v){
+/*            foreach($storeRecommendProducts as $v){
                 echo $this->render('/front/common/product', array('v' => $v));
             }
-        ?>
+        */?>
     </div>
 </div>
-<?php } ?>
+--><?php /*}*/ ?>
 <div class="wrap4">
     <div class="wrap2">
         <?php
@@ -69,7 +69,7 @@
     </div>
     <br style="clear: both;" />
     <?php
-        echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/store/detail?storeID='. $storeInfo['storeID'] .'&auctionStatus=' . $auctionStatus . '&order=' . $order . '&sort=' . $sort . '&'));
+        echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/store/detail?storeID='. $storeInfo['storeID'] .'&storeCategoryID=' . $storeCategoryID . '&auctionStatus=' . $auctionStatus . '&order=' . $order . '&sort=' . $sort . '&'));
     ?>
 </div>
 <script>

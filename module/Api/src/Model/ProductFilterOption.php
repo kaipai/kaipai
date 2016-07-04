@@ -24,7 +24,9 @@ class ProductFilterOption extends Model{
                 ->join(array('c' => 'ProductCategory'), 'b.productCategoryID = c.productCategoryID', array('categoryName'))
                 ->where($where)
                 ->offset($offset)
-                ->limit($limit);
+                ->limit($limit)
+                ->group(array('ProductFilterOption.productID'))
+                ->having('count(ProductFilterOption.productID) > ' . (count($where['ProductFilterOption.productCategoryFilterOptionID']) - 1));
             $select->order($order);
         }
         $paginator = $this->paginate($select);

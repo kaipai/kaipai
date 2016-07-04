@@ -278,7 +278,11 @@
                 params.status = $('.product-status.hover').attr('status');
             }
             if($('.product-category-filter-option.hover').length){
-                params.productCategoryFilterOptionID = $('.product-category-filter-option.hover').attr('product-category-filter-option-id');
+                var filterOptions = new Array();
+                $('.product-category-filter-option.hover').each(function(){
+                    filterOptions.push($(this).attr('product-category-filter-option-id'));
+                });
+                params.productCategoryFilterOptionID = filterOptions;
             }
             params.priceBegin = $('#price-begin').val();
             params.priceEnd = $('#price-end').val();

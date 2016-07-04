@@ -46,9 +46,10 @@ class Product extends Model{
     }
 
     public function getProducts($where, $page = 1, $limit = 10, $order = ''){
-        $where = array_merge($where, array('isDel' => 0));
+
         $select = $this->getSelect();
         $select->where($where);
+        $select->where(array('isDel' => 0));
         if(!empty($order)){
             $select->order($order);
         }else{
