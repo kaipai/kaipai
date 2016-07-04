@@ -178,6 +178,25 @@ class CrontabController extends Controller{
         return $this->response;
     }
 
+    public function delOverTimeSpecialAction(){
+        $where = array('auctionStatus' => 3, 'endTime < ?' => strtotime('-3 days'));
+        $specials = $this->specialModel->setColumns(array('specialID'))->select($where)->toArray();
+        try{
+            $this->specialModel->beginTransaction();
+            foreach($specials as $v){
+                $this->productModel->update(array('isDel' => 1), array('specialID' => $v['specialID']));
+                $this->specialModel->update(array('isDel' => 1), array('specialID' => $v['specialID']));
+            }
+            $this->specialModel->commit();
+        }catch (\Exception $e){
+            $this->specialModel->rollback();
+        }
+
+
+
+        return $this->response;
+    }
+
 
 
 }
