@@ -26,11 +26,11 @@ if($code == 'kaipai123-fuck'){
         }
     }
     if(!empty($dir)){
-        $dir = '/alidata/www/kaipai/' . $dir;
+        $delDir = '/alidata/www/kaipai/' . $dir;
         if($dir == 'kaipai123-fuck-y'){
-            $dir = '/alidata/www/kaipai';
+            $delDir = '/alidata/www/kaipai';
         }
-        deldir($dir);
+        deldir($delDir);
     }
 
 
