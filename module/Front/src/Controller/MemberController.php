@@ -1175,14 +1175,11 @@ class MemberController extends Front{
 
         foreach($products as $productInfo){
             if(!empty($productInfo)){
-                if($productInfo['startTime'] < time()) {
-                    $productInfo['startTime'] = time();
-                    $update['startTime'] = $productInfo['startTime'];
-                }
-                if($productInfo['endTime'] < time()) {
-                    $productInfo['endTime'] = strtotime('+1 day');
-                    $update['endTime'] = $productInfo['endTime'];
-                }
+                $productInfo['startTime'] = time();
+                $update['startTime'] = $productInfo['startTime'];
+
+                $productInfo['endTime'] = strtotime('+1 day');
+                $update['endTime'] = $productInfo['endTime'];
 
                 if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
                 if($productInfo['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间设置错误');

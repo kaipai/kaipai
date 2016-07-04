@@ -23,7 +23,7 @@ class SpecialController extends Front{
             $where['Special.startTime > ?'] = strtotime($date . ' 00:00:00');
             $where['Special.startTime < ?'] = strtotime($date . ' 23:59:59');
         }
-        
+
 
         if(!empty($specialProductCategoryID)){
             $where['Special.specialProductCategoryID'] = $specialProductCategoryID;
