@@ -33,7 +33,9 @@ class AuctionController extends Front{
         if(empty($proxyPrice) || empty($productID) || empty($productInfo)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if($productInfo['storeID'] == $this->memberInfo['storeID']) return $this->response(ApiError::COMMON_ERROR, '不能对自己的拍品设置代理价');
 
-        $this->auctionMemberModel->existAuctionMember($productID, $this->memberInfo['memberID']);
+        $auctionMember = $this->auctionMemberModel->existAuctionMember($productID, $this->memberInfo['memberID']);
+        if(!empty($auctionMember['proxyPrice']) && $proxyPrice < $auctionMember['proxyPrice']) return $this->response(ApiError::COMMON_ERROR, '设置失败, 该价格低于之前设置的代理价');
+
         $set = array(
             'proxyPrice' => $proxyPrice,
         );

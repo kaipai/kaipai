@@ -31,13 +31,13 @@
                             </div>
                             <div class="yc_ddfk yc_imgleft2 refresh-product-middle">
                                 <?php
-                                if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
-                                    ?>
+                                /*if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
+                                    */?><!--
                                     <a href="javascript:;">
                                         <div class="gz_ccdlj">超出代理价</div>
                                     </a>
-                                <?php
-                                }elseif($v['currPrice'] > $v['myCurrPrice']){
+                                --><?php
+/*                                }else*/if($v['currPrice'] > $v['myCurrPrice']){
                                     ?>
                                     <a href="javascript:;" class="post-price-btn" product-id="<?php echo $v['productID'];?>" auction-per-price="<?php echo $v['auctionPerPrice'] ?>" curr-price="<?php echo $v['currPrice']; ?>">
                                         <div class="njp_cj">出价</div>
@@ -58,9 +58,9 @@
                             <div class="yc_ddright yc_imgleft2">
 
                                 <p class="yc_p refresh-product-right"><?php
-                                    if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
+                                    /*if(!empty($v['proxyPrice']) && $v['currPrice'] > $v['proxyPrice']){
                                         echo '竞价已超出代理价';
-                                    }elseif($v['currPrice'] > $v['myCurrPrice']){
+                                    }else*/if($v['currPrice'] > $v['myCurrPrice']){
                                         echo '出价已被超越';
                                     }elseif($v['currPrice'] <= $v['myCurrPrice']){
                                         echo '当前为最高价';
@@ -171,9 +171,9 @@
                     var right = '';
                     div.find('.refresh-product-curr-price').html(tmp['currPrice']);
 
-                    if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
+                    /*if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
                         middle += '<a href="javascript:;"><div class="gz_ccdlj">超出代理价</div></a>';
-                    }else if(tmp['currPrice'] > tmp['myCurrPrice']){
+                    }else */if(tmp['currPrice'] > tmp['myCurrPrice']){
                         middle += '<a href="javascript:;" class="post-price-btn" product-id="' + tmp['productID'] + '" auction-per-price="' + tmp['auctionPerPrice'] + '" curr-price="' + tmp['currPrice'] + '"><div class="njp_cj">出价</div></a>';
                     }else if(tmp['currPrice'] <= tmp['myCurrPrice']){
                         middle += '<a href="javascript:;"><div class="gz_lx">领先</div></a>';
@@ -181,9 +181,9 @@
                     middle += '<div class="gz_jiaru gz_gr"><a href="javascript:;" proxy-price="' + tmp['proxyPrice'] + '" class="set-proxy-price-btn" product-id="' + tmp['productID'] + '">设置代理价></a></div>';
 
 
-                    if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
+                    /*if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
                         right += '竞价已超出代理价';
-                    }else if(tmp['currPrice'] > tmp['myCurrPrice']){
+                    }else */if(tmp['currPrice'] > tmp['myCurrPrice']){
                         right += '出价已被超越';
                     }else if(tmp['currPrice'] <= tmp['myCurrPrice']){
                         right += '当前为最高价';
