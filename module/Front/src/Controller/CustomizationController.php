@@ -9,7 +9,7 @@ class CustomizationController extends Front{
         $artistCategoryID = $this->queryData['artistCategoryID'];
         $artistCategories = $this->artistCategoryModel->select()->toArray();
         $where = array(
-            'Customization.endTime < ?' => time(),
+            'Customization.endTime > ?' => time(),
         );
         if(!empty($artistCategoryID)){
             $where['b.artistCategoryID'] = $artistCategoryID;
