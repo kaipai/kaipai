@@ -102,6 +102,16 @@ return array(
                         )
                     )
                 ),
+                'crontab-del-over-time-special' => array(
+                    'options' => array(
+                        'route' => 'crontab-del-over-time-special',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'del-over-time-special'
+                        )
+                    )
+                ),
             )
         )
     ),
