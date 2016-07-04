@@ -46,12 +46,12 @@
                                                 <a href="javascript:;" class="edit-start-price-btn" product-id="<?php echo $v['productID'] ?>">修改</a>
                                             </p>
 
-                                            <p class="add_qpj10">保留价 <input class="mt_input" type="text" placeholder="" value="<?php echo $v['keepPrice']?>">
-                                                <a href="javascript:;" class="edit-keep-price-btn" product-id="<?php echo $v['productID'] ?>">修改</a>
-                                            </p>
+                                            <!--<p class="add_qpj10">保留价 <input class="mt_input" type="text" placeholder="" value="<?php /*echo $v['keepPrice']*/?>">
+                                                <a href="javascript:;" class="edit-keep-price-btn" product-id="<?php /*echo $v['productID'] */?>">修改</a>
+                                            </p>-->
 
                                             <div class="add_qpj">
-                                                <a href="javascript:;" class="cancel-keep-price" product-id="<?php echo $v['productID'] ?>>取消保留价 </a>
+                                                <!--<a href="javascript:;" class="cancel-keep-price" product-id="<?php /*echo $v['productID'] */?>>取消保留价 </a>-->
                                                 <span class="add_tjian">
                                                         <a href="/member/add-product?specialID=<?php echo $special['specialID'] ?>&productID=<?php echo $v['productID'] ?>">编辑</a>
                                                 </span>
@@ -173,7 +173,7 @@
                 }
             });
         });
-        $('.edit-keep-price-btn').on('click', function(){
+        /*$('.edit-keep-price-btn').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
             data.keepPrice = $(this).prev('input').val();
@@ -187,8 +187,8 @@
                     layer.alert(data.msg);
                 }
             });
-        });
-        $('.cancel-keep-price').on('click', function(){
+        });*/
+        /*$('.cancel-keep-price').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
             data.keepPrice = 0;
@@ -202,7 +202,7 @@
                     layer.alert(data.msg);
                 }
             });
-        });
+        });*/
 
     });
 </script>

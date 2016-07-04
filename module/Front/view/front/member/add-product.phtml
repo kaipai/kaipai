@@ -154,12 +154,12 @@
                     <input class="mt_input2" type="text" placeholder="" id="commision" value="0"> %
                     <input checked name="yogjin" type="radio" class="ind_checkbox wu commision" id="commision-radio-wu"/> 无
                 </div>
-                <div class="mt20">
+                <!--<div class="mt20">
                     <span class="ind_jrzz bold">保留价</span>
                     <input name="baoliu" type="radio" class="ind_checkbox keep-price" id="keep-price-radio" />
                     <input class="mt_input2" type="text" placeholder="" id="keep-price" value="0" > 元
                     <input checked name="baoliu" type="radio" class="ind_checkbox wu keep-price" id="keep-price-wu" /> 无
-                </div>
+                </div>-->
                 <div class="mt20">
                     <span class="ind_jrzz bold">延时周期</span>
                     <input name="yogjins" type="radio" class="ind_checkbox delayType" value="1" id="delayType1"  />5分钟/次
@@ -325,16 +325,16 @@ echo $this->render('/front/common/transfer-account');
             $('#commision-radio-wu').attr('checked', 'checked');
         <?php
         } ?>
-        <?php if(!empty($productInfo['existKeepPrice'])){
-        ?>
+        <?php /*if(!empty($productInfo['existKeepPrice'])){
+        */?>/*
             $('#keep-price-radio').attr('checked', 'checked');
-            $('#keep-price').val('<?php echo $productInfo['keepPrice'] ?>');
+            $('#keep-price').val('<?php /*echo $productInfo['keepPrice'] */?>');
         <?php
-        }else{
-        ?>
+/*        }else{
+        */?>
             $('#keep-price-wu').attr('checked', 'checked');
-        <?php
-        } ?>
+        */<?php
+/*        }*/ ?>
 
         <?php
         if($productInfo['delayType'] == 1){
@@ -613,12 +613,12 @@ echo $this->render('/front/common/transfer-account');
             if(!$('.commision:checked').hasClass('wu')){
                 data.commision = $('#commision').val();
             }
-            if(!$('.keep-price:checked').hasClass('wu')){
+            /*if(!$('.keep-price:checked').hasClass('wu')){
                 data.existKeepPrice = 1;
                 data.keepPrice = $('#keep-price').val();
             }else{
                 data.existKeepPrice = 0;
-            }
+            }*/
             data.delayType = $('.delayType:checked').val();
             data.deliveryCityID = $('#city-select').val();
             if(!$('.delivery-price:checked').hasClass('wu')){

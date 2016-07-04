@@ -34,9 +34,9 @@
                                     <span>起拍价
                                         <input class="kp_input " type="text" placeholder="" value="<?php echo $v['startPrice'] ?>"> <span product-id="<?php echo $v['productID'] ?>" class="edit-start-price-btn" style="cursor: pointer;">修改</span>
                                     </span>
-                                    <span class="kp_bliu">保留价
-                                        <input class="kp_input " type="text" placeholder="" value="<?php echo $v['keepPrice'] ?>">  <span product-id="<?php echo $v['productID'] ?>" class="edit-keep-price-btn" style="cursor: pointer;">修改</span>
-                                    </span>
+                                    <!--<span class="kp_bliu">保留价
+                                        <input class="kp_input " type="text" placeholder="" value="<?php /*echo $v['keepPrice'] */?>">  <span product-id="<?php /*echo $v['productID'] */?>" class="edit-keep-price-btn" style="cursor: pointer;">修改</span>
+                                    </span>-->
                                 </div>
                             <?php
                             }elseif($v['auctionStatus'] == 2){
@@ -129,7 +129,7 @@
                                 }else{
 
                                 ?>
-                                    <a href="javascript:;" class="cancel-keep-price-btn" product-id="<?php echo $v['productID'] ?>">取消保留价>></a>
+                                    <!--<a href="javascript:;" class="cancel-keep-price-btn" product-id="<?php /*echo $v['productID'] */?>">取消保留价>></a>-->
                                 <?php
                                     if(!empty($v['specialID'])){
                                         echo '<br />专场拍品';
@@ -247,7 +247,7 @@ echo $this->render('/front/common/transfer-account');
             delProduct(productID);
         });
 
-        $('.edit-keep-price-btn').on('click', function(){
+        /*$('.edit-keep-price-btn').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
             data.keepPrice = $(this).prev('input').val();
@@ -261,12 +261,12 @@ echo $this->render('/front/common/transfer-account');
                     layer.alert(data.msg);
                 }
             });
-        });
+        });*/
         $('.edit-start-price-btn').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
             data.startPrice = $(this).prev('input').val();
-            data.existKeepPrice = 1;
+            /*data.existKeepPrice = 1;*/
             $.ajax({
                 url : '/member/save-product',
                 type : 'post',
@@ -378,7 +378,7 @@ echo $this->render('/front/common/transfer-account');
             });
         });
 
-        $('.cancel-keep-price').on('click', function(){
+        /*$('.cancel-keep-price').on('click', function(){
             var data = {};
             data.productID = $(this).attr('product-id');
             data.keepPrice = 0;
@@ -398,7 +398,7 @@ echo $this->render('/front/common/transfer-account');
                     }
                 }
             });
-        });
+        });*/
 
         function publishProducts(productID){
             var data = {};

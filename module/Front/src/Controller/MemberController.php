@@ -1260,7 +1260,7 @@ class MemberController extends Front{
         return $this->redirect()->toUrl('/store/detail?storeID=' . $this->_storeInfo['storeID']);
     }
 
-    public function cancelKeepPriceAction(){
+    /*public function cancelKeepPriceAction(){
         $productID = $this->request->getPost('productID');
         $where = array(
             'productID' => $productID,
@@ -1269,7 +1269,7 @@ class MemberController extends Front{
         $this->productModel->update(array('keepPrice' => 0, 'existKeepPrice' => 0), $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
-    }
+    }*/
 
     public function myRechargeAction(){
         $where = array(

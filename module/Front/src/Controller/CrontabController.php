@@ -19,7 +19,7 @@ class CrontabController extends Controller{
         try{
             $this->productModel->beginTransaction();
             foreach($expireProducts as $v){
-                if(!empty($v['keepPrice']) && $v['keepPrice'] > $v['currPrice']){
+                /*if(!empty($v['keepPrice']) && $v['keepPrice'] > $v['currPrice']){
                     $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'isUnSold' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
 
                     $auctionMembers = $this->auctionMemberModel->select(array('productID' => $v['productID']))->toArray();
@@ -32,7 +32,7 @@ class CrontabController extends Controller{
                     $this->auctionLogModel->delete(array('productID' => $v['productID']));
                     $this->memberProductInterestModel->delete(array('productID' => $v['productID']));
                     $this->productModel->update(array('currPrice' => new Expression('startPrice')), array('productID' => $v['productID']));
-                }else{
+                }else{*/
                     if(empty($v['auctionMemberID'])){
                         $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'isUnSold' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
                         $this->memberProductInterestModel->delete(array('productID' => $v['productID']));
@@ -78,7 +78,7 @@ class CrontabController extends Controller{
                         );
                         $this->memberPayDetailModel->insert($payData);
                     }
-                }
+                //}
             }
             $this->productModel->commit();
         }catch (\Exception $e){
