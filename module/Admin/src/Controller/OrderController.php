@@ -13,7 +13,7 @@ class OrderController extends Admin{
     }
 
     public function listAction(){
-        $where = array();
+        $where = array('MemberOrder.orderType' => 1);
         $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
         $orders = $result['data'];
         foreach($orders as $k => $v){

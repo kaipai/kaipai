@@ -185,6 +185,32 @@
 
                     return s;
                 }
+            },{
+                field: 'payType',
+                title: '支付方式',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter: function(value, row, index){
+                    var s = '';
+                    if(value == 1){
+                        s += '余额';
+                    }else if(value == 2){
+                        s += '支付宝';
+                    }else if(value == 3){
+                        s += '银联';
+                    }else if(value == 4){
+                        s += '银行转账';
+                        if(row.orderStatus == 1){
+                            s += '<a title="确认到账" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认到账吗?" url="/admin/<?=$this->layout()->controllerName;?>/confirm-paid" method="post" params="unitePayID='+ row.unitePayID +'&type=1"><i class="glyphicon glyphicon-ok"></i></a>';
+                        }/*else if(row.orderStatus == 5 && row.orderType == 2){
+                         s += '<a title="确认尾款到账" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认到账吗?" url="/admin/<?=$this->layout()->controllerName;?>/confirm-paid" method="post" params="unitePayID='+ row.unitePayID +'&type=4"><i class="glyphicon glyphicon-ok"></i></a>';
+                         }*/
+                    }
+
+                    return s;
+                }
+
             }]
         });
     });
