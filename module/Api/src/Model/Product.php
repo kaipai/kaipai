@@ -25,11 +25,15 @@ class Product extends Model{
     }
 
     public function getIndexRecommendProducts(){
+        $where = array(
+            'b.isIndexRecommend' => 1,
+            'b.auctionStatus' => array(2),
+            'b.isDel' => 0,
+        );
 
-
-        $where = new Where();
+        /*$where = new Where();
         $where->equalTo('b.isIndexRecommend', 1)->equalTo('b.isDel', 0);
-        $where->and->nest()->or->nest()->and->isNull('b.specialID')->and->in('b.auctionStatus', array(2))->unnest()->or->nest()->and->isNotNull('b.specialID')->and->in('b.auctionStatus', array(1, 2));
+        $where->and->nest()->or->nest()->and->isNull('b.specialID')->and->in('b.auctionStatus', array(2))->unnest()->or->nest()->and->isNotNull('b.specialID')->and->in('b.auctionStatus', array(1, 2));*/
 
         $order = array('b.instime desc');
 
