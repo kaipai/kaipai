@@ -20,7 +20,7 @@ class CrontabController extends Controller{
             $this->productModel->beginTransaction();
             foreach($expireProducts as $v){
                 /*if(!empty($v['keepPrice']) && $v['keepPrice'] > $v['currPrice']){
-                    $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'isUnSold' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
+                    $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'soldStatus' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
 
                     $auctionMembers = $this->auctionMemberModel->select(array('productID' => $v['productID']))->toArray();
                     foreach($auctionMembers as $sv){
@@ -34,10 +34,10 @@ class CrontabController extends Controller{
                     $this->productModel->update(array('currPrice' => new Expression('startPrice')), array('productID' => $v['productID']));
                 }else{*/
                     if(empty($v['auctionMemberID'])){
-                        $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'isUnSold' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
+                        $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'soldStatus' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
                         $this->memberProductInterestModel->delete(array('productID' => $v['productID']));
                     }else{
-                        $this->productModel->update(array('auctionStatus' => 3), array('productID' => $v['productID']));
+                        $this->productModel->update(array('auctionStatus' => 3, 'soldStatus' => 2, 'soldTime' => time()), array('productID' => $v['productID']));
 
                         $auctionMembers = $this->auctionMemberModel->select(array('productID' => $v['productID'], 'auctionMemberID != ?' => $v['auctionMemberID']))->toArray();
                         foreach($auctionMembers as $sv){
@@ -166,7 +166,7 @@ class CrontabController extends Controller{
 
     public function delUnsoldProductAction(){
 
-        $this->productModel->update(array('isDel' => 1), array('isUnSold' => 1, 'auctionStatus' => 0, 'unSoldTime < ?' => strtotime('-3 days')));
+        $this->productModel->update(array('isDel' => 1), array('soldStatus' => 1, 'auctionStatus' => 0, 'unSoldTime < ?' => strtotime('-3 days')));
 
         return $this->response;
     }
