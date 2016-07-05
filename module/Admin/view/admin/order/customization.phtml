@@ -163,6 +163,20 @@
                     return str;
                 }
             },{
+                field: 'isComplained',
+                title: '是否被申诉',
+                align: 'center',
+                valign: 'middle',
+                formatter : function(value, row, index){
+                    var str = '';
+                    if(value == 1){
+                        str += '<font style="color:red;">是</font>';
+                    }else{
+                        str += '否';
+                    }
+                    return str;
+                }
+            },{
                 field: 'payType',
                 title: '支付方式',
                 align: 'center',

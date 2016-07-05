@@ -146,6 +146,23 @@ echo $this->render('/front/common/post-illegal');
             });
         });
 
+        $(document).on('click', '.post-complain-btn', function(){
+            var data = {
+                orderID : $(this).attr('order-id')
+            };
+            $.ajax({
+                url : '/member/post-complain',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    layer.alert(res.msg, function(){
+                        layer.closeAll();
+                    });
+                }
+            });
+        });
+
         $(document).on('click', '#qq-login-btn', function(){
             QC.Login.showPopup({
                 appID : '101328212',
