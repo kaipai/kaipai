@@ -34,16 +34,16 @@ class StoreController extends Front{
         );
         $storeInfo = $this->storeModel->fetch($where);
         $storeCategories = $this->storeCategoryModel->select(array('storeID' => $storeID))->toArray();
-        /*$storeRecommendProducts = $this->productModel->getProducts(array('isStoreRecommend' => 1, 'storeID' => $storeID, 'auctionStatus' => array(1, 2)));
+        /*$storeRecommendProducts = $this->productModel->getProducts(array('Product.isStoreRecommend' => 1, 'Product.storeID' => $storeID, 'Product.auctionStatus' => array(1, 2)));
         $storeRecommendProductsData = $storeRecommendProducts['data'];
         foreach($storeRecommendProductsData as $k => $v){
             $storeRecommendProductsData[$k]['leftTime'] = Utility::getLeftTime(time(), $v['endTime']);
         }*/
 
 
-        if(!empty($order) && !empty($sort)) $order = $order .' '. $sort;
+        if(!empty($order) && !empty($sort)) $order = 'Product.' . $order .' '. $sort;
         $where = new Where();
-        $where->equalTo('storeID', $storeID);
+        $where->equalTo('Product.storeID', $storeID);
         if(!empty($auctionStatus)){
             $where->equalTo('Product.auctionStatus', $auctionStatus);
         }else{
@@ -51,7 +51,7 @@ class StoreController extends Front{
         }
         $where->isNull('Product.specialID');
         if(!empty($storeCategoryID)){
-            $where->and->nest()->or->equalTo('firstStoreCategoryID', $storeCategoryID)->or->equalTo('secondStoreCategoryID', $storeCategoryID)->or->equalTo('thirdStoreCategoryID', $storeCategoryID);
+            $where->and->nest()->or->equalTo('Product.firstStoreCategoryID', $storeCategoryID)->or->equalTo('Product.secondStoreCategoryID', $storeCategoryID)->or->equalTo('Product.thirdStoreCategoryID', $storeCategoryID);
         }
 
         $storeProducts = $this->productModel->getProducts($where, $this->pageNum, $this->limit, $order);

@@ -53,8 +53,9 @@ class Product extends Model{
     public function getProducts($where, $page = 1, $limit = 10, $order = ''){
 
         $select = $this->getSelect();
+        $select->join(array('b' => 'Store'), 'Product.storeID = b.storeID', array('storeName'), 'left');
         $select->where($where);
-        $select->where(array('isDel' => 0));
+        $select->where(array('Product.isDel' => 0));
         if(!empty($order)){
             $select->order($order);
         }else{
