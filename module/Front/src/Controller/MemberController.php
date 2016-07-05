@@ -810,7 +810,7 @@ class MemberController extends Front{
 
             $this->postData['storeLogo'] = Utility::saveBaseCodePic($this->postData['storeLogo']);
             $this->postData['storeBanner'] = Utility::saveBaseCodePic($this->postData['storeBanner']);
-            $this->postData['recommendImg'] = Utility::saveBaseCodePic($this->postData['recommendImg']);
+            //$this->postData['recommendImg'] = Utility::saveBaseCodePic($this->postData['recommendImg']);
 
             $this->storeModel->update($this->postData, $where);
 

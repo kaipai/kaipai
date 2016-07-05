@@ -24,11 +24,11 @@
                 <input class="zz_inputqm" type="text" id="signature" placeholder="" value="<?php echo !empty($_storeInfo['storeSignature']) ? $_storeInfo['storeSignature'] : ''; ?>">
                 <br> <span class="ind_jrzz"></span> *限35字以内，显示在店铺名称下方
             </div>
-            <div class="mt20">
+            <!--<div class="mt20">
                 <div class="ind_jrzz bold">店铺推荐<br>栏位底图</div>
-                <div id="preview2" class="dianpbai1"><img id="imghead2" src="<?php echo !empty($_storeInfo['recommendImg']) ? $_storeInfo['recommendImg'] : '/images/img_06.jpg'?>"></div>
+                <div id="preview2" class="dianpbai1"><img id="imghead2" src="<?php /*echo !empty($_storeInfo['recommendImg']) ? $_storeInfo['recommendImg'] : '/images/img_06.jpg'*/?>"></div>
                 <em style="color:red;">*1200x300像素</em><span><input type="file" onchange="previewImage2(this)"/> </span>
-            </div>
+            </div>-->
             <div class="mt20">
                 <div class="ind_jrzz bold" id="store-categories">拍品分类</div>
                 <?php
@@ -76,7 +76,7 @@
         $('#store-settings-committ').on('click', function(){
             var storeLogo = $('#imghead').attr('src');
             var storeBanner = $('#imghead1').attr('src');
-            var recommendImg = $('#imghead2').attr('src');
+            //var recommendImg = $('#imghead2').attr('src');
             var signature = $('#signature').val();
             var storeCategory = new Array();
             $('.storeCategory').each(function(){
@@ -114,7 +114,7 @@
             var data = {
                 storeLogo : storeLogo,
                 storeBanner : storeBanner,
-                recommendImg : recommendImg,
+                //recommendImg : recommendImg,
                 storeSignature : signature,
                 storeCategory : storeCategory,
                 storeDesc : storeDesc,
