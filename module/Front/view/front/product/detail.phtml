@@ -1,18 +1,18 @@
 <link rel="stylesheet" type="text/css" href="/dist/styles/main/good.css" media="screen" />
 <div class="center">
     <div class="s-nav">
-        <a href="/">在线竞拍</a>
+        <!--<a href="/">在线竞拍</a>-->
         <?php if(!empty($sourceSpecialInfo)){?>
-            &gt;
-            <a href="/special/today">拍卖专场</a>
+            <a href="/special/index?specialProductCategoryID=<?php echo $sourceSpecialInfo['specialProductCategoryID']; ?>"><?php echo $sourceSpecialInfo['categoryName']; ?></a>
             &gt;
             <a href="/special/detail?specialID=<?php echo $sourceSpecialInfo['specialID']; ?>"><?php echo $sourceSpecialInfo['specialName']; ?></a>
             &gt;
-            <?php echo $productInfo['productName']; ?>
+            拍品详情
         <?php }else{
         ?>
+            <a href="/store/detail?storeID=<?php echo $productInfo['storeID']; ?>"><?php echo $productInfo['storeName'] ?></a>
             &gt;
-            <a href="/product/index">自由拍</a>
+            拍品详情
         <?php
         } ?>
     </div>

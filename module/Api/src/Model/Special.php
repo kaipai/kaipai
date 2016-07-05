@@ -39,6 +39,7 @@ class Special extends Model{
         $select = $this->getSelect();
         $select->join(array('b' => 'Store'), 'Special.storeID = b.storeID', array('storeName'));
         $select->join(array('c' => 'MemberInfo'), 'b.storeID = c.storeID', array('memberID'));
+        $select->join(array('d' => 'ProductCategory'), 'd.productCategoryID = Special.specialProductCategoryID', array('categoryName'));
         $select->where($where);
         $res = $this->selectWith($select)->current();
 
