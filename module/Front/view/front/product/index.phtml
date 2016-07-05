@@ -150,6 +150,7 @@
                 <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox " id="is-certificate-card">
                 鉴定证书
                 <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox " id="is-author-auth">作者授权
+                <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox " id="is-fidelity">是否保真
             </div>
             <div class="sf_paixu">
                 <ul>
@@ -273,6 +274,11 @@
             }else{
                 params.isAuthorAuth = 0;
             }
+            if($('#is-fidelity').is(':checked')){
+                params.fidelity = 1;
+            }else{
+                params.fidelity = 0;
+            }
 
             if($('.product-status.hover').length){
                 params.status = $('.product-status.hover').attr('status');
@@ -368,6 +374,9 @@
             refresh(params)
         });
         $('#is-author-auth').on('change', function(){
+            refresh(params)
+        });
+        $('#is-fidelity').on('change', function(){
             refresh(params)
         });
         $('#price-search-btn').on('click', function(){
