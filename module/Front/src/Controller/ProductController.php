@@ -130,7 +130,7 @@ class ProductController extends Front{
         $productInfo = $this->productModel->fetch($where);
         if(!empty($productInfo['specialID'])){
             $sourceSpecialID = $productInfo['specialID'];
-            $sourceSpecialInfo = $this->specialModel->select(array('specialID' => $sourceSpecialID))->current();
+            $sourceSpecialInfo = $this->specialModel->getFullInfo(array('specialID' => $sourceSpecialID));
         }
 
         // properties
