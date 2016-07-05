@@ -183,7 +183,6 @@
     </div>
 </div>
 
-<?php echo $this->render('/front/common/pay'); ?>
 
 <script>
     $(function(){
@@ -194,26 +193,11 @@
             $('#customization-count').val(parseInt($('#customization-count').val()) + 1);
         });
         $('#buy-customization-btn').on('click', function(){
-            var depositPrice = <?php echo $info['depositPrice']; ?>;
             var customizationCount = parseInt($('#customization-count').val());
-            var payPrice = depositPrice * customizationCount;
 
-            layer.open({
-                skin: '',
-                title:'',
-                type: 1,
-                content: $('#pay-div').html()
-            });
-            $('.pay-price:visible').html(payPrice);
-            $('.pay-price:visible').attr('pay-customization-id', <?php echo $info['customizationID'] ?>);
-            $('.pay-price:visible').attr('customization-count', customizationCount);
-        });
-
-        $(document).on('click', '.confirm-pay:visible', function(){
             var data = {};
-            data.customizationID = $('.pay-price:visible').attr('pay-customization-id');
-            data.customizationCount = $('.pay-price:visible').attr('customization-count');
-            data.payType = $('.selected-pay-type:visible').attr('pay-type');
+            data.customizationID = <?php echo $info['customizationID'] ?>;
+            data.customizationCount = customizationCount;
 
             $.ajax({
                 url : '/order/generate',
@@ -232,6 +216,8 @@
 
             });
         });
+
+
 
         //产品详情介绍的tab
         $('.ty_main03').delegate('li', 'click', function () {
