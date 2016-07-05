@@ -171,6 +171,13 @@ class CrontabController extends Controller{
         return $this->response;
     }
 
+    public function delSoldProductAction(){
+
+        $this->productModel->update(array('isDel' => 1), array('soldStatus' => 2, 'auctionStatus' => 3, 'soldTime < ?' => strtotime('-3 days')));
+
+        return $this->response;
+    }
+
     public function delOverTimeSpecialAction(){
         $where = array('auctionStatus' => 3, 'endTime < ?' => strtotime('-3 days'));
         $specials = $this->specialModel->setColumns(array('specialID'))->select($where)->toArray();
