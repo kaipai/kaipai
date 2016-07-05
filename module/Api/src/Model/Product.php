@@ -67,12 +67,14 @@ class Product extends Model{
         $paginator->setItemCountPerPage($limit);
         $data = $paginator->getCurrentItems()->getArrayCopy();
         $pages = $paginator->getPages();
+        $total = $paginator->getTotalItemCount();
         foreach($data as $k => $v){
             $data[$k]['leftTime'] = Utility::getLeftTime(time(), $v['endTime']);
         }
         $result = array(
             'data' => $data,
             'pages' => $pages,
+            'total' => $total,
         );
         return $result;
     }

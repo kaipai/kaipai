@@ -12,15 +12,13 @@ class ProductController extends Admin{
     }
 
     public function listAction(){
-        $offset = $this->request->getQuery('offset', $this->offset);
-        $limit = $this->request->getQuery('limit', $this->limit);
         $where = array();
 
-        $data = array();
+        $res = $this->productModel->getProducts($where, $this->pageNum, $this->limit);
 
-        $data['total'] = $this->productModel->getCount($where);
+        $data['total'] = $res['total'];
 
-        $data['rows'] = $this->productModel->getList($where, "productID desc", $offset, $limit);
+        $data['rows'] = $res['data'];
 
         return $this->adminResponse($data);
     }
