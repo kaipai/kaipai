@@ -34,7 +34,7 @@ abstract class BasePay
             $this->memberPayDetailModel->update(array('paidMoney' => $orderInfo['payMoney'], 'payTime' => time()), $where);
             if(!empty($orderInfo['customizationID'])){
                 $orderModel->update(array('orderStatus' => 2), $where);
-                $this->customizationModel->update(array('lastNum' => new Expression('lastNum+1'), 'boughtCount' => new Expression('boughtCount+1')));
+                $this->customizationModel->update(array('lastNum' => new Expression('lastNum+1'), 'boughtCount' => new Expression('boughtCount+1')), array('customizationID' => $orderInfo['customizationID']));
             }else{
                 $orderModel->update(array('orderStatus' => 3), $where);
 
