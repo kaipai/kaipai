@@ -52,6 +52,26 @@ class Store extends Model{
 
     }
 
+    public function getRecommendStores($page = 1, $limit = 20){
+        $select = $this->getSelect();
+        $select->where(array('isRecommend' => 1));
+
+        $paginator = $this->paginate($select);
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage($limit);
+        $hotStores = $paginator->getCurrentItems()->getArrayCopy();
+        $pages = $paginator->getPages();
+
+
+        $result = array(
+            'data' => $hotStores,
+            'pages' => $pages,
+
+        );
+
+        return $result;
+    }
+
     public function fetch($where = array()){
         $select = $this->getSelect();
         $select->join(array('b' => 'StoreLevel'), 'Store.level = b.level', array('fees'), 'left');
