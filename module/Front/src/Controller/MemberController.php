@@ -931,7 +931,7 @@ class MemberController extends Front{
                 if($product['endTime'] < $product['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间早于开始时间');
                 if($product['endTime'] > strtotime('+2 days', $product['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
 
-                $product['auctionStatus'] = 1;
+                $product['auctionStatus'] = 0;
             }elseif(empty($product['productID'])){
                 unset($product['startTime'], $product['endTime']);
             }
