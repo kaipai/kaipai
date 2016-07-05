@@ -159,7 +159,7 @@ echo $this->render('/front/common/post-illegal');
                 layer.alert('未设置qq');
                 return false;
             }
-            window.open('tencent://message/?uin=' + qq + '&Site=www.kaipai123.com&Menu=yes');
+            window.location.href='tencent://message/?uin=' + qq + '&Site=www.kaipai123.com&Menu=yes';
         });
 });
 function checkOrderStatus(unitePayID, type){
