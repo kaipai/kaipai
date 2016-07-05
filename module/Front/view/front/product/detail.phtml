@@ -399,9 +399,9 @@
                     <!----出价记录 end-->
                     <!--竞拍须知 start-->
                     <div class="xtj-jpxz shop-show-item" style="display: none;">
-                        <?php
-                        echo $_siteSettings['biddingKnow'];
-                        ?>
+                        <iframe frameborder="no" border="0" scrolling="no" src="/article/setting-detail?settingName=biddingKnow" width="100%" id="iframepage1" name="iframepage1" onload="iframeHeight('iframepage1');">
+                        </iframe>
+
                         <!--<div class="detailed-xx-ultitle">
                             <b>竞拍须知</b>
                         </div>
@@ -529,9 +529,8 @@
 
                     <!--服务保障 start-->
                     <div class="detailed-service shop-show-item" style="display: none;">
-                        <?php
-                        echo $_siteSettings['serviceProtocol'];
-                        ?>
+                        <iframe frameborder="no" border="0" scrolling="no" src="/article/setting-detail?settingName=serviceProtocol" width="100%" id="iframepage2" name="iframepage2" onload="iframeHeight('iframepage2');">
+                        </iframe>
                     </div>
                     <!--服务保障 end-->
                 </div>
