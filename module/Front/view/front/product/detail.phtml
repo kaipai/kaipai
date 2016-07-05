@@ -705,6 +705,11 @@ echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
             var J_detailed_xx_down = $('#detailed-xx-down .shop-show-item');
             J_detailed_xx_down.hide();
             J_detailed_xx_down.eq(J_index).show();
+            if(J_index == 2){
+                iframeHeight('iframepage1');
+            }else if(J_index == 3){
+                iframeHeight('iframepage2');
+            }
 
 
         });
