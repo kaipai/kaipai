@@ -50,6 +50,7 @@ class ProductController extends Front{
         $isRefundInDays = $this->postData['isRefundInDays'];
         $isCertificateCard = $this->postData['isCertificateCard'];
         $isAuthorAuth = $this->postData['isAuthorAuth'];
+        $fidelity = $this->postData['fidelity'];
         $productStatus = $this->postData['status'];
         $search = $this->postData['search'];
         $show = $this->postData['show'];
@@ -88,6 +89,9 @@ class ProductController extends Front{
         }
         if(!empty($isAuthorAuth)){
             $where['b.authorAuth'] = $isAuthorAuth;
+        }
+        if(!empty($fidelity)){
+            $where['b.fidelity'] = $fidelity;
         }
         if(!empty($productStatus) && $productStatus != 'all'){
             if($productStatus == 'coming'){
