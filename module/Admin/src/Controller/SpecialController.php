@@ -35,7 +35,7 @@ class SpecialController extends Admin{
 
         if($this->postData['verifyStatus'] == 2){
             $this->notificationModel->insert(array('type' => 3, 'memberID' => $specialInfo['memberID'], 'content' => '您的<<' . $specialInfo['specialName'] . '>>专场审核已通过。'));
-            $this->productModel->update(array('auctionStatus' => 1, 'startTime' => $specialInfo['startTime'], 'endTime' => $specialInfo['endTime']), $where);
+            $this->productModel->update(array('auctionStatus' => 1, 'startTime' => $specialInfo['startTime'], 'endTime' => $specialInfo['endTime'], 'isPaid' => 1), $where);
         }elseif($this->postData['verifyStatus'] == 3){
             $this->notificationModel->insert(array('type' => 3, 'memberID' => $specialInfo['memberID'], 'content' => '您的<<' . $specialInfo['specialName'] . '>>专场审核未通过，请修改。'));
             $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null')), $where);
