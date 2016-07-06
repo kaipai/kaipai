@@ -48,7 +48,13 @@ class CrontabController extends Controller{
                         foreach($auctionMembers as $sv){
                             $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您未成功竞得<<' . $v['productName'] . '>>。'));
                         }
-                        $this->notificationModel->insert(array('type' => 3, 'memberID' => $v['auctionMemberID'], 'content' => '您已成功竞得<<' . $v['productName'] . '>>。'));
+
+                        $content = '您已成功竞得<<' . $v['productName'] . '>>。';
+                        $this->notificationModel->insert(array('type' => 3, 'memberID' => $v['memberID'], 'content' => $content));
+
+                        $sms = $content . '【开拍网】';
+                        $memberInfo = $this->memberInfoModel->select(array('memberID' => $v['memberID']))->current();
+                        $this->smsService->sendSms($memberInfo['mobile'], $sms);
 
 
                         $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
@@ -153,10 +159,15 @@ class CrontabController extends Controller{
             foreach($products as $v){
                 $data = $this->memberProductInterestModel->select(array('productID' => $v['productID']))->toArray();
                 foreach($data as $sv){
-                    $where = array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您关注的拍品<<' . $v['productName'] . '>>' . '马上就要结束了。');
+                    $content = '您关注的拍品<<' . $v['productName'] . '>>' . '马上就要结束了。';
+                    $where = array('type' => 3, 'memberID' => $sv['memberID'], 'content' => $content);
                     $exist = $this->notificationModel->select($where)->current();
                     if(!empty($exist)) continue;
                     $this->notificationModel->insert($where);
+
+                    $sms = $content . '【开拍网】';
+                    $memberInfo = $this->memberInfoModel->select(array('memberID' => $sv['memberID']))->current();
+                    $this->smsService->sendSms($memberInfo['mobile'], $sms);
                 }
             }
             $this->notificationModel->commit();
@@ -198,6 +209,25 @@ class CrontabController extends Controller{
         }
 
 
+
+        return $this->response;
+    }
+
+    public function proxyPriceInvalidAction(){
+        $proxyMembers = $this->auctionMemberModel->getAuctionList(array('isNotified' => 0, 'status' => 0));
+        foreach($proxyMembers as $v){
+            if($v['proxyPrice'] < $v['currPrice']){
+                $content = '您对拍品<<' . $v['productName'] . '>>设置的代理价已失效。';
+                $where = array('type' => 3, 'memberID' => $v['memberID'], 'content' => $content);
+                $this->notificationModel->insert($where);
+
+                $sms = $content . '【开拍网】';
+                $memberInfo = $this->memberInfoModel->select(array('memberID' => $v['memberID']))->current();
+                $this->smsService->sendSms($memberInfo['mobile'], $sms);
+
+                $this->auctionMemberModel->update(array('isNotified' => 1), array('auctionMemberID' => $v['auctionMemberID']));
+            }
+        }
 
         return $this->response;
     }
