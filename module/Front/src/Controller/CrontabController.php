@@ -214,7 +214,7 @@ class CrontabController extends Controller{
     }
 
     public function proxyPriceInvalidAction(){
-        $proxyMembers = $this->auctionMemberModel->getAuctionList(array('isNotified' => 0, 'status' => 0));
+        $proxyMembers = $this->auctionMemberModel->getAuctionList(array('AuctionMember.isNotified' => 0, 'AuctionMember.status' => 0, new IsNotNull('AuctionMember.proxyPrice')));
         foreach($proxyMembers as $v){
             if($v['proxyPrice'] < $v['currPrice']){
                 $content = '您对拍品<<' . $v['productName'] . '>>设置的代理价已失效。';
