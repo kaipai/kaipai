@@ -52,9 +52,8 @@ class CrontabController extends Controller{
                         $content = '您已成功竞得<<' . $v['productName'] . '>>。';
                         $this->notificationModel->insert(array('type' => 3, 'memberID' => $v['memberID'], 'content' => $content));
 
-                        $sms = $content . '【开拍网】';
                         $memberInfo = $this->memberInfoModel->select(array('memberID' => $v['memberID']))->current();
-                        $this->smsService->sendSms($memberInfo['mobile'], $sms);
+                        $this->smsService->sendSms($memberInfo['mobile'], $content);
 
 
                         $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
@@ -165,9 +164,8 @@ class CrontabController extends Controller{
                     if(!empty($exist)) continue;
                     $this->notificationModel->insert($where);
 
-                    $sms = $content . '【开拍网】';
                     $memberInfo = $this->memberInfoModel->select(array('memberID' => $sv['memberID']))->current();
-                    $this->smsService->sendSms($memberInfo['mobile'], $sms);
+                    $this->smsService->sendSms($memberInfo['mobile'], $content);
                 }
             }
             $this->notificationModel->commit();
@@ -221,9 +219,8 @@ class CrontabController extends Controller{
                 $where = array('type' => 3, 'memberID' => $v['memberID'], 'content' => $content);
                 $this->notificationModel->insert($where);
 
-                $sms = $content . '【开拍网】';
                 $memberInfo = $this->memberInfoModel->select(array('memberID' => $v['memberID']))->current();
-                $this->smsService->sendSms($memberInfo['mobile'], $sms);
+                $this->smsService->sendSms($memberInfo['mobile'], $content);
 
                 $this->auctionMemberModel->update(array('isNotified' => 1), array('auctionMemberID' => $v['auctionMemberID']));
             }
