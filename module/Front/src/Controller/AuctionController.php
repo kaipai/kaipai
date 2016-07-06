@@ -33,6 +33,15 @@ class AuctionController extends Front{
         if(empty($proxyPrice) || empty($productID) || empty($productInfo)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if($productInfo['storeID'] == $this->memberInfo['storeID']) return $this->response(ApiError::COMMON_ERROR, '不能对自己的拍品设置代理价');
 
+        $topBid = $this->auctionMemberModel->getTopBid($productID);
+        if(!empty($topBid)){
+            if($proxyPrice <= $productInfo['currPrice']) return $this->response(ApiError::COMMON_ERROR, '该代理价未超过当前最高出价');
+        }else{
+            if($proxyPrice < $productInfo['currPrice']) return $this->response(ApiError::COMMON_ERROR, '该代理价小于拍品起拍价');
+        }
+        $footAvailable = ($proxyPrice - $productInfo['startPrice']) % $productInfo['auctionPerPrice'];
+        if($footAvailable !== 0) return $this->response(ApiError::COMMON_ERROR, '请按阶梯设置代理价');
+
         $auctionMember = $this->auctionMemberModel->existAuctionMember($productID, $this->memberInfo['memberID']);
         if(!empty($auctionMember['proxyPrice']) && $proxyPrice < $auctionMember['proxyPrice']) return $this->response(ApiError::COMMON_ERROR, '设置失败, 该价格低于之前设置的代理价');
 
@@ -44,6 +53,13 @@ class AuctionController extends Front{
             'productID' => $this->postData['productID'],
         );
         $this->auctionMemberModel->update($set, $where);
+
+        try{
+            $auctionPrice = $productInfo['currPrice'] + $productInfo['auctionPerPrice'];
+            $this->auctionModel->bidding($productID, $this->memberInfo['memberID'], $this->memberInfo['nickName'], $auctionPrice, $productInfo['auctionPerPrice']);
+        }catch (\Exception $e){
+            return $this->response($e->getCode(), $e->getMessage());
+        }
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '设置成功');
     }
