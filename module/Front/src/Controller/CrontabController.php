@@ -34,8 +34,13 @@ class CrontabController extends Controller{
                     $this->productModel->update(array('currPrice' => new Expression('startPrice')), array('productID' => $v['productID']));
                 }else{*/
                     if(empty($v['auctionMemberID'])){
-                        $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'soldStatus' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
+                        if(!empty($v['specialID'])){
+                            $this->productModel->update(array('auctionStatus' => 3, 'soldStatus' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
+                        }else{
+                            $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null'), 'soldStatus' => 1, 'unSoldTime' => time()), array('productID' => $v['productID']));
+                        }
                         $this->memberProductInterestModel->delete(array('productID' => $v['productID']));
+
                     }else{
                         $this->productModel->update(array('auctionStatus' => 3, 'soldStatus' => 2, 'soldTime' => time()), array('productID' => $v['productID']));
 
