@@ -112,6 +112,16 @@ return array(
                         )
                     )
                 ),
+                'crontab-proxy-price-invalid' => array(
+                    'options' => array(
+                        'route' => 'crontab-proxy-price-invalid',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'proxy-price-invalid'
+                        )
+                    )
+                ),
             )
         )
     ),
