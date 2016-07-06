@@ -72,7 +72,12 @@ abstract class BasePay
             $product = $this->productModel->select(array('unitePayID' => $unitePayID))->current();
             if($product['isPaid']) throw new \Exception(ApiError::ORDER_HAVE_PAID_MSG, ApiError::ORDER_HAVE_PAID);
             $this->productModel->beginTransaction();
-            $this->productModel->update(array('auctionStatus' => 2, 'isPaid' => 1), array('unitePayID' => $unitePayID));
+            if($product['publishAtOnce']){
+                $this->productModel->update(array('auctionStatus' => 2, 'isPaid' => 1, 'startTime' => time(), 'endTime' => strtotime('+1 day')), array('unitePayID' => $unitePayID));
+            }else{
+                $this->productModel->update(array('isPaid' => 1, 'startTime' => new Expression('publishStartTime'), 'endTime' => new Expression('publishEndTime')), array('unitePayID' => $unitePayID));
+            }
+
             $memberInfo = $this->memberInfoModel->select(array('storeID' => $product['storeID']))->current();
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $memberInfo['memberID']));

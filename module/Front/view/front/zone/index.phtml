@@ -16,6 +16,7 @@
                                 <?php echo $v['memberArticleContent'] ?>
                             </div>
                         </div>
+                        <?php if($_isMyZone){ ?>
                         <div class="space_cominfo_right">
                             <ul>
                                 <li><a href="javascript:;" class="member-article-hide-btn" data="<?php echo $v['isHide'] ? 0 : 1 ?>" member-article-id="<?php echo $v['memberArticleID'] ?>"><?php echo $v['isHide'] ? '显示' : '隐藏' ?></a></li>
@@ -25,7 +26,7 @@
                                 <!--<li class="space_no"><a href="">回复>></a></li>-->
                             </ul>
                         </div>
-
+                        <?php } ?>
                     </div>
                 <?php
                 } ?>

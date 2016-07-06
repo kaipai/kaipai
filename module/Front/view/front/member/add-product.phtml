@@ -193,16 +193,16 @@
             </div>
             <!-- 定时上架 -->
             <div class="ind_jrzc">
-                <?php echo $this->render('time'); ?>
+                <?php //echo $this->render('time'); ?>
                 <p class="kp_tsinfo1">注：自由拍卖时间不超过48小时,每日上线限5件</p>
 
             </div>
 
-            <div class="ind_jrzc ind_botom">
+            <!--<div class="ind_jrzc ind_botom">
                 <span class="ind_ymy3" id="product-publish-btn"><a href="javascript:;">立即发布</a></span>
 
                 <p class="kp_tsinfo1">提示：多项可进入拍品仓库批量发布</p>
-            </div>
+            </div>-->
 
 
         </div>
@@ -211,8 +211,8 @@
     </div>
 </div>
 <?php
-echo $this->render('/front/common/pay');
-echo $this->render('/front/common/transfer-account');
+//echo $this->render('/front/common/pay');
+//echo $this->render('/front/common/transfer-account');
 ?>
 
 <script type="text/javascript">
@@ -225,14 +225,14 @@ echo $this->render('/front/common/transfer-account');
 
         <?php if(!empty($productInfo)){
         ?>
-        $('#start-time-year').val(<?php echo $productInfo['startTimeYear'] ?>);
-        $('#start-time-month').val(<?php echo $productInfo['startTimeMonth'] ?>);
-        $('#start-time-hour').val(<?php echo $productInfo['startTimeHour'] ?>);
-        $('#start-time-minute').val('<?php echo $productInfo['startTimeMin'] ?>');
-        $('#end-time-year').val(<?php echo $productInfo['endTimeYear'] ?>);
-        $('#end-time-month').val(<?php echo $productInfo['endTimeMonth'] ?>);
-        $('#end-time-hour').val(<?php echo $productInfo['endTimeHour'] ?>);
-        $('#end-time-minute').val('<?php echo $productInfo['endTimeMin'] ?>');
+        /*$('#start-time-year').val(<?php //echo $productInfo['startTimeYear'] ?>);
+        $('#start-time-month').val(<?php //echo $productInfo['startTimeMonth'] ?>);
+        $('#start-time-hour').val(<?php //echo $productInfo['startTimeHour'] ?>);
+        $('#start-time-minute').val('<?php //echo $productInfo['startTimeMin'] ?>');
+        $('#end-time-year').val(<?php //echo $productInfo['endTimeYear'] ?>);
+        $('#end-time-month').val(<?php //echo $productInfo['endTimeMonth'] ?>);
+        $('#end-time-hour').val(<?php //echo $productInfo['endTimeHour'] ?>);
+        $('#end-time-minute').val('<?php //echo $productInfo['endTimeMin'] ?>');*/
 
         $('#product-name').val('<?php echo $productInfo['productName'] ?>');
         $('#product-category-sel').val(<?php echo $productInfo['productCategoryID'] ?>);
@@ -627,7 +627,7 @@ echo $this->render('/front/common/transfer-account');
             }else{
                 data.coverDelivery = 1;
             }
-            var auctionStartTimeYear = $('#start-time-year').val();
+            /*var auctionStartTimeYear = $('#start-time-year').val();
             var auctionStartTimeMonth = $('#start-time-month').val();
             var auctionStartTimeDay = $('#start-time-day').val();
             var auctionStartTimeHour = $('#start-time-hour').val();
@@ -638,7 +638,7 @@ echo $this->render('/front/common/transfer-account');
             var auctionEndTimeDay = $('#end-time-day').val();
             var auctionEndTimeHour = $('#end-time-hour').val();
             var auctionEndTimeMinute = $('#end-time-minute').val();
-            data.endTime = auctionEndTimeYear + '-' + auctionEndTimeMonth + '-' + auctionEndTimeDay + ' ' + auctionEndTimeHour + ':' + auctionEndTimeMinute + ':00';
+            data.endTime = auctionEndTimeYear + '-' + auctionEndTimeMonth + '-' + auctionEndTimeDay + ' ' + auctionEndTimeHour + ':' + auctionEndTimeMinute + ':00';*/
 
             if(!data.productName){
                 layer.open({
@@ -740,7 +740,7 @@ echo $this->render('/front/common/transfer-account');
             });
         });
 
-        $('#product-publish-btn').on('click', function(){
+        /*$('#product-publish-btn').on('click', function(){
             var data = getProductFormData();
             if(!data) return false;
             data.publish = 1;
@@ -753,7 +753,7 @@ echo $this->render('/front/common/transfer-account');
                     if(res.flag > 0){
                         if(res.data['unitePayID']){
                             <?php
-                            if($_siteSettings['productMoney'] > 0) {
+                            //if($_siteSettings['productMoney'] > 0) {
                             ?>
 
                                 layer.open({
@@ -762,10 +762,10 @@ echo $this->render('/front/common/transfer-account');
                                     type: 1,
                                     content: $('#pay-div').html()
                                 });
-                                $('.pay-price:visible').html(<?php echo $_siteSettings['productMoney']; ?>);
+                                $('.pay-price:visible').html(<?php //echo $_siteSettings['productMoney']; ?>);
                                 $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
                             <?php
-                            }else{
+                            //}else{
                             ?>
                                 layer.alert(res.msg, function(){
                                     if(data.specialID){
@@ -775,7 +775,7 @@ echo $this->render('/front/common/transfer-account');
                                     }
                                 });
                             <?php
-                            }
+                            //}
                             ?>
                         }else{
                             layer.alert(res.msg, function(){
@@ -792,9 +792,9 @@ echo $this->render('/front/common/transfer-account');
 
                 }
             });
-        });
+        });*/
 
-        $(document).on('click', '.confirm-pay:visible', function(){
+        /*$(document).on('click', '.confirm-pay:visible', function(){
             var data = {};
             data.payType = $('.selected-pay-type').attr('pay-type');
             if(!data.payType) {
@@ -843,7 +843,7 @@ echo $this->render('/front/common/transfer-account');
                     }
                 }
             });
-        });
+        });*/
 
         $('.product-detail-img').on('click', function(){
             var data = {};

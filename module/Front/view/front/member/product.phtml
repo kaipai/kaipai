@@ -151,7 +151,7 @@
                 <div class="kp_time">
                     <?php echo $this->render('time'); ?>
                     <input type="button" class="choose-auction-time-confirm-btn layer-submit" value="提交" />
-                    <p class="kp_tsinfo1">注：自由拍卖时间不超过24小时</p>
+                    <p class="kp_tsinfo1">注：自由拍卖时间不超过48小时</p>
                 </div>
             </div>
         </div>
@@ -362,15 +362,27 @@ echo $this->render('/front/common/transfer-account');
             data.endTime = auctionEndTimeYear + '-' + auctionEndTimeMonth + '-' + auctionEndTimeDay + ' ' + auctionEndTimeHour + ':' + auctionEndTimeMinute + ':00';
 
             $.ajax({
-                url : '/member/save-product',
+                url : '/member/save-auction-time',
                 dataType : 'json',
                 type : 'post',
                 data : data,
                 success : function(res){
                     if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
+                        if(res.data && res.data['unitePayID']){
+                            layer.open({
+                                skin: '',
+                                title:'',
+                                type: 1,
+                                content: $('#pay-div').html()
+                            });
+                            $('.pay-price:visible').html(res.data['price']);
+                            $('.pay-price:visible').attr('unite-pay-id', res.data['unitePayID']);
+                        }else{
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+
+                        }
                     }else{
                         layer.alert(res.msg);
                     }

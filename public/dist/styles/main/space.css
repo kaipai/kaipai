@@ -11,7 +11,7 @@
 .space_dp{position: absolute; background: #ee8102; width: 88px; height: 30px; line-height: 30px; text-align: center; color: #fff; border-radius: 6px;z-index: 2;top: 175px;}
 .space_bti ul li.space_img img{ width: 100%; height: 100%;border-radius: 100%;border: 1px solid #fff;}
 .space_bti{ position: relative;  padding-bottom: 20px}
-.space_gz{ margin-left: 190px}
+.space_gz{ margin-left: 300px}
 .ff7519{ color: #ff7519}
 .spacecont{background:#f0eee2; padding-bottom: 30px }
 .space_wz3{ background: #fff; border: 1px solid #8a857f; overflow: hidden; margin-top: 30px;padding-left: 14px;padding-right: 14px; padding-bottom: 50px; min-height: 1000px}

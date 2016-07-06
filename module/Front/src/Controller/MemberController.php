@@ -903,12 +903,12 @@ class MemberController extends Front{
             $product['detailImgs'] = json_encode($detailImgs);
         }
 
-        if(!empty($product['startTime'])){
+        /*if(!empty($product['startTime'])){
             $product['startTime'] = strtotime($product['startTime']);
         }
         if(!empty($product['endTime'])){
             $product['endTime'] = strtotime($product['endTime']);
-        }
+        }*/
 
         if(!empty($product['specialID'])){
             $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
@@ -924,7 +924,7 @@ class MemberController extends Front{
                 if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
             }
 
-        }else{
+        }/*else{
             if(!empty($product['publish'])){
 
                 if($product['startTime'] < time()) $product['startTime'] = time();
@@ -941,7 +941,7 @@ class MemberController extends Front{
                 unset($product['startTime'], $product['endTime']);
             }
         }
-        unset($product['publish']);
+        unset($product['publish']);*/
 
 
 
@@ -959,14 +959,15 @@ class MemberController extends Front{
             );
             $products = $this->productModel->select($where)->toArray();
             foreach($products as $productInfo){
-                if(empty($product['specialID']) && !empty($productInfo['specialID']) && !empty($product['startTime']) && !empty($product['endTime'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
+                if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
+                //if(empty($product['specialID']) && !empty($productInfo['specialID']) && !empty($product['startTime']) && !empty($product['endTime'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
                 if(!empty($productInfo['specialID'])){
                     $specialInfo = $this->specialModel->select(array('specialID' => $productInfo['specialID']))->current();
                     if($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
                     if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
                 }
-                if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
-                if(!empty($productInfo['auctionStatus']) && $productInfo['auctionStatus'] != 1) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
+
+                if($productInfo['auctionStatus'] != 0) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
             }
         }
 
@@ -991,11 +992,6 @@ class MemberController extends Front{
                 }
 
             }else{
-                $unitePayID = $this->memberOrderModel->genUnitePayID();
-                $product['unitePayID'] = $unitePayID;
-                if(empty($this->siteSettings['productMoney'])){
-                    $product['isPaid'] = 1;
-                }
                 $this->productModel->insert($product);
                 $productID = $this->productModel->getLastInsertValue();
                 if(!empty($product['specialID'])){
@@ -1029,7 +1025,7 @@ class MemberController extends Front{
             if(!empty($products)){
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功', array('productID' => $productID));
             }else{
-                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('productID' => $productID, 'unitePayID' => $unitePayID));
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('productID' => $productID));
             }
 
         }catch (\Exception $e){
@@ -1173,7 +1169,7 @@ class MemberController extends Front{
         $productID = $this->postData['productID'];
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
         $update = array(
-            'auctionStatus' => 1
+            'auctionStatus' => 2
         );
 
         $products = $this->productModel->select($where)->toArray();
@@ -1187,24 +1183,62 @@ class MemberController extends Front{
                 $update['endTime'] = $productInfo['endTime'];
 
                 if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
-                if($productInfo['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间设置错误');
-                if($productInfo['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间设置错误');
-                if($productInfo['endTime'] < $productInfo['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
-                if($productInfo['endTime'] > strtotime('+2 days', $productInfo['startTime'])) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
             }
         }
 
-        $paidWhere = array_merge($where, array('isPaid' => 0));
-        $paidProducts = $this->productModel->select($paidWhere)->toArray();
-        if(!empty($paidProducts)){
-            $price = $this->siteSettings['productMoney'] * count($paidProducts);
-            $unitePayID = $this->memberOrderModel->genUnitePayID();
-            $this->productModel->update(array('unitePayID' => $unitePayID), $where);
-        }else{
-            $this->productModel->update($update, $where);
+
+
+        if(!empty($this->siteSettings['productMoney'])){
+            $paidWhere = array_merge($where, array('isPaid' => 0));
+            $paidProducts = $this->productModel->select($paidWhere)->toArray();
+            if(!empty($paidProducts)){
+                $price = $this->siteSettings['productMoney'] * count($paidProducts);
+                $unitePayID = $this->memberOrderModel->genUnitePayID();
+                $this->productModel->update(array('unitePayID' => $unitePayID, 'publishAtOnce' => 1), $where);
+                return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $price));
+            }
         }
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, '上架成功', array('unitePayID' => $unitePayID, 'price' => $price));
+        $this->productModel->update($update, $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '上架成功');
+    }
+
+    public function saveAuctionTimeAction(){
+        $productID = $this->postData['productID'];
+        $startTime = strtotime($this->postData['startTime']);
+        $endTime = strtotime($this->postData['endTime']);
+        $update = array(
+            'startTime' => $startTime,
+            'endTime' => $endTime,
+        );
+        $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
+        $products = $this->productModel->select($where)->toArray();
+        foreach($products as $productInfo){
+            if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
+            if($productInfo['auctionStatus'] != 0) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
+        }
+
+        if($startTime < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
+        if($endTime < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
+        if($endTime < $startTime) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间早于开始时间');
+        if($endTime > strtotime('+2 days', $startTime)) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
+
+
+        if(!empty($this->siteSettings['productMoney'])){
+            $paidWhere = array_merge($where, array('isPaid' => 0));
+            $paidProducts = $this->productModel->select($paidWhere)->toArray();
+            if(!empty($paidProducts)){
+                $price = $this->siteSettings['productMoney'] * count($paidProducts);
+                $unitePayID = $this->memberOrderModel->genUnitePayID();
+                $this->productModel->update(array('unitePayID' => $unitePayID, 'publishStartTime' => $startTime, 'publishEndTime' => $endTime), $where);
+                return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $price));
+            }
+        }
+
+        $this->productModel->update($update, $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '定时上架设置成功');
     }
 
     public function withdrawProductAction(){
