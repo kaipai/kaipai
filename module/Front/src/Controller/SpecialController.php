@@ -15,7 +15,8 @@ class SpecialController extends Front{
         $specialProductCategoryID = $this->queryData['specialProductCategoryID'];
         $date = $this->queryData['date'];
         $where = array(
-            'Special.verifyStatus' => 2
+            'Special.verifyStatus' => 2,
+            'Special.auctionStatus' => array(1, 2),
         );
         if(empty($date)) {
             $date = date('Y-m-d');
