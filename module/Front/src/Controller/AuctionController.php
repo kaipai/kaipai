@@ -54,12 +54,15 @@ class AuctionController extends Front{
         );
         $this->auctionMemberModel->update($set, $where);
 
-        try{
-            $auctionPrice = $productInfo['currPrice'] + $productInfo['auctionPerPrice'];
-            $this->auctionModel->bidding($productID, $this->memberInfo['memberID'], $this->memberInfo['nickName'], $auctionPrice, $productInfo['auctionPerPrice']);
-        }catch (\Exception $e){
-            return $this->response($e->getCode(), $e->getMessage());
+        if($topBid['memberID'] != $this->memberInfo['memberID']){
+            try{
+                $auctionPrice = $productInfo['currPrice'] + $productInfo['auctionPerPrice'];
+                $this->auctionModel->bidding($productID, $this->memberInfo['memberID'], $this->memberInfo['nickName'], $auctionPrice, $productInfo['auctionPerPrice']);
+            }catch (\Exception $e){
+                return $this->response($e->getCode(), $e->getMessage());
+            }
         }
+
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '设置成功');
     }
