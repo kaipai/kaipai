@@ -171,7 +171,7 @@
                     var div = $('.refresh-product-' + tmp['productID']);
                     var middle = '';
                     var right = '';
-                    div.find('.refresh-product-curr-price').html(tmp['currPrice']);
+                    div.find('.refresh-product-curr-price').html('￥' + tmp['currPrice']);
 
                     /*if(tmp['proxyPrice'] && currPrice > tmp['proxyPrice']){
                         middle += '<a href="javascript:;"><div class="gz_ccdlj">超出代理价</div></a>';
