@@ -1342,7 +1342,7 @@ class MemberController extends Front{
                 return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
             }
             unset($this->postData['verifyCode']);
-            $this->storeModel->update($this->postData, array('storeID' => $this->_storeInfo['storeID']));
+            $this->memberInfoModel->update($this->postData, array('storeID' => $this->_storeInfo['storeID']));
 
             return $this->response(ApiSuccess::COMMON_SUCCESS, '绑定成功');
         }

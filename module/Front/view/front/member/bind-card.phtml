@@ -6,25 +6,28 @@
         <!-- right部分 -->
         <div class="kp_right kp_dtbg">
             <div>
-                <span class="kp_bd1">绑定银行卡</span>
-                <span class="kp_yhkbd">*请绑定持卡人本人的银行卡</span>
+                <span class="kp_bd1">输入银行信息</span>
+                <span class="kp_yhkbd">*请正确输入您的姓名、卡号和开户行信息</span>
             </div>
             <div class="kp_yhkname">
                 <a>持卡人</a>
-                <input type="text" name="card-owner-name" value="<?php echo $_storeInfo['cardOwnerName'] ?>" class="kp_yhktext"></div>
+                <input type="text" name="card-owner-name" value="<?php echo $_memberInfo['cardOwnerName'] ?>" class="kp_yhktext"></div>
             <div class="kp_yhkname">
                 <a>卡号</a>
-                <input type="text" name="card-num" value="<?php echo $_storeInfo['cardNum'] ?>" class="kp_yhktext1"></div>
+                <input type="text" name="card-num" value="<?php echo $_memberInfo['cardNum'] ?>" class="kp_yhktext1"></div>
+            <div class="kp_yhkname">
+                <a>开户行</a>
+                <input type="text" name="card-bank" value="<?php echo $_memberInfo['cardNum'] ?>" class="kp_yhktext1"></div>
             <div class="kp_yhkname">
                 <a>请输入银行联系手机</a>
-                <input type="text" name="mobile" value="<?php echo $_storeInfo['cardMobile'] ?>" class="kp_yhktext2">
+                <input type="text" name="mobile" value="<?php echo $_memberInfo['cardMobile'] ?>" class="kp_yhktext2">
                 <span class="kp_yhkdx btn_getcode" style="cursor: pointer;">获取短信验证码&gt;&gt;</span>
             </div>
             <div class="kp_yhkname1">
                 <a>输入短信验证码</a>
                 <input type="text" name="verify-code" class="kp_yhktext3"></div>
             <div class="kp_yhkname ">
-                <div class="kp_bd2 confirm-bind" style="cursor:pointer;">确认绑定</div>
+                <div class="kp_bd2 confirm-bind" style="cursor:pointer;">确认</div>
             </div>
         </div>
     </div>
@@ -89,6 +92,7 @@
         var data = {};
         data.cardOwnerName = $('input[name=card-owner-name]').val();
         data.cardNum = $('input[name=card-num]').val();
+        data.cardBank = $('input[name=card-bank]').val();
         data.cardMobile = $('input[name=mobile]').val();
         data.verifyCode = $('input[name=verify-code]').val();
         if(!data.cardOwnerName){
@@ -97,6 +101,10 @@
         }
         if(!data.cardNum){
             layer.alert('请输入卡号');
+            return false;
+        }
+        if(!data.cardBank){
+            layer.alert('请输入开户行');
             return false;
         }
         if(!data.cardMobile){
