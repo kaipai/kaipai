@@ -5,7 +5,7 @@ use COM\Model;
 class WithdrawLog extends Model{
     public function getLogs($page, $limit){
         $select = $this->getSelect();
-        $select->join(array('b' => 'Store'), 'WithdrawLog.storeID = b.storeID', array('storeName', 'cardOwnerName', 'cardNum', 'cardMobile'));
+        $select->join(array('b' => 'Store'), 'WithdrawLog.storeID = b.storeID', array('storeName'));
         $select->join(array('c' => 'MemberInfo'), 'WithdrawLog.memberID = c.memberID', array('cardOwnerName', 'cardNum', 'cardMobile'));
         $select->order('WithdrawLog.instime desc');
         $paginator = $this->paginate($select);
