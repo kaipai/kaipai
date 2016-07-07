@@ -166,13 +166,13 @@
 
                 for(var i in result){
                     var tmp = result[i];
-                    console.log(tmp);
                     var div = $('.refresh-product-' + tmp['productID']);
-                    console.log(div);
                     var middle = '';
                     var right = '';
                     div.find('.refresh-product-curr-price').html(tmp['currPrice']);
-
+                    console.log(tmp['currPrice']);
+                    console.log(tmp['myCurrPrice']);
+                    console.log(tmp['currPrice'] > tmp['myCurrPrice']);
                     /*if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
                         middle += '<a href="javascript:;"><div class="gz_ccdlj">超出代理价</div></a>';
                     }else */if(tmp['currPrice'] > tmp['myCurrPrice']){
