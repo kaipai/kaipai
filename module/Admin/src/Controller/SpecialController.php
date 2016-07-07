@@ -1,6 +1,7 @@
 <?php
 namespace Admin\Controller;
 
+use Base\ConstDir\Admin\AdminError;
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 use Zend\Db\Sql\Expression;
@@ -26,7 +27,7 @@ class SpecialController extends Admin{
 
     public function updateAction(){
         $specialID = $this->postData['specialID'];
-
+        if(empty($specialID)) return $this->response(AdminError::COMMON_ERROR, '缺少参数');
         $where = array(
             'specialID' => $specialID
         );
