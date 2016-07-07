@@ -52,8 +52,6 @@ class CrontabController extends Controller{
                         $content = '您已成功竞得<<' . $v['productName'] . '>>。';
                         $this->notificationModel->insert(array('type' => 3, 'memberID' => $v['memberID'], 'content' => $content));
 
-                        $memberInfo = $this->memberInfoModel->select(array('memberID' => $v['memberID']))->current();
-                        $this->smsService->sendSms($memberInfo['mobile'], $content);
 
 
                         $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));
