@@ -132,6 +132,16 @@ return array(
                         )
                     )
                 ),
+                'crontab-confirm-delivery-done' => array(
+                    'options' => array(
+                        'route' => 'crontab-confirm-delivery-done',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'confirm-delivery-done'
+                        )
+                    )
+                ),
             )
         )
     ),
