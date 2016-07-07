@@ -111,7 +111,7 @@
                                             <?php
                                                 }elseif($v['returnStatus'] == 4){
                                             ?>
-                                                    <p class="yc_p1"><a href="javascript:;">退货待卖家签收</a></p>
+                                                    <p class="yc_p1"><a href="javascript:;" class="check-return-order-delivery" return-delivery-type="<?php foreach($deliveryTypes as $sv){if($sv['deliveryTypeID'] == $v['returnDeliveryType']){echo $sv['typeName'];}} ?>" return-delivery-num="<?php echo $v['returnDeliveryNum']; ?>">退货待卖家签收</a></p>
                                             <?php
                                                 }
                                             ?>
@@ -361,6 +361,17 @@ echo $this->render('set-delivery-type');
                     }
                 }
             });
+        });
+
+        $('.check-return-order-delivery').on('click', function(){
+            var returnDeliveryType = $(this).attr('return-delivery-type');
+            var returnDeliveryNum = $(this).attr('return-delivery-num');
+            if(returnDeliveryType){
+                var str = '物流公司: ' + returnDeliveryType + '\n物流单号: ' + returnDeliveryNum + '\n';
+                layer.alert(str);
+            }else{
+                layer.alert('无物流信息');
+            }
         });
     })
 </script>
