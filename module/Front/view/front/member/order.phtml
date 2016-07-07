@@ -242,7 +242,7 @@ echo $this->render('set-delivery-type');
             var data = {};
             data.orderID = $(this).attr('order-id');
             $.ajax({
-                url : '/member/store-cancel-order',
+                url : '/member/cancel-order',
                 dataType : 'json',
                 type : 'post',
                 data : data,
