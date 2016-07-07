@@ -166,28 +166,28 @@
 
                 for(var i in result){
                     var tmp = result[i];
+                    var currPrice = parseFloat(tmp['currPrice']);
+                    var myCurrPrice = parseFloat(tmp['myCurrPrice']);
                     var div = $('.refresh-product-' + tmp['productID']);
                     var middle = '';
                     var right = '';
                     div.find('.refresh-product-curr-price').html(tmp['currPrice']);
-                    console.log(tmp['currPrice']);
-                    console.log(tmp['myCurrPrice']);
-                    console.log(tmp['currPrice'] > tmp['myCurrPrice']);
-                    /*if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
+
+                    /*if(tmp['proxyPrice'] && currPrice > tmp['proxyPrice']){
                         middle += '<a href="javascript:;"><div class="gz_ccdlj">超出代理价</div></a>';
-                    }else */if(tmp['currPrice'] > tmp['myCurrPrice']){
+                    }else */if(currPrice > myCurrPrice){
                         middle += '<a href="javascript:;" class="post-price-btn" product-id="' + tmp['productID'] + '" auction-per-price="' + tmp['auctionPerPrice'] + '" curr-price="' + tmp['currPrice'] + '"><div class="njp_cj">出价</div></a>';
-                    }else if(tmp['currPrice'] <= tmp['myCurrPrice']){
+                    }else if(currPrice <= myCurrPrice){
                         middle += '<a href="javascript:;"><div class="gz_lx">领先</div></a>';
                     }
                     middle += '<div class="gz_jiaru gz_gr"><a href="javascript:;" proxy-price="' + tmp['proxyPrice'] + '" class="set-proxy-price-btn" product-id="' + tmp['productID'] + '">设置代理价></a></div>';
 
 
-                    /*if(tmp['proxyPrice'] && tmp['currPrice'] > tmp['proxyPrice']){
+                    /*if(tmp['proxyPrice'] && currPrice > tmp['proxyPrice']){
                         right += '竞价已超出代理价';
-                    }else */if(tmp['currPrice'] > tmp['myCurrPrice']){
+                    }else */if(currPrice > myCurrPrice){
                         right += '出价已被超越';
-                    }else if(tmp['currPrice'] <= tmp['myCurrPrice']){
+                    }else if(currPrice <= myCurrPrice){
                         right += '当前为最高价';
                     }
 
