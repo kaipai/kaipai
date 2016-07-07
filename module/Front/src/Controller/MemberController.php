@@ -77,7 +77,6 @@ class MemberController extends Front{
         $orderStatus = $this->queryData['orderStatus'];
         $where = new Where();
         $where->and->equalTo('MemberOrder.memberID', $this->memberInfo['memberID']);
-        $where->and->notEqualTo('MemberOrder.orderStatus', -1);
         if(!empty($orderStatus)){
             $where->and->equalTo('MemberOrder.orderStatus', $orderStatus);
         }
@@ -105,11 +104,14 @@ class MemberController extends Front{
             }
         }
 
+        $deliveryTypes = $this->deliveryTypeModel->select()->toArray();
+
         $this->view->setVariables(array(
             'orders' => $orders,
             'pages' => $result['pages'],
             'orderStatus' => $orderStatus,
             'search' => $search,
+            'deliveryTypes' => $deliveryTypes,
         ));
         return $this->view;
     }
@@ -336,7 +338,20 @@ class MemberController extends Front{
 
         $this->memberOrderModel->update(array('orderStatus' => -1), $where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '关闭成功');
+
+    }
+
+    public function delOrderAction(){
+        $orderID = $this->postData['orderID'];
+        $where = array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']);
+        $orderInfo = $this->memberOrderModel->select($where)->current();
+        if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能删除');
+
+        $this->memberOrderModel->update(array('isDel' => 1, 'orderStatus' => -1), $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
 
     }
 
@@ -349,31 +364,13 @@ class MemberController extends Front{
         $orderInfo = $this->memberOrderModel->fetch($where);
         if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
 
+
         try{
-            $this->memberOrderModel->beginTransaction();
-            $this->memberOrderModel->update(array('orderStatus' => 5), $where);
-            if(!empty($orderInfo['storeID'])){
-                $storeInfo = $this->storeModel->fetch(array('storeID' => $orderInfo['storeID']));
-                if(!empty($storeInfo['fees'])){
-                    $siteFees = $orderInfo['productPrice'] * $storeInfo['fees'];
-                    $this->memberPayDetailModel->update(array('siteFees' => $siteFees), array('unitePayID' => $orderInfo['unitePayID']));
-                    $orderInfo['paidMoney'] -= $siteFees;
-
-                }
-                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('storeID' => $orderInfo['storeID']));
-                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'unitePayID' => $orderInfo['unitePayID'], 'source' => '订单确认收货打款'));
-                if(!empty($siteFees)){
-                    $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $siteFees, 'unitePayID' => $orderInfo['unitePayID'], 'source' => '网站佣金', 'type' => 2));
-                }
-            }
-
-            $this->memberOrderModel->commit();
+            $this->memberOrderModel->confirmDeliveryDone($orderInfo);
             return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
         }catch (\Exception $e){
-            $this->memberOrderModel->rollback();
             return $this->response(ApiError::COMMON_ERROR, '确认失败');
         }
-
 
     }
 
@@ -552,6 +549,43 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '申诉成功');
     }
 
+    public function delayAutoConfirmDeliveryDoneTimeAction(){
+        $orderID = $this->postData['orderID'];
+        $where = array(
+            'orderID' => $orderID,
+            'memberID' => $this->memberInfo['memberID'],
+            'delayAutoConfirmDeliveryDoneTime' => 0,
+        );
+        $this->memberOrderModel->update(array('delayAutoConfirmDeliveryDoneTime' => 1, 'autoConfirmDeliveryDoneTime' => new Expression('autoConfirmDeliveryDoneTime + 432000')), $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '延长成功');
+    }
+
+    public function applyReturnOrderAction(){
+        $orderID = $this->postData['orderID'];
+        $where = array(
+            'orderID' => $orderID,
+            'memberID' => $this->memberInfo['memberID'],
+        );
+
+        $this->memberOrderModel->update(array('returnStatus' => 1), $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '退款申请已提交到店铺');
+    }
+
+
+    public function deliveryReturnOrderAction(){
+        $haveDelivery = $this->postData['haveDelivery'];
+        $deliveryType = $this->postData['deliveryType'];
+        $deliveryNum = $this->postData['deliveryNum'];
+        $orderID = $this->postData['orderID'];
+        if($haveDelivery && (empty($deliveryType) || empty($deliveryNum))) return $this->response(ApiError::COMMON_ERROR, '请填写物流信息');
+
+        $where = array('returnStatus' => 3, 'orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']);
+        $this->memberOrderModel->update(array('returnStatus' => 4, 'returnDeliveryType' => $deliveryType, 'returnDeliveryNum' => $deliveryNum), $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '发货成功');
+    }
 
 
 
@@ -576,6 +610,51 @@ class MemberController extends Front{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function acceptReturnOrderAction(){
+        $orderID = $this->postData['orderID'];
+        $accept = $this->postData['accept'];
+        $where = array(
+            'orderID' => $orderID,
+            'storeID' => $this->_storeInfo['storeID'],
+            'returnStatus' => 1,
+        );
+        if($accept == 1){
+            $this->memberOrderModel->update(array('returnStatus' => 3), $where);
+        }else{
+            $this->memberOrderModel->update(array('returnStatus' => 2), $where);
+        }
+
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '处理成功');
+    }
+
+    public function storeDelOrderAction(){
+        $orderID = $this->postData['orderID'];
+        $where = array('orderID' => $orderID, 'storeID' => $this->memberInfo['storeID']);
+        $orderInfo = $this->memberOrderModel->select($where)->current();
+        if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
+
+        $this->memberOrderModel->update(array('orderStatus' => -1, 'isDel' => 1), $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
+    }
 
     public function storeCancelOrderAction(){
         $orderID = $this->postData['orderID'];
@@ -586,7 +665,7 @@ class MemberController extends Front{
 
         $this->memberOrderModel->update(array('orderStatus' => -1), $where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '关闭成功');
     }
 
     public function addProductAction(){
@@ -1266,7 +1345,7 @@ class MemberController extends Front{
 
             $this->memberOrderModel->beginTransaction();
             $this->memberOrderDeliveryModel->update(array('deliveryTypeID' => $deliveryType, 'deliveryNum' => $deliveryNum), array('orderID' => $orderID));
-            $this->memberOrderModel->update(array('orderStatus' => 4), array('orderStatus' => 3, 'orderID' => $orderID, 'storeID' => $this->_storeInfo['storeID']));
+            $this->memberOrderModel->update(array('orderStatus' => 4, 'autoConfirmDeliveryDoneTime' => strtotime('+15 days')), array('orderStatus' => 3, 'orderID' => $orderID, 'storeID' => $this->_storeInfo['storeID']));
 
 
             $orderInfo = $this->memberOrderModel->select(array('orderID' => $orderID))->current();
@@ -1366,6 +1445,29 @@ class MemberController extends Front{
         }catch (\Exception $e){
             $this->withdrawLogModel->rollback();
             return $this->response(ApiError::COMMON_ERROR, '提现失败');
+        }
+    }
+
+    public function confirmReturnOrderAction(){
+        $orderID = $this->postData['orderID'];
+        $where = array(
+            'orderID' => $orderID,
+            'storeID' => $this->_storeInfo['storeID'],
+            'returnStatus' => 4
+        );
+        $orderInfo = $this->memberOrderModel->fetch($where);
+        if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单不存在');
+
+        try{
+            $this->memberOrderModel->beginTransaction();
+            $this->memberOrderModel->update(array('returnStatus' => 5, 'orderStatus' => -2), array('orderID' => $orderInfo['orderID']));
+            $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('memberID' => $orderInfo['memberID']));
+            $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'source' => '订单' . $orderInfo['businessID'] . '退款', 'type' => 1));
+            $this->memberOrderModel->commit();
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
+        }catch (\Exception $e){
+            $this->memberOrderModel->rollback();
+            return $this->response(ApiError::COMMON_ERROR, '确认失败');
         }
     }
 }

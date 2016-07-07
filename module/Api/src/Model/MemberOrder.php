@@ -2,6 +2,8 @@
 namespace Api\Model;
 
 use COM\Model;
+use Zend\Db\Sql\Expression;
+
 class MemberOrder extends Model{
 
     public function getOrderList($where, $page, $limit){
@@ -12,7 +14,8 @@ class MemberOrder extends Model{
                 ->join(array('d' => 'Product'), 'MemberOrder.productID = d.productID', array('productName'), 'left')
                 ->join(array('f' => 'Customization'), 'MemberOrder.customizationID = f.customizationID', array('title'), 'left')
                 ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName', 'storeLogo', 'storeqq'), 'left')
-                ->where($where);
+                ->where($where)
+                ->where(array('MemberOrder.isDel' => 0));
         $select->order('MemberOrder.instime DESC');
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
@@ -87,6 +90,34 @@ class MemberOrder extends Model{
         $res = $this->selectWith($select)->current();
 
         return $res;
+    }
+
+    public function confirmDeliveryDone($orderInfo){
+        try{
+            $this->beginTransaction();
+            $this->update(array('orderStatus' => 5), array('orderID' => $orderInfo['orderID']));
+            if(!empty($orderInfo['storeID'])){
+                $storeInfo = $this->storeModel->fetch(array('storeID' => $orderInfo['storeID']));
+                if(!empty($storeInfo['fees'])){
+                    $siteFees = $orderInfo['productPrice'] * $storeInfo['fees'];
+                    $this->memberPayDetailModel->update(array('siteFees' => $siteFees), array('unitePayID' => $orderInfo['unitePayID']));
+                    $orderInfo['paidMoney'] -= $siteFees;
+
+                }
+                $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('storeID' => $orderInfo['storeID']));
+                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'unitePayID' => $orderInfo['unitePayID'], 'source' => '订单确认收货打款'));
+                if(!empty($siteFees)){
+                    $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $siteFees, 'unitePayID' => $orderInfo['unitePayID'], 'source' => '网站佣金', 'type' => 2));
+                }
+            }
+
+            $this->commit();
+
+        }catch (\Exception $e){
+            $this->rollback();
+        }
+
+        return true;
     }
 
 }

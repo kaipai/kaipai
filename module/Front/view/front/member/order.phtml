@@ -11,7 +11,7 @@
                     <li onclick="location.href='/member/order?orderStatus=3';" class="<?php if($orderStatus == 3){echo 'ys_acted';} ?>">待发货</li>
                     <li onclick="location.href='/member/order?orderStatus=4';" class="<?php if($orderStatus == 4){echo 'ys_acted';} ?>">待收货</li>
                     <li onclick="location.href='/member/order?orderStatus=5';" class="<?php if($orderStatus == 5){echo 'ys_acted';} ?>">已完成</li>
-                    <li class="cancel-order-batch"><img src="/jinren/images/del_03.jpg"></li>
+                    <li class="del-order-batch"><img src="/jinren/images/del_03.jpg"></li>
                     <li class="ys_searhc1"><input id="search-item" value="<?php echo $search; ?>" class="ys_input" type="text" placeholder="输入拍品名称 或 订单号 或 商家"></li>
                     <li class="ys_searhc" id="search-btn">搜索</li>
                 </ul>
@@ -32,7 +32,7 @@
                             <span class="yc_pm2"><img src="<?php echo $v['storeLogo'] ?>" alt=""><em><?php echo $v['storeName'] ?></em></span>
                             <span class="yc_pm3 lxmj"><a qq="<?php echo $v['orderType'] == 1 ? $v['storeqq'] : $_siteSettings['qq']; ?>" href="javascript:;" class="tencent-qq"><?php echo $v['orderType'] == 1 ? '联系卖家' : '联系客服'; ?></a></span>
                             <span class="yc_pm4"><a href="javascript:;" class="post-complain-btn" order-id="<?php echo $v['orderID'] ?>">网站申诉</a></span>
-                            <span class="yc_pm5"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
+                            <span class="yc_pm5"><a href="javascript:;" class="del-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
                         </div>
                         <div class="ys_tip6">
                             <div class="yc_imgleft"><img style="cursor:pointer;" onclick="location.href='<?php if($v['orderType'] == 1){ ?>/product/detail?productID=<?php echo $v['productID']; ?><?php }else{ ?>/customization/detail?customizationID=<?php echo $v['customizationID']; ?><?php } ?>';" src="<?php echo $v['product']['listImg']; ?>"></div>
@@ -58,6 +58,7 @@
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">等待买家付款</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p1"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">关闭交易</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 2){
@@ -87,6 +88,48 @@
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">卖家已发货</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+
+                                    <?php
+                                        if($v['orderType'] == 1){
+                                    ?>
+                                            <?php
+                                                if($v['returnStatus'] == 0){
+                                            ?>
+                                                    <p class="yc_p1"><a href="javascript:;" class="apply-return-order-btn" order-id="<?php echo $v['orderID'] ?>">退款/退货</a></p>
+                                            <?php
+                                                }elseif($v['returnStatus'] == 1){
+                                            ?>
+                                                    <p class="yc_p1"><a href="javascript:;">等待卖家同意</a></p>
+                                            <?php
+                                                }elseif($v['returnStatus'] == 2){
+                                            ?>
+                                                    <p class="yc_p1"><a href="javascript:;">卖家不同意退款, 可网站申诉</a></p>
+                                            <?php
+                                                }elseif($v['returnStatus'] == 3){
+                                                    ?>
+                                                    <p class="yc_p1"><a href="javascript:;" class="delivery-return-order-btn" order-id="<?php echo $v['orderID'] ?>">填写退货物流信息</a></p>
+                                            <?php
+                                                }elseif($v['returnStatus'] == 4){
+                                            ?>
+                                                    <p class="yc_p1"><a href="javascript:;">退货待卖家签收</a></p>
+                                            <?php
+                                                }
+                                            ?>
+
+                                            <?php
+                                                if($v['delayAutoConfirmDeliveryDoneTime']){
+                                            ?>
+                                                    <p class="yc_p"><a href="javascript:;">已延长收货时间</a></p>
+                                            <?php
+                                                }else{
+                                            ?>
+                                                    <p class="yc_p"><a href="javascript:;" class="delay-auto-confirm-delivery-done-time-btn" order-id="<?php echo $v['orderID'] ?>">延长收货时间</a></p>
+                                            <?php
+                                                }
+                                            ?>
+                                    <?php
+                                        }
+                                    ?>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 5){
@@ -109,6 +152,22 @@
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
                                 </div>
                             <?php
+                            }elseif($v['orderStatus'] == -1 || $v['orderStatus'] == -2){
+                            ?>
+                                <div class="yc_ddfk yc_imgleft2">
+                                    <div class="yc_jyjs">交易结束</div>
+                                </div>
+                                <div class="yc_ddright yc_imgleft2">
+                                    <?php if($v['returnStatus'] == 5){
+                                    ?>
+                                        <p class="yc_p"><a href="javascript:;">买家已退货</a></p>
+                                    <?php
+                                    } ?>
+
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p1"><a href="javascript:;">超时/已退货</a></p>
+                                </div>
+                            <?php
                             }/*elseif($v['orderStatus'] == 6){
                                 */?><!--
                                 <div class="yc_ddright yc_imgleft2">
@@ -129,7 +188,9 @@
         </div>
     </div>
 </div>
-
+<?php
+echo $this->render('set-delivery-type');
+?>
 <script>
     $(function(){
         $('#search-btn').on('click', function(){
@@ -141,9 +202,9 @@
             location.href = '/member/order?search=' + search;
         });
 
-        function cancelOrder(data){
+        function delOrder(data){
             $.ajax({
-                url : '/member/cancel-order',
+                url : '/member/del-order',
                 dataType : 'json',
                 type : 'post',
                 data : data,
@@ -160,14 +221,14 @@
             });
         }
 
-        $('.cancel-order-btn').on('click', function(){
+        $('.del-order-btn').on('click', function(){
             var data = {};
             data.orderID = $(this).attr('order-id');
-            cancelOrder(data);
+            delOrder(data);
 
         });
 
-        $('.cancel-order-batch').on('click', function(){
+        $('.del-order-batch').on('click', function(){
             var data = {};
             data.orderID = new Array();
             var checkedOrders = $('.order-item-chk:checked');
@@ -179,7 +240,29 @@
                 var tmpOrderID = $(this).attr('order-id');
                 data.orderID.push(tmpOrderID);
             });
-            cancelOrder(data);
+            delOrder(data);
+        });
+
+        $('.cancel-order-btn').on('click', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            $.ajax({
+                url : '/member/store-cancel-order',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+
+                }
+            });
+
         });
 
         $('.confirm-delivery-done').on('click', function(){
@@ -187,6 +270,84 @@
             data.orderID = $(this).attr('order-id');
             $.ajax({
                 url : '/member/confirm-delivery-done',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('.delay-auto-confirm-delivery-done-time-btn').on('click', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            $.ajax({
+                url : '/member/delay-auto-confirm-delivery-done-time',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('.apply-return-order-btn').on('click', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            $.ajax({
+                url : '/member/apply-return-order',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('.delivery-return-order-btn').on('click', function(){
+            layer.open({
+                skin: 'loginBox',
+                title:'发货信息',
+                type: 1,
+                content: $('#set-delivery-type-div').html()
+            });
+            var orderID = $(this).attr('order-id');
+            $('.confirm-delivery-btn:visible').attr('order-id', orderID);
+        });
+        $(document).on('click', '.confirm-delivery-btn:visible', function() {
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            data.haveDelivery = $('input[name=have-delivery]:visible:checked').val();
+            if(data.haveDelivery){
+                data.haveDelivery = 1;
+                data.deliveryType = $('select[name=delivery-type]:visible').val();
+                data.deliveryNum = $('input[name=delivery-num]:visible').val();
+            }else{
+                data.haveDelivery = 0;
+            }
+            $.ajax({
+                url : '/member/delivery-return-order',
                 dataType : 'json',
                 type : 'post',
                 data : data,
