@@ -158,14 +158,9 @@
                                     <div class="yc_jyjs">交易结束</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <?php if($v['returnStatus'] == 5){
-                                    ?>
-                                        <p class="yc_p"><a href="javascript:;">买家已退货</a></p>
-                                    <?php
-                                    } ?>
-
+                                    <p class="yc_p"><a href="javascript:;">未按时付款/已退货</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
-                                    <p class="yc_p1"><a href="javascript:;">超时/已退货</a></p>
+                                    <p class="yc_p1"><a href="javascript:;">已关闭</a></p>
                                 </div>
                             <?php
                             }/*elseif($v['orderStatus'] == 6){
