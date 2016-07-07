@@ -234,7 +234,7 @@ class CrontabController extends Controller{
     }
 
     public function confirmDeliveryDoneAction(){
-        $orders = $this->memberOrderModel->getOrders(array('orderStatus' => 4, 'autoConfirmDeliveryDoneTime < ?' => time()));
+        $orders = $this->memberOrderModel->getOrders(array('orderStatus' => 4, 'autoConfirmDeliveryDoneTime < ?' => time(), 'returnStatus' => 0));
         foreach($orders as $orderInfo){
             $this->memberOrderModel->confirmDeliveryDone($orderInfo);
         }
