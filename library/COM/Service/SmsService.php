@@ -18,6 +18,7 @@ class SmsService implements ServiceManagerAwareInterface
             $status = $res['error'] === 0 ? 1 : 0;
         } elseif ($this->config['sms']['type'] == 2) {
             $mobile = is_array($mobile) ? implode(",", $mobile) : $mobile;
+            $content = str_replace(array('【', '】'), '', $content);
             $content = urlencode($content);
             $query = "apikey=" . $this->config['sms']['yunpian']['apikey'] . "&mobile={$mobile}&text={$content}";
             $res = $this->yunpian($mobile, $query);
