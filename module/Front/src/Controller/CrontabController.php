@@ -227,6 +227,12 @@ class CrontabController extends Controller{
         return $this->response;
     }
 
+    public function cancelOrderAction(){
+        $this->memberOrderModel->update(array('orderStatus' => -1), array('orderStatus' => 1, 'instime < ?' => date('Y-m-d H:i:s', strtotime('-3 days'))));
+
+        return $this->response;
+    }
+
 
 
 }

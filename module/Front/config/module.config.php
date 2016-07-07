@@ -122,6 +122,16 @@ return array(
                         )
                     )
                 ),
+                'crontab-cancel-order' => array(
+                    'options' => array(
+                        'route' => 'crontab-cancel-order',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'cancel-order'
+                        )
+                    )
+                ),
             )
         )
     ),
