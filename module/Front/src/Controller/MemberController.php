@@ -646,7 +646,7 @@ class MemberController extends Front{
 
     public function storeDelOrderAction(){
         $orderID = $this->postData['orderID'];
-        $where = array('orderID' => $orderID, 'storeID' => $this->memberInfo['storeID']);
+        $where = array('orderID' => $orderID, 'storeID' => $this->_storeInfo['storeID']);
         $orderInfo = $this->memberOrderModel->select($where)->current();
         if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
         if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
@@ -658,7 +658,7 @@ class MemberController extends Front{
 
     public function storeCancelOrderAction(){
         $orderID = $this->postData['orderID'];
-        $where = array('orderID' => $orderID, 'storeID' => $this->memberInfo['storeID']);
+        $where = array('orderID' => $orderID, 'storeID' => $this->_storeInfo['storeID']);
         $orderInfo = $this->memberOrderModel->select($where)->current();
         if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
         if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
