@@ -71,6 +71,7 @@
                         ?>
                             <div class="kp_shop_center01">
                                 <p class="kp_nmai">正在拍卖</p>
+                                <p><?php echo date('Y-m-d H:i:s', $v['endTime']) ?>结束</p>
                             </div>
                         <?php
                         }elseif($v['auctionStatus'] == 3){
