@@ -20,11 +20,11 @@
             <div class="kp_yhkname">
                 <a>请输入银行联系手机</a>
                 <input type="text" name="mobile" value="<?php echo $_memberInfo['cardMobile'] ?>" class="kp_yhktext2">
-                <span class="kp_yhkdx btn_getcode" style="cursor: pointer;">获取短信验证码&gt;&gt;</span>
+                <!--<span class="kp_yhkdx btn_getcode" style="cursor: pointer;">获取短信验证码&gt;&gt;</span>-->
             </div>
-            <div class="kp_yhkname1">
+            <!--<div class="kp_yhkname1">
                 <a>输入短信验证码</a>
-                <input type="text" name="verify-code" class="kp_yhktext3"></div>
+                <input type="text" name="verify-code" class="kp_yhktext3"></div>-->
             <div class="kp_yhkname ">
                 <div class="kp_bd2 confirm-bind" style="cursor:pointer;">确认</div>
             </div>
@@ -34,7 +34,7 @@
 
 <script>
     //倒计时
-    function regCodeTimeinterval() {
+    /*function regCodeTimeinterval() {
         var currTime = J_btn_getcode.find('b').html();
         var newTime = parseInt(currTime) - 1;
         if (newTime) {
@@ -45,8 +45,8 @@
             J_btn_getcode.html('重新发送');
             reSend = true;
         }
-    };
-    var reSend = true;
+    };*/
+    /*var reSend = true;
     var J_btn_getcode = $('.btn_getcode:visible');
     $(document).on('click', '.btn_getcode:visible', function(){
         var data = {};
@@ -85,7 +85,7 @@
                 regCodeTimeinterval();
             }, 1000);
         }
-    });
+    });*/
 
     $('.confirm-bind').on('click', function(){
         var data = {};
@@ -93,7 +93,7 @@
         data.cardNum = $('input[name=card-num]').val();
         data.cardBank = $('input[name=card-bank]').val();
         data.cardMobile = $('input[name=mobile]').val();
-        data.verifyCode = $('input[name=verify-code]').val();
+        //data.verifyCode = $('input[name=verify-code]').val();
         if(!data.cardOwnerName){
             layer.alert('请输入持卡人姓名');
             return false;
@@ -110,10 +110,10 @@
             layer.alert('请输入银行联系手机');
             return false;
         }
-        if(!data.verifyCode){
+        /*if(!data.verifyCode){
             layer.alert('请输入短信验证码');
             return false;
-        }
+        }*/
         $.ajax({
             url : '/member/bind-card',
             dataType : 'json',
