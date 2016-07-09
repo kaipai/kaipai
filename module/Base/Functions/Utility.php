@@ -226,8 +226,9 @@ class Utility
     public static function getBodyText($data){
 
         $data = htmlspecialchars_decode($data);
-        preg_match_all(Regexp::BODY_CONTENT, $data, $tmp);
-        $data = $tmp[0][0];
+        str_replace('img{width:100%!important}', '', $data);
+        //preg_match_all(Regexp::BODY_CONTENT, $data, $tmp);
+        //$data = $tmp[0][0];
         return strip_tags($data);
 
 
