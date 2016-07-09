@@ -34,7 +34,7 @@
     height:42px;
     line-height: 42px;
     font-size:16px;
-    color: #666;
+    color: #222;
     padding: 0px 60px;
 }
 .select_cho li a{
@@ -836,7 +836,7 @@ div.dp-popup td.disabled{cursor:default;}
     background: #e5e5e3;
     padding: 0px 13px 30px;
     overflow: hidden;
-    color: #222;
+    color: #666;
     font-size: 16px;
     line-height: 40px;
 }
