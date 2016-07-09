@@ -296,4 +296,10 @@ class Utility
         $data = Utility::toXml($data);
         die(urldecode($data));
     }
+
+    public static function getImgs($content){
+        preg_match_all('/<img.*src="([^"]*)"/', $content, $matches);
+
+        return $matches[1];
+    }
 }

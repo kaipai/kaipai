@@ -57,7 +57,7 @@
                 success : function(res){
                     if(res.flag > 0){
                         layer.alert(res.msg, function(){
-                            location.href = '/zone/article-detail?zoneID='+data.zoneID+'&memberArticleID='+res.data['memberArticleID'];
+                            location.href = '/zone/article-detail?zoneID='+data.zoneID+'&memberArticleID='+data['memberArticleID'];
                         });
                     }else{
                         layer.alert(res.msg);

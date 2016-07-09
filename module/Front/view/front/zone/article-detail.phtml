@@ -25,9 +25,9 @@
                 </div>
                 <div class="c"></div>
                 <div class="space_conts">
-                    <?php
-                        echo $info['memberArticleContent']
-                    ?>
+                    <iframe frameborder="no" border="0" scrolling="no" src="/zone/article-content?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $info['memberArticleID'] ?>" width="100%" id="iframepage" name="iframepage" onload="iframeHeight('iframepage');">
+                    </iframe>
+
                     <div class="space_zzai">
                         <ul>
                             <li>阅读(<?php echo $info['readCount']; ?>)</li>

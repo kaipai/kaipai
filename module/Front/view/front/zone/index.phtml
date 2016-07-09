@@ -15,6 +15,19 @@
                             <div class="space_cominfo_nr">
                                 <?php echo $v['memberArticleContent'] ?>
                             </div>
+                            <?php
+                            if(!empty($v['imgs'])){
+                                foreach($v['imgs'] as $sv){
+                                    ?>
+                                    <div class="space_imgsc">
+                                        <ul>
+                                            <li><img src="<?php echo $sv?>"></li>
+                                        </ul>
+                                    </div>
+                                <?php
+                                }
+                            }
+                            ?>
                         </div>
                         <?php if($_isMyZone){ ?>
                         <div class="space_cominfo_right">

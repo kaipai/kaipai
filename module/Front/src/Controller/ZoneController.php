@@ -44,9 +44,13 @@ class ZoneController extends Front{
         }
         $res = $this->memberArticleModel->getArticles($where, $this->pageNum, $this->limit);
         $articles = $res['data'];
+
         foreach($articles as $k => $v){
-            $articles[$k]['memberArticleContent'] = Utility::mbCutStr(strip_tags($v['memberArticleContent']), 100);
+            $articles[$k]['imgs'] = Utility::getImgs($v['memberArticleContent']);
+            $articles[$k]['memberArticleContent'] = Utility::mbCutStr(strip_tags($v['memberArticleContent']), 300);
+
         }
+
         $this->view->setVariables(array(
             'articles' => $articles,
             'pages' => $res['pages'],
@@ -76,6 +80,13 @@ class ZoneController extends Front{
         $this->view->setVariables(array(
             'info' => $info
         ));
+        return $this->view;
+    }
+
+    public function articleContentAction(){
+        $this->view->setNoLayout();
+        $this->articleDetailAction();
+
         return $this->view;
     }
 

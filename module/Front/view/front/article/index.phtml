@@ -42,6 +42,20 @@
                                     <p>
                                         <?php echo $v['articleContent']; ?>
                                     </p>
+                                    <?php
+                                        if(!empty($v['imgs'])){
+                                            foreach($v['imgs'] as $sv){
+                                    ?>
+                                                <div class="space_imgsc">
+                                                    <ul>
+                                                        <li><img src="<?php echo $sv?>"></li>
+                                                    </ul>
+                                                </div>
+                                    <?php
+                                            }
+                                        }
+                                    ?>
+
                                 </div>
                             </div>
 

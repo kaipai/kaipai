@@ -18,9 +18,10 @@ class ArticleController extends Front{
         $articles = $this->articleModel->getArticles($this->pageNum, $this->limit, $where);
 
         foreach($articles['data'] as $k => $v){
+
+            $articles['data'][$k]['imgs'] = Utility::getImgs($v['articleContent']);
             $articles['data'][$k]['articleContent'] = Utility::mbCutStr(Utility::getBodyText($v['articleContent']), 300);
         }
-
         $this->view->setVariables(array(
             'articleCategories' => $articleCategories,
             'articles' => $articles['data'],
