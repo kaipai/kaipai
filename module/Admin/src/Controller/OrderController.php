@@ -2,9 +2,8 @@
 namespace Admin\Controller;
 use Base\ConstDir\Admin\AdminError;
 use Base\ConstDir\Admin\AdminSuccess;
-use Base\ConstDir\Api\ApiError;
-use Base\ConstDir\Api\ApiSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Predicate\Expression;
 use Zend\Db\Sql\Where;
 
 class OrderController extends Admin{
@@ -89,7 +88,7 @@ class OrderController extends Admin{
         $deliveryTypeID = $this->queryData['deliveryTypeID'];
         $deliveryNum = $this->queryData['deliveryNum'];
 
-        if(!empty($haveDelivery) && empty($deliveryNum)) return $this->response(ApiError::COMMON_ERROR, '请填写运单号码');
+        if(!empty($haveDelivery) && empty($deliveryNum)) return $this->response(AdminError::COMMON_ERROR, '请填写运单号码');
 
         try{
             $this->memberOrderDeliveryModel->beginTransaction();
@@ -142,5 +141,26 @@ class OrderController extends Admin{
         $this->memberOrderModel->update($this->postData, $where);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
+    }
+
+    public function closeAction(){
+        $orderID = $this->postData['orderID'];
+        $where = array(
+            'orderID' => $orderID,
+        );
+        $orderInfo = $this->memberOrderModel->fetch($where);
+        if(empty($orderInfo)) return $this->response(AdminError::COMMON_ERROR, '订单不存在');
+
+        try{
+            $this->memberOrderModel->beginTransaction();
+            $this->memberOrderModel->update(array('orderStatus' => -2), array('orderID' => $orderInfo['orderID']));
+            $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('memberID' => $orderInfo['memberID']));
+            $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'source' => '后台操作订单' . $orderInfo['businessID'] . '退款', 'type' => 1));
+            $this->memberOrderModel->commit();
+            return $this->response(AdminSuccess::COMMON_SUCCESS, '关闭成功');
+        }catch (\Exception $e){
+            $this->memberOrderModel->rollback();
+            return $this->response(AdminError::COMMON_ERROR, '关闭失败');
+        }
     }
 }

@@ -185,11 +185,28 @@
                         s += '已付全款'
                     }else if(value == -1){
                         s += '已关闭'
+                    }else if(value == -2){
+                        s += '已退款';
                     }
 
                     return s;
                 }
 
+            },{
+                field: 'orderID',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                formatter:function(value, row, index){
+                    if(row.orderStatus > 1 && row.orderStatus < 5){
+                        return [
+                            '<a title="关闭订单" href="javascript:void(0)" class="remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
+                            ' cbody="确认关闭订单, 款项退还给买家吗？" url="/admin/<?=$this->layout()->controllerName;?>/close" method="post" params="orderID='+ value +'">'+
+                            '<i class="glyphicon glyphicon-remove"></i>'+
+                            '</a>'
+                        ].join('');
+                    }
+                }
             }
             ]
     });

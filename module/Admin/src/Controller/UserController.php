@@ -2,8 +2,7 @@
 namespace Admin\Controller;
 
 use Base\ConstDir\Admin\AdminError;
-use Base\ConstDir\Api\ApiError;
-use Base\ConstDir\Api\ApiSuccess;
+use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 
 class UserController extends Admin
@@ -16,7 +15,7 @@ class UserController extends Admin
             return $this->view;
         } else {
             if (empty($this->adminInfo)) {
-                return $this->response(ApiError::COMMON_ERROR, '请登录');
+                return $this->response(AdminError::COMMON_ERROR, '请登录');
             } else {
                 if (empty($post['oldPassword']) || empty($post['newPassword']) || empty($post['confirmPassword'])) {
                     return $this->response(AdminError::COMMON_ERROR, '新、旧和确认密码不可为空');
@@ -34,9 +33,9 @@ class UserController extends Admin
                     $this->adminInfo['passwd'] = $loginInfo['passwd'] = $set['passwd'];
                     $session->clear();
                     $session->write($loginInfo);
-                    return $this->response(ApiSuccess::COMMON_SUCCESS, '密码修改成功');
+                    return $this->response(AdminSuccess::COMMON_SUCCESS, '密码修改成功');
                 } else {
-                    return $this->response(ApiError::COMMON_ERROR, '密码修改失败');
+                    return $this->response(AdminError::COMMON_ERROR, '密码修改失败');
                 }
             }
         }

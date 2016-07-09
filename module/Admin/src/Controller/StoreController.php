@@ -2,7 +2,6 @@
 namespace Admin\Controller;
 
 use Base\ConstDir\Admin\AdminError;
-use Base\ConstDir\Api\ApiError;
 use COM\Controller\Admin;
 use Base\ConstDir\BaseConst;
 use Base\ConstDir\Admin\AdminSuccess;
