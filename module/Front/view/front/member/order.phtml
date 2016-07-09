@@ -263,21 +263,28 @@ echo $this->render('set-delivery-type');
         $('.confirm-delivery-done').on('click', function(){
             var data = {};
             data.orderID = $(this).attr('order-id');
-            $.ajax({
-                url : '/member/confirm-delivery-done',
-                dataType : 'json',
-                type : 'post',
-                data : data,
-                success : function(res){
-                    if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
-                    }else{
-                        layer.alert(res.msg);
+            layer.confirm('确认收货吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url : '/member/confirm-delivery-done',
+                    dataType : 'json',
+                    type : 'post',
+                    data : data,
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else{
+                            layer.alert(res.msg);
+                        }
                     }
-                }
+                });
+            }, function(){
+               layer.closeAll();
             });
+
         });
 
         $('.delay-auto-confirm-delivery-done-time-btn').on('click', function(){

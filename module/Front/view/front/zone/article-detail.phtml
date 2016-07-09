@@ -61,21 +61,28 @@
             var data = {};
             data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
             data.memberArticleID = $(this).attr('member-article-id');
-            $.ajax({
-                url : '/zone/del-article',
-                dataType : 'json',
-                type : 'post',
-                data : data,
-                success : function(res){
-                    if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.href = '/zone/index?zoneID=' + data.zoneID;
-                        });
-                    }else{
-                        layer.alert(res.msg);
+            layer.confirm('确认删除吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url : '/zone/del-article',
+                    dataType : 'json',
+                    type : 'post',
+                    data : data,
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert(res.msg, function(){
+                                location.href = '/zone/index?zoneID=' + data.zoneID;
+                            });
+                        }else{
+                            layer.alert(res.msg);
+                        }
                     }
-                }
+                });
+            }, function(){
+                layer.closeAll();
             });
+
         });
 
         $('.favorite-member-article').on('click', function(){

@@ -217,21 +217,28 @@ echo $this->render('/front/common/transfer-account');
             var data = {};
             data.specialID = $(this).attr('special-id');
             data.isDel = 1;
-            $.ajax({
-                url : '/member/add-special',
-                type : 'post',
-                dataType : 'json',
-                data : data,
-                success : function(res){
-                    if(res.flag > 0){
-                        layer.alert('删除成功', function(){
-                            location.reload();
-                        });
-                    }else{
-                        layer.alert(res.msg);
+            layer.confirm('确认删除吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url : '/member/add-special',
+                    type : 'post',
+                    dataType : 'json',
+                    data : data,
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert('删除成功', function(){
+                                location.reload();
+                            });
+                        }else{
+                            layer.alert(res.msg);
+                        }
                     }
-                }
+                });
+            }, function(){
+                layer.closeAll();
             });
+
         });
     })
 </script>

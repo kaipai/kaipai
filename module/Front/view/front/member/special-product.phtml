@@ -90,21 +90,28 @@
     $(function(){
 
         function delProduct(productID){
-            $.ajax({
-                url : '/member/save-product',
-                type : 'post',
-                dataType : 'json',
-                data : {productID : productID, isDel : 1},
-                success : function(res){
-                    if(res.flag > 0){
-                        layer.alert('删除成功', function(){
-                            location.reload();
-                        })
-                    }else{
-                        layer.alert(res.msg);
+            layer.confirm('确认删除吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url : '/member/save-product',
+                    type : 'post',
+                    dataType : 'json',
+                    data : {productID : productID, isDel : 1},
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert('删除成功', function(){
+                                location.reload();
+                            })
+                        }else{
+                            layer.alert(res.msg);
+                        }
                     }
-                }
+                });
+            }, function(){
+                layer.closeAll();
             });
+
         }
 
         function recommendProduct(productID){
