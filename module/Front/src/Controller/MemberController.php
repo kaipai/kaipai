@@ -105,13 +105,14 @@ class MemberController extends Front{
         }
 
         $deliveryTypes = $this->deliveryTypeModel->select()->toArray();
-
+        $memberRecommendProducts = $this->productModel->getMemberRecommendProducts();
         $this->view->setVariables(array(
             'orders' => $orders,
             'pages' => $result['pages'],
             'orderStatus' => $orderStatus,
             'search' => $search,
             'deliveryTypes' => $deliveryTypes,
+            'memberRecommendProducts' => $memberRecommendProducts,
         ));
         return $this->view;
     }
@@ -159,8 +160,9 @@ class MemberController extends Front{
         if($this->request->isXmlHttpRequest()){
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $auctions);
         }else{
+            $memberRecommendProducts = $this->productModel->getMemberRecommendProducts();
             $this->view->setVariables(array(
-
+                'memberRecommendProducts' => $memberRecommendProducts,
                 'auctions' => $auctions
             ));
             return $this->view;
@@ -192,11 +194,13 @@ class MemberController extends Front{
 
         $interestProducts = $this->memberProductInterestModel->getProducts($where, $this->pageNum, $this->limit);
 
+        $memberRecommendProducts = $this->productModel->getMemberRecommendProducts();
         $this->view->setVariables(array(
             'products' => $interestProducts['data'],
             'pages' => $interestProducts['pages'],
             'auctionStatus' => $auctionStatus,
             'search' => $search,
+            'memberRecommendProducts' => $memberRecommendProducts,
         ));
         return $this->view;
     }

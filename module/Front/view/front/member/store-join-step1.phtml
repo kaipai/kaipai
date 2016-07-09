@@ -41,6 +41,10 @@
                     <input class="jm_sfz2input" type="text" placeholder="手机验证码" id="store-mobile-code">
                 </div>
             </div>
+            <div class="jm_sfz">
+                <input type="checkbox" id="join-rules">
+                我已经阅读并同意<a href="/article/setting?settingName=joinRule" target="_blank" style="color:#61b7d9">《入驻规则》</a>
+            </div>
             <div class="jm_tj" id="submit-verify-btn">
                 提交审核
             </div>
@@ -149,34 +153,29 @@
         data.memberIdPic = $('#member-id-pic').attr('src');
         data.storeMobile = $('#store-mobile').val();
         data.storeMobileCode = $('#store-mobile-code').val();
+        var joinRuleCheceked = $('#join-rules:checked').length;
+        if(!joinRuleCheceked){
+            layer.alert('未同意入驻规则');
+            return false;
+        }
         if(!data.idNumber){
-            layer.open({
-                content : '请输入身份证号码'
-            });
+            layer.alert('请输入身份证号码');
             return false;
         }
         if(!data.idPic){
-            layer.open({
-                content : '请上传身份证图片'
-            });
+            layer.alert('请上传身份证图片');
             return false;
         }
         if(!data.memberIdPic){
-            layer.open({
-                content : '请上传本人手持身份证图片'
-            });
+            layer.alert('请上传本人手持身份证图片');
             return false;
         }
         if(!data.storeMobile){
-            layer.open({
-                content : '请输入绑定手机号'
-            });
+            layer.alert('请输入绑定手机号');
             return false;
         }
         if(!data.storeMobileCode){
-            layer.open({
-                content : '请输入手机验证码'
-            });
+            layer.alert('请输入手机验证码');
             return false;
         }
 
@@ -191,9 +190,7 @@
                     if(data.flag > 0){
                         location.href = '/member/store-join';
                     }else{
-                        layer.open({
-                            content : data.msg
-                        });
+                        layer.alert(data.msg);
                     }
                 }
             });
@@ -207,15 +204,8 @@
     $('#btn_getcode').bind('click', function() {
         var mobile = $('#store-mobile').val();
         if (!re.test(mobile)) {
-            layer.open({
-                type: 0,
-                icon: 2,
-
-                content: '请输入正确的手机号码',
-                shadeClose: true,
-                time: 2000
-            });
-            return;
+            layer.alert('请输入正确的手机号码');
+            return false;
         };
         if (reSend) {
             var flag = 1;
@@ -228,13 +218,7 @@
                 success : function(data) {
                     if(data.flag <= 0){
                         flag = 0;
-                        layer.open({
-                            type: 0,
-                            icon: 2,
-                            content: data.msg,
-                            shadeClose: true,
-                            time: 2000
-                        });
+                        layer.alert(data.msg);
                     }
                 }
             });

@@ -1,3 +1,4 @@
+<script src="/plugins/superSlide/jquery.SuperSlide.2.1.1.js"></script>
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
@@ -183,6 +184,7 @@
         </div>
     </div>
 </div>
+<?php if(!empty($memberRecommendProducts)){echo $this->render('member-recommend');}  ?>
 <?php
 echo $this->render('set-delivery-type');
 ?>
@@ -198,22 +200,29 @@ echo $this->render('set-delivery-type');
         });
 
         function delOrder(data){
-            $.ajax({
-                url : '/member/del-order',
-                dataType : 'json',
-                type : 'post',
-                data : data,
-                success : function(res){
-                    if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
-                    }else{
-                        layer.alert(res.msg);
-                    }
+            layer.confirm('确认删除吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url : '/member/del-order',
+                    dataType : 'json',
+                    type : 'post',
+                    data : data,
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else{
+                            layer.alert(res.msg);
+                        }
 
-                }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
             });
+
         }
 
         $('.del-order-btn').on('click', function(){
@@ -241,22 +250,29 @@ echo $this->render('set-delivery-type');
         $('.cancel-order-btn').on('click', function(){
             var data = {};
             data.orderID = $(this).attr('order-id');
-            $.ajax({
-                url : '/member/cancel-order',
-                dataType : 'json',
-                type : 'post',
-                data : data,
-                success : function(res){
-                    if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
-                    }else{
-                        layer.alert(res.msg);
-                    }
+            layer.confirm('确认关闭交易吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url : '/member/cancel-order',
+                    dataType : 'json',
+                    type : 'post',
+                    data : data,
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else{
+                            layer.alert(res.msg);
+                        }
 
-                }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
             });
+
 
         });
 

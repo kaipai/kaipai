@@ -34,7 +34,7 @@
     height:42px;
     line-height: 42px;
     font-size:16px;
-    color: #222;
+    color: #666;
     padding: 0px 60px;
 }
 .select_cho li a{
@@ -845,8 +845,8 @@ div.dp-popup td.disabled{cursor:default;}
     padding: 6px 0px;
 }
 .spe_r_con dl dt a{
-    color: #222;
-    font-size: 26px;
+    color: #251716;
+    font-size: 20px;
 }
 .spe_r_more{
     padding-top: 35px;
@@ -900,3 +900,21 @@ div.dp-popup td.disabled{cursor:default;}
     font-size: 18px;
     margin-left: 10px;
 }
+
+.slideBox{ width:500px; height:120px; overflow:hidden; position:relative;  }
+.slideBox .hd{ height:15px; overflow:hidden; position:absolute; right:5px; bottom:5px; z-index:1; }
+.slideBox .hd ul{ overflow:hidden; zoom:1; float:left;  }
+.slideBox .hd ul li{ float:left; margin-right:2px;  width:15px; height:15px; line-height:14px; text-align:center; background:#fff; cursor:pointer; }
+.slideBox .hd ul li.on{ background:#800000; color:#fff; }
+.slideBox .bd{ position:relative; height:100%; z-index:0;   }
+.slideBox .bd li{ zoom:1; vertical-align:middle; }
+.slideBox .bd img{ width:500px; height:120px; display:block;  }
+
+/* 下面是前/后按钮代码，如果不需要删除即可 */
+.slideBox .prev,
+.slideBox .next{ position:absolute; left:3%; top:50%; margin-top:-25px; display:block; width:32px; height:40px;  }
+.slideBox .next{ left:auto; right:3%; background-position:8px 5px; }
+.slideBox .prev:hover,
+.slideBox .next:hover{ filter:alpha(opacity=100);opacity:1;  }
+.slideBox .prevStop{ display:none;  }
+.slideBox .nextStop{ display:none;  }

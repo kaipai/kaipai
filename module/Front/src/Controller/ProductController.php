@@ -22,6 +22,9 @@ class ProductController extends Front{
         $leftAds = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_PRODUCT_LIST_LEFT);
         $rightAds = $this->adModel->getAdByPosition(BaseConst::AD_POSITION_PRODUCT_LIST_RIGHT);
 
+
+        $productIndexRecommendProducts = $this->productModel->getProductIndexRecommendProducts();
+
         $this->view->setVariables(array(
             'categoryInfo' => $categoryInfo,
             'options' => $options,
@@ -31,6 +34,7 @@ class ProductController extends Front{
             'search' => $search,
             'show' => $show,
             'productCategoryID' => $productCategoryID,
+            'productIndexRecommendProducts' => $productIndexRecommendProducts,
         ));
         return $this->view;
     }

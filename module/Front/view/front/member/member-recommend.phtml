@@ -1,0 +1,72 @@
+<div class="center">
+    <div class="picScroll-left">
+        <div class="hd">
+            <a class="next"></a>
+            <ul>
+                <?php
+                foreach($memberRecommendProducts as $k => $v){
+                    echo '<li>' . ($k + 1) . '</li>';
+                }
+                ?>
+            </ul>
+            <a class="prev"></a>
+        </div>
+        <div class="bd">
+            <ul class="picList">
+                <?php
+                    foreach($memberRecommendProducts as $v){
+                ?>
+                        <?php
+                            if($v['auctionStatus'] == 1) {
+                        ?>
+                            <li class="noStart">
+                                <h3>
+                                    <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
+                                </h3>
+
+                                <p class="lh32">
+                                    当前价
+                                    <span>￥<?php echo $v['currPrice'] ?></span>
+                                </p>
+
+                                <p class="lh32 exc_strat">即将开拍 <?php echo date('Y-m-d H:i:s', $v['startTime']) ?></p>
+
+                                <div class="exc_list_img">
+                                    <img src="/he/images/show_s_pic.jpg"> <font
+                                        class="exc_num_bg"><strong><?php echo $v['auctionCount'] ?></strong>
+                                        <br>次出价</font>
+                                </div>
+                            </li>
+                        <?php
+                        }elseif($v['auctionStatus'] == 2) {
+                        ?>
+                            <li>
+                                <h3>
+                                    <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
+                                </h3>
+                                <p class="lh32">
+                                    当前价
+                                    <span>￥<?php echo $v['currPrice'] ?></span>
+                                </p>
+                                <p class="lh32 exc_strat">距结束 <?php echo $v['leftTime'] ?></p>
+                                <div class="exc_list_img">
+                                    <img src="/he/images/show_s_pic.jpg"> <font class="exc_num_bg"><strong><?php echo $v['auctionCount'] ?></strong>
+                                        <br>次出价</font>
+                                </div>
+                            </li>
+                        <?php
+                        }
+                        ?>
+                <?php
+                    }
+                ?>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $(".picScroll-left").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:true,vis:4,trigger:"click"});
+    })
+
+</script>

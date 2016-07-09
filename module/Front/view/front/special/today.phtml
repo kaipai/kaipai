@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="/dist/styles/common/common.css">
 <link rel="stylesheet" href="/he/style/common.css">
 <link rel="stylesheet" href="/he/style/style.css">
-
 <div id="flashBg" style="background-color:#5d5f5c;">
     <div id="flashLine">
         <div id="flash">
@@ -48,7 +47,29 @@
     <div class="wrap2">
         <div class="spe_name_l"><a href="/special/today" class="<?php if($filter == 'today'){ echo 'active'; } ?>">今日专场<i></i></a><a href="/special/today?filter=tomorrow" class="<?php if($filter == 'tomorrow'){ echo 'active'; } ?>">明日专场<i></i></a><a href="/special/today?filter=on" class="<?php if($filter == 'on'){ echo 'active'; } ?>">正在预展<i></i></a>
         </div>
-        <div class="spe_name_r"><a href="<?php echo $secondAds['url'] ?>" target="_blank"><img src="<?php echo $secondAds['img'] ?>" height="120"></a></div>
+        <div class="spe_name_r">
+
+            <div class="picScroll-left">
+                <div class="hd">
+                    <a class="next"></a>
+                    <ul></ul>
+                    <a class="prev"></a>
+                    <span class="pageState"></span>
+                </div>
+                <div class="bd">
+                    <div id="slideBox" class="slideBox">
+                        <div class="hd">
+                            <ul><?php foreach($secondAds as $k => $v){ ?><li><?php echo $k+1; ?></li><?php } ?></ul>
+                        </div>
+                        <div class="bd">
+                            <ul>
+                                <?php foreach($secondAds as $k => $v){ ?><li><a href="<?php echo $v['url']; ?>"><img src="<?php echo $v['img'] ?>" height="120"></a></li><?php } ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="wrap4">
@@ -195,5 +216,7 @@
         $(".yomibox2").each(function () {
             $(this).yomi(_CurrentServerTime, 'product-list')
         });
+
+
     })
 </script>

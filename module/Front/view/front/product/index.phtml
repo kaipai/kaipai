@@ -225,6 +225,28 @@
     </div>
 </div>
 
+<?php if(!empty($productIndexRecommendProducts)){ ?>
+<div class="center">
+    <div class="probot-ad">
+        <div class="bd">
+            <ul class="picList">
+                <?php
+                    foreach($productIndexRecommendProducts as $v){
+                ?>
+                        <li>
+                            <div class="pic"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"target="_blank"><img src="<?php echo $v['listImg'] ?>" /></a></div>
+                            <div class="ad-bg"></div>
+                            <div class="title"><a href="/product/detail?productID=<?php echo $v['productID'] ?>" target="_blank"><?php echo $v['productName'] ?></a></div>
+                        </li>
+                <?php
+                    }
+                ?>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<?php } ?>
 <script type="text/javascript">
     $(function(){
         $(".slideBox").slide({
@@ -397,5 +419,9 @@
             refresh(params);
         });
         refresh(params);
+
+
+        $(".probot-ad").slide({mainCell:".bd ul",autoPlay:true,effect:"leftMarquee",vis:4,interTime:50});
     })
+
 </script>

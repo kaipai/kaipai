@@ -2112,3 +2112,78 @@ body {
     color: #fff;
 
 }
+
+
+.picScroll-left{ width:1200px;  overflow:hidden; position:relative;    }
+.picScroll-left .hd{ overflow:hidden;  height:30px; padding:0 10px;  }
+.picScroll-left .hd .prev,.picScroll-left .hd .next{ display:block;  width:5px; height:9px; float:right; margin-right:5px; margin-top:10px;  overflow:hidden;
+    cursor:pointer; background:url("/jinren/images/arrow.png") no-repeat;}
+.picScroll-left .hd .next{ background-position:0 -50px;  }
+.picScroll-left .hd .prevStop{ background-position:-60px 0; }
+.picScroll-left .hd .nextStop{ background-position:-60px -50px; }
+.picScroll-left .hd ul{ float:right; overflow:hidden; zoom:1; margin-top:10px; zoom:1; }
+.picScroll-left .hd ul li{ float:left;  width:9px; height:9px; overflow:hidden; margin-right:5px; text-indent:-999px; cursor:pointer; background:url("/jinren/images/icoCircle.gif") 0 -9px no-repeat; }
+.picScroll-left .hd ul li.on{ background-position:0 0; }
+.picScroll-left .bd{ padding:10px 0;   }
+
+
+.picScroll-left .bd ul{ overflow:hidden; zoom:1; }
+.picScroll-left .bd ul li{background: #f5f5f5; border: 1px solid #c5c1be;margin:0 3px; float:left; _display:inline; overflow:hidden;width:260px; padding: 10px 15px; height:370px;  }
+
+.picScroll-left .bd ul li h3{color: #222;
+    font-size: 22px;
+    padding-bottom: 10px;font-weight: normal !important;}
+
+.picScroll-left .bd ul li span {
+    color: #800000;
+    font-size: 24px;
+    font-weight: bold;
+}
+.picScroll-left .bd ul li.noStart  span{
+    color: #222 !important;
+    font-size: 20px !important;
+    font-weight: normal !important;
+}
+.lh32{
+    line-height: 32px;
+}
+li.noStart .exc_strat{
+    color: #61b5d7 !important;
+
+}
+li .exc_strat{
+    color: #333 ;
+
+    font-size: 18px;
+}
+.exc_list_img{
+    border: 1px solid #908a8a;
+    height:258px;
+    width: 258px;
+    display: table-cell;
+    vertical-align:middle;
+    text-align:center;
+    *display: block;
+    *font-size: 175px;
+    *font-family:Arial;
+    position: relative;
+    top:10px;
+}
+.exc_list_img font{
+    background: #800000;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 6px 15px 10px;
+    font-size: 14px;
+    color: #fff;
+}
+.exc_list_img strong{
+    font-size: 26px;
+}
+.picScroll-left .bd li.noStart .exc_num_bg{
+    background: #61b5d7 !important;
+}
+.picScroll-left .bd li .exc_num_bg{
+    background: #800000;
+}

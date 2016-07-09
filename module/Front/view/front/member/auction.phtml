@@ -1,3 +1,4 @@
+<script src="/plugins/superSlide/jquery.SuperSlide.2.1.1.js"></script>
 <div class="kp_main">
     <div class="center ">
         <!-- left部分 -->
@@ -83,6 +84,8 @@
         </div>
     </div>
 </div>
+
+<?php if(!empty($memberRecommendProducts)){echo $this->render('member-recommend');}  ?>
 <?php
     echo $this->render('/front/product/set-proxy-price');
     echo $this->render('/front/product/post-price');

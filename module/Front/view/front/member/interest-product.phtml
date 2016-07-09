@@ -1,3 +1,4 @@
+<script src="/plugins/superSlide/jquery.SuperSlide.2.1.1.js"></script>
 <!--main开始-->
 <div class="kp_main">
     <div class="center ">
@@ -120,7 +121,7 @@
         </div>
     </div>
 </div>
-
+<?php if(!empty($memberRecommendProducts)){echo $this->render('member-recommend');}  ?>
 <script>
 
     $(function(){

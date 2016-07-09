@@ -101,6 +101,21 @@ class Product extends Model{
         return $result;
     }
 
+    public function getProductIndexRecommendProducts(){
+        $where = array(
+            'isProductIndexRecommend' => 1,
+            'auctionStatus' => array(1, 2),
+            'isDel' => 0,
+        );
+        $result = $this->setColumns(array('productName', 'listImg', 'productID', 'currPrice'))->select($where)->toArray();
+        return $result;
+    }
+
+    public function getMemberRecommendProducts(){
+        $result = $this->productModel->getProducts(array('Product.isMemberRecommend' => 1, 'Product.auctionStatus' => array(1, 2)), 1, 20, array('Product.instime desc'));
+        return $result['data'];
+    }
+
     public function getExpireProducts(){
         $select = $this->getSelect();
         $select->join(array('b' => 'AuctionMember'), 'Product.productID = b.productID and b.myCurrPrice = Product.currPrice', array('auctionMemberID', 'memberID'), 'left');

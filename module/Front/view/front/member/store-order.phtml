@@ -150,21 +150,28 @@
         });
 
         function delOrder(data){
-            $.ajax({
-                url : '/member/store-del-order',
-                dataType : 'json',
-                type : 'post',
-                data : data,
-                success : function(res){
-                    if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
-                    }else{
-                        layer.alert(res.msg);
+            layer.confirm('确认删除吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url : '/member/store-del-order',
+                    dataType : 'json',
+                    type : 'post',
+                    data : data,
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else{
+                            layer.alert(res.msg);
+                        }
                     }
-                }
+                });
+            }, function(){
+                layer.closeAll();
             });
+
         }
 
         $('.del-order-btn').on('click', function(){
@@ -192,22 +199,29 @@
         $('.cancel-order-btn').on('click', function(){
             var data = {};
             data.orderID = $(this).attr('order-id');
-            $.ajax({
-                url : '/member/store-cancel-order',
-                dataType : 'json',
-                type : 'post',
-                data : data,
-                success : function(res){
-                    if(res.flag > 0){
-                        layer.alert(res.msg, function(){
-                            location.reload();
-                        });
-                    }else{
-                        layer.alert(res.msg);
-                    }
+            layer.confirm('确认关闭交易吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                $.ajax({
+                    url : '/member/store-cancel-order',
+                    dataType : 'json',
+                    type : 'post',
+                    data : data,
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else{
+                            layer.alert(res.msg);
+                        }
 
-                }
+                    }
+                });
+            }, function(){
+                layer.closeAll();
             });
+
 
         });
 
