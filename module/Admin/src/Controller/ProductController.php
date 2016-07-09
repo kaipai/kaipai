@@ -3,6 +3,7 @@ namespace Admin\Controller;
 
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Where;
 
 class ProductController extends Admin{
 
@@ -12,7 +13,12 @@ class ProductController extends Admin{
     }
 
     public function listAction(){
-        $where = array();
+
+        $search = $this->queryData['search'];
+        $where = new Where();
+        if(!empty($search)){
+            $where->or->like('Product.productName', '%' . $search . '%');
+        }
 
         $res = $this->productModel->getProducts($where, $this->pageNum, $this->limit);
 

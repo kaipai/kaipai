@@ -1,10 +1,10 @@
-<div class="wrapper" id="page-wrapper">
+<!--<div class="wrapper" id="page-wrapper">-->
 
-    <div id="table_toolbar">
+    <!--<div id="table_toolbar">
         <div class="pull-left">
             <strong>专场列表</strong>
         </div>
-    </div>
+    </div>-->
     <div class="adv-table">
         <table id="table-pagination" class="bootstrap_table"></table>
     </div>
@@ -45,8 +45,8 @@
         </div>
     </div>
 
-</div>
-
+<!--</div>
+-->
 <script>
 
     $('#edit_modal').on("show.bs.modal",function(e){
@@ -66,9 +66,9 @@ $(function(){
         pagination: true,
         pageSize: 10,
         pageList: [10, 25, 50, 100, 200],
-        search: false,
-        showColumns: false,
-        showRefresh: false,
+        search: true,
+        showColumns: true,
+        showRefresh: true,
         toolbar:"#table_toolbar",
         minimumCountColumns: 2,
         sidePagination: 'server',

@@ -5,6 +5,7 @@ use Base\ConstDir\Admin\AdminSuccess;
 use Base\ConstDir\Api\ApiError;
 use Base\ConstDir\Api\ApiSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Where;
 
 class OrderController extends Admin{
     public function indexAction(){
@@ -13,8 +14,19 @@ class OrderController extends Admin{
     }
 
     public function listAction(){
-        $where = array('MemberOrder.orderType' => 1);
-        $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
+        $search = $this->queryData['search'];
+        $sort = $this->queryData['sort'];
+        $order = $this->queryData['order'];
+        $where = new Where();
+        $where->and->equalTo('MemberOrder.orderType', 1);
+        if(!empty($search)){
+            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.businessID', '%' . $search . '%');
+        }
+        if(!empty($sort) && !empty($order)){
+            $sortOrder = 'MemberOrder.' . $sort . ' ' . $order;
+        }
+
+        $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit, $sortOrder);
         $orders = $result['data'];
         foreach($orders as $k => $v){
             if(!empty($v['productSnapshot'])){
@@ -39,10 +51,19 @@ class OrderController extends Admin{
     }
 
     public function customizationListAction(){
-        $where = array(
-            'MemberOrder.orderType' => 2,
-        );
-        $orders = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
+        $search = $this->queryData['search'];
+        $sort = $this->queryData['sort'];
+        $order = $this->queryData['order'];
+        $where = new Where();
+        $where->and->equalTo('MemberOrder.orderType', 2);
+        if(!empty($search)){
+            $where->and->nest()->or->like('b.nickName', '%' . $search . '%')->or->like('b.mobile', '%' . $search . '%');
+        }
+        if(!empty($sort) && !empty($order)){
+            $sortOrder = 'MemberOrder.' . $sort . ' ' . $order;
+        }
+
+        $orders = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit, $sortOrder);
         foreach($orders['data'] as $k => $v){
             $tmp = json_decode($v['customizationSnapshot'], true);
             $orders['data'][$k]['title'] = $tmp['title'];
@@ -109,5 +130,17 @@ class OrderController extends Admin{
         }catch (\Exception $e){
             return $this->response(AdminError::COMMON_ERROR, '事务处理失败');
         }
+    }
+
+    public function updateAction(){
+        $orderID = $this->postData['orderID'];
+
+        $where = array(
+            'orderID' => $orderID
+        );
+
+        $this->memberOrderModel->update($this->postData, $where);
+
+        return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
     }
 }

@@ -25,7 +25,7 @@ class CustomizationController extends Front{
     }
 
     public function listAction(){
-        $customizations = $this->customizationModel->getCustomizations($this->pageNum, $this->limit);
+        $customizations = $this->customizationModel->getCustomizations(array(), $this->pageNum, $this->limit);
 
         $this->view->setVariables(array(
             'customizations' => $customizations['data'],

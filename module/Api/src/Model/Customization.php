@@ -5,11 +5,12 @@ use COM\Model;
 class Customization extends Model{
     protected $table = 'Customization';
 
-    public function getCustomizations($page, $limit){
+    public function getCustomizations($where, $page, $limit){
         $select = $this->getSql()->select();
         $select->join(array('b' => 'Artist'), 'Customization.artistID = b.artistID', array('artistName', 'shortDesc', 'artistAvatar'));
         $select->join(array('c' => 'ArtistCategory'), 'b.artistCategoryID = c.artistCategoryID', array('categoryName'));
         $select->where(array('Customization.isDel' => 0));
+        $select->where($where);
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);

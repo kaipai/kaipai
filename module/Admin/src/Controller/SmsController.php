@@ -3,6 +3,7 @@ namespace Admin\Controller;
 use Base\ConstDir\Admin\AdminError;
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Where;
 
 class SmsController extends Admin{
     public function smsAction(){
@@ -14,7 +15,11 @@ class SmsController extends Admin{
     public function smsListAction(){
         $offset = $this->request->getQuery('offset', $this->offset);
         $limit = $this->request->getQuery('limit', $this->limit);
-        $where = array();
+        $search = $this->queryData['search'];
+        $where = new Where();
+        if(!empty($search)){
+            $where->and->nest()->or->like('SmsLog.mobile', '%' . $search . '%');
+        }
 
         $data = array();
 

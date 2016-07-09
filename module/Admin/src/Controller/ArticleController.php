@@ -3,6 +3,7 @@ namespace Admin\Controller;
 
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Where;
 
 class ArticleController extends Admin{
 
@@ -12,7 +13,12 @@ class ArticleController extends Admin{
     }
 
     public function listAction(){
-        $res = $this->articleModel->getArticles($this->pageNum, $this->limit);
+        $search = $this->queryData['search'];
+        $where = new Where();
+        if(!empty($search)){
+            $where->or->like('Article.articleName', '%' . $search .'%');
+        }
+        $res = $this->articleModel->getArticles($this->pageNum, $this->limit, $where);
 
         return $this->adminResponse(array('rows' => $res['data'], 'total' => $res['total']));
     }

@@ -8,6 +8,7 @@ use Base\ConstDir\Api\ApiSuccess;
 use Base\ConstDir\BaseConst;
 use COM\Controller\Admin;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Where;
 
 class WithdrawController extends Admin{
     public function indexAction(){
@@ -16,7 +17,12 @@ class WithdrawController extends Admin{
     }
 
     public function listAction(){
-        $res = $this->withdrawLogModel->getLogs($this->pageNum, $this->limit);
+        $search = $this->queryData['search'];
+        $where = new Where();
+        if(!empty($search)){
+            $where->or->like('b.storeName', '%' . $search . '%');
+        }
+        $res = $this->withdrawLogModel->getLogs($where, $this->pageNum, $this->limit);
         $logs = $res['data'];
 
         $data['total'] = $res['total'];
@@ -44,6 +50,24 @@ class WithdrawController extends Admin{
             }
         }
         return $this->response(AdminSuccess::COMMON_SUCCESS, '审核成功');
+    }
+
+    public function rechargeLogAction(){
+        $this->view->setNoLayout();
+        $memberID = $this->queryData['memberID'];
+        $where = array(
+            'MemberRechargeMoneyLog.memberID' => $memberID,
+        );
+
+        $res = $this->memberRechargeMoneyLogModel->getLogs($where, $this->pageNum, 1000);
+        $logs = $res['data'];
+
+        $this->view->setVariables(array(
+            'logs' => $logs,
+        ));
+
+
+        return $this->view;
     }
 
 }

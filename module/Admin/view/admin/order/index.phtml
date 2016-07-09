@@ -100,6 +100,7 @@
                 title: '是否被申诉',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 formatter : function(value, row, index){
                     var str = '';
                     if(value == 1){
@@ -114,6 +115,27 @@
                 title: '申诉内容',
                 align: 'center',
                 valign: 'middle'
+            },{
+                field: 'isComplainedTreated',
+                title: '申诉是否被处理',
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                formatter : function(value, row, index){
+                    var str = '';
+                    if(row.isComplained == 1){
+                        if(value == 1){
+                            str += '<font style="color:red;">是</font>';
+                        }else{
+                            str += '否';
+                            str += '<a title="已处理" href="javascript:void(0)" class="text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认已处理吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="orderID='+ row.orderID +'&isComplainedTreated=1"><i class="glyphicon glyphicon-ok"></i></a>';
+
+                        }
+                    }
+
+                    return str;
+                }
+
             },
             {
                 field: 'payType',

@@ -9,10 +9,10 @@ use Zend\Validator\Regex;
 class Article extends Model{
 
     public function getArticles($page = 1, $limit = 15, $where = array()){
-        $where = array_merge($where, array('isDel' => 0, 'b.display' => 1));
         $select = $this->getSelect();
         $select->join(array('b' => 'ArticleCategory'), 'Article.articleCategoryID = b.articleCategoryID', array('categoryName'));
         $select->where($where);
+        $select->where(array('isDel' => 0, 'b.display' => 1));
         $select->order('Article.instime desc');
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);

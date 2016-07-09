@@ -3,6 +3,7 @@ namespace Admin\Controller;
 
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Where;
 
 class MemberController extends Admin{
 
@@ -14,7 +15,11 @@ class MemberController extends Admin{
     public function listAction(){
         $offset = $this->request->getQuery('offset', $this->offset);
         $limit = $this->request->getQuery('limit', $this->limit);
-        $where = array();
+        $search = $this->queryData['search'];
+        $where = new Where();
+        if(!empty($search)){
+            $where->and->nest()->or->like('MemberInfo.mobile', '%' . $search . '%')->or->like('MemberInfo.nickName', '%' . $search . '%');
+        }
 
         $data = array();
 

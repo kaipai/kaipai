@@ -5,6 +5,7 @@ use Base\ConstDir\Admin\AdminError;
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Where;
 
 class SpecialController extends Admin{
 
@@ -14,8 +15,12 @@ class SpecialController extends Admin{
     }
 
     public function listAction(){
-
-        $res = $this->specialModel->getSpecials(array(), $this->pageNum, $this->limit);
+        $search = $this->queryData['search'];
+        $where = new Where();
+        if(!empty($search)){
+            $where->or->like('Special.specialName', '%' . $search . '%');
+        }
+        $res = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit);
         $rows = $res['data'];
         foreach($rows as $k => $v){
             $rows[$k]['startTime'] = date('Y-m-d H:i:s', $v['startTime']);

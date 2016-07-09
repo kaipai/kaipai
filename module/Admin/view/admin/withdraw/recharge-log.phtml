@@ -1,0 +1,20 @@
+<table border="1px">
+    <tr>
+        <td>时间</td>
+        <td>交易流水号</td>
+        <td>金额</td>
+        <td>详情</td>
+    </tr>
+    <?php
+    foreach($logs as $v){
+        ?>
+        <tr>
+            <td><?php echo $v['instime'] ?></td>
+            <td><?php echo $v['unitePayID'] ?></td>
+            <td><?php echo $v['type'] == 1 ? '+' : '-'; ?><?php echo $v['money'] ?></td>
+            <td><?php echo $v['source']; ?></td>
+        </tr>
+    <?php
+    }
+    ?>
+</table>

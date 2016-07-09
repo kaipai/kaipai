@@ -6,7 +6,7 @@ use Zend\Db\Sql\Expression;
 
 class MemberOrder extends Model{
 
-    public function getOrderList($where, $page, $limit){
+    public function getOrderList($where, $page, $limit, $order = ''){
         $select = $this->getSelect();
         $select->join(array('b' => 'MemberInfo'), 'MemberOrder.memberID = b.memberID', array('nickName', 'mobile', 'qq'))
                 ->join(array('c' => 'MemberPayDetail'), 'MemberOrder.unitePayID = c.unitePayID', array('payMoney', 'paidMoney', 'commision', 'productPrice', 'payType'))
@@ -16,7 +16,8 @@ class MemberOrder extends Model{
                 ->join(array('e' => 'Store'), 'MemberOrder.storeID = e.storeID', array('storeName', 'storeLogo', 'storeqq'), 'left')
                 ->where($where)
                 ->where(array('MemberOrder.isDel' => 0));
-        $select->order('MemberOrder.instime DESC');
+        if(empty($order)) $order = 'MemberOrder.instime DESC';
+        $select->order($order);
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);

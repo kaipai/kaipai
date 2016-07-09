@@ -3,6 +3,7 @@ namespace Admin\Controller;
 use Base\ConstDir\Admin\AdminError;
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Where;
 
 class CustomizationController extends Admin{
     public function indexAction(){
@@ -41,8 +42,12 @@ class CustomizationController extends Admin{
     }
 
     public function listAction(){
-
-        $res = $this->customizationModel->getCustomizations($this->pageNum, $this->limit);
+        $search = $this->queryData['search'];
+        $where = new Where();
+        if(!empty($search)){
+            $where->or->like('Customization.title', '%' . $search . '%');
+        }
+        $res = $this->customizationModel->getCustomizations($where, $this->pageNum, $this->limit);
         foreach($res['data'] as $k => $v){
             $res['data'][$k]['startTime'] = date('Y-m-d H:i:s', $v['startTime']);
             $res['data'][$k]['endTime'] = date('Y-m-d H:i:s', $v['endTime']);

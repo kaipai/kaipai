@@ -1,15 +1,9 @@
 
-<div class="wrapper" id="page-wrapper">
 
-    <div id="table_toolbar">
-        <div class="pull-left">
-            <strong>网站报错</strong>
-        </div>
-    </div>
+
     <div class="adv-table">
         <table id="table-pagination" class="bootstrap_table"></table>
     </div>
-</div>
 
 <script type="text/javascript">
     $(function(){
@@ -48,6 +42,26 @@
                 align: 'center',
                 valign: 'middle',
                 width: '200px'
+            },{
+                field: 'isTreated',
+                title: '是否被处理',
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                formatter : function(value, row, index){
+                    var str = '';
+
+                    if(value == 1){
+                        str += '<font style="color:red;">是</font>';
+                    }else{
+                        str += '否';
+                        str += '<a title="已处理" href="javascript:void(0)" class="text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认已处理吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="errorID='+ row.errorID +'&isTreated=1"><i class="glyphicon glyphicon-ok"></i></a>';
+
+                    }
+
+                    return str;
+                }
+
             },{
                 field: 'instime',
                 title: '报错时间',

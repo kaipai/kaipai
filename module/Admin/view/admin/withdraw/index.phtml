@@ -8,10 +8,35 @@
     <div class="adv-table">
         <table id="table-pagination" class="bootstrap_table"></table>
     </div>
+
+
+    <!-- Edit Modal Start -->
+    <div class="row">
+        <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="edit_modal_label">余额明细</h4>
+                    </div>
+                    <div class="modal-body" id="recharge-logs" style="height:400px;overflow: scroll;" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Modal End -->
 </div>
 
 <script type="text/javascript">
     $(function(){
+
+        $('#edit_modal').on("show.bs.modal",function(e){
+            var btn = $(e.relatedTarget);
+            var memberID = btn.attr('rid');
+            $('#recharge-logs').load('/admin/withdraw/recharge-log?memberID=' + memberID);
+        });
 
         table = $('#table-pagination').bootstrapTable({
             method: 'get',
@@ -22,9 +47,9 @@
             pagination: true,
             pageSize: 10,
             pageList: [10, 25, 50, 100, 200],
-            search: false,
-            showColumns: false,
-            showRefresh: false,
+            search: true,
+            showColumns: true,
+            showRefresh: true,
             toolbar:"#table_toolbar",
             minimumCountColumns: 2,
             sidePagination: 'server',
@@ -66,6 +91,18 @@
                 valign: 'middle',
                 width: '200px'
             },{
+                field: 'money',
+                title: '提现金额',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
+            },{
+                field: 'rechargeMoney',
+                title: '用户余额',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
+            },{
                 field: 'instime',
                 title: '申请时间',
                 align: 'center',
@@ -93,6 +130,16 @@
                     return str;
                 }
 
+            },{
+                field: 'memberID',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                formatter : function(value, row, index){
+                    return [
+                        '<a title="查看余额明细" href="javascript:void(0)"  class="col-md-4" rid="' + value + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-flag"></i></a>'
+                    ].join('');
+                }
             }]
         });
     });

@@ -6,6 +6,7 @@ use Base\ConstDir\Api\ApiError;
 use COM\Controller\Admin;
 use Base\ConstDir\BaseConst;
 use Base\ConstDir\Admin\AdminSuccess;
+use Zend\Db\Sql\Where;
 
 class StoreController extends Admin{
 
@@ -17,7 +18,12 @@ class StoreController extends Admin{
     }
 
     public function listAction(){
-        $res = $this->storeModel->getStores($this->pageNum, $this->limit);
+        $search = $this->queryData['search'];
+        $where = new Where();
+        if(!empty($search)){
+            $where->or->like('Store.storeName', '%' . $search . '%');
+        }
+        $res = $this->storeModel->getStores($this->pageNum, $this->limit, $where);
 
 
         return $this->adminResponse(array('rows' => $res['data'], 'total' => $res['total']));

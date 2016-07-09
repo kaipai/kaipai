@@ -22,9 +22,9 @@ class MemberArticle extends Model{
     }
 
     public function getArticles($where, $page, $limit, $order = ''){
-        $where = array_merge($where, array('isDel' => 0));
         $select = $this->getSelect();
         $select->where($where);
+        $select->where(array('isDel' => 0));
         if(empty($order)){
             $order = 'MemberArticle.instime desc';
         }
