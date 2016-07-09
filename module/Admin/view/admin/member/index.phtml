@@ -78,83 +78,97 @@
                 field: 'memberID',
                 title: '账号ID',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },
             {
                 field: 'mobile',
                 title: '手机号',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },
             {
                 field: 'nickName',
                 title: '昵称',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },{
                 field: 'signature',
                 title: '签名',
                 align: 'center',
-                valign: 'middle',
-                width:200
-
+                valign: 'middle'
             },
             {
                 field: 'avatar',
                 title: '头像',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },
             {
                 field: 'email',
                 title: 'email',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },{
                 field: 'qq',
                 title: 'qq',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },{
                 field: 'wechat',
                 title: '微信',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },
             {
                 field: 'selfDesc',
                 title: '自我介绍',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
 
             },{
                 field: 'rechargeMoney',
                 title: '余额',
                 align: 'center',
+                valign: 'middle'
+
+            },{
+                field: 'auctionProductCount',
+                title: '拍下拍品数',
+                align: 'center',
+                valign: 'middle'
+
+            },{
+                field: 'auctionProductPaidCount',
+                title: '未付款拍品数',
+                align: 'center',
                 valign: 'middle',
-                width:200
+                formatter : function(value, row, index){
+
+                    return row.auctionProductCount - value;
+                }
+
+            },{
+                field: 'auctionProductNotPaidPercent',
+                title: '未付款比例',
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                formatter : function(value, row, index){
+                    return value*100 + '%';
+                }
 
             },{
                 field: 'instime',
                 title: '新增时间',
                 align: 'center',
-                valign: 'middle',
-                width:200
+                valign: 'middle'
             },{
                 field: 'memberID',
                 title: '操作',

@@ -51,7 +51,10 @@ class CrontabController extends Controller{
 
                         $content = '您已成功竞得<<' . $v['productName'] . '>>。';
                         $this->notificationModel->insert(array('type' => 3, 'memberID' => $v['memberID'], 'content' => $content));
-
+                        $memberInfo = $this->memberInfoModel->select(array('memberID' => $v['memberID']))->current();
+                        $auctionProductCount = $memberInfo['auctionProductCount'] + 1;
+                        $auctionProductNotPaidPercent = round(($auctionProductCount - $memberInfo['auctionProductPaidCount']) / $auctionProductCount, 2);
+                        $this->memberInfoModel->update(array('auctionProductCount' => $auctionProductCount, 'auctionProductNotPaidPercent' => $auctionProductNotPaidPercent), array('memberID' => $v['memberID']));
 
 
                         $this->auctionMemberModel->update(array('status' => 2), array('productID' => $v['productID']));

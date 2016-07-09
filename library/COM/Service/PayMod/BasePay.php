@@ -44,6 +44,11 @@ abstract class BasePay
                 $productName = $productSnapshot['productName'];
                 $this->notificationModel->insert(array('type' => 4, 'memberID' => $storeInfo['memberID'], 'content' => '您的拍品<<' . $productName . '>>已被付款, 请在72小时内发货，否则买家可投诉客服处理。'));
 
+                $memberInfo = $this->memberInfoModel->select(array('memberID' => $orderInfo['memberID']))->current();
+                $auctionProductPaidCount = $memberInfo['auctionProductPaidCount'] + 1;
+                $auctionProductNotPaidPercent = round(($memberInfo['auctionProductCount'] - $auctionProductPaidCount) / $memberInfo['auctionProductCount'], 2);
+                $this->memberInfoModel->update(array('auctionProductPaidCount' => $auctionProductPaidCount, 'auctionProductNotPaidPercent' => $auctionProductNotPaidPercent), array('memberID' => $orderInfo['memberID']));
+
             }
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));

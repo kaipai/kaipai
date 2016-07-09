@@ -16,16 +16,23 @@ class MemberController extends Admin{
         $offset = $this->request->getQuery('offset', $this->offset);
         $limit = $this->request->getQuery('limit', $this->limit);
         $search = $this->queryData['search'];
+        $sort = $this->queryData['sort'];
+        $order = $this->queryData['order'];
         $where = new Where();
         if(!empty($search)){
             $where->and->nest()->or->like('MemberInfo.mobile', '%' . $search . '%')->or->like('MemberInfo.nickName', '%' . $search . '%');
+        }
+        if(!empty($sort) && !empty($order)){
+            $sortOrder = $sort . ' ' . $order;
+        }else{
+            $sortOrder = 'memberID desc';
         }
 
         $data = array();
 
         $data['total'] = $this->memberInfoModel->getCount($where);
 
-        $data['rows'] = $this->memberInfoModel->getList($where, "memberID desc", $offset, $limit);
+        $data['rows'] = $this->memberInfoModel->getList($where, $sortOrder, $offset, $limit);
 
         return $this->adminResponse($data);
     }
