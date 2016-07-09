@@ -18,7 +18,14 @@ class ArticleController extends Front{
         $articles = $this->articleModel->getArticles($this->pageNum, $this->limit, $where);
 
         foreach($articles['data'] as $k => $v){
-
+            if(!empty($v['url'])){
+                preg_match_all('/memberArticleID=([\d]*)/', $v['url'], $matches);
+                $memberArticleID = $matches[1][0];
+                if(!empty($memberArticleID)){
+                    $info = $this->memberArticleModel->setColumns(array('articleContent'))->select(array('memberArticleID' => $memberArticleID))->current();
+                    $v['articleContent'] = $info['articleContent'];
+                }
+            }
             $articles['data'][$k]['imgs'] = Utility::getImgs($v['articleContent']);
             $articles['data'][$k]['articleContent'] = Utility::mbCutStr(Utility::getBodyText($v['articleContent']), 300);
         }
