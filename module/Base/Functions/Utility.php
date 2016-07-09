@@ -224,9 +224,13 @@ class Utility
     }
 
     public static function getBodyText($data){
-        preg_match_all(Regexp::BODY_CONTENT, $data, $tmp);
+        //preg_match_all(Regexp::BODY_CONTENT, $data, $tmp);
+        //return strip_tags($tmp[0][0]);
 
-        return strip_tags($tmp[0][0]);
+        
+        return strip_tags(htmlspecialchars_decode($data));
+
+
     }
 
     public static function getMemberArticleText($data){
