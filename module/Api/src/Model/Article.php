@@ -13,7 +13,7 @@ class Article extends Model{
         $select = $this->getSelect();
         $select->join(array('b' => 'ArticleCategory'), 'Article.articleCategoryID = b.articleCategoryID', array('categoryName'));
         $select->where($where);
-
+        $select->order('Article.instime desc');
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);

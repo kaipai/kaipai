@@ -67,7 +67,9 @@
                     }
                 ?>
             </div>
-            <?php echo $this->render('/front/common/paginate', array('url' => '/article/index?articleCategoryID=' . $articleCategoryID . '&display=' . $display . '&')); ?>
+            <?php
+                echo $this->render('/front/common/paginate', array('url' => '/article/index?articleCategoryID=' . $articleCategoryID . '&display=' . $display . '&'));
+            ?>
         </div>
     </div>
 </div>

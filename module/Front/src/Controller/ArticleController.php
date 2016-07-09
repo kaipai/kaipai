@@ -9,7 +9,7 @@ class ArticleController extends Front{
 
     public function indexAction(){
         $articleCategoryID = $this->queryData['articleCategoryID'];
-        $display = $this->queryData['display'] ? $this->queryData['display'] : 'list';
+        $display = $this->queryData['display'] ? $this->queryData['display'] : 'preview';
         $articleCategories = $this->articleCategoryModel->getCategories();
 
         $where = array();
@@ -18,7 +18,7 @@ class ArticleController extends Front{
         $articles = $this->articleModel->getArticles($this->pageNum, $this->limit, $where);
 
         foreach($articles['data'] as $k => $v){
-            $articles['data'][$k]['articleContent'] = Utility::mbCutStr(Utility::getBodyText($v['articleContent']), 100);
+            $articles['data'][$k]['articleContent'] = Utility::mbCutStr(Utility::getBodyText($v['articleContent']), 300);
         }
 
         $this->view->setVariables(array(
