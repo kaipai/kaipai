@@ -22,8 +22,8 @@ class ArticleController extends Front{
                 preg_match_all('/memberArticleID=([\d]*)/', $v['url'], $matches);
                 $memberArticleID = $matches[1][0];
                 if(!empty($memberArticleID)){
-                    $info = $this->memberArticleModel->setColumns(array('articleContent'))->select(array('memberArticleID' => $memberArticleID))->current();
-                    $v['articleContent'] = $info['articleContent'];
+                    $info = $this->memberArticleModel->setColumns(array('memberArticleContent'))->select(array('memberArticleID' => $memberArticleID))->current();
+                    $v['articleContent'] = $info['memberArticleContent'];
                 }
             }
             $articles['data'][$k]['imgs'] = Utility::getImgs($v['articleContent']);
