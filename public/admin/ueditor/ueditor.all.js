@@ -27668,7 +27668,7 @@ UE.ui = baidu.editor.ui = {};
 
     var iframeUrlMap = {
         'anchor':'~/dialogs/anchor/anchor.html',
-        'insertimage':'~/dialogs/image/image.html?v=1',
+        'insertimage':'~/dialogs/image/image.html?v=2',
         'link':'~/dialogs/link/link.html',
         'spechars':'~/dialogs/spechars/spechars.html',
         'searchreplace':'~/dialogs/searchreplace/searchreplace.html',
