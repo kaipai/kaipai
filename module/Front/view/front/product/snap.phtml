@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/dist/styles/main/good.css" media="screen" />
 <div class="center">
     <div class="s-nav">
-        拍品预览
+        拍品快照
     </div>
 
     <!--产品详细 start-->
@@ -135,7 +135,7 @@
         <!--右侧出价记录 start-->
         <div class="cpxx-bidrecord">
             <div class="cpxx-bidrecord-top"><b>出价记录
-                    <span class="red" id="rightbidtotal">(0)</span></b>
+                    <span class="red" id="rightbidtotal">(<?php echo $productInfo['auctionCount'] ?>)</span></b>
             </div>
             <ul id="rightbid">
                 <li style="color:#333">
@@ -143,6 +143,17 @@
                     <span class="num_03">价格</span>
                     <span class="num_04">时间</span>
                 </li>
+                <?php
+                foreach($auctionLogs as $v){
+                    ?>
+                    <li>
+                        <span class="num_02 font_b"><?php echo $v['nickName'] ?></span>
+                        <span class="num_03 font_b"><?php echo $v['auctionPrice'] ?></span>
+                        <span class="num_04 font_b"><?php echo date('m-d H:i', strtotime($v['instime'])) ?></span>
+                    </li>
+                <?php
+                }
+                ?>
                 <!--<div class="cpxx-ckmore">查看全部出价</div>-->
             </ul>
 
@@ -203,7 +214,7 @@
                     <a class="on" href="javascript:void(0)" target="_self">拍品描述</a>
                     <a href="javascript:void(0)" target="_self" class="cjjlxx">
                         出价记录
-                        <span class="red">(0)</span>
+                        <span class="red">(<?php echo $productInfo['auctionCount'] ?>)</span>
                     </a>
                     <a href="javascript:void(0)" target="_self">竞拍须知</a>
                     <a href="javascript:void(0)" target="_self">服务保障</a>
@@ -271,6 +282,19 @@
                                 <span class="num_03">价格</span>
                                 <span class="num_04">时间</span>
                             </li>
+                            <?php
+                            foreach($auctionLogs as $v){
+                                ?>
+                                <li>
+                                    <li >
+                                        <span class="num_02"><?php echo $v['nickName'] ?></span>
+                                        <span class="num_03"><?php echo $v['auctionPrice'] ?></span>
+                                        <span class="num_04"><?php echo date('m-d H:i', strtotime($v['instime'])) ?></span>
+                                    </li>
+                                </li>
+                            <?php
+                            }
+                            ?>
                         </ul>
                     </div>
                     <!----出价记录 end-->
@@ -278,48 +302,48 @@
                     <div class="xtj-jpxz shop-show-item" style="display: none;">
                         <iframe frameborder="no" border="0" scrolling="no" src="/article/setting-detail?settingName=biddingKnow" width="100%" id="iframepage1" name="iframepage1" onload="iframeHeight('iframepage1');">
                         </iframe>
-                    <!--end 竞拍须知-->
+                        <!--end 竞拍须知-->
 
-                    <!--服务保障 start-->
-                    <div class="detailed-service shop-show-item" style="display: none;">
-                        <iframe frameborder="no" border="0" scrolling="no" src="/article/setting-detail?settingName=serviceProtocol" width="100%" id="iframepage2" name="iframepage2" onload="iframeHeight('iframepage2');">
-                        </iframe>
+                        <!--服务保障 start-->
+                        <div class="detailed-service shop-show-item" style="display: none;">
+                            <iframe frameborder="no" border="0" scrolling="no" src="/article/setting-detail?settingName=serviceProtocol" width="100%" id="iframepage2" name="iframepage2" onload="iframeHeight('iframepage2');">
+                            </iframe>
+                        </div>
+                        <!--服务保障 end-->
                     </div>
-                    <!--服务保障 end-->
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
-<?php
-echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
-?>
-<script type="text/javascript">
-    $(function () {
-        //产品详情图片展示
-        CloudZoom.quickStart();
-        _PageTag = "detail";
-        $(".yomibox2").each(function () {
-            $(this).yomi(_CurrentServerTime, _PageTag);
+    <?php
+    echo $this->inlineScript()->appendFile('/plugins/CloudZoom/cloudzoom.js');
+    ?>
+    <script type="text/javascript">
+        $(function () {
+            //产品详情图片展示
+            CloudZoom.quickStart();
+            _PageTag = "detail";
+            $(".yomibox2").each(function () {
+                $(this).yomi(_CurrentServerTime, _PageTag);
+            });
+            initEvent();
         });
-        initEvent();
-    });
-    function initEvent() {
-        $('#detailed-xx-down').delegate('[data-role="addres"]', 'click', function (event) {
-            console.log('[data-role="addres"]');
-        });
-        //产品详情介绍的tab
-        $('.detailed-xx-top').delegate('a', 'click', function () {
-            $(this).addClass('on').siblings().removeClass('on');
-            var J_index = $(this).index();
-            var J_detailed_xx_down = $('#detailed-xx-down .shop-show-item');
-            J_detailed_xx_down.hide();
-            J_detailed_xx_down.eq(J_index).show();
+        function initEvent() {
+            $('#detailed-xx-down').delegate('[data-role="addres"]', 'click', function (event) {
+                console.log('[data-role="addres"]');
+            });
+            //产品详情介绍的tab
+            $('.detailed-xx-top').delegate('a', 'click', function () {
+                $(this).addClass('on').siblings().removeClass('on');
+                var J_index = $(this).index();
+                var J_detailed_xx_down = $('#detailed-xx-down .shop-show-item');
+                J_detailed_xx_down.hide();
+                J_detailed_xx_down.eq(J_index).show();
 
 
-        });
-    }
+            });
+        }
 
 
-</script>
+    </script>

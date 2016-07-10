@@ -142,11 +142,7 @@ class ProductController extends Front{
         }
 
         // properties
-        $select = $this->productPropertyValueModel->getSelect();
-        $select->join(array('b' => 'ProductCategoryProperty'), 'ProductPropertyValue.productCategoryPropertyID = b.productCategoryPropertyID', array('propertyName'));
-        $select->where(array('ProductPropertyValue.productID' => $productID));
-        $properties = $this->productPropertyValueModel->selectWith($select)->toArray();
-        $properties = array_chunk($properties, 2);
+        $properties = $this->productPropertyValueModel->getProperties($productID);
         // detail imgs
         if(!empty($productInfo['detailImgs'])){
             $detailImgs = json_decode($productInfo['detailImgs'], true);
@@ -199,17 +195,36 @@ class ProductController extends Front{
         return $this->view;
     }
 
+    public function preViewDetailAction(){
+        $this->view->setNoLayout();
+        $productID = $this->queryData['productID'];
+        $info = $this->productCopyModel->setColumns(array('productDetail'))->select(array('productID' => $productID))->current();
+        $this->view->setVariables(array(
+            'info' => $info,
+        ));
+        return $this->view;
+    }
+
+    public function snapDetailAction(){
+        $this->view->setNoLayout();
+        $productID = $this->queryData['orderID'];
+        $orderInfo = $this->memberOrderModel->select(array('orderID' => $productID))->current();
+        $info = json_decode($orderInfo['productSnapshot'], true);
+
+        $this->view->setVariables(array(
+            'info' => $info,
+        ));
+        return $this->view;
+    }
+
     public function preViewAction(){
         $productID = $this->queryData['productID'];
         $where = array('productID' => $productID);
         $productInfo = $this->productCopyModel->select($where)->current();
-
+        $storeInfo = $this->storeModel->setColumns(array('storeName'))->select(array('storeID' => $productInfo['storeID']))->current();
+        $productInfo['storeName'] = $storeInfo['storeName'];
         // properties
-        $select = $this->productPropertyValueCopyModel->getSelect();
-        $select->join(array('b' => 'ProductCategoryProperty'), 'ProductPropertyValueCopy.productCategoryPropertyID = b.productCategoryPropertyID', array('propertyName'));
-        $select->where(array('ProductPropertyValueCopy.productID' => $productID));
-        $properties = $this->productPropertyValueCopyModel->selectWith($select)->toArray();
-        $properties = array_chunk($properties, 2);
+        $properties = $this->productPropertyValueCopyModel->getProperties($productID);
         // detail imgs
         if(!empty($productInfo['detailImgs'])){
             $detailImgs = json_decode($productInfo['detailImgs'], true);
@@ -218,6 +233,31 @@ class ProductController extends Front{
             'productInfo' => $productInfo,
             'properties' => $properties,
             'detailImgs' => $detailImgs,
+        ));
+
+        return $this->view;
+    }
+
+    public function snapAction(){
+        $productID = $this->queryData['productID'];
+        $orderInfo = $this->memberOrderModel->select(array('orderID' => $productID))->current();
+        $productInfo = json_decode($orderInfo['productSnapshot'], true);
+        $storeInfo = $this->storeModel->setColumns(array('storeName'))->select(array('storeID' => $productInfo['storeID']))->current();
+        $productInfo['storeName'] = $storeInfo['storeName'];
+        // detail imgs
+        if(!empty($productInfo['detailImgs'])){
+            $detailImgs = json_decode($productInfo['detailImgs'], true);
+        }
+        // auction logs
+        $auctionLogs = $this->auctionLogModel->getLogs(array('productID' => $productInfo['productID']));
+        foreach($auctionLogs as $k => $v){
+            $auctionLogs[$k]['nickName'] = Utility::getPrivateNickName($v['nickName']);
+        }
+        $this->view->setVariables(array(
+            'productInfo' => $productInfo,
+            'properties' => $productInfo['properties'],
+            'detailImgs' => $detailImgs,
+            'auctionLogs' => $auctionLogs,
         ));
 
         return $this->view;

@@ -73,6 +73,10 @@ class CrontabController extends Controller{
 
                         $productInfo = $this->productModel->select(array('productID' => $v['productID']))->current();
 
+                        $properties = $this->productPropertyValueModel->getProperties($v['productID']);
+
+                        $productInfo['properties'] = $properties;
+
                         $orderData['productSnapshot'] = json_encode($productInfo);
                         $commision = 0;
                         if(!empty($productInfo['commision'])){
