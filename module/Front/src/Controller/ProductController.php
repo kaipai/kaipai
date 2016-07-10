@@ -258,6 +258,7 @@ class ProductController extends Front{
             'properties' => $productInfo['properties'],
             'detailImgs' => $detailImgs,
             'auctionLogs' => $auctionLogs,
+            'productID' => $productID
         ));
 
         return $this->view;
