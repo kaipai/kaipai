@@ -207,7 +207,7 @@ class ProductController extends Front{
 
     public function snapDetailAction(){
         $this->view->setNoLayout();
-        $productID = $this->queryData['orderID'];
+        $productID = $this->queryData['productID'];
         $orderInfo = $this->memberOrderModel->select(array('orderID' => $productID))->current();
         $info = json_decode($orderInfo['productSnapshot'], true);
 
