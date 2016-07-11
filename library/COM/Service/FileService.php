@@ -81,7 +81,7 @@ class FileService
 
             // 生成缩略图
             if ($this->ifThumb) {
-                $thumbInfo = $this->makeThumb($this->targetAbs . $fileInfo[$k]['name'], $this->targetAbs . $tmpFileName . $this->thumbW . 'X' . $this->thumbH . $ext, $this->thumbW, $this->thumbH);
+                $thumbInfo = $this->makeThumb($this->targetAbs . $fileInfo[$k]['name'], $this->targetAbs . $tmpFileName . $this->thumbW . 'X' . $this->thumbH . $ext, $this->thumbW, $this->thumbH, true);
                 $data['thumb'] = $thumbInfo;
             }
 
@@ -237,6 +237,7 @@ class FileService
                 $imgwidth = $tmp;
             }
         }
+
         $thumb = $imagecreate($minitemp['dstW'], $minitemp['dstH']);
 
         if (function_exists('imagecolorallocate') && function_exists('imagecolortransparent')) {
@@ -408,7 +409,7 @@ class FileService
     private static function getThumbInfo($srcFile, $dstW, $dstH, $isProportion = FALSE)
     {
         if (false === ($imgdata = self::getImgInfo($srcFile))) return false;
-        if ($imgdata['width'] <= $dstW && $imgdata['height'] <= $dstH) return false;
+        //if ($imgdata['width'] <= $dstW && $imgdata['height'] <= $dstH) return false;
 
         $imgdata['dstW'] = $dstW;
         $imgdata['dstH'] = $dstH;
@@ -423,9 +424,10 @@ class FileService
             if (($imgdata['width'] / $dstW) > ($imgdata['height'] / $dstH)) {
                 $imgdata['dstH'] = !$isProportion ? $dstH : round($dstW / $imgdata['width'] * $imgdata['height']);
             }
-        } else {
+        } /*else {
             $imgdata = false;
-        }
+        }*/
+
         return $imgdata;
     }
 
