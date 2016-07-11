@@ -23,9 +23,14 @@ class IndexController extends Front{
         $indexRecommendArticles = $this->articleModel->getIndexRecommendArticles();
         foreach($indexRecommendArticles as $k => $v){
             if(!empty($v['url'])){
-                $contents = file_get_contents($v['url']);
-                $indexRecommendArticles[$k]['articleContent'] = Utility::mbCutStr(Utility::getMemberArticleText($contents), 30);
+                preg_match_all('/memberArticleID=([\d]*)/', $v['url'], $matches);
+                $memberArticleID = $matches[1][0];
+                if(!empty($memberArticleID)){
+                    $info = $this->memberArticleModel->setColumns(array('memberArticleContent'))->select(array('memberArticleID' => $memberArticleID))->current();
+                    $v['articleContent'] = $info['memberArticleContent'];
+                }
             }
+            $indexRecommendArticles[$k]['articleContent'] = Utility::mbCutStr(Utility::getBodyText($v['articleContent']), 300);
         }
         $indexArticleList = $this->articleModel->getIndexArticleList();
 
