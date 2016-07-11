@@ -48,7 +48,7 @@
                                     当前价
                                     <span>￥<?php echo $v['currPrice'] ?></span>
                                 </p>
-                                <p class="lh32 exc_strat">距结束 <?php echo $v['leftTime'] ?></p>
+                                <p class="lh32 exc_strat">距结束 <em class="yomibox211" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></em></p>
                                 <div class="exc_list_img">
                                     <img src="<?php echo $v['listImg']; ?>" style="width:258px;height:258px;"> <font class="exc_num_bg"><strong><?php echo $v['auctionCount'] ?></strong>
                                         <br>次出价</font>
@@ -67,6 +67,10 @@
 <script>
     $(function(){
         $(".picScroll-left").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:true,vis:4,trigger:"click"});
+
+        $(".yomibox211").each(function () {
+            $(this).yomi(_CurrentServerTime, 'product-list');
+        });
     })
 
 </script>
