@@ -6,6 +6,7 @@ class Store extends Model{
     public function getStores($page, $limit, $where = array()){
         $select = $this->getSelect();
         $select->join(array('b' => 'StoreLevel'), 'Store.level = b.level', array('levelName'), 'left');
+        $select->join(array('c' => 'MemberInfo'), 'Store.memberID = c.memberID', array('nickName'));
         $select->where($where);
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
