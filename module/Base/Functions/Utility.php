@@ -303,7 +303,7 @@ class Utility
     }
 
     public static function getImgs($content){
-        preg_match_all('/<img.*src="([^"]*)"/', $content, $matches);
+        preg_match_all('/<img\ssrc="([^"]*)"/', $content, $matches);
 
         return $matches[1];
     }

@@ -17,15 +17,23 @@
                             </div>
                             <?php
                             if(!empty($v['imgs'])){
+                            ?>
+
+                                <div class="space_imgsc">
+                                    <ul>
+                            <?php
+                                $i = 0;
                                 foreach($v['imgs'] as $sv){
+                                    $i++;
+                                    if($i == 4) break;
                                     ?>
-                                    <div class="space_imgsc">
-                                        <ul>
-                                            <li><img src="<?php echo $sv?>"></li>
-                                        </ul>
-                                    </div>
+                                        <li><img src="<?php echo $sv?>"></li>
                                 <?php
                                 }
+                            ?>
+                                    </ul>
+                                </div>
+                            <?php
                             }
                             ?>
                         </div>
