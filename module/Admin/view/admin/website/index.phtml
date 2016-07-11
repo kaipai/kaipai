@@ -30,7 +30,21 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
                                     </td>
                                 </tr>
                     <?php
-                            }elseif($v['fieldType'] == 'textarea'){
+                            }elseif($v['fieldType'] == 'password'){
+                    ?>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-md-2 control-label"><?php echo $v['remark'] ?></label>
+                                            <div class="col-sm-3 col-md-3">
+                                                <input type="password" class="form-control" id="<?php echo $v['settingName'] ?>" name="<?php echo $v['settingName'] ?>" value="<?php echo $v['settingValue'] ?>">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                    <?php
+                    }elseif($v['fieldType'] == 'textarea'){
                     ?>
                                 <tr>
                                     <td>

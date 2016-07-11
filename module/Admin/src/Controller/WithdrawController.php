@@ -11,10 +11,12 @@ use Zend\Db\Sql\Where;
 class WithdrawController extends Admin{
     public function indexAction(){
 
-        /*$password = $this->postData['password'];
-        if(empty($password) || $password != $this->siteSettings['withdrawPassword']){
+        $password = $this->postData['password'];
+        $tmp = $this->siteSettingModel->select(array('settingName' => 'withdrawPassword'))->current();
+
+        if(empty($password) || $password != $tmp['settingValue']){
             return $this->redirect()->toUrl('/admin/withdraw/password');
-        }*/
+        }
 
         return $this->view;
     }
