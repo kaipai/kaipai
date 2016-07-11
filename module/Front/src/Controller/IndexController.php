@@ -30,7 +30,7 @@ class IndexController extends Front{
                     $v['articleContent'] = $info['memberArticleContent'];
                 }
             }
-            $indexRecommendArticles[$k]['articleContent'] = Utility::mbCutStr(Utility::getBodyText($v['articleContent']), 100);
+            $indexRecommendArticles[$k]['articleContent'] = Utility::mbCutStr(Utility::getBodyText($v['articleContent']), 50);
         }
         $indexArticleList = $this->articleModel->getIndexArticleList();
 
