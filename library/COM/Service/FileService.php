@@ -81,7 +81,7 @@ class FileService
 
             // 生成缩略图
             if ($this->ifThumb) {
-                $thumbInfo = $this->makeThumb($this->targetAbs . $fileInfo[$k]['name'], $this->targetAbs . $tmpFileName . $this->thumbW . 'X' . $this->thumbH . $ext, $this->thumbW, $this->thumbH, true);
+                $thumbInfo = $this->makeThumb($this->targetAbs . $fileInfo[$k]['name'], $this->targetAbs . $tmpFileName . $this->thumbW . 'X' . $this->thumbH . $ext, $this->thumbW, $this->thumbH);
                 $data['thumb'] = $thumbInfo;
             }
 
