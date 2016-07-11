@@ -10,7 +10,7 @@
 
             <div class="jm_sfz">
                 <div class="jm_sfz1">身份证号码</div>
-                <div class="jm_sfz2"><input type="text" placeholder="身份证号码" id="id-number"></div>
+                <div class="jm_sfz2"><input type="text" placeholder="身份证号码" id="id-number" value="<?php echo !empty($_storeInfo) ? $_storeInfo['idNumber'] : ''; ?>"></div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">身份证图片</div>
@@ -18,7 +18,7 @@
                         <input type="file" name="" onchange="previewImage(this)">上传身份证图片
                     </a>
                 </div>
-                <div class="jm_sfz5 jm_lef" id="preview"><img src="/jinren/images/ewe_03.jpg" ></div>
+                <div class="jm_sfz5 jm_lef" id="preview"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['idPic'] : '/jinren/images/ewe_03.jpg'; ?>" ></div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">&nbsp</div>
@@ -26,12 +26,12 @@
                         <input type="file" name="" onchange="previewImage1(this)">上传本人手持身份证图片
                     </a>
                 </div>
-                <div class="jm_sfz5 jm_lef" id="preview1"><img src="/jinren/images/ewe_03.jpg"></div>
+                <div class="jm_sfz5 jm_lef" id="preview1"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['memberIdPic'] : '/jinren/images/ewe_03.jpg'; ?>"></div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">绑定手机号</div>
                 <div class="jm_sfz2">
-                    <input class="jm_sfz2input" type="text" placeholder="手机号码" id="store-mobile"> <span> <a
+                    <input class="jm_sfz2input" type="text" placeholder="手机号码" id="store-mobile" value="<?php echo !empty($_storeInfo) ? $_storeInfo['storeMobile'] : ''; ?>"> <span> <a
                             href="javascript:;" id="btn_getcode">发送验证码>></a></span>
                 </div>
             </div>

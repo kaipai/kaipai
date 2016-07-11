@@ -1166,9 +1166,9 @@ class MemberController extends Front{
     }
 
     public function storeJoinAction(){
-        if(empty($this->_storeInfo)){
+        if(empty($this->_storeInfo) || $this->_storeInfo['verifyStatus'] == 3){
             $this->view->setTemplate('/front/member/store-join-step1');
-        }elseif($this->_storeInfo['verifyStatus'] == 1 || $this->_storeInfo['verifyStatus'] == 3){
+        }elseif($this->_storeInfo['verifyStatus'] == 1){
             $this->view->setTemplate('/front/member/store-join-step2');
         }elseif($this->_storeInfo['verifyStatus'] == 2){
             $this->view->setTemplate('/front/member/store-join-step3');
