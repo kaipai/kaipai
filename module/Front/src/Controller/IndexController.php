@@ -84,7 +84,7 @@ class IndexController extends Front{
         try{
             $fileService = $this->sm->get('COM\Service\FileService');
             //$result = $fileService->setThumb(array('width' => 100, 'height' => 100))->upload($this->request);
-            $result = $fileService->upload($this->request);
+            $result = $fileService->setThumb(array('width' => 263, 'height' => 263))->upload($this->request);
             $result = json_decode($result, true);
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('picPath' => $result[0]['path']));
 
