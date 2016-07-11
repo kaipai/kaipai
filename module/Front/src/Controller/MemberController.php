@@ -984,8 +984,8 @@ class MemberController extends Front{
             $detailImgs = explode(',', trim($data['detailImgs'], ','));
             if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
             $product['listImg'] = current($detailImgs);
-            $ext = strstr($product['listImg'], '.');
-            $product['listImg'] = str_replace($ext, '263X263' . $ext, $product['listImg']);
+            /*$ext = strstr($product['listImg'], '.');
+            $product['listImg'] = str_replace($ext, '263X263' . $ext, $product['listImg']);*/
             $product['detailImgs'] = json_encode($detailImgs);
         }
 
