@@ -144,7 +144,7 @@
 
                     <!--<li>保留价：<?php /*if(!empty($productInfo['existKeepPrice'])){echo '有';}else{echo '无';} */?></li>-->
                     <li>延时周期：<?php if($productInfo['delayType'] == 1){echo '5分/次';}else{echo '无';} ?></li>
-                    <li>邮费：<?php echo !empty($productInfo['deliveryPrice']) ? $productInfo['deliveryPrice'] : 0;?></li>
+                    <li>邮费：￥<?php echo !empty($productInfo['deliveryPrice']) ? $productInfo['deliveryPrice'] : 0;?></li>
                     <li>
                         商家：
                         <a ui-sref="mainShop({'id':14})" class="blue" href="/store/detail?storeID=<?php echo $productInfo['storeID'] ?>"><?php echo $productInfo['storeName'] ?></a>
