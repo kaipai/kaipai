@@ -583,3 +583,5 @@
 .probot-ad .bd ul li .title{display:  none; bottom: 0;  color: #fff; z-index: 99;width: 280px;  position: absolute; line-height: 32px; height: 32px;}
 .probot-ad .bd ul li .title a{color: #fff;}
 .probot-ad .bd ul li:hover .ad-bg,.probot-ad .bd ul li:hover .title{display: block;}
+.articleTit{font-size: 22px; color: #333; margin-bottom: 18px;}
+.articleTit span{font-size: 14px; color: #666; padding-left: 18px;}

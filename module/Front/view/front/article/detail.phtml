@@ -4,7 +4,8 @@
 </div>
 <div class="center">
     <div class="page-box pb30 fz16">
-        <h3 style="text-align: center;"><?php echo $info['articleName']; ?></h3>
+        <h3 class="articleTit"><?php echo $info['articleName']; ?><span><?php echo date('Y-m-d', strtotime($info['instime'])); ?></span></h3>
+        <h3 style="text-align: center;"></h3>
         <iframe frameborder="no" border="0" scrolling="no" src="/article/content?articleID=<?php echo $info['articleID'] ?>" width="100%" id="iframepage" name="iframepage" onload="iframeHeight('iframepage');">
         </iframe>
     </div>
