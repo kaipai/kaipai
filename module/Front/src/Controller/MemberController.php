@@ -1074,6 +1074,7 @@ class MemberController extends Front{
                 foreach($products as $productInfo){
                     if(!empty($productInfo['specialID']) && $product['isDel']){
                         $this->specialModel->update(array('productCount' => new Expression('productCount-1')), array('specialID' => $productInfo['specialID']));
+                        $this->productModel->update(array('auctionStatus' => 0, 'isPaid' => 0, 'isDel' => 0, 'specialID' => new Expression('null'), 'startTime' => new Expression('null'), 'endTime' => new Expression('null')), array('productID' => $productInfo['productID']));
                     }
                 }
 
