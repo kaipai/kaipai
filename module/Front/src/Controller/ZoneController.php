@@ -47,7 +47,13 @@ class ZoneController extends Front{
 
         foreach($articles as $k => $v){
             $articles[$k]['imgs'] = Utility::getImgs($v['memberArticleContent']);
-            $articles[$k]['memberArticleContent'] = Utility::mbCutStr(strip_tags($v['memberArticleContent']), 300);
+            $body = Utility::getBodyText($v['memberArticleContent']);
+            if(mb_strlen($body) > 300){
+                $articles[$k]['fullContent'] = 0;
+            }else{
+                $articles[$k]['fullContent'] = 1;
+            }
+            $articles[$k]['memberArticleContent'] = Utility::mbCutStr($body, 300);
 
         }
 

@@ -27,7 +27,13 @@ class ArticleController extends Front{
                 }
             }
             $articles['data'][$k]['imgs'] = Utility::getImgs($v['articleContent']);
-            $articles['data'][$k]['articleContent'] = Utility::mbCutStr(Utility::getBodyText($v['articleContent']), 300);
+            $body = Utility::getBodyText($v['articleContent']);
+            if(mb_strlen($body) > 300){
+                $articles['data'][$k]['fullContent'] = 0;
+            }else{
+                $articles['data'][$k]['fullContent'] = 1;
+            }
+            $articles['data'][$k]['articleContent'] = Utility::mbCutStr($body, 300);
         }
         $this->view->setVariables(array(
             'articleCategories' => $articleCategories,

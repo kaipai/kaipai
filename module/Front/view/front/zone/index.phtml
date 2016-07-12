@@ -13,7 +13,7 @@
                             <div><span class="space_cominfo_name"><?php echo $v['memberArticleName'] ?></span><span class="font16"><?php echo $v['instime'] ?></span>
                             </div>
                             <div class="space_cominfo_nr">
-                                <?php echo $v['memberArticleContent'] ?>
+                                <?php echo $v['memberArticleContent'] ?><?php if(empty($v['fullContent'])) echo '...'; ?>
                             </div>
                             <?php
                             if(!empty($v['imgs'])){
