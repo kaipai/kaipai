@@ -1,6 +1,7 @@
 <?php
 namespace Base;
 
+use Base\Events\Response;
 use Zend\Db\TableGateway\Feature\EventFeature;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
@@ -27,6 +28,8 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Co
                 $sm->get('logger')->log($reason);
             }
         );
+        //$eventManager->attach(new Response());
+
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
         $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 100);
