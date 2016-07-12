@@ -34,4 +34,29 @@ class WebsiteController extends Admin{
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
     }
+
+    public function setWithdrawPwdAction(){
+        $mobile = $this->postData['mobile'];
+        $verifyCode = $this->postData['verifyCode'];
+        $password = $this->postData['password'];
+        $confirmPassword = $this->postData['confirmPassword'];
+
+        if(empty($mobile) || empty($verifyCode) || empty($password) || empty($confirmPassword)) return $this->response(AdminError::COMMON_ERROR, '缺少参数');
+
+        if($password != $confirmPassword){
+            return $this->response(AdminError::COMMON_ERROR, '两次输入密码不一致');
+        }
+        $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
+        if($verifyCode == $smsVeriyfCode){
+            try{
+                $this->siteSettingModel->update(array('settingValue' => $password), array('settingName' => 'withdrawPassword'));
+                return $this->response(AdminSuccess::COMMON_SUCCESS, '提现密码重置成功');
+            }catch (\Exception $e){
+                return $this->response(AdminError::COMMON_ERROR, '重置失败, 请重试');
+            }
+        }else{
+            return $this->response(AdminError::COMMON_ERROR, '手机验证码验证失败');
+        }
+
+    }
 }

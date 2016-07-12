@@ -6,6 +6,46 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
 <?php echo $this->render('/admin/common/upload-img'); ?>
 <div class="wrapper">
 
+    <div class="row">
+        <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="edit_modal_label">设置提现密码</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="editForm" role="form" method="post" action="/admin/<?php echo $this->layout()->controllerName;?>/set-withdraw-pwd">
+                            <input type="hidden" name="mobile" value="13588038833" />
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>
+                                        <input id="verifyCode" name="verifyCode" placeholder="输入验证码" type="text" value=""/>
+                                        <a class="btn_getcode" id="btn_getcode" href="javascript:;">发送验证码</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input name="password" placeholder="输入提现密码" type="password" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input name="confirmPassword" placeholder="请再次输入提现密码" type="password" value=""/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                        <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">
@@ -37,7 +77,9 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
                                         <div class="form-group">
                                             <label class="col-sm-2 col-md-2 control-label"><?php echo $v['remark'] ?></label>
                                             <div class="col-sm-3 col-md-3">
-                                                <input type="password" class="form-control" id="<?php echo $v['settingName'] ?>" name="<?php echo $v['settingName'] ?>" value="<?php echo $v['settingValue'] ?>">
+                                                <a class="btn btn-primary" href="javascript:;" password="<?php echo $v['password']; ?>"  data-toggle="modal" data-target="#edit_modal"><i class="fa fa-pencil"></i>设置密码</a>
+
+                                                <!--<input type="password" class="form-control" id="<?php /*echo $v['settingName'] */?>" name="<?php /*echo $v['settingName'] */?>" value="<?php /*echo $v['settingValue'] */?>">-->
                                             </div>
                                         </div>
                                     </td>
@@ -174,3 +216,55 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
 
     </div>
 </div>
+
+<script>
+    var J_mobile = $('#mobileNum');
+    var J_btn_getcode = $('#btn_getcode');
+    var reSend = true;
+    $(document).on('click', '#btn_getcode', function() {
+        if (reSend) {
+            var flag = 1;
+            $.ajax({
+                url : '/index/get-verify-code',
+                type : 'post',
+                async : false,
+                data : {mobile : 13588038833},
+                dataType : 'json',
+                success : function(data) {
+                    if(data.flag <= 0){
+                        flag = 0;
+                        layer.open({
+                            type: 0,
+                            icon: 2,
+                            content: data.msg,
+                            shadeClose: true,
+                            time: 2000
+                        });
+                    }
+                }
+            });
+            if(!flag) return;
+            reSend = false; //禁止反复发送
+            var html = '<b>5</b>秒重新获取';
+            J_btn_getcode.addClass('btn_code_yz');
+            J_btn_getcode.html(html);
+            regCodeInterval = setInterval(function() {
+                regCodeTimeinterval();
+            }, 1000);
+
+        }
+    });
+    //倒计时
+    function regCodeTimeinterval() {
+        var currTime = J_btn_getcode.find('b').html();
+        var newTime = parseInt(currTime) - 1;
+        if (newTime) {
+            J_btn_getcode.find('b').html(newTime);
+        } else {
+            clearInterval(regCodeInterval);
+            J_btn_getcode.removeClass('btn_code_yz');
+            J_btn_getcode.html('重新发送');
+            reSend = true;
+        }
+    };
+</script>
