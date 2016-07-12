@@ -120,9 +120,9 @@ class IndexController extends Front{
     public function postIllegalAction(){
         if(!empty($this->memberInfo)) $this->postData['memberID'] = $this->memberInfo['memberID'];
         if($this->postData['type'] == 1){
-            $this->memberArticleModel->update(array('isIllegal' => 1), array('memberArticleID' => $this->postData['coreID']));
+            $this->memberArticleModel->update(array('isIllegal' => 2), array('memberArticleID' => $this->postData['coreID']));
         }elseif($this->postData['type'] == 2){
-            $this->memberArticleCommentModel->update(array('isIllegal' => 1), array('memberArticleCommentID' => $this->postData['coreID']));
+            $this->memberArticleCommentModel->update(array('isIllegal' => 2), array('memberArticleCommentID' => $this->postData['coreID']));
         }
         $this->illegalModel->insert($this->postData);
 

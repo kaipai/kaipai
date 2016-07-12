@@ -549,7 +549,7 @@ class MemberController extends Front{
     public function postComplainAction(){
         $orderID = $this->postData['orderID'];
         $complainContent = $this->postData['complainContent'];
-        $this->memberOrderModel->update(array('isComplained' => 1, 'complainContent' => $complainContent), array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']));
+        $this->memberOrderModel->update(array('isComplained' => 2, 'complainContent' => $complainContent), array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']));
         return $this->response(ApiSuccess::COMMON_SUCCESS, '申诉成功');
     }
 
