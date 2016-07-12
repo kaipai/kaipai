@@ -78,9 +78,10 @@
                     var str = '';
                     if(value == 2){
                         str += '<font style="color:red;">是</font>';
+                        str += '<a title="已处理" href="javascript:void(0)" class="text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认已处理吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="memberArticleID='+ row.memberArticleID +'&joinAward=1"><i class="glyphicon glyphicon-ok"></i></a>';
                     }else if(value == 1){
                         str += '已处理';
-                        str += '<a title="已处理" href="javascript:void(0)" class="text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认已处理吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="memberArticleID='+ row.memberArticleID +'&joinAward=1"><i class="glyphicon glyphicon-ok"></i></a>';
+
                     }else{
                         str += '否';
                     }
