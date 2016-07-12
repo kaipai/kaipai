@@ -1283,6 +1283,8 @@ class MemberController extends Front{
                 $this->productModel->update(array('unitePayID' => $unitePayID, 'publishAtOnce' => 1), $where);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $price));
             }
+        }else{
+            $update['isPaid'] = 1;
         }
 
         $this->productModel->update($update, $where);
@@ -1320,6 +1322,8 @@ class MemberController extends Front{
                 $this->productModel->update(array('unitePayID' => $unitePayID, 'publishStartTime' => $startTime, 'publishEndTime' => $endTime), $where);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $price));
             }
+        }else{
+            $update['isPaid'] = 1;
         }
 
         $this->productModel->update($update, $where);
