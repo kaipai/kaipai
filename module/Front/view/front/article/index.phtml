@@ -44,15 +44,21 @@
                                     </p>
                                     <?php
                                         if(!empty($v['imgs'])){
-                                            foreach($v['imgs'] as $sv){
                                     ?>
-                                                <div class="space_imgsc">
-                                                    <ul>
-                                                        <li><img src="<?php echo $sv?>"></li>
-                                                    </ul>
-                                                </div>
+                                            <div class="space_imgsc">
+                                            <ul>
                                     <?php
-                                            }
+                                                foreach($v['imgs'] as $sv){
+                                    ?>
+
+                                                        <li><img src="<?php echo $sv?>"></li>
+
+                                    <?php
+                                                }
+                                    ?>
+                                            </ul>
+                                            </div>
+                                    <?php
                                         }
                                     ?>
 
