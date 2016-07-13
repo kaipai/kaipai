@@ -9,7 +9,7 @@
     $this->headLink()
         ->appendStylesheet('/plugins/layer/skin/layer.css')
         ->appendStylesheet('/dist/styles/common/common.css')
-        ->appendStylesheet('/dist/styles/main/personal.css');
+        ->appendStylesheet('/dist/styles/main/personal.css?v=1');
     if($_isIE){
         $this->headScript()->appendFile('/plugins/jquery/jquery19.js');
     }else{
