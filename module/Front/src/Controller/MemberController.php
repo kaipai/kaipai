@@ -1415,6 +1415,8 @@ class MemberController extends Front{
             $where[] = new Between('MemberRechargeMoneyLog.instime', $startTime, $endTime);
         }
 
+        $this->pageNum = !empty($this->pageNum) ? $this->pageNum : 1;
+        $this->limit = !empty($this->limit) ? $this->limit : 10;
         $res = $this->memberRechargeMoneyLogModel->getLogs($where, $this->pageNum, $this->limit);
         $logs = $res['data'];
 

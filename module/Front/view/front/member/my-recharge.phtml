@@ -62,7 +62,7 @@
                     </div>
             <?php
                 }
-            echo !empty($logs) ? $this->render('/front/common/paginate', array('url' => '/member/my-recharge', 'pages' => $pages)) : '';
+            echo !empty($logs) ? $this->render('/front/common/paginate', array('url' => '/member/my-recharge?', 'pages' => $pages)) : '';
             ?>
         </div>
     </div>

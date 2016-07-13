@@ -4,7 +4,7 @@ namespace Api\Model;
 use COM\Model;
 class MemberRechargeMoneyLog extends Model{
 
-    public function getLogs($where, $page = 1, $limit = 15){
+    public function getLogs($where, $page = 1, $limit = 10){
         $select = $this->getSelect();
         $select->where($where);
         $select->order('instime desc');
