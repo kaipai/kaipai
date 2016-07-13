@@ -134,7 +134,7 @@ em, i {
 
 .plr5 {
   padding: 0px 5px; }
-
+.p20{padding: 20px;}
 .tr {
   text-align: right; }
 
@@ -1008,3 +1008,5 @@ em, i {
 
 }
 .updataBrowser a{color: #fff; text-decoration: underline;}
+.whitebg{background-color: #fff;}
+.bora8a7a2{border: 1px solid #a8a7a2;}

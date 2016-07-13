@@ -2,11 +2,12 @@
 <div class="hot-shopAd mb20">
     <div class="center"><a href="/">首页</a> > <?php echo $info['categoryName'] ?></div>
 </div>
-<div class="center">
+<div class="center whitebg p20 bora8a7a2">
     <div class="page-box pb30 fz16">
         <h3 class="articleTit"><?php echo $info['articleName']; ?><span><?php echo date('Y-m-d', strtotime($info['instime'])); ?></span></h3>
-        <h3 style="text-align: center;"></h3>
-        <iframe frameborder="no" border="0" scrolling="no" src="/article/content?articleID=<?php echo $info['articleID'] ?>" width="100%" id="iframepage" name="iframepage" onload="iframeHeight('iframepage');">
-        </iframe>
+        <div class="page-box pb30 fz16">
+            <iframe frameborder="no" border="0" scrolling="no" src="/article/content?articleID=<?php echo $info['articleID'] ?>" width="100%" id="iframepage" name="iframepage" onload="iframeHeight('iframepage');">
+            </iframe>
+        </div>
     </div>
 </div>
