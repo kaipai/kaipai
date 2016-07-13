@@ -572,7 +572,7 @@ class MemberController extends Front{
             'memberID' => $this->memberInfo['memberID'],
         );
 
-        $this->memberOrderModel->update(array('returnStatus' => 1), $where);
+        $this->memberOrderModel->update(array('returnStatus' => 1, 'applyReturnTime' => time()), $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '退款申请已提交到店铺');
     }

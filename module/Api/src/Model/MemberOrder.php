@@ -85,7 +85,7 @@ class MemberOrder extends Model{
 
     public function fetch($where = array()){
         $select = $this->getSelect();
-        $select->join(array('b' => 'MemberPayDetail'), 'MemberOrder.unitePayID = b.unitePayID', array('payMoney', 'paidMoney', 'productPrice'));
+        $select->join(array('b' => 'MemberPayDetail'), 'MemberOrder.unitePayID = b.unitePayID', array('payMoney', 'paidMoney', 'productPrice', 'payTime'));
         $select->where($where);
 
         $res = $this->selectWith($select)->current();
