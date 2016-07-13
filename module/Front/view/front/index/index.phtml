@@ -93,8 +93,10 @@
                     <a href="<?php if(!empty($v['url'])){echo $v['url'];}else{ ?>/article/detail?articleID=<?php echo $v['articleID'] ?><?php } ?>"><h4><?php echo $v['articleName'] ?></h4>
 
                         <p class="news-item1-infotxt">
-                            <?php echo $v['articleContent'] ?><br>……</a>
-                    </p>
+                            <?php echo $v['articleContent'] ?>
+                        </p>
+                        <br>……
+                    </a>
                 </div>
         <?php
             }
