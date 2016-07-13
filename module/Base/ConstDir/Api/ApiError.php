@@ -37,5 +37,6 @@ class ApiError{
     const ORDER_TRANSACTION_FAILED_MSG = '订单事务处理失败';
     const FILE_UPLOAD_FAILED = -116;
     const FILE_UPLOAD_FAILED_MSG = '图片上传失败';
+    const RECHARGE_MONEY_LOCKED = '余额被冻结';
 
 }

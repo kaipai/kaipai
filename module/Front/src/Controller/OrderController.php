@@ -111,6 +111,7 @@ class OrderController extends Front{
             $unitePayID = $payDetail['unitePayID'];
             $price = $payDetail['payMoney'];
             if($payType == 1){
+                if($this->memberInfo['isRechargeMoneyLocked']) return $this->response(ApiError::COMMON_ERROR, ApiError::RECHARGE_MONEY_LOCKED);
                 if($price > $this->memberInfo['rechargeMoney']){
                     return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
                 }else{
@@ -154,6 +155,7 @@ class OrderController extends Front{
             $price = $this->siteSettings['productMoney'];
 
             if($payType == 1){
+                if($this->memberInfo['isRechargeMoneyLocked']) return $this->response(ApiError::COMMON_ERROR, ApiError::RECHARGE_MONEY_LOCKED);
                 if($price > $this->memberInfo['rechargeMoney']){
                     return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
                 }else{
@@ -191,6 +193,7 @@ class OrderController extends Front{
             $price = $this->siteSettings['specialMoney'];
 
             if($payType == 1){
+                if($this->memberInfo['isRechargeMoneyLocked']) return $this->response(ApiError::COMMON_ERROR, ApiError::RECHARGE_MONEY_LOCKED);
                 if($price > $this->memberInfo['rechargeMoney']){
                     return $this->response(ApiError::COMMON_ERROR, '余额不足以支付');
                 }else{

@@ -1453,6 +1453,7 @@ class MemberController extends Front{
         $this->postData['money'] = floatval($this->postData['money']);
         if(empty($this->postData['money'])) return $this->response(ApiError::COMMON_ERROR, '请输入金额');
         if($this->postData['money'] > $this->memberInfo['rechargeMoney']) return $this->response(ApiError::COMMON_ERROR, '提现金额大于余额, 提现失败');
+        if($this->memberInfo['isRechargeMoneyLocked']) return $this->response(ApiError::COMMON_ERROR, ApiError::RECHARGE_MONEY_LOCKED);
         try{
             $this->withdrawLogModel->beginTransaction();
             $this->withdrawLogModel->insert($this->postData);

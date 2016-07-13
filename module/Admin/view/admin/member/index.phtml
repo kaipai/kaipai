@@ -165,6 +165,22 @@
                 }
 
             },{
+                field: 'isRechargeMoneyLocked',
+                title: '余额是否被冻结',
+                align: 'center',
+                valign: 'middle',
+                formatter : function(value, row, index){
+                    var str = '';
+                   if(value == 1){
+                        str += '<font style="color:red;">是</font>';
+                        str += '<a title="冻结" href="javascript:void(0)" class="text-danger confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认解除冻结吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="memberID='+ row.memberID +'&isRechargeMoneyLocked=0"><i class="glyphicon glyphicon-remove"></i></a>';
+                    }else{
+                        str += '否';
+                        str += '<a title="冻结" href="javascript:void(0)" class="text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认冻结吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="memberID='+ row.memberID +'&isRechargeMoneyLocked=1"><i class="glyphicon glyphicon-ok"></i></a>';
+                    }
+                    return str;
+                }
+            },{
                 field: 'instime',
                 title: '新增时间',
                 align: 'center',
