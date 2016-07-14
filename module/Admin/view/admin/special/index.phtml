@@ -127,6 +127,7 @@ $(function(){
                 title: '专场开始时间',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 width:200
 
             },
@@ -154,6 +155,7 @@ $(function(){
                 title: '审核状态',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 width:200,
                 formatter: function(value, row, index){
                     var str = '';
@@ -170,6 +172,8 @@ $(function(){
                     }else if(value == 3){
                         str = '审核未通过';
                         str += '<br /> 原因:' + row.denyReason;
+                    }else{
+                        str = '未提交审核';
                     }
                     return str;
                 }

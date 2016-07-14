@@ -16,11 +16,16 @@ class SpecialController extends Admin{
 
     public function listAction(){
         $search = $this->queryData['search'];
+        $sort = $this->queryData['sort'];
+        $order = $this->queryData['order'];
         $where = new Where();
         if(!empty($search)){
             $where->or->like('Special.specialName', '%' . $search . '%');
         }
-        $res = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit);
+        if(!empty($sort) && !empty($order)){
+            $sortOrder = 'Special.' . $sort . ' ' . $order;
+        }
+        $res = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit, $sortOrder);
         $rows = $res['data'];
         foreach($rows as $k => $v){
             $rows[$k]['startTime'] = date('Y-m-d H:i:s', $v['startTime']);

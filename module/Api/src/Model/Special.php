@@ -12,13 +12,14 @@ class Special extends Model{
         return $this->selectWith($select)->current();
     }
 
-    public function getSpecials($where, $page = 1, $limit = 10, $order = 'Special.instime desc'){
+    public function getSpecials($where, $page = 1, $limit = 10, $order){
         $select = $this->getSelect();
         $select->join(array('b' => 'ProductCategory'), 'Special.specialProductCategoryID = b.productCategoryID', array('categoryName'));
         $select->join(array('c' => 'Store'), 'Special.storeID = c.storeID', array('storeName', 'storeLogo'));
 
         $select->where($where);
         $select->where(array('Special.isDel' => 0));
+        if(empty($order)) $order = 'Special.instime desc';
         $select->order($order);
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
