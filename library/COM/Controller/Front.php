@@ -51,6 +51,9 @@ class Front extends Controller{
         $tmp = $this->siteSettingModel->select()->toArray();
         $siteSettings = array();
         foreach($tmp as $v){
+            if($v['fieldType'] == 'simpleTextArea'){
+                $v['settingValue'] = str_replace(array("\n", "\r\n"), '<br />', $v['settingValue']);
+            }
             $siteSettings[$v['settingName']] = $v['settingValue'];
         }
         $qq = mt_rand(1, 3);

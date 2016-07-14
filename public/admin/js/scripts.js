@@ -323,8 +323,8 @@
                  	
                      modalPar.modal('hide');
                      
-                     form.find("input [type='text']").val("");
-                     form.find("textarea").val("");
+                     //form.find("input [type='text']").val("");
+                     //form.find("textarea").val("");
 //                     form.find("select").val("0");
                  }else{
                      tipbox.removeClass("modal-dialog-suc");
