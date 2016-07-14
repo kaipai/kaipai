@@ -19,7 +19,7 @@ class OrderController extends Admin{
         $where = new Where();
         $where->and->equalTo('MemberOrder.orderType', 1);
         if(!empty($search)){
-            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.businessID', '%' . $search . '%');
+            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.businessID', '%' . $search . '%')->or->like('b.nickName', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
         }
         if(!empty($sort) && !empty($order)){
             $sortOrder = 'MemberOrder.' . $sort . ' ' . $order;

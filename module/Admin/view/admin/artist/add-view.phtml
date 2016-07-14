@@ -28,8 +28,8 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
                         <label for="inputPassword3" class="col-sm-2 control-label">类型</label>
                         <div class="col-sm-4">
                             <select class="form-control input-sm m-bot15" name="type">
-                                <option value="1">潜力推荐</option>
-                                <option value="2">定制商品</option>
+                                <option value="1" <?php echo $info['type'] == 1 ? 'selected' : ''; ?>>潜力推荐</option>
+                                <option value="2" <?php echo $info['type'] == 2 ? 'selected' : ''; ?>>定制商品</option>
                             </select>
                         </div>
                     </div>
