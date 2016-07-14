@@ -141,14 +141,14 @@
                 align: 'center',
                 valign: 'middle'
 
-            },
+            }/*,
             {
                 field: 'storeSignature',
                 title: '店铺签名',
                 align: 'center',
                 valign: 'middle'
 
-            }/*,{
+            },{
                 field: 'storeDesc',
                 title: '店铺简介',
                 align: 'center',
@@ -249,7 +249,6 @@
                 align: 'center',
                 valign: 'middle'
             },{
-                field: 'storeID',
                 title: '操作',
                 align: 'center',
                 valign: 'middle',
@@ -269,7 +268,7 @@
                     }else{
                         s += '<a title="封停" href="javascript:void(0)"  class="col-md-4" rid="' + value + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-minus"></i></a>';
                     }
-                    s += '<a href="javascript:void(0)" level="' + row.level + '"  class="col-md-4" rid="' + value + '"  data-toggle="modal" data-target="#edit_modal2">设置等级</a>';
+                    s += '<a href="javascript:void(0)" level="' + row.level + '"  rid="' + value + '"  data-toggle="modal" data-target="#edit_modal2">设置等级</a>';
 
 
                     return s;
