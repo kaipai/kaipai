@@ -18,11 +18,16 @@ class StoreController extends Admin{
 
     public function listAction(){
         $search = $this->queryData['search'];
+        $sort = $this->queryData['sort'];
+        $order = $this->queryData['order'];
         $where = new Where();
         if(!empty($search)){
             $where->or->like('Store.storeName', '%' . $search . '%');
         }
-        $res = $this->storeModel->getStores($this->pageNum, $this->limit, $where);
+        if(!empty($sort) && !empty($order)){
+            $sortOrder = 'Store.' . $sort . ' ' . $order;
+        }
+        $res = $this->storeModel->getStores($this->pageNum, $this->limit, $where, $sortOrder);
 
 
         return $this->adminResponse(array('rows' => $res['data'], 'total' => $res['total']));

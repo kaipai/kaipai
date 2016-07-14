@@ -125,15 +125,14 @@
             {
                 field: 'storeID',
                 title: '店铺ID',
-                align: 'center',
-                width : '120px'
-
+                align: 'center'
             },
             {
                 field: 'storeName',
                 title: '店铺名',
                 align: 'center',
-                valign: 'middle'
+                valign: 'middle',
+                width : 200
 
             },
             {
@@ -165,7 +164,7 @@
                     var str = '<img src="' + value + '" width="100px" />';
                     return str;
                 }
-            },{
+            }/*,{
                 field: 'idNumber',
                 title: '身份证号',
                 align: 'center',
@@ -189,7 +188,7 @@
                     var str = '<img src="' + value + '" width="100px" />';
                     return str;
                 }
-            },{
+            }*/,{
                 field: 'storeMobile',
                 title: '商铺绑定手机号',
                 align: 'center',
@@ -199,6 +198,7 @@
                 title: '审核状态',
                 align: 'center',
                 valign: 'middle',
+                sortable: true,
                 formatter:function(value, row, index){
                     var str = '';
                     if(value == 1){

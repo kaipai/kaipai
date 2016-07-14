@@ -3,11 +3,13 @@ namespace Api\Model;
 
 use COM\Model;
 class Store extends Model{
-    public function getStores($page, $limit, $where = array()){
+    public function getStores($page, $limit, $where = array(), $order = ''){
         $select = $this->getSelect();
         $select->join(array('b' => 'StoreLevel'), 'Store.level = b.level', array('levelName'), 'left');
         $select->join(array('c' => 'MemberInfo'), 'Store.memberID = c.memberID', array('nickName'));
         $select->where($where);
+        if(empty($order)) $order = 'Store.storeID desc';
+        $select->order($order);
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber($page);
         $paginator->setItemCountPerPage($limit);
