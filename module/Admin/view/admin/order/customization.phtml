@@ -110,6 +110,11 @@
                 align: 'center',
                 valign: 'middle'
             }, {
+                field: 'businessID',
+                title: '订单号',
+                align: 'center',
+                valign: 'middle'
+            },{
                 field: 'nickName',
                 title: '买家名称',
                 align: 'center',
@@ -136,7 +141,6 @@
                 field: 'payMoney',
                 title: '定金',
                 align: 'center',
-                width: '400px',
                 valign: 'middle'
             },/*{
                 field: 'finalPrice',
@@ -148,6 +152,7 @@
                 title: '收货人信息',
                 align: 'center',
                 valign: 'middle',
+                width: '200px',
                 formatter : function(value, row, index){
                     var str = '';
                     if(value.receiverName){
@@ -160,6 +165,12 @@
 
                     return str;
                 }
+            },{
+                field: 'remark',
+                title: '订单备注',
+                align: 'center',
+                valign: 'middle',
+                width: '200px'
             },{
                 field: 'isComplained',
                 title: '是否被申诉',
@@ -188,7 +199,6 @@
                 title: '支付方式',
                 align: 'center',
                 valign: 'middle',
-                width:200,
                 formatter: function(value, row, index){
                     var s = '';
                     if(value == 1){
