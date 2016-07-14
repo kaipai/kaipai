@@ -86,6 +86,19 @@ echo $this->inlineScript()->setFile('/admin/ueditor/lang/zh-cn/zh-cn.js');
                                 </tr>
 
                     <?php
+                    }elseif($v['fieldType'] == 'simpleTextArea'){
+                    ?>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 col-md-2 control-label"><?php echo $v['remark'] ?></label>
+                                            <div class="col-sm-3 col-md-3">
+                                                <textarea style="width:700px;height:200px;" name="<?php echo $v['settingName'] ?>" id="<?php echo $v['settingName'] ?>"><?php echo $v['settingValue'] ?></textarea>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                    <?php
                     }elseif($v['fieldType'] == 'textarea'){
                     ?>
                                 <tr>
