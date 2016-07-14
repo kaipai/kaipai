@@ -46,7 +46,7 @@ class TestController extends Controller{
 
 
 
-        /*$sharedEventManager = new SharedEventManager();
+        $sharedEventManager = new SharedEventManager();
         $sharedEventManager->attach('Base\Events\Test', 'back', function($e){
             $event = $e->getName();
             $target = get_class($e->getTarget());
@@ -56,7 +56,7 @@ class TestController extends Controller{
 
         $test = new Test();
         $test->getEventManager()->setSharedManager($sharedEventManager);
-        $test->doit('1111', '2222');*/
+        $test->doit('222', '333');
 
 
         /*$eventManage = new EventManager();
