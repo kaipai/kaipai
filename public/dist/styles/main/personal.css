@@ -2049,12 +2049,11 @@ body {
     float: left;
 }
 .kp_dtleft1{
-    float: left;
+    float: left; width: 130px; overflow: hidden;
     margin-left: 250px;
 }
 .kp_dtleft2{
-    float: left;
-    margin-left: 70px;
+    float: right;
     width: 300px;
 }
 .kp_dtlist2{
