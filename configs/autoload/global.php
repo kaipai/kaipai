@@ -67,9 +67,9 @@ return array(
     ),
 
     'file-cache-config' => array(
-        'cacheDir'=>ROOT.'/module/Base/FileCacheDir',
-        'namespace'=>'com',
-        'dirLevel'=>0
+        'cacheDir' => ROOT . '/module/Test/FileCacheDir',
+        'namespace' => 'com',
+        'dirLevel' => 0
     ),
 );
 

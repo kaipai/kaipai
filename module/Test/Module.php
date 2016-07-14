@@ -25,6 +25,11 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface, Co
     public function getAutoloaderConfig()
     {
         return array(
+            'Zend\Loader\StandardAutoloader' => array(
+                'namespaces' => array(
+                    __NAMESPACE__ => __DIR__,
+                ),
+            ),
         );
     }
 

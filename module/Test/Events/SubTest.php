@@ -1,5 +1,5 @@
 <?php
-namespace Base\Events;
+namespace Test\Events;
 
 class SubTest extends Test{
 

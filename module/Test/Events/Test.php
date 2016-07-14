@@ -1,5 +1,5 @@
 <?php
-namespace Base\Events;
+namespace Test\Events;
 
 use Zend\EventManager\EventManager;
 use Zend\EventManager\EventManagerAwareInterface;

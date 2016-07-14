@@ -1,11 +1,12 @@
 <?php
 namespace Front\Controller;
 
-use Base\Cache\FileCache;
-use Base\Events\Response;
-use Base\Events\SubTest;
-use Base\Events\Test;
+use Test\Cache\FileCache;
+use Test\Events\Response;
+use Test\Events\SubTest;
+use Test\Events\Test;
 use COM\Controller;
+use Test\Events\TestListener;
 use Zend\Cache\Pattern\CallbackCache;
 use Zend\Cache\Storage\Event;
 use Zend\EventManager\EventManager;
@@ -13,41 +14,39 @@ use Zend\EventManager\SharedEventManager;
 
 class TestController extends Controller{
 
-    public function indexAction(){
-        /*$eventManager = $this->getEventManager();
+    public $_fileCache;
 
+    public function indexAction(){
+
+
+        /*$eventManager = $this->getEventManager();
         $eventManager->attach('do', function($e){
             $event = $e->getName();
             $params = $e->getParams();
             printf('eventName %s, params %s', $event, json_encode($params));
-        }, 5);
-        $eventManager->attach('do', function($e){
-            $event = $e->getName();
-            $params = $e->getParams();
-            printf('eventName %s, params %s44444', $event, json_encode($params));
-        }, 4);
-        $params = array('foo' => '111', 'bar' => '222');
+        });
+        $params = array('foo' => '222', 'bar' => '333');
         $eventManager->trigger('do', null, $params);*/
 
 
 
 
 
-        /*$test = new Test();
-        $test->getEventManager()->attach('doit', function($e){
+        $test = new Test();
+        $test->getEventManager()->attach('back', function($e){
             $event = $e->getName();
             $target = get_class($e->getTarget());
             $params = $e->getParams();
             printf('eventName %s, target %s, params %s', $event, $target, json_encode($params));
         });
-
-        $test->doit('1111', '2222');*/
-
-
+        printf("attached events: %s\n", json_encode($test->getEventManager()->getEvents()));
+        $test->doit('222', '333');
 
 
-        $sharedEventManager = new SharedEventManager();
-        $sharedEventManager->attach('Base\Events\Test', 'back', function($e){
+
+
+        /*$sharedEventManager = new SharedEventManager();
+        $sharedEventManager->attach('Test\Events\Test', 'back', function($e){
             $event = $e->getName();
             $target = get_class($e->getTarget());
             $params = $e->getParams();
@@ -56,7 +55,7 @@ class TestController extends Controller{
 
         $test = new Test();
         $test->getEventManager()->setSharedManager($sharedEventManager);
-        $test->doit('222', '333');
+        $test->doit('222', '333');*/
 
 
         /*$eventManage = new EventManager();
@@ -71,13 +70,11 @@ class TestController extends Controller{
         $sharedEventManager->attach('*', array('foo', 'bar', 'baz'), $listener);
         $sharedEventManager->attach('*', '*', $listener);*/
 
-        /*$responseListener = new Response();
+        /*$testListener = new TestListener();
         $eventManager = $this->getEventManager();
-        $eventManager->attach($responseListener);
+        $eventManager->attach($testListener);
 
-        $eventManager->trigger('response', null, array(), function($data){
-            var_dump($data);
-        });*/
+        $eventManager->trigger('doit', null, array('foo' => '222', 'bar' => '333'));*/
 
 
 
@@ -92,29 +89,26 @@ class TestController extends Controller{
     public function cacheAction(){
 
         $eventManager = $this->getEventManager();
-        $listeners = new Response();
+        $listeners = new TestListener();
         $eventManager->attach($listeners);
-        $fileCache = new FileCache($this->sm);
+        $this->_fileCache = new FileCache($this->sm);
         $params = array(
-            'foo' => 111,
-            'bar' => 222,
-            'cache' => $fileCache
+            'foo' => '222',
+            'bar' => '333',
         );
         $results = $eventManager->trigger('cache.pre', $this, $params, function($data){
             return !empty($data);
         });
 
         if($results->stopped()){
-            var_dump($results);
-            var_dump($results->last());
+            $data = $results->last();
+            printf('data: %s, from cache', $data);
         }else{
-            $calculatedResult = 444;
-            $params['__RESULT__'] = $calculatedResult;
+            $params['data'] = '444';
             $eventManager->trigger('cache.post', $this, $params);
-            var_dump($calculatedResult);
+
+            printf('data: %s', $params['data']);
         }
-
-
 
         die;
     }
