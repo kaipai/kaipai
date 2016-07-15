@@ -1673,3 +1673,5 @@
 .zj-tit{background-color: #5d5f5c; height: 40px;line-height: 40px;margin: 20px 0;}
 .zj-tit span{width: 138px; display: block; height: 40px; background-color: #231816;  font-size: 18px; text-align: center;color: #fff;}
 .person-nav{ height: 306px; background: url(../../img/upload/img66.jpg) center 0; }
+.detailed-xx-top .zrjb-link{height: 50px;line-height: 50px; padding-right: 10px; font-size: 14px;}
+.detailed-xx-top .zrjb-link em{padding: 0 5px; cursor: pointer;}

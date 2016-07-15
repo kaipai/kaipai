@@ -17,6 +17,10 @@ class IllegalController extends Admin{
         foreach($data as $k => $v){
             if($v['type'] == 1){
                 $data[$k]['content'] = $v['memberArticleName'];
+            }elseif($v['type'] == 2){
+                $data[$k]['content'] = $v['commentContent'];
+            }elseif($v['type'] == 4){
+                $data[$k]['content'] = $v['productName'];
             }
         }
 
