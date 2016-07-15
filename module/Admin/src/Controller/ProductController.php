@@ -15,12 +15,17 @@ class ProductController extends Admin{
     public function listAction(){
 
         $search = $this->queryData['search'];
+        $sort = $this->queryData['sort'];
+        $order = $this->queryData['order'];
         $where = new Where();
         if(!empty($search)){
             $where->or->like('Product.productName', '%' . $search . '%');
         }
+        if(!empty($sort) && !empty($order)){
+            $sortOrder = 'Product.' . $sort . ' ' . $order;
+        }
 
-        $res = $this->productModel->getProducts($where, $this->pageNum, $this->limit);
+        $res = $this->productModel->getProducts($where, $this->pageNum, $this->limit, $sortOrder);
 
         $data['total'] = $res['total'];
 
