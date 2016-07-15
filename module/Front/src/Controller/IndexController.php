@@ -123,6 +123,8 @@ class IndexController extends Front{
             $this->memberArticleModel->update(array('isIllegal' => 2), array('memberArticleID' => $this->postData['coreID']));
         }elseif($this->postData['type'] == 2){
             $this->memberArticleCommentModel->update(array('isIllegal' => 2), array('memberArticleCommentID' => $this->postData['coreID']));
+        }elseif($this->postData['type'] == 4){
+            $this->productModel->update(array('isIllegal' => 2), array('productID' => $this->postData['coreID']));
         }
         $this->illegalModel->insert($this->postData);
 
