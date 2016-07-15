@@ -2187,3 +2187,5 @@ li .exc_strat{
 .picScroll-left .bd li .exc_num_bg{
     background: #800000;
 }
+.detailed-xx-top .zrjb-link{height: 50px;line-height: 50px; padding-right: 10px; font-size: 14px;}
+.detailed-xx-top .zrjb-link em{padding: 0 5px; cursor: pointer;}
