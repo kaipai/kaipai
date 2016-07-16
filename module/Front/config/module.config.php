@@ -142,6 +142,36 @@ return array(
                         )
                     )
                 ),
+                'crontab-auto-accept-return-apply' => array(
+                    'options' => array(
+                        'route' => 'crontab-auto-accept-return-apply',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'auto-accept-return-apply'
+                        )
+                    )
+                ),
+                'crontab-return-no-delivery' => array(
+                    'options' => array(
+                        'route' => 'crontab-return-no-delivery',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'return-no-delivery'
+                        )
+                    )
+                ),
+                'crontab-confirm-return-delivery-done' => array(
+                    'options' => array(
+                        'route' => 'crontab-confirm-return-delivery-done',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'confirm-return-delivery-done'
+                        )
+                    )
+                ),
             )
         )
     ),
