@@ -137,6 +137,12 @@ class OrderController extends Admin{
         $where = array(
             'orderID' => $orderID
         );
+        if(isset($this->postData['isComplainPaused'])){
+            $orderInfo = $this->memberOrderModel->fetch($where);
+            if(!empty($orderInfo['autoConfirmDeliveryDoneTime']) && !empty($orderInfo['complainTime'])){
+                $this->postData['autoConfirmDeliveryDoneTime'] = $orderInfo['autoConfirmDeliveryDoneTime'] + (time() - $orderInfo['complainTime']);
+            }
+        }
 
         $this->memberOrderModel->update($this->postData, $where);
 
