@@ -120,6 +120,22 @@
                     return str;
                 }
             },{
+                field: 'isComplainPaused',
+                title: '是否申诉暂停',
+                align: 'center',
+                valign: 'middle',
+                sortable: true,
+                formatter : function(value, row, index){
+                    var str = '';
+                    if(value == 1){
+                        str += '<font style="color:red;">是</font>';
+                        str += '<a title="解除申诉暂停" href="javascript:void(0)" class="text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认解除申诉暂停吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="orderID='+ row.orderID +'&isComplainPaused=0"><i class="glyphicon glyphicon-ok"></i></a>';
+                    }else{
+                        str += '否';
+                    }
+                    return str;
+                }
+            },{
                 field: 'complainContent',
                 title: '申诉内容',
                 align: 'center',
