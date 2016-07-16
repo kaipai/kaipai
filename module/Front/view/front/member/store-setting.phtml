@@ -24,6 +24,21 @@
                 <input class="zz_inputqm" type="text" id="signature" placeholder="" value="<?php echo !empty($_storeInfo['storeSignature']) ? $_storeInfo['storeSignature'] : ''; ?>">
                 <br> <span class="ind_jrzz"></span> *限35字以内，显示在店铺名称下方
             </div>
+            <div class="mt20">
+                <span class="ind_jrzz bold">退货地址收件人姓名</span>
+                <input class="zz_inputqm" type="text" id="return-receiver-name" placeholder="" value="<?php echo !empty($_storeInfo['returnReceiverName']) ? $_storeInfo['returnReceiverName'] : ''; ?>">
+                <br> <span class="ind_jrzz"></span>
+            </div>
+            <div class="mt20">
+                <span class="ind_jrzz bold">退货地址收件人电话</span>
+                <input class="zz_inputqm" type="text" id="return-receiver-mobile" placeholder="" value="<?php echo !empty($_storeInfo['returnReceiverMobile']) ? $_storeInfo['returnReceiverMobile'] : ''; ?>">
+                <br> <span class="ind_jrzz"></span>
+            </div>
+            <div class="mt20">
+                <span class="ind_jrzz bold">退货地址</span>
+                <input class="zz_inputqm" type="text" id="return-receiver-addr" placeholder="" value="<?php echo !empty($_storeInfo['returnReceiverAddr']) ? $_storeInfo['returnReceiverAddr'] : ''; ?>">
+                <br> <span class="ind_jrzz"></span>
+            </div>
             <!--<div class="mt20">
                 <div class="ind_jrzz bold">店铺推荐<br>栏位底图</div>
                 <div id="preview2" class="dianpbai1"><img id="imghead2" src="<?php /*echo !empty($_storeInfo['recommendImg']) ? $_storeInfo['recommendImg'] : '/images/img_06.jpg'*/?>"></div>
@@ -84,33 +99,6 @@
             });
             var storeDesc = qqq.getContent();
             var storeName = $('#storeName').val();
-            if(!storeName){
-                layer.open({
-                    type : 0,
-                    icon : 2,
-                    content : '请填写店铺名称',
-                    shadeClose: true,
-                    time: 2000
-                });
-            }
-            if(!storeLogo){
-                layer.open({
-                    type : 0,
-                    icon : 2,
-                    content : '请上传店铺标志',
-                    shadeClose: true,
-                    time: 2000
-                });
-            }
-            if(!storeBanner){
-                layer.open({
-                    type : 0,
-                    icon : 2,
-                    content : '请上传店铺抬头',
-                    shadeClose: true,
-                    time: 2000
-                });
-            }
             var data = {
                 storeLogo : storeLogo,
                 storeBanner : storeBanner,
@@ -120,6 +108,35 @@
                 storeDesc : storeDesc,
                 storeName : storeName
             };
+            if(!storeName){
+                layer.alert('请填写店铺名称');
+                return false;
+            }
+            if(!storeLogo){
+                layer.alert('请上传店铺标志');
+                return false;
+            }
+            if(!storeBanner){
+                layer.alert('请上传店铺抬头');
+                return false;
+            }
+            data.returnReceiverName = $('#return-receiver-name').val();
+            data.returnReceiverMobile = $('#return-receiver-mobile').val();
+            data.returnReceiverAddr = $('#return-receiver-addr').val();
+
+            if(!data.returnReceiverName){
+                layer.alert('请填写退货地址收件人姓名');
+                return false;
+            }
+            if(!data.returnReceiverMobile){
+                layer.alert('请填写退货地址收件人电话');
+                return false;
+            }
+            if(!data.returnReceiverAddr){
+                layer.alert('请填写退货地址');
+                return false;
+            }
+
 
             $.ajax({
                 url : '/member/store-setting',

@@ -29,6 +29,18 @@
                 <div class="jm_sfz5 jm_lef" id="preview1"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['memberIdPic'] : '/jinren/images/ewe_03.jpg'; ?>"></div>
             </div>
             <div class="jm_sfz">
+                <div class="jm_sfz1">退货地址收件人姓名</div>
+                <div class="jm_sfz2"><input type="text" placeholder="退货地址收件人姓名" id="return-receiver-name" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverName'] : ''; ?>"></div>
+            </div>
+            <div class="jm_sfz">
+                <div class="jm_sfz1">退货地址收件人电话</div>
+                <div class="jm_sfz2"><input type="text" placeholder="退货地址收件人电话" id="return-receiver-mobile" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverMobile'] : ''; ?>"></div>
+            </div>
+            <div class="jm_sfz">
+                <div class="jm_sfz1">退货地址</div>
+                <div class="jm_sfz2"><input type="text" placeholder="退货地址" id="return-receiver-addr" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverAddr'] : ''; ?>"></div>
+            </div>
+            <div class="jm_sfz">
                 <div class="jm_sfz1">绑定手机号</div>
                 <div class="jm_sfz2">
                     <input class="jm_sfz2input" type="text" placeholder="手机号码" id="store-mobile" value="<?php echo !empty($_storeInfo) ? $_storeInfo['storeMobile'] : ''; ?>"> <span> <a
@@ -153,6 +165,9 @@
         data.memberIdPic = $('#member-id-pic').attr('src');
         data.storeMobile = $('#store-mobile').val();
         data.storeMobileCode = $('#store-mobile-code').val();
+        data.returnReceiverName = $('#return-receiver-name').val();
+        data.returnReceiverMobile = $('#return-receiver-mobile').val();
+        data.returnReceiverAddr = $('#return-receiver-addr').val();
         var joinRuleCheceked = $('#join-rules:checked').length;
         if(!joinRuleCheceked){
             layer.alert('未同意入驻规则');
@@ -168,6 +183,18 @@
         }
         if(!data.memberIdPic){
             layer.alert('请上传本人手持身份证图片');
+            return false;
+        }
+        if(!data.returnReceiverName){
+            layer.alert('请填写退货地址收件人姓名');
+            return false;
+        }
+        if(!data.returnReceiverMobile){
+            layer.alert('请填写退货地址收件人电话');
+            return false;
+        }
+        if(!data.returnReceiverAddr){
+            layer.alert('请填写退货地址');
             return false;
         }
         if(!data.storeMobile){

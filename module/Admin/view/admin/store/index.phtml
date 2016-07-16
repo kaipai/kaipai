@@ -194,6 +194,23 @@
                 align: 'center',
                 valign: 'middle'
             },{
+                field: 'returnReceiverName',
+                title: '退货地址',
+                align: 'center',
+                valign: 'middle',
+                formatter : function(value, row, index){
+                    var str = '';
+                    if(value){
+                        str += '退货地址收货人姓名: ' + row.returnReceiverName + '<br />';
+                        str += '退货地址收货人电话: ' + row.returnReceiverMobile + '<br />';
+                        str += '退货地址: ' + row.returnReceiverAddr;
+                    }
+
+
+
+                    return str;
+                }
+            },{
                 field: 'verifyStatus',
                 title: '审核状态',
                 align: 'center',
