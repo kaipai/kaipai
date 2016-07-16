@@ -56,7 +56,7 @@
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">等待买家付款</a></p>
                                     <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
-                                    <p class="yc_p1"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">关闭交易</a></p>
+                                    <p class="yc_p"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">关闭交易</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 3){
@@ -83,16 +83,42 @@
                                             <?php
                                                 if($v['returnStatus'] == 1){
                                             ?>
-                                                    <p class="yc_p1"><a href="javascript:;" class="accept-return-order-btn" order-id="<?php echo $v['orderID'] ?>">买家申请退款</a></p>
+                                                    <?php
+                                                        if($v['returnType'] == 2){
+                                                    ?>
+                                                            <p class="yc_p"><a href="javascript:;" class="accept-return-order-only-money-btn" order-id="<?php echo $v['orderID'] ?>">买家申请退款不退货</a></p>
+                                                            <?php if(!empty($v['applyReturnReason'])){
+                                                                ?>
+                                                                <p class="yc_p">申请理由:<br /><?php echo $v['applyReturnReason']; ?></p>
+                                                            <?php
+                                                            } ?>
+
+                                                    <?php
+                                                        }elseif($v['returnType'] == 3){
+                                                    ?>
+                                                            <p class="yc_p"><a href="javascript:;" class="accept-return-order-btn" order-id="<?php echo $v['orderID'] ?>">买家申请退款</a></p>
+                                                            <?php if(!empty($v['applyReturnReason'])){
+                                                                ?>
+                                                                <p class="yc_p">申请理由:<br /><?php echo $v['applyReturnReason']; ?></p>
+                                                            <?php
+                                                            } ?>
+
+                                                    <?php
+                                                        }
+                                                    ?>
+
+
                                             <?php
                                                 }elseif($v['returnStatus'] == 3){
                                             ?>
-                                                    <p class="yc_p1"><a href="javascript:;">等待买家发货</a></p>
+                                                    <p class="yc_p"><a href="javascript:;">等待买家发货</a></p>
                                             <?php
                                                 }elseif($v['returnStatus'] == 4){
                                             ?>
-                                                    <p class="yc_p1"><a href="javascript:;" class="check-return-order-delivery" return-delivery-type="<?php foreach($deliveryTypes as $sv){if($sv['deliveryTypeID'] == $v['returnDeliveryType']){echo $sv['typeName'];}} ?>" return-delivery-num="<?php echo $v['returnDeliveryNum']; ?>">买家已发货</a></p>
-                                                    <p class="yc_p"><a href="javascript:;" class="confirm-return-order-btn" order-id="<?php echo $v['orderID'] ?>">确认退款</a></p>
+                                                    <p class="yc_p"><a href="javascript:;" class="check-return-order-delivery" return-delivery-type="<?php foreach($deliveryTypes as $sv){if($sv['deliveryTypeID'] == $v['returnDeliveryType']){echo $sv['typeName'];}} ?>" return-delivery-num="<?php echo $v['returnDeliveryNum']; ?>">买家已发货</a></p>
+                                                    <p class="yc_p">
+                                                        <a href="javascript:;" class="confirm-return-order-btn" order-id="<?php echo $v['orderID'] ?>">确认到货</a>|<a href="javascript:;" class="no-confirm-return-order-btn" order-id="<?php echo $v['orderID'] ?>">未到货</a>
+                                                    </p>
                                             <?php
                                                 }
                                             ?>
@@ -119,7 +145,7 @@
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">未按时付款/已退货</a></p>
                                     <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
-                                    <p class="yc_p1"><a href="javascript:;">已关闭</a></p>
+                                    <p class="yc_p"><a href="javascript:;">已关闭</a></p>
                                 </div>
                             <?php
                             }
@@ -137,6 +163,7 @@
 </div>
 <?php
     echo $this->render('set-delivery-type');
+    echo $this->render('set-return-addr');
 ?>
 <script>
     $(function(){
@@ -262,8 +289,79 @@
                 }
             });
         });
+        $(document).on('click', '.set-return-addr-btn:visible', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            data.accept = 1;
+            data.orderReturnReceiverName = $('input[name=orderReturnReceiverName]:visible').val();
+            data.orderReturnReceiverMobile = $('input[name=orderReturnReceiverMobile]:visible').val();
+            data.orderReturnReceiverAddr = $('input[name=orderReturnReceiverAddr]:visible').val();
+            if(!data.orderReturnReceiverName){
+                layer.alert('请填写退货地址收货人姓名');
+                return false;
+            }
+            if(!data.orderReturnReceiverMobile){
+                layer.alert('请填写退货地址收货人电话');
+                return false;
+            }
+            if(!data.orderReturnReceiverAddr){
+                layer.alert('请填写退货地址');
+                return false;
+            }
+            $.ajax({
+                url : '/member/accept-return-order',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
 
         $('.accept-return-order-btn').on('click', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            layer.confirm('是否同意买家退款申请？', {
+                btn: ['同意','不同意'] //按钮
+            }, function(){
+
+                layer.open({
+                    skin: 'loginBox',
+                    title:'退货地址',
+                    type: 1,
+                    content: $('#set-return-addr-div').html()
+                });
+                $('.set-return-addr-btn:visible').attr('order-id', data.orderID);
+
+
+            }, function(){
+                data.accept = 0;
+                $.ajax({
+                    url : '/member/accept-return-order',
+                    dataType : 'json',
+                    type : 'post',
+                    data : data,
+                    success : function(res){
+                        if(res.flag > 0){
+                            layer.alert(res.msg, function(){
+                                location.reload();
+                            });
+                        }else{
+                            layer.alert(res.msg);
+                        }
+                    }
+                });
+            });
+        });
+
+        $('.accept-return-order-only-money-btn').on('click', function(){
             var data = {};
             data.orderID = $(this).attr('order-id');
             layer.confirm('是否同意买家退款申请？', {
@@ -310,6 +408,26 @@
             data.orderID = $(this).attr('order-id');
             $.ajax({
                 url : '/member/confirm-return-order',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        });
+
+        $('.no-confirm-return-order-btn').on('click', function(){
+            var data = {};
+            data.orderID = $(this).attr('order-id');
+            $.ajax({
+                url : '/member/no-confirm-return-order',
                 dataType : 'json',
                 type : 'post',
                 data : data,

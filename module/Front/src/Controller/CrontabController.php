@@ -241,9 +241,57 @@ class CrontabController extends Controller{
     }
 
     public function confirmDeliveryDoneAction(){
-        $orders = $this->memberOrderModel->getOrders(array('orderStatus' => 4, 'autoConfirmDeliveryDoneTime < ?' => time(), 'returnStatus' => 0));
+        $orders = $this->memberOrderModel->getOrders(array('orderStatus' => 4, 'autoConfirmDeliveryDoneTime < ?' => time(), 'returnStatus' => array(0, 2), 'isPaused' => 0));
         foreach($orders as $orderInfo){
             $this->memberOrderModel->confirmDeliveryDone($orderInfo);
+        }
+
+        return $this->response;
+    }
+
+    public function autoAcceptReturnApplyAction(){
+        $orders = $this->memberOrderModel->select(array('returnStatus' => 1, 'returnType' => array(2, 3), 'applyReturnTime < ?' => strtotime('-4 days')))->toArray();
+        foreach($orders as $v){
+            if($v['returnType'] == 2){
+                $orderInfo = $this->memberOrderModel->fetch(array('orderID' => $v['orderID']));
+                if(!empty($orderInfo)){
+                    $this->memberOrderModel->returnOrder($orderInfo);
+                }
+            }elseif($v['returnType'] == 3){
+                $storeInfo = $this->storeModel->setColumns(array('returnReceiverName', 'returnReceiverMobile', 'returnReceiverAddr'))->select(array('storeID' => $v['storeID']))->current();
+                $this->memberOrderModel->update(
+                    array(
+                        'returnStatus' => 3, 'orderReturnReceiverName' => $storeInfo['returnReceiverName'], 'orderReturnReceiverMobile' => $storeInfo['returnReceiverMobile'],
+                        'orderReturnReceiverAddr' => $storeInfo['returnReceiverAddr'], 'acceptApplyReturnTime' => time(),
+                    ),
+                    array('orderID' => $v['orderID'])
+                );
+            }
+        }
+
+        return $this->response;
+    }
+
+    public function returnNoDeliveryAction(){
+        $orders = $this->memberOrderModel->select(array('returnStatus' => 3, 'returnType' => array(3), 'acceptApplyReturnTime < ?' => strtotime('-3 days')))->toArray();
+        foreach($orders as $v){
+            $update = array('returnStatus' => 6, 'isPaused' => 0);
+            if(!empty($v['autoConfirmDeliveryDoneTime']) && !empty($v['applyReturnTime'])){
+                $update['autoConfirmDeliveryDoneTime'] = $v['autoConfirmDeliveryDoneTime'] + (time() - $v['applyReturnTime']);
+            }
+            $this->memberOrderModel->update($update, array('orderID' => $v['orderID']));
+        }
+
+        return $this->response;
+    }
+
+    public function confirmReturnDeliveryDoneAction(){
+        $orders = $this->memberOrderModel->select(array('returnStatus' => 4, 'returnType' => array(3), 'returnDeliveryTime < ?' => strtotime('-10 days')))->toArray();
+        foreach($orders as $v){
+            $orderInfo = $this->memberOrderModel->fetch(array('orderID' => $v['orderID']));
+            if(!empty($orderInfo)){
+                $this->memberOrderModel->returnOrder($orderInfo);
+            }
         }
 
         return $this->response;

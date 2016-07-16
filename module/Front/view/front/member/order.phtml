@@ -59,7 +59,7 @@
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">等待买家付款</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
-                                    <p class="yc_p1"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">关闭交易</a></p>
+                                    <p class="yc_p"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">关闭交易</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 2){
@@ -79,6 +79,19 @@
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">买家已付款</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+
+                                    <?php
+                                    if($v['orderType'] == 1){
+                                        ?>
+                                        <?php
+                                        if($v['returnStatus'] == 0){
+                                            ?>
+                                            <p class="yc_p"><a href="javascript:;" class="apply-return-order-btn" order-id="<?php echo $v['orderID'] ?>">退款/退货</a></p>
+                                        <?php
+                                        }?>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 4){
@@ -96,36 +109,40 @@
                                             <?php
                                                 if($v['returnStatus'] == 0){
                                             ?>
-                                                    <p class="yc_p1"><a href="javascript:;" class="apply-return-order-btn" order-id="<?php echo $v['orderID'] ?>">退款/退货</a></p>
+                                                    <p class="yc_p"><a href="javascript:;" class="apply-return-order-btn" order-id="<?php echo $v['orderID'] ?>">退款/退货</a></p>
                                             <?php
                                                 }elseif($v['returnStatus'] == 1){
                                             ?>
-                                                    <p class="yc_p1"><a href="javascript:;">等待卖家同意</a></p>
+                                                    <p class="yc_p"><a href="javascript:;">等待卖家同意</a></p>
                                             <?php
                                                 }elseif($v['returnStatus'] == 2){
                                             ?>
-                                                    <p class="yc_p1"><a href="javascript:;">卖家不同意退款, 可网站申诉</a></p>
+                                                    <p class="yc_p"><a href="javascript:;">卖家不同意退款, 可网站申诉</a></p>
                                             <?php
                                                 }elseif($v['returnStatus'] == 3){
                                                     ?>
-                                                    <p class="yc_p1"><a href="javascript:;" class="delivery-return-order-btn" order-id="<?php echo $v['orderID'] ?>">填写退货物流信息</a></p>
+                                                    <p class="yc_p"><a href="javascript:;" class="delivery-return-order-btn" order-id="<?php echo $v['orderID'] ?>">填写退货物流信息</a></p>
+                                                    <p class="yc_p"><a href="javascript:;" orderReturnReceiverName="<?php echo $v['orderReturnReceiverName'] ?>" orderReturnReceiverMobile="<?php echo $v['orderReturnReceiverMobile'] ?>" orderReturnReceiverAddr="<?php echo $v['orderReturnReceiverAddr'] ?>" class="check-order-return-addr">查看退货地址</a></p>
                                             <?php
                                                 }elseif($v['returnStatus'] == 4){
                                             ?>
-                                                    <p class="yc_p1"><a href="javascript:;" class="check-return-order-delivery" return-delivery-type="<?php foreach($deliveryTypes as $sv){if($sv['deliveryTypeID'] == $v['returnDeliveryType']){echo $sv['typeName'];}} ?>" return-delivery-num="<?php echo $v['returnDeliveryNum']; ?>">退货待卖家签收</a></p>
+                                                    <p class="yc_p"><a href="javascript:;" class="check-return-order-delivery" return-delivery-type="<?php foreach($deliveryTypes as $sv){if($sv['deliveryTypeID'] == $v['returnDeliveryType']){echo $sv['typeName'];}} ?>" return-delivery-num="<?php echo $v['returnDeliveryNum']; ?>">退货待卖家签收</a></p>
                                             <?php
                                                 }
                                             ?>
 
                                             <?php
-                                                if($v['delayAutoConfirmDeliveryDoneTime']){
+                                                if(in_array($v['returnStatus'], array(0, 2))) {
+                                                    if ($v['delayAutoConfirmDeliveryDoneTime']) {
                                             ?>
-                                                    <p class="yc_p"><a href="javascript:;">已延长收货时间</a></p>
+                                                        <p class="yc_p"><a href="javascript:;">已延长收货时间</a></p>
+                                                <?php
+                                                    } else {
+                                                ?>
+                                                        <p class="yc_p"><a href="javascript:;" class="delay-auto-confirm-delivery-done-time-btn" order-id="<?php echo $v['orderID'] ?>">延长收货时间</a>
+                                                        </p>
                                             <?php
-                                                }else{
-                                            ?>
-                                                    <p class="yc_p"><a href="javascript:;" class="delay-auto-confirm-delivery-done-time-btn" order-id="<?php echo $v['orderID'] ?>">延长收货时间</a></p>
-                                            <?php
+                                                    }
                                                 }
                                             ?>
                                     <?php
@@ -161,7 +178,7 @@
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">未按时付款/已退货</a></p>
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
-                                    <p class="yc_p1"><a href="javascript:;">已关闭</a></p>
+                                    <p class="yc_p"><a href="javascript:;">已关闭</a></p>
                                 </div>
                             <?php
                             }/*elseif($v['orderStatus'] == 6){
@@ -187,6 +204,7 @@
 <?php if(!empty($memberRecommendProducts)){echo $this->render('member-recommend');}  ?>
 <?php
 echo $this->render('set-delivery-type');
+echo $this->render('return-type');
 ?>
 <script>
     $(function(){
@@ -324,11 +342,32 @@ echo $this->render('set-delivery-type');
         });
 
         $('.apply-return-order-btn').on('click', function(){
+            layer.open({
+                skin: 'loginBox',
+                title:'申请退款',
+                type: 1,
+                content: $('#set-return-type-div').html()
+            });
+            var orderID = $(this).attr('order-id');
+            $('.apply-return-confirm-btn:visible').attr('order-id', orderID);
+        });
 
-            
-
+        $(document).on('click', '.apply-return-confirm-btn:visible', function(){
             var data = {};
             data.orderID = $(this).attr('order-id');
+            data.returnType = $('input[name=return-type]:visible:checked').val();
+            if(!data.returnType){
+                layer.alert('请选择退款类型');
+
+                return false;
+            }
+            data.applyReturnReason = '';
+            if(data.returnType == 2){
+                data.applyReturnReason = $('input[name=return-money-only-reason]:visible').val();
+            }else if(data.returnType == 3){
+                data.applyReturnReason = $('input[name=return-all-reason]:visible').val();
+            }
+
             $.ajax({
                 url : '/member/apply-return-order',
                 dataType : 'json',
@@ -388,10 +427,22 @@ echo $this->render('set-delivery-type');
             var returnDeliveryType = $(this).attr('return-delivery-type');
             var returnDeliveryNum = $(this).attr('return-delivery-num');
             if(returnDeliveryType){
-                var str = '物流公司: ' + returnDeliveryType + '\n物流单号: ' + returnDeliveryNum + '\n';
+                var str = '物流公司: ' + returnDeliveryType + '<br />物流单号: ' + returnDeliveryNum + '<br />';
                 layer.alert(str);
             }else{
                 layer.alert('无物流信息');
+            }
+        });
+
+        $('.check-order-return-addr').on('click', function(){
+            var orderReturnReceiverName = $(this).attr('orderReturnReceiverName');
+            var orderReturnReceiverMobile = $(this).attr('orderReturnReceiverMobile');
+            var orderReturnReceiverAddr = $(this).attr('orderReturnReceiverAddr');
+            if(orderReturnReceiverAddr){
+                var str = '退货地址收货人姓名: ' + orderReturnReceiverName + '<br />退货地址收货人电话: ' + orderReturnReceiverMobile + '<br />退货地址: ' + orderReturnReceiverAddr;
+                layer.alert(str);
+            }else{
+                layer.alert('无退货地址信息');
             }
         });
     })

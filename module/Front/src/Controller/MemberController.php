@@ -549,7 +549,7 @@ class MemberController extends Front{
     public function postComplainAction(){
         $orderID = $this->postData['orderID'];
         $complainContent = $this->postData['complainContent'];
-        $this->memberOrderModel->update(array('isComplained' => 2, 'complainContent' => $complainContent), array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']));
+        $this->memberOrderModel->update(array('isComplained' => 2, 'complainContent' => $complainContent, 'complainTime' => time(), 'isPaused' => 1), array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']));
         return $this->response(ApiSuccess::COMMON_SUCCESS, '申诉成功');
     }
 
@@ -567,14 +567,43 @@ class MemberController extends Front{
 
     public function applyReturnOrderAction(){
         $orderID = $this->postData['orderID'];
+        $returnType = $this->postData['returnType'];
+        $applyReturnReason = $this->postData['applyReturnReason'];
         $where = array(
             'orderID' => $orderID,
             'memberID' => $this->memberInfo['memberID'],
         );
+        $orderInfo = $this->memberOrderModel->fetch($where);
+        if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if($returnType == 1){
+            if($orderInfo['payTime'] > strtotime('-3 days')){
+                return $this->response(ApiError::COMMON_ERROR, '未超过72小时时限');
+            }
+            if($orderInfo['orderStatus'] > 3){
+                return $this->response(ApiError::COMMON_ERROR, '卖家已发货');
+            }
 
-        $this->memberOrderModel->update(array('returnStatus' => 1, 'applyReturnTime' => time()), $where);
+            try{
+                $this->memberOrderModel->update(array('returnType' => $returnType), $where);
+                $this->memberOrderModel->returnOrder($orderInfo);
+                return $this->response(ApiSuccess::COMMON_SUCCESS, '退款成功');
+            }catch (\Exception $e){
+                return $this->response(ApiError::COMMON_ERROR, '退款失败');
+            }
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, '退款申请已提交到店铺');
+        }elseif($returnType == 2){
+            if($orderInfo['orderStatus'] != 4){
+                return $this->response(ApiError::COMMON_ERROR, '订单不处于已发货状态');
+            }
+        }elseif($returnType == 3){
+            if($orderInfo['orderStatus'] != 4){
+                return $this->response(ApiError::COMMON_ERROR, '订单不处于已发货状态');
+            }
+        }
+
+        $this->memberOrderModel->update(array('returnStatus' => 1, 'applyReturnTime' => time(), 'applyReturnReason' => $applyReturnReason, 'returnType' => $returnType, 'isPaused' => 1), $where);
+
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '退款申请已提交到卖家');
     }
 
 
@@ -586,7 +615,7 @@ class MemberController extends Front{
         if($haveDelivery && (empty($deliveryType) || empty($deliveryNum))) return $this->response(ApiError::COMMON_ERROR, '请填写物流信息');
 
         $where = array('returnStatus' => 3, 'orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']);
-        $this->memberOrderModel->update(array('returnStatus' => 4, 'returnDeliveryType' => $deliveryType, 'returnDeliveryNum' => $deliveryNum), $where);
+        $this->memberOrderModel->update(array('returnStatus' => 4, 'returnDeliveryType' => $deliveryType, 'returnDeliveryNum' => $deliveryNum, 'returnDeliveryTime' => time()), $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '发货成功');
     }
@@ -638,10 +667,29 @@ class MemberController extends Front{
             'storeID' => $this->_storeInfo['storeID'],
             'returnStatus' => 1,
         );
+        $orderInfo = $this->memberOrderModel->fetch($where);
         if($accept == 1){
-            $this->memberOrderModel->update(array('returnStatus' => 3), $where);
+            if($orderInfo['returnType'] == 2){
+                $this->memberOrderModel->returnOrder($orderInfo);
+            }elseif($orderInfo['returnType'] == 3){
+                $this->memberOrderModel->update(
+                    array(
+                        'returnStatus' => 3, 'orderReturnReceiverName' => $this->postData['orderReturnReceiverName'], 'orderReturnReceiverMobile' => $this->postData['orderReturnReceiverMobile'],
+                        'orderReturnReceiverAddr' => $this->postData['orderReturnReceiverAddr'],
+                        'acceptApplyReturnTime' => time(),
+                    )
+                    , $where
+                );
+            }
+
         }else{
-            $this->memberOrderModel->update(array('returnStatus' => 2), $where);
+            $update = array('returnStatus' => 2, 'isPaused' => 0);
+            $orderInfo = $this->memberOrderModel->fetch($where);
+            if(!empty($orderInfo['autoConfirmDeliveryDoneTime']) && !empty($orderInfo['applyReturnTime'])){
+                $update['autoConfirmDeliveryDoneTime'] = $orderInfo['autoConfirmDeliveryDoneTime'] + (time() - $orderInfo['applyReturnTime']);
+            }
+
+            $this->memberOrderModel->update($update, $where);
         }
 
 
@@ -1479,14 +1527,32 @@ class MemberController extends Front{
         if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单不存在');
 
         try{
-            $this->memberOrderModel->beginTransaction();
-            $this->memberOrderModel->update(array('returnStatus' => 5, 'orderStatus' => -2), array('orderID' => $orderInfo['orderID']));
-            $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('memberID' => $orderInfo['memberID']));
-            $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'source' => '订单' . $orderInfo['businessID'] . '退款', 'type' => 1));
-            $this->memberOrderModel->commit();
+            $this->memberOrderModel->returnOrder($orderInfo);
             return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
         }catch (\Exception $e){
-            $this->memberOrderModel->rollback();
+            return $this->response(ApiError::COMMON_ERROR, '确认失败');
+        }
+    }
+
+    public function noConfirmReturnOrderAction(){
+        $orderID = $this->postData['orderID'];
+        $where = array(
+            'orderID' => $orderID,
+            'storeID' => $this->_storeInfo['storeID'],
+            'returnStatus' => 4
+        );
+        $orderInfo = $this->memberOrderModel->fetch($where);
+        if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单不存在');
+
+        try{
+            $update = array('returnStatus' => 6, 'isPaused' => 0);
+            if(!empty($orderInfo['autoConfirmDeliveryDoneTime']) && !empty($orderInfo['applyReturnTime'])){
+                $update['autoConfirmDeliveryDoneTime'] = $orderInfo['autoConfirmDeliveryDoneTime'] + (time() - $orderInfo['applyReturnTime']);
+            }
+            $this->memberOrderModel->update($update, array('orderID' => $orderInfo['orderID']));
+
+            return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
+        }catch (\Exception $e){
             return $this->response(ApiError::COMMON_ERROR, '确认失败');
         }
     }

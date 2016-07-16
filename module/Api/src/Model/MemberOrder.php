@@ -121,4 +121,21 @@ class MemberOrder extends Model{
         return true;
     }
 
+    public function returnOrder($orderInfo){
+        try{
+            $this->beginTransaction();
+            $this->update(array('returnStatus' => 5, 'orderStatus' => -2, 'isPaused' => 0), array('orderID' => $orderInfo['orderID']));
+            $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('memberID' => $orderInfo['memberID']));
+            $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'source' => '订单' . $orderInfo['businessID'] . '退款', 'type' => 1));
+            $this->commit();
+        }catch (\Exception $e){
+            var_dump($e->getMessage());
+            $this->rollback();
+            throw new \Exception($e->getMessage(), $e->getCode());
+        }
+
+        return true;
+
+    }
+
 }
