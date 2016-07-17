@@ -1010,3 +1010,22 @@ em, i {
 .updataBrowser a{color: #fff; text-decoration: underline;}
 .whitebg{background-color: #fff;}
 .bora8a7a2{border: 1px solid #a8a7a2;}
+.icon-upload {
+    cursor: pointer;
+    background: url(/dist/images/icon-upload.png) left top no-repeat #fff;
+    float: left;
+    position: relative;overflow: hidden;
+    border: 1px solid #d2d6de;
+}
+.icon-upload, .icon-upload img {
+    width: 82px;
+    height: 82px;
+}
+.icon-upload input[type=file] {
+    position: absolute;
+    width: 100%;
+    height: 82px;
+    opacity: 0;
+    cursor: pointer;
+    filter: alpha(opacity=0);
+}
