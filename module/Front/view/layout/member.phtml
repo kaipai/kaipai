@@ -20,11 +20,15 @@
         ->appendFile('/dist/js/common.js')
         ->appendFile('/plugins/jquery-ui/jquery-ui.min.js')
         ->appendFile('/plugins/layer/layer.js');
+
     if(in_array($actionName, array('add-product', 'store-setting', 'add-special'))){
         $this->headScript()
             ->appendFile('/diyUpload/js/webuploader.html5only.min.js')
-            ->appendFile('/diyUpload/js/diyUpload.js')
-            ->appendFile('/dist/js/lrz.bundle.js');
+            ->appendFile('/diyUpload/js/diyUpload.js');
+
+    }
+    if(in_array($actionName, array('add-special', 'settings', 'store-join-step1', 'store-setting'))){
+        $this->headScript()->appendFile('/dist/js/lrz.bundle.js');;
     }
     if($actionName == 'add-product'){
         $this->headLink()
