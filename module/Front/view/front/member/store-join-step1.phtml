@@ -7,39 +7,6 @@
         <div class="kp_right jm_main">
             <div><img src="/jinren/images/jm_03.jpg"></div>
             <p>上传实名认证信息</p>
-
-            <div class="jm_sfz">
-                <div class="jm_sfz1">身份证号码</div>
-                <div class="jm_sfz2"><input type="text" placeholder="身份证号码" id="id-number" value="<?php echo !empty($_storeInfo) ? $_storeInfo['idNumber'] : ''; ?>"></div>
-            </div>
-            <div class="jm_sfz">
-                <div class="jm_sfz1">身份证图片</div>
-                <div class="jm_sfz2"><a href="javascript:;" class="a-upload">
-                        <input type="file" class="fileEle" target="#id-pic" />上传身份证图片
-                    </a>
-                </div>
-                <div class="jm_sfz5 jm_lef" id="id-pic"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['idPic'] : '/jinren/images/ewe_03.jpg'; ?>" ></div>
-            </div>
-            <div class="jm_sfz">
-                <div class="jm_sfz1">&nbsp</div>
-                <div class="jm_sfz2"><a href="javascript:;" class="a-upload">
-                        <input type="file" class="fileEle" target="#member-id-pic" />上传本人手持身份证图片
-                    </a>
-                </div>
-                <div class="jm_sfz5 jm_lef" id="member-id-pic"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['memberIdPic'] : '/jinren/images/ewe_03.jpg'; ?>"></div>
-            </div>
-            <div class="jm_sfz">
-                <div class="jm_sfz1">退货地址收件人姓名</div>
-                <div class="jm_sfz2"><input type="text" placeholder="退货地址收件人姓名" id="return-receiver-name" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverName'] : ''; ?>"></div>
-            </div>
-            <div class="jm_sfz">
-                <div class="jm_sfz1">退货地址收件人电话</div>
-                <div class="jm_sfz2"><input type="text" placeholder="退货地址收件人电话" id="return-receiver-mobile" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverMobile'] : ''; ?>"></div>
-            </div>
-            <div class="jm_sfz">
-                <div class="jm_sfz1">退货地址</div>
-                <div class="jm_sfz2"><input type="text" placeholder="退货地址" id="return-receiver-addr" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverAddr'] : ''; ?>"></div>
-            </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">绑定手机号</div>
                 <div class="jm_sfz2">
@@ -53,9 +20,42 @@
                     <input class="jm_sfz2input" type="text" placeholder="手机验证码" id="store-mobile-code">
                 </div>
             </div>
+            <!--<div class="jm_sfz">
+                <div class="jm_sfz1">身份证号码</div>
+                <div class="jm_sfz2"><input type="text" placeholder="身份证号码" id="id-number" value="<?php /*echo !empty($_storeInfo) ? $_storeInfo['idNumber'] : ''; */?>"></div>
+            </div>
+            <div class="jm_sfz">
+                <div class="jm_sfz1">身份证图片</div>
+                <div class="jm_sfz2"><a href="javascript:;" class="a-upload">
+                        <input type="file" class="fileEle" target="#id-pic" />上传身份证图片
+                    </a>
+                </div>
+                <div class="jm_sfz5 jm_lef" id="id-pic"><img src="<?php /*echo !empty($_storeInfo) ? $_storeInfo['idPic'] : '/jinren/images/ewe_03.jpg'; */?>" ></div>
+            </div>
+            <div class="jm_sfz">
+                <div class="jm_sfz1">&nbsp</div>
+                <div class="jm_sfz2"><a href="javascript:;" class="a-upload">
+                        <input type="file" class="fileEle" target="#member-id-pic" />上传本人手持身份证图片
+                    </a>
+                </div>
+                <div class="jm_sfz5 jm_lef" id="member-id-pic"><img src="<?php /*echo !empty($_storeInfo) ? $_storeInfo['memberIdPic'] : '/jinren/images/ewe_03.jpg'; */?>"></div>
+            </div>-->
+            <div class="jm_sfz">
+                <div class="jm_sfz1">退货地址收件人姓名</div>
+                <div class="jm_sfz2"><input type="text" placeholder="退货地址收件人姓名" id="return-receiver-name" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverName'] : ''; ?>"></div>
+            </div>
+            <div class="jm_sfz">
+                <div class="jm_sfz1">退货地址收件人电话</div>
+                <div class="jm_sfz2"><input type="text" placeholder="退货地址收件人电话" id="return-receiver-mobile" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverMobile'] : ''; ?>"></div>
+            </div>
+            <div class="jm_sfz">
+                <div class="jm_sfz1">退货地址</div>
+                <div class="jm_sfz2"><input type="text" placeholder="退货地址" id="return-receiver-addr" value="<?php echo !empty($_storeInfo) ? $_storeInfo['returnReceiverAddr'] : ''; ?>"></div>
+            </div>
+
             <div class="jm_sfz">
                 <input type="checkbox" id="join-rules">
-                我已经阅读并同意<a href="/article/setting?settingName=joinRule" target="_blank" style="color:#61b7d9">《入驻规则》</a>
+                我已经阅读并同意<a href="/article/setting?settingName=joinRule" target="_blank" style="color:#61b7d9">《入驻规则》</a><a href="/article/setting?settingName=credibility" target="_blank" style="color:#61b7d9">《诚信问题》</a>
             </div>
             <div class="jm_tj" id="submit-verify-btn">
                 提交审核
@@ -85,7 +85,7 @@
             layer.alert('未同意入驻规则');
             return false;
         }
-        if(!data.idNumber){
+        /*if(!data.idNumber){
             layer.alert('请输入身份证号码');
             return false;
         }
@@ -95,6 +95,10 @@
         }
         if(!data.memberIdPic){
             layer.alert('请上传本人手持身份证图片');
+            return false;
+        }*/
+        if(!data.storeMobile){
+            layer.alert('请输入绑定手机号');
             return false;
         }
         if(!data.returnReceiverName){
@@ -107,10 +111,6 @@
         }
         if(!data.returnReceiverAddr){
             layer.alert('请填写退货地址');
-            return false;
-        }
-        if(!data.storeMobile){
-            layer.alert('请输入绑定手机号');
             return false;
         }
         if(!data.storeMobileCode){

@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .jm_main{background: #fff; min-height:575px ; padding-left:35px; padding-top: 50px ;    width: 865px;}
 .jm_sfz{ margin-top: 20px; overflow: hidden;}
-.jm_sfz1{ width: 140px; float: left;}
+.jm_sfz1{ width: 180px; float: left;}
 .jm_sfz2{ float: left;}
 .jm_sfz2 input{ width: 350px; height: 30px; line-height: 30px; padding-left: 20px}
 .a-upload{/* padding: 4px 10px; */ height: 20px; line-height: 20px; position: relative;cursor: pointer;border: 1px solid #817b7a; overflow: hidden; display: inline-block;background: #cfcfd0;width: 198px;height: 30px;line-height: 30px;text-align: center;}
