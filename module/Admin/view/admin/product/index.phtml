@@ -5,8 +5,73 @@
 <div class="fixed-table-body" style="min-height: 1000px;margin-bottom: 60px;">
     <table id="table-javascript" class="bootstrap_table"></table>
 </div>
+<div class="row">
+    <div class="modal form-modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="edit_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="edit_modal_label">设置推荐时间</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="editForm" role="form" method="post" action="/admin/<?php echo $this->layout()->controllerName;?>/update">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">开始时间</label>
 
+                                        <div class="col-sm-4">
+                                            <input type="text" class="" id="start-time" name="recommendStartTime">
+                                        </div>
+                                        <label class="col-sm-2 control-label">结束时间</label>
+
+                                        <div class="col-sm-4">
+                                            <input type="text" class="" id="end-time" name="recommendEndTime">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <input type="hidden"  name="productID" value="" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-6"><button type="button" class="btn btn-danger btn-block" data-dismiss="modal">关闭</button></div>
+                    <div class="col-md-6"><button type="button" class="btn btn-primary editModal btn-block">保存</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
+    $('#start-time,#end-time').datetimepicker({
+        language:'zh-CN',
+        format: 'yyyy-mm-dd hh:ii:ss'
+    });
+
+
+    $('#edit_modal').on("shown.bs.modal",function(e){
+
+        var btn = $(e.relatedTarget);
+        var productID = btn.attr('rid');
+        var recommendStartTime = btn.attr('recommendStartTime');
+        var recommendEndTime = btn.attr('recommendEndTime');
+        $('input[name=productID]').val(productID);
+        if(recommendStartTime && recommendStartTime != 'null'){
+            $('input[name=recommendStartTime]').val(recommendStartTime);
+        }else{
+            $('input[name=recommendStartTime]').val('');
+        }
+        if(recommendEndTime && recommendEndTime != 'null'){
+            $('input[name=recommendEndTime]').val(recommendEndTime);
+        }else{
+            $('input[name=recommendEndTime]').val('');
+        }
+
+    });
+
     $('#table-javascript').bootstrapTable({
         method: 'get',
         url: '/admin/product/list',
@@ -139,6 +204,24 @@
                     }else{
                         var str = '<a title="取消推荐" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认取消推荐吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="productID='+ row.productID +'&isMemberRecommend=0"><i class="glyphicon glyphicon-ok"></i></a>';
                     }
+                    return str;
+                }
+
+            },{
+                field: 'recommendStartTime',
+                title: '推荐时间',
+                align: 'center',
+                valign: 'middle',
+                width:200,
+                formatter:function(value, row, index){
+                    var str = '';
+                    if(value){
+                        str += '开始时间:' + value + '<br />';
+                    }
+                    if(row.recommendEndTime){
+                        str += '结束时间:' + value + '<br />';
+                    }
+                    str += '<a title="设置推荐时间" href="javascript:void(0)" recommendStartTime="' + row.recommendStartTime + '" recommendEndTime="' + row.recommendEndTime + '"  rid="' + row.productID + '"  data-toggle="modal" data-target="#edit_modal">设置推荐时间</a>';
                     return str;
                 }
 

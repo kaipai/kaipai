@@ -30,6 +30,15 @@ class ProductController extends Admin{
         $data['total'] = $res['total'];
 
         $data['rows'] = $res['data'];
+        foreach($data['rows'] as $k => $v){
+            if(!empty($v['recommendStartTime'])){
+                $data['rows'][$k]['recommendStartTime'] = date('Y-m-d H:i:s', $v['recommendStartTime']);
+            }
+            if(!empty($v['recommendEndTime'])){
+                $data['rows'][$k]['recommendEndTime'] = date('Y-m-d H:i:s', $v['recommendEndTime']);
+            }
+
+        }
 
         return $this->adminResponse($data);
     }
@@ -42,6 +51,8 @@ class ProductController extends Admin{
         );
 
         unset($this->postData['productID']);
+        if(!empty($this->postData['recommendStartTime'])) $this->postData['recommendStartTime'] = strtotime($this->postData['recommendStartTime']);
+        if(!empty($this->postData['recommendEndTime'])) $this->postData['recommendEndTime'] = strtotime($this->postData['recommendEndTime']);
         $this->productModel->update($this->postData, $where);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
