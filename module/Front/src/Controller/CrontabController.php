@@ -297,6 +297,16 @@ class CrontabController extends Controller{
         return $this->response;
     }
 
+    public function removeInterestProductsAction(){
+        $products = $this->memberProductInterestModel->getProducts(array('b.auctionStatus' => 3, 'b.endTime < ?' => strtotime('-3 days')), 1, 10);
+        $products = $products['data'];
+        foreach($products as $v){
+            $this->memberProductInterestModel->delete(array('productInterestID' => $v['productInterestID']));
+        }
+
+        return $this->response;
+    }
+
 
 
 }

@@ -172,6 +172,16 @@ return array(
                         )
                     )
                 ),
+                'crontab-remove-interest-products' => array(
+                    'options' => array(
+                        'route' => 'crontab-remove-interest-products',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Front\Controller',
+                            'controller' => 'Crontab',
+                            'action' => 'remove-interest-products'
+                        )
+                    )
+                ),
             )
         )
     ),
