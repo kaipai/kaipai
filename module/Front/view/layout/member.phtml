@@ -27,7 +27,7 @@
             ->appendFile('/diyUpload/js/diyUpload.js');
 
     }
-    if(in_array($actionName, array('add-special', 'settings', 'store-join-step1', 'store-setting'))){
+    if(in_array($actionName, array('add-special', 'settings', 'store-join', 'store-setting'))){
         $this->headScript()->appendFile('/dist/js/lrz.bundle.js');;
     }
     if($actionName == 'add-product'){

@@ -34,13 +34,13 @@
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">专场海报</span>
-                <div id="preview1" class="dianpbai"><img id="imghead1" src=""></div>
-                <input type="file" name="uploadFile" onchange="previewImage1(this)" class="gl_sctu"/> 尺寸：1900*300 图片容量不大于1M
+                <div class="dianpbai curfile" id="imghead1"><img src=""></div>
+                <input type="file" class="fileEle" />尺寸：1900*300 图片容量不大于1M
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">专场首焦</span>
-                <div id="preview2" class="dianpbai"><img id="imghead2" src=""></div>
-                <input type="file" name="uploadFile" onchange="previewImage2(this)" class="gl_sctu"/> 尺寸：1900*300 图片容量不大于1M
+                <div class="dianpbai curfile" id="imghead2"><img src=""></div>
+                <input type="file" class="fileEle" />尺寸：1900*300 图片容量不大于1M
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">拍品数量</span>
@@ -87,8 +87,8 @@ echo $this->render('/front/common/transfer-account');
                 $('#end-time-minute').val('<?php echo $specialInfo['endTimeMin'] ?>');
                 $('#special-product-category-id').val(<?php echo $specialInfo['specialProductCategoryID'] ?>);
                 $('#special-name').val('<?php echo $specialInfo['specialName'] ?>');
-                $('#imghead1').attr('src', '<?php echo $specialInfo['specialImg'] ?>');
-                $('#imghead2').attr('src', '<?php echo $specialInfo['specialBanner'] ?>');
+                $('#imghead1').find('img').attr('src', '<?php echo $specialInfo['specialImg'] ?>');
+                $('#imghead2').find('img').attr('src', '<?php echo $specialInfo['specialBanner'] ?>');
                 $('#product-count-limit').val(<?php echo $specialInfo['productCountLimit'] ?>);
 
         <?php
@@ -117,8 +117,8 @@ echo $this->render('/front/common/transfer-account');
         data.endTime = specialEndTimeYear + '-' + specialEndTimeMonth + '-' + specialEndTimeDay + ' ' + specialEndTimeHour + ':' + specialEndTimeMinute + ':00';
         data.specialProductCategoryID = $('#special-product-category-id').val();
         data.specialName = $('#special-name').val();
-        data.specialImg = $('#imghead1').attr('src');
-        data.specialBanner = $('#imghead2').attr('src');
+        data.specialImg = $('#imghead1').find('img').attr('src');
+        data.specialBanner = $('#imghead2').find('img').attr('src');
         data.productCountLimit = $('#product-count-limit').val();
         data.specialDesc = qqq.getContent();
 
@@ -176,94 +176,4 @@ echo $this->render('/front/common/transfer-account');
             }
         });
     });
-
-
-    //图片上传预览    IE是用了滤镜。
-    function previewImage1(file)
-    {
-        var MAXWIDTH  = 260;
-        var MAXHEIGHT = 180;
-        var div = document.getElementById('preview1');
-        if (file.files && file.files[0])
-        {
-            var img = document.getElementById('imghead1');
-            img.onload = function(){
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-                img.width  =  rect.width;
-                img.height =  rect.height;
-//                 img.style.marginLeft = rect.left+'px';
-                img.style.marginTop = rect.top+'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function(evt){img.src = evt.target.result;}
-            reader.readAsDataURL(file.files[0]);
-        }
-        else //兼容IE
-        {
-            var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-            file.select();
-            var src = document.selection.createRange().text;
-            var img = document.getElementById('imghead1');
-            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
-            div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;"+sFilter+src+"\"'></div>";
-        }
-    }
-
-    //图片上传预览    IE是用了滤镜。
-    function previewImage2(file)
-    {
-        var MAXWIDTH  = 260;
-        var MAXHEIGHT = 180;
-        var div = document.getElementById('preview2');
-        if (file.files && file.files[0])
-        {
-            var img = document.getElementById('imghead2');
-            img.onload = function(){
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-                img.width  =  rect.width;
-                img.height =  rect.height;
-//                 img.style.marginLeft = rect.left+'px';
-                img.style.marginTop = rect.top+'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function(evt){img.src = evt.target.result;}
-            reader.readAsDataURL(file.files[0]);
-        }
-        else //兼容IE
-        {
-            var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-            file.select();
-            var src = document.selection.createRange().text;
-            var img = document.getElementById('imghead2');
-            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
-            div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;"+sFilter+src+"\"'></div>";
-        }
-    }
-
-    function clacImgZoomParam( maxWidth, maxHeight, width, height ){
-        var param = {top:0, left:0, width:width, height:height};
-        if( width>maxWidth || height>maxHeight )
-        {
-            rateWidth = width / maxWidth;
-            rateHeight = height / maxHeight;
-
-            if( rateWidth > rateHeight )
-            {
-                param.width =  maxWidth;
-                param.height = Math.round(height / rateWidth);
-            }else
-            {
-                param.width = Math.round(width / rateHeight);
-                param.height = maxHeight;
-            }
-        }
-
-        param.left = Math.round((maxWidth - param.width) / 2);
-        param.top = Math.round((maxHeight - param.height) / 2);
-        return param;
-    }
 </script>

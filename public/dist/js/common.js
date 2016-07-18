@@ -315,7 +315,44 @@ function initServerTime(data) {
             if (str == null || str == undefined || str == '') {
                 return true;
             }
-        },
+        }
 
     })
 })(jQuery);
+
+$(document).ready(function(){
+    $('.fileEle').change(function() {
+        var that = this;
+        var target = $(this).attr('target');
+        if(target){
+            var J_uploadPar = $(target);
+        }else{
+            var J_uploadPar = $(that).parent().find('.curfile');
+        }
+
+        //console.log(J_uploadPar);
+        lrz(that.files[0], {
+        }).then(function (rst) {
+            //console.log(rst);
+            var img = new Image();
+            img.src = rst.base64;
+            J_uploadPar.find('img').remove();
+            J_uploadPar.append(img);
+            /*$.ajax({
+                url: 'http://115.236.69.110:8453/qt360/file/uploadResourceFile',
+                data: rst.formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function(data) {
+                    var data = eval('(' + data + ')');
+                    console.log(data);
+                    //callBack(data);
+                }
+            });*/
+
+
+            return rst;
+        });
+    })
+});

@@ -1243,11 +1243,17 @@ class MemberController extends Front{
 
         try{
             $this->storeModel->beginTransaction();
-            $this->storeModel->insert($store);
-            $storeID = $this->storeModel->getLastInsertValue();
-            $this->memberInfoModel->update(array('storeID' => $storeID), array('memberID' => $this->memberInfo['memberID']));
-            $this->storeModel->commit();
+            if(!empty($this->_storeInfo)){
+                $store['verifyStatus'] = 1;
+                $this->storeModel->update($store, array('storeID' => $this->_storeInfo['storeID']));
+            }else{
+                $this->storeModel->insert($store);
+                $storeID = $this->storeModel->getLastInsertValue();
+                $this->memberInfoModel->update(array('storeID' => $storeID), array('memberID' => $this->memberInfo['memberID']));
 
+            }
+
+            $this->storeModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
         }catch (\Exception $e){
             $this->storeModel->rollback();

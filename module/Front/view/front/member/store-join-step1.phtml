@@ -15,18 +15,18 @@
             <div class="jm_sfz">
                 <div class="jm_sfz1">身份证图片</div>
                 <div class="jm_sfz2"><a href="javascript:;" class="a-upload">
-                        <input type="file" name="" onchange="previewImage(this)">上传身份证图片
+                        <input type="file" class="fileEle" target="#id-pic" />上传身份证图片
                     </a>
                 </div>
-                <div class="jm_sfz5 jm_lef" id="preview"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['idPic'] : '/jinren/images/ewe_03.jpg'; ?>" ></div>
+                <div class="jm_sfz5 jm_lef" id="id-pic"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['idPic'] : '/jinren/images/ewe_03.jpg'; ?>" ></div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">&nbsp</div>
                 <div class="jm_sfz2"><a href="javascript:;" class="a-upload">
-                        <input type="file" name="" onchange="previewImage1(this)">上传本人手持身份证图片
+                        <input type="file" class="fileEle" target="#member-id-pic" />上传本人手持身份证图片
                     </a>
                 </div>
-                <div class="jm_sfz5 jm_lef" id="preview1"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['memberIdPic'] : '/jinren/images/ewe_03.jpg'; ?>"></div>
+                <div class="jm_sfz5 jm_lef" id="member-id-pic"><img src="<?php echo !empty($_storeInfo) ? $_storeInfo['memberIdPic'] : '/jinren/images/ewe_03.jpg'; ?>"></div>
             </div>
             <div class="jm_sfz">
                 <div class="jm_sfz1">退货地址收件人姓名</div>
@@ -69,100 +69,12 @@
 </div>
 
 <script type="text/javascript">
-
-    //图片上传预览    IE是用了滤镜。
-    function previewImage(file) {
-
-        var div = document.getElementById('preview');
-        if (file.files && file.files[0]) {
-            div.innerHTML = '<img id="id-pic">';
-            var img = document.getElementById('id-pic');
-            img.onload = function () {
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-                img.width = rect.width;
-                img.height = rect.height;
-//                 img.style.marginLeft = rect.left+'px';
-                img.style.marginTop = rect.top + 'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function (evt) {
-                img.src = evt.target.result;
-            }
-            reader.readAsDataURL(file.files[0]);
-        }
-        else //兼容IE
-        {
-            var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-            file.select();
-            var src = document.selection.createRange().text;
-            div.innerHTML = '<img id="id-pic">';
-            var img = document.getElementById('id-pic');
-            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
-            div.innerHTML = "<div id=divhead style='width:" + rect.width + "px;height:" + rect.height + "px;" + sFilter + src + "\"'></div>";
-        }
-    }
-    //图片上传预览    IE是用了滤镜。
-    function previewImage1(file) {
-
-        var div = document.getElementById('preview1');
-        if (file.files && file.files[0]) {
-            div.innerHTML = '<img id="member-id-pic">';
-            var img = document.getElementById('member-id-pic');
-            img.onload = function () {
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-                img.width = rect.width;
-                img.height = rect.height;
-//                 img.style.marginLeft = rect.left+'px';
-                img.style.marginTop = rect.top + 'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function (evt) {
-                img.src = evt.target.result;
-            }
-            reader.readAsDataURL(file.files[0]);
-        }
-        else //兼容IE
-        {
-            var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-            file.select();
-            var src = document.selection.createRange().text;
-            div.innerHTML = '<img id="member-id-pic">';
-            var img = document.getElementById('member-id-pic');
-            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            status = ('rect:' + rect.top + ',' + rect.left + ',' + rect.width + ',' + rect.height);
-            div.innerHTML = "<div id=divhead style='width:" + rect.width + "px;height:" + rect.height + "px;" + sFilter + src + "\"'></div>";
-        }
-    }
-
-
-    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
-        var param = {top: 0, left: 0, width: width, height: height};
-        if (width > maxWidth || height > maxHeight) {
-            rateWidth = width / maxWidth;
-            rateHeight = height / maxHeight;
-
-            if (rateWidth > rateHeight) {
-                param.width = maxWidth;
-                param.height = Math.round(height / rateWidth);
-            } else {
-                param.width = Math.round(width / rateHeight);
-                param.height = maxHeight;
-            }
-        }
-
-        param.left = Math.round((maxWidth - param.width) / 2);
-        param.top = Math.round((maxHeight - param.height) / 2);
-        return param;
-    }
     var lock = true;
     $('#submit-verify-btn').on('click', function(){
         var data = {};
         data.idNumber = $('#id-number').val();
-        data.idPic = $('#id-pic').attr('src');
-        data.memberIdPic = $('#member-id-pic').attr('src');
+        data.idPic = $('#id-pic').find('img').attr('src');
+        data.memberIdPic = $('#member-id-pic').find('img').attr('src');
         data.storeMobile = $('#store-mobile').val();
         data.storeMobileCode = $('#store-mobile-code').val();
         data.returnReceiverName = $('#return-receiver-name').val();

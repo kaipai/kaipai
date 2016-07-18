@@ -11,13 +11,13 @@
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺标志</div>
-                <div id="preview" class="dianpbai"><img id="imghead" src="<?php echo !empty($_storeInfo['storeLogo']) ? $_storeInfo['storeLogo'] : '/images/img_03.jpg'?>"></div>
-                <em style="color:red;">*200x200像素</em><span><input type="file" onchange="previewImage(this)"/> </span>
+                <div class="dianpbai curfile" id="imghead"><img src="<?php echo !empty($_storeInfo['storeLogo']) ? $_storeInfo['storeLogo'] : '/images/img_03.jpg'?>"></div>
+                <em style="color:red;">*200x200像素</em><input type="file" class="fileEle" />
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺抬头</div>
-                <div id="preview1" class="dianpbai1"><img id="imghead1" src="<?php echo !empty($_storeInfo['storeBanner']) ? $_storeInfo['storeBanner'] : '/images/img_06.jpg'?>"></div>
-                <em style="color:red;">*1200x300像素</em><span><input type="file" onchange="previewImage1(this)"/> </span>
+                <div class="dianpbai1 curfile" id="imghead1"><img src="<?php echo !empty($_storeInfo['storeBanner']) ? $_storeInfo['storeBanner'] : '/images/img_06.jpg'?>"></div>
+                <em style="color:red;">*1200x300像素</em><input type="file" class="fileEle" />
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">店铺签名</span>
@@ -39,11 +39,6 @@
                 <input class="zz_inputqm" type="text" id="return-receiver-addr" placeholder="" value="<?php echo !empty($_storeInfo['returnReceiverAddr']) ? $_storeInfo['returnReceiverAddr'] : ''; ?>">
                 <br> <span class="ind_jrzz"></span>
             </div>
-            <!--<div class="mt20">
-                <div class="ind_jrzz bold">店铺推荐<br>栏位底图</div>
-                <div id="preview2" class="dianpbai1"><img id="imghead2" src="<?php /*echo !empty($_storeInfo['recommendImg']) ? $_storeInfo['recommendImg'] : '/images/img_06.jpg'*/?>"></div>
-                <em style="color:red;">*1200x300像素</em><span><input type="file" onchange="previewImage2(this)"/> </span>
-            </div>-->
             <div class="mt20">
                 <div class="ind_jrzz bold" id="store-categories">拍品分类</div>
                 <?php
@@ -89,9 +84,8 @@
         });
 
         $('#store-settings-committ').on('click', function(){
-            var storeLogo = $('#imghead').attr('src');
-            var storeBanner = $('#imghead1').attr('src');
-            //var recommendImg = $('#imghead2').attr('src');
+            var storeLogo = $('#imghead').find('img').attr('src');
+            var storeBanner = $('#imghead1').find('img').attr('src');
             var signature = $('#signature').val();
             var storeCategory = new Array();
             $('.storeCategory').each(function(){
@@ -155,126 +149,4 @@
             });
         });
     })
-</script>
-<script type="text/javascript">
-    //图片上传预览    IE是用了滤镜。
-    function previewImage2(file)
-    {
-        var MAXWIDTH  = 260;
-        var MAXHEIGHT = 180;
-        var div = document.getElementById('preview2');
-        if (file.files && file.files[0])
-        {
-            var img = document.getElementById('imghead2');
-            img.onload = function(){
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-                img.width  =  rect.width;
-                img.height =  rect.height;
-//                 img.style.marginLeft = rect.left+'px';
-                img.style.marginTop = rect.top+'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function(evt){img.src = evt.target.result;}
-            reader.readAsDataURL(file.files[0]);
-        }
-        else //兼容IE
-        {
-            var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-            file.select();
-            var src = document.selection.createRange().text;
-            var img = document.getElementById('imghead2');
-            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
-            div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;"+sFilter+src+"\"'></div>";
-        }
-    }
-
-    //图片上传预览    IE是用了滤镜。
-    function previewImage(file)
-    {
-        var MAXWIDTH  = 260;
-        var MAXHEIGHT = 180;
-        var div = document.getElementById('preview');
-        if (file.files && file.files[0])
-        {
-            var img = document.getElementById('imghead');
-            img.onload = function(){
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-                img.width  =  rect.width;
-                img.height =  rect.height;
-//                 img.style.marginLeft = rect.left+'px';
-                img.style.marginTop = rect.top+'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function(evt){img.src = evt.target.result;}
-            reader.readAsDataURL(file.files[0]);
-        }
-        else //兼容IE
-        {
-            var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-            file.select();
-            var src = document.selection.createRange().text;
-            var img = document.getElementById('imghead');
-            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
-            div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;"+sFilter+src+"\"'></div>";
-        }
-    }
-    //图片上传预览    IE是用了滤镜。
-    function previewImage1(file)
-    {
-        var MAXWIDTH  = 260;
-        var MAXHEIGHT = 180;
-        var div = document.getElementById('preview1');
-        if (file.files && file.files[0])
-        {
-            var img = document.getElementById('imghead1');
-            img.onload = function(){
-                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-                img.width  =  rect.width;
-                img.height =  rect.height;
-//                 img.style.marginLeft = rect.left+'px';
-                img.style.marginTop = rect.top+'px';
-            }
-            var reader = new FileReader();
-            reader.onload = function(evt){img.src = evt.target.result;}
-            reader.readAsDataURL(file.files[0]);
-        }
-        else //兼容IE
-        {
-            var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
-            file.select();
-            var src = document.selection.createRange().text;
-            var img = document.getElementById('imghead1');
-            img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
-            var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
-            status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
-            div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;"+sFilter+src+"\"'></div>";
-        }
-    }
-
-    function clacImgZoomParam( maxWidth, maxHeight, width, height ){
-        var param = {top:0, left:0, width:width, height:height};
-        if( width>maxWidth || height>maxHeight )
-        {
-            rateWidth = width / maxWidth;
-            rateHeight = height / maxHeight;
-
-            if( rateWidth > rateHeight )
-            {
-                param.width =  maxWidth;
-                param.height = Math.round(height / rateWidth);
-            }else
-            {
-                param.width = Math.round(width / rateHeight);
-                param.height = maxHeight;
-            }
-        }
-
-        param.left = Math.round((maxWidth - param.width) / 2);
-        param.top = Math.round((maxHeight - param.height) / 2);
-        return param;
-    }
 </script>
