@@ -219,7 +219,7 @@
                         str += '开始时间:' + value + '<br />';
                     }
                     if(row.recommendEndTime){
-                        str += '结束时间:' + value + '<br />';
+                        str += '结束时间:' + row.recommendEndTime + '<br />';
                     }
                     str += '<a title="设置推荐时间" href="javascript:void(0)" recommendStartTime="' + row.recommendStartTime + '" recommendEndTime="' + row.recommendEndTime + '"  rid="' + row.productID + '"  data-toggle="modal" data-target="#edit_modal">设置推荐时间</a>';
                     return str;

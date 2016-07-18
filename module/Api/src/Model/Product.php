@@ -27,7 +27,9 @@ class Product extends Model{
     public function getIndexRecommendProducts(){
         $where = array(
             'b.isIndexRecommend' => 1,
-            'b.auctionStatus' => array(1, 2),
+            //'b.auctionStatus' => array(1, 2),
+            'b.recommendStartTime < ?' => time(),
+            'b.recommendEndTime > ?' => time(),
             'b.isDel' => 0,
         );
 
@@ -104,15 +106,34 @@ class Product extends Model{
     public function getProductIndexRecommendProducts(){
         $where = array(
             'isProductIndexRecommend' => 1,
-            'auctionStatus' => array(1, 2),
+            //'auctionStatus' => array(1, 2),
+            'recommendStartTime < ?' => time(),
+            'recommendEndTime > ?' => time(),
             'isDel' => 0,
         );
         $result = $this->setColumns(array('productName', 'listImg', 'productID', 'currPrice'))->select($where)->toArray();
         return $result;
     }
 
+    public function getSpecialTodayRecommendProducts(){
+        $where = array(
+            'Product.isSpecialTodayRecommend' => 1,
+            //'Product.auctionStatus' => array(1, 2),
+            'Product.recommendStartTime < ?' => time(),
+            'Product.recommendEndTime > ?' => time(),
+            'Product.isDel' => 0
+        );
+        return $this->getProducts($where, 1, 20, array('Product.instime desc'));
+    }
+
     public function getMemberRecommendProducts(){
-        $result = $this->productModel->getProducts(array('Product.isMemberRecommend' => 1, 'Product.auctionStatus' => array(1, 2)), 1, 20, array('Product.instime desc'));
+        $where = array(
+            'Product.isMemberRecommend' => 1,
+            'Product.recommendStartTime < ?' => time(),
+            'Product.recommendEndTime > ?' => time(),
+            'Product.isDel' => 0
+        );
+        $result = $this->getProducts($where, 1, 20, array('Product.instime desc'));
         return $result['data'];
     }
 
