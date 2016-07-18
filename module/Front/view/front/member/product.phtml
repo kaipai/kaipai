@@ -21,7 +21,7 @@
             ?>
                     <div class="kp_shop" id="product-li-<?php echo $v['productID'] ?>">
                         <div class="kp_shop_left">
-                            <img style="cursor:pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID'] ?>';" src="<?php echo $v['listImg'] ?>">
+                            <img style="cursor:pointer;" onclick="window.open('/product/detail?productID=<?php echo $v['productID'] ?>');" src="<?php echo $v['listImg'] ?>">
                             <input type="checkbox" name="checkbox1" value="checkbox" class="ind_checkbox add_lefimg01 product-item" product-id="<?php echo $v['productID'] ?>">
                         </div>
                         <div class="kp_shop_center">

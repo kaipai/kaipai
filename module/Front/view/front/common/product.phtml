@@ -1,9 +1,9 @@
 <?php
 if($v['auctionStatus'] == 2){
 ?>
-<ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
+<ul class="exc_list mt20" style="cursor: pointer;" onclick="window.open('/product/detail?productID=<?php echo $v['productID']; ?>');">
     <li class="lh32 excTit">
-        <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
+        <a target="_blank" href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
     </li>
     <li class="lh32">
         当前价
@@ -19,9 +19,9 @@ if($v['auctionStatus'] == 2){
 <?php
 }elseif($v['auctionStatus'] == 3){
     ?>
-    <ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
+    <ul class="exc_list mt20" style="cursor: pointer;" onclick="window.open('/product/detail?productID=<?php echo $v['productID']; ?>');">
         <li class="lh32 excTit">
-            <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
+            <a target="_blank" href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
         </li>
         <li class="lh32">
             当前价
@@ -38,9 +38,9 @@ if($v['auctionStatus'] == 2){
 <?php
 }else{
     ?>
-    <ul class="exc_list mt20" style="cursor: pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
+    <ul class="exc_list mt20" style="cursor: pointer;" onclick="window.open('/product/detail?productID=<?php echo $v['productID']; ?>');">
         <li class="lh32 excTit">
-            <a href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
+            <a target="_blank" href="/product/detail?productID=<?php echo $v['productID']; ?>"><?php echo $v['productName'] ?></a>
         </li>
         <li class="lh32">
             起拍价

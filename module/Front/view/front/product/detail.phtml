@@ -250,7 +250,7 @@
                 <?php
                     foreach($recommendProducts as $v){
                 ?>
-                        <li style="cursor: pointer" onclick="location.href='/product/detail?productID=<?php echo $v['productID'] ?>';">
+                        <li style="cursor: pointer" onclick="window.open('/product/detail?productID=<?php echo $v['productID'] ?>');">
                             <img src="<?php echo $v['listImg'] ?>" alt="">
 
                             <p class="rnav-info">

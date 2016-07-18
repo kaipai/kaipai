@@ -6,7 +6,7 @@
             ?>
             <?php if ($v['auctionStatus'] == 1) {
                 ?>
-                <li class="start" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
+                <li class="start" onclick="window.open('/product/detail?productID=<?php echo $v['productID']; ?>');">
                     <h3><?php echo $v['productName'] ?></h3>
 
                     <p class="indexPro-price">
@@ -27,7 +27,7 @@
             } else {
 
                 ?>
-                <li onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'">
+                <li onclick="window.open('/product/detail?productID=<?php echo $v['productID']; ?>');">
                     <h3><?php echo $v['productName'] ?></h3>
 
                     <p class="indexPro-price">
@@ -72,7 +72,7 @@
                 ?>
                 <dd class="status2">
                     <span class="item1"><?php echo $v['categoryName'] ?></span>
-                    <span class="item2" style="cursor:pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'"><?php echo $v['productName'] ?></span>
+                    <span class="item2" style="cursor:pointer;" onclick="window.open('/product/detail?productID=<?php echo $v['productID']; ?>');"><?php echo $v['productName'] ?></span>
                     <span class="item3">￥<?php echo $v['currPrice'] ?></span>
                     <span class="item4">开始时间：<em><?php echo date('Y-m-d H:i:s', $v['startTime']); ?></em></span>
                 </dd>
@@ -82,7 +82,7 @@
                 ?>
                 <dd>
                     <span class="item1"><?php echo $v['categoryName'] ?></span>
-                    <span class="item2" style="cursor:pointer;" onclick="location.href='/product/detail?productID=<?php echo $v['productID']; ?>'"><?php echo $v['productName'] ?></span>
+                    <span class="item2" style="cursor:pointer;" onclick="window.open('/product/detail?productID=<?php echo $v['productID']; ?>');"><?php echo $v['productName'] ?></span>
                     <span class="item3">￥<?php echo $v['currPrice'] ?></span>
                     <span class="item4">距结束：<em class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></em></span>
                 </dd>
