@@ -56,7 +56,7 @@
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">等待买家付款</a></p>
                                     <p class="yc_p"><a href="/member/store-order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
-                                    <p class="yc_p"><a href="javascript:;" class="cancel-order-btn" order-id="<?php echo $v['orderID'] ?>">关闭交易</a></p>
+                                    <!--<p class="yc_p"><a href="javascript:;" class="cancel-order-btn" order-id="<?php /*echo $v['orderID'] */?>">关闭交易</a></p>-->
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 3){
@@ -140,7 +140,7 @@
                             }elseif($v['orderStatus'] == -1 || $v['orderStatus'] == -2){
                             ?>
                                 <div class="yc_ddfk yc_imgleft2">
-                                    <div class="yc_jyjs">交易结束</div>
+                                    <div class="yc_jyjs">交易关闭</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">未按时付款/已退货</a></p>
@@ -223,7 +223,7 @@
             delOrder(data);
         });
 
-        $('.cancel-order-btn').on('click', function(){
+        /*$('.cancel-order-btn').on('click', function(){
             var data = {};
             data.orderID = $(this).attr('order-id');
             layer.confirm('确认关闭交易吗？', {
@@ -250,7 +250,7 @@
             });
 
 
-        });
+        });*/
 
         $('.set-delivery-type').on('click', function(){
             layer.open({
