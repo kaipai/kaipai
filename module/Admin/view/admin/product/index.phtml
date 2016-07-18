@@ -143,6 +143,31 @@
                 }
 
             },{
+                field: 'payType',
+                title: '支付方式',
+                align: 'center',
+                valign: 'middle',
+                formatter: function(value, row, index){
+                    var s = '';
+                    if(value == 1){
+                        s += '余额';
+                    }else if(value == 2){
+                        s += '支付宝';
+                    }else if(value == 3){
+                        s += '银联';
+                    }else if(value == 4){
+                        s += '银行转账';
+                        if(row.isPaid == 0){
+                            s += '<a title="确认到账" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认到账吗?" url="/admin/order/confirm-paid" method="post" params="unitePayID='+ row.unitePayID +'&type=2"><i class="glyphicon glyphicon-ok"></i></a>';
+                        }/*else if(row.orderStatus == 5 && row.orderType == 2){
+                         s += '<a title="确认尾款到账" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认到账吗?" url="/admin/<?=$this->layout()->controllerName;?>/confirm-paid" method="post" params="unitePayID='+ row.unitePayID +'&type=4"><i class="glyphicon glyphicon-ok"></i></a>';
+                         }*/
+                    }
+
+                    return s;
+                }
+
+            },{
                 field: 'isPaid',
                 title: '是否付款',
                 align: 'center',
@@ -150,11 +175,12 @@
                 width:200,
                 formatter: function(value, row, index){
                     var s = '';
-                    if(value == 1){
+                    if(value == 1 && row.payType){
+                        s += '已付款';
+                    }else if(value == 1){
                         s += '已付款';
                     }else if(value == 0){
                         s += '未付款';
-                        s += '<a title="确认到账" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认到账吗?" url="/admin/order/confirm-paid" method="post" params="unitePayID='+ row.unitePayID +'&type=2"><i class="glyphicon glyphicon-ok"></i></a>';
                     }
 
                     return s;

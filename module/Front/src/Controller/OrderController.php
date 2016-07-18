@@ -153,7 +153,7 @@ class OrderController extends Front{
         $productInfo = $this->productModel->select(array('unitePayID' => $unitePayID))->current();
         if(!empty($productInfo)){
             $price = $this->siteSettings['productMoney'];
-
+            $this->productModel->update(array('payType' => $payType), array('unitePayID' => $unitePayID));
             if($payType == 1){
                 if($this->memberInfo['isRechargeMoneyLocked']) return $this->response(ApiError::COMMON_ERROR, ApiError::RECHARGE_MONEY_LOCKED);
                 if($price > $this->memberInfo['rechargeMoney']){
@@ -191,7 +191,7 @@ class OrderController extends Front{
         $specialInfo = $this->specialModel->select(array('unitePayID' => $unitePayID))->current();
         if(!empty($specialInfo)){
             $price = $this->siteSettings['specialMoney'];
-
+            $this->specialModel->update(array('payType' => $payType), array('unitePayID' => $unitePayID));
             if($payType == 1){
                 if($this->memberInfo['isRechargeMoneyLocked']) return $this->response(ApiError::COMMON_ERROR, ApiError::RECHARGE_MONEY_LOCKED);
                 if($price > $this->memberInfo['rechargeMoney']){
