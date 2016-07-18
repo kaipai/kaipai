@@ -3,6 +3,7 @@ namespace Admin\Controller;
 
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Where;
 
 class ProductController extends Admin{
@@ -51,8 +52,22 @@ class ProductController extends Admin{
         );
 
         unset($this->postData['productID']);
-        if(!empty($this->postData['recommendStartTime'])) $this->postData['recommendStartTime'] = strtotime($this->postData['recommendStartTime']);
-        if(!empty($this->postData['recommendEndTime'])) $this->postData['recommendEndTime'] = strtotime($this->postData['recommendEndTime']);
+        if(isset($this->postData['recommendStartTime'])){
+            if(!empty($this->postData['recommendStartTime'])) {
+                $this->postData['recommendStartTime'] = strtotime($this->postData['recommendStartTime']);
+            }else{
+                $this->postData['recommendStartTime'] = new Expression('null');
+            }
+        }
+
+        if(isset($this->postData['recommendEndTime'])){
+            if(!empty($this->postData['recommendEndTime'])) {
+                $this->postData['recommendEndTime'] = strtotime($this->postData['recommendEndTime']);
+            }else{
+                $this->postData['recommendEndTime'] = new Expression('null');
+            }
+        }
+
         $this->productModel->update($this->postData, $where);
 
         return $this->response(AdminSuccess::COMMON_SUCCESS, '保存成功');
