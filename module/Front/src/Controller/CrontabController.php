@@ -49,7 +49,7 @@ class CrontabController extends Controller{
                             $this->notificationModel->insert(array('type' => 3, 'memberID' => $sv['memberID'], 'content' => '您未成功竞得<<' . $v['productName'] . '>>。'));
                         }
 
-                        $content = '您已成功竞得<<' . $v['productName'] . '>>。';
+                        $content = '您已成功竞得<<' . $v['productName'] . '>>, 请于72小时内付款, 超时交易将自动关闭。';
                         $this->notificationModel->insert(array('type' => 3, 'memberID' => $v['memberID'], 'content' => $content));
                         $memberInfo = $this->memberInfoModel->select(array('memberID' => $v['memberID']))->current();
                         $auctionProductCount = $memberInfo['auctionProductCount'] + 1;

@@ -114,7 +114,7 @@ class ProductController extends Front{
         $where['b.isDel'] = 0;
 
         if($order == 'default') $order = 'b.productID desc';
-        if($order == 'instime') $order = 'b.instime ' . $sort;
+        if($order == 'endTime') $order = 'b.endTime ' . $sort;
         if($order == 'price') $order = 'b.currPrice ' . $sort;
         if($order == 'interest') $order = 'b.interestedCount desc';
 

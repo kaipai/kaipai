@@ -158,8 +158,8 @@
                         <a href="javascript:;" id="sort-default">默认</a>
                     </li>
                     <li>
-                        <a href="javascript:;" id="sort-instime">
-                            接拍时间
+                        <a href="javascript:;" id="sort-endTime">
+                            结拍时间
                             <img src="/yaoqin/images/ss_03.jpg"></a>
                     </li>
                     <li>
@@ -356,8 +356,8 @@
             }
             refresh(params)
         });
-        $('#sort-instime').on('click', function(){
-            params.order = 'instime';
+        $('#sort-endTime').on('click', function(){
+            params.order = 'endTime';
             if(params.sort == 'desc') {
                 params.sort = 'asc';
             }else{
