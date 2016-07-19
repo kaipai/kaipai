@@ -86,6 +86,7 @@ class Front extends Controller{
             '_siteSettings' => $siteSettings,
             '_isIE' => $isIE,
             '_isLowID' => $isLowIE,
+            '_actionName' => $this->actionName,
         ));
 
 

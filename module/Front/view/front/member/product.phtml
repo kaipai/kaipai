@@ -141,6 +141,8 @@
                             </div>
                         </div>
                     </div>
+
+
             <?php
                 }
             ?>
@@ -148,13 +150,13 @@
                 echo $this->render('/front/common/paginate', array('url' => '/member/product?auctionStatus=' . $auctionStatus . '&', 'pages' => $pages));
             ?>
             <!-- 定时上架 -->
-            <div class="hide" id="auction-time-select">
+            <!--<div class="hide" id="auction-time-select">
                 <div class="kp_time">
-                    <?php echo $this->render('time'); ?>
+                    <?php /*echo $this->render('time'); */?>
                     <input type="button" class="choose-auction-time-confirm-btn layer-submit" value="提交" />
                     <p class="kp_tsinfo1">注：自由拍卖时间不超过48小时</p>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>
@@ -162,6 +164,12 @@
 echo $this->render('/front/common/pay');
 echo $this->render('/front/common/transfer-account');
 ?>
+<div class="hide" id="auction-time-select">
+    <div class="kp_time">
+        <?php echo $this->render('time'); ?>
+        <p class="kp_tsinfo1">注：自由拍卖时间不超过48小时</p>
+    </div>
+</div>
 <script>
     $(function(){
         function recommendProduct(params){
@@ -300,12 +308,16 @@ echo $this->render('/front/common/transfer-account');
         });*/
 
         $('.choose-auction-time').on('click', function(){
-            layer.open({
+            /*layer.open({
                 title:'选择拍卖时间',
                 type: 1,
                 content: $('#auction-time-select').html()
-            });
+            });*/
             var productID = $(this).attr('product-id');
+
+            $('.kp_right').find('.kp_time').remove();
+            $('#product-li-' + productID).after($('#auction-time-select').html());
+
             var startTimeYear = $(this).attr('start-time-year');
             var startTimeMonth = $(this).attr('start-time-month');
             var startTimeDay = $(this).attr('start-time-day');
@@ -328,19 +340,9 @@ echo $this->render('/front/common/transfer-account');
             if(endTimeHour) $('.layer-end-time-hour:visible').val(endTimeHour);
             if(endTimeMinute) $('.layer-end-time-minute:visible').val(endTimeMinute);
         });
-        $('#choose-auction-time-batch').on('click', function(){
+
+        function setBatchProducts(){
             var checkedProducts = $('.product-item:checked');
-            if(!checkedProducts.length){
-                layer.alert('请选择拍品');
-                return false;
-            }
-
-            layer.open({
-                title:'选择拍卖时间',
-                type: 1,
-                content: $('#auction-time-select').html()
-            });
-
             var productID = new Array();
             var tmp;
             checkedProducts.each(function(){
@@ -349,6 +351,27 @@ echo $this->render('/front/common/transfer-account');
             });
             productID.join(',');
             $('.choose-auction-time-confirm-btn:visible').attr('product-id', productID);
+        }
+
+        $('.product-item').on('click', function(){
+            setBatchProducts();
+        });
+        $('#choose-auction-time-batch').on('click', function(){
+            var checkedProducts = $('.product-item:checked');
+            if(!checkedProducts.length){
+                layer.alert('请选择拍品');
+                return false;
+            }
+
+            /*layer.open({
+                title:'选择拍卖时间',
+                type: 1,
+                content: $('#auction-time-select').html()
+            });*/
+            $('.kp_right').find('.kp_time').remove();
+            $('.kp_tit').after($('#auction-time-select').html());
+
+            setBatchProducts();
 
         });
 
@@ -356,6 +379,10 @@ echo $this->render('/front/common/transfer-account');
             var data = {};
             data.productID = $(this).attr('product-id');
             data.productID = data.productID.split(',');
+            if(!data.productID) {
+                layer.alert('请选择拍品');
+                return false;
+            }
             var auctionStartTimeYear = $('.layer-start-time-year:visible').val();
             var auctionStartTimeMonth = $('.layer-start-time-month:visible').val();
             var auctionStartTimeDay = $('.layer-start-time-day:visible').val();
