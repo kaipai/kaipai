@@ -134,7 +134,7 @@
                 foreach($stores as $v){
                     ?>
                     <dl>
-                        <dt><a href="/store/detail?storeID=<?php echo $v['storeID']; ?>"><?php echo $v['storeName']; ?> &nbsp;&nbsp;></a></dt>
+                        <dt><em><img src="<?php echo $v['storeLogo']; ?>"></em><a href="/store/detail?storeID=<?php echo $v['storeID']; ?>"><?php echo $v['storeName']; ?> &nbsp;&nbsp;></a></dt>
                         <dd><?php echo $v['storeSignature']; ?></dd>
                     </dl>
                 <?php

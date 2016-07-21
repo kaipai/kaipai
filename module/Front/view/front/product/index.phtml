@@ -206,13 +206,13 @@
 
             </div>
             <div class="indexBox-right fr">
-                <h2 class="leftBox-tit">热推店铺街</h2>
+                <h2 class="leftBox-tit">热门店铺街</h2>
                 <ul class="indexBox-right-list">
                     <?php
                         foreach($stores as $v){
                     ?>
                             <li>
-                                <h3 style="cursor: pointer;" onclick="location.href='/store/detail?storeID=<?php echo $v['storeID']; ?>';"><?php echo $v['storeName']; ?> ></h3>
+                                <h3 style="cursor: pointer;" onclick="location.href='/store/detail?storeID=<?php echo $v['storeID']; ?>';"><em><img src="<?php echo $v['storeLogo'] ?>"></em><span><?php echo $v['storeName'] ?> ></span></h3>
 
                                 <p class="indexBox-right-info"><?php echo $v['storeSignature']; ?></p>
                             </li>

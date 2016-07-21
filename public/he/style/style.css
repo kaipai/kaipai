@@ -848,6 +848,8 @@ div.dp-popup td.disabled{cursor:default;}
     color: #251716;
     font-size: 20px;
 }
+.spe_r_con dl dt em{float: left; width: 32px;height:32px; overflow: hidden; margin-top: 5px; margin-right: 8px;}
+.spe_r_con dl dt em img{width: 30px;height: 30px;border: 1px solid #999;}
 .spe_r_more{
     padding-top: 35px;
     text-align: right;
