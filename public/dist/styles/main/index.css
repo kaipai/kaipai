@@ -34,7 +34,8 @@
   color: #251716;
   height: 62px;
   line-height: 62px; }
-
+.indexBox-right-list li h3 em{width: 32px; height: 60px;display:block; float: left;  padding: 0 8px 0 0; overflow: hidden;}
+.indexBox-right-list li h3 img{width: 30px;height: 30px; margin: 16px 0 0 0 ;border: 1px solid #999;}
 .indexPro li {
   float: left;
   width: 265px;
