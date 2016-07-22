@@ -1195,8 +1195,15 @@ class MemberController extends Front{
 
         try{
             $this->productCopyModel->beginTransaction();
-            $this->productCopyModel->insert($product);
-            $productID = $this->productCopyModel->getLastInsertValue();
+            if(!empty($product['productID'])){
+                $this->productCopyModel->update($product, array('productID' => $product['productID']));
+                $productID = $product['productID'];
+            }else{
+                $this->productCopyModel->insert($product);
+                $productID = $this->productCopyModel->getLastInsertValue();
+            }
+
+
             if(!empty($data['productCategoryProperty'])){
                 foreach($data['productCategoryProperty'] as $k => $v){
                     $tmp = array(
