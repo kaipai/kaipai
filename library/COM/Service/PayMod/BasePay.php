@@ -33,6 +33,8 @@ abstract class BasePay
             $orderModel->beginTransaction();
             $this->memberPayDetailModel->update(array('paidMoney' => $orderInfo['payMoney'], 'payTime' => time()), $where);
             if(!empty($orderInfo['customizationID'])){
+                $customizationSnapshot = json_decode($orderInfo['customizationSnapshot'], true);
+                $productName = $customizationSnapshot['title'];
                 $orderModel->update(array('orderStatus' => 2), $where);
                 $this->customizationModel->update(array('lastNum' => new Expression('lastNum+1'), 'boughtCount' => new Expression('boughtCount+1')), array('customizationID' => $orderInfo['customizationID']));
             }else{
@@ -53,9 +55,9 @@ abstract class BasePay
             if(!empty($useRechargeMoney)){
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $useRechargeMoney)), array('memberID' => $orderInfo['memberID']));
                 if(!empty($orderInfo['customizationID'])){
-                    $source = '余额付款-定制商品定金';
+                    $source = '余额付款-定制商品定金 ' . $productName;
                 }else{
-                    $source = '余额付款-竞拍拍品';
+                    $source = '余额付款-竞拍拍品 ' . $productName;
                 }
                 $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $useRechargeMoney, 'unitePayID' => $unitePayID, 'source' => $source, 'type' => 2));
             }

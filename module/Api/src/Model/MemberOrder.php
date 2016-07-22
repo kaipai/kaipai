@@ -106,9 +106,11 @@ class MemberOrder extends Model{
 
                 }
                 $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('storeID' => $orderInfo['storeID']));
-                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'unitePayID' => $orderInfo['unitePayID'], 'source' => '订单确认收货打款'));
+                $productSnapshot = json_decode($orderInfo['productSnapshot'], true);
+                $productName = $productSnapshot['productName'];
+                $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'unitePayID' => $orderInfo['unitePayID'], 'source' => '订单确认收货打款 ' . $productName));
                 if(!empty($siteFees)){
-                    $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $siteFees, 'unitePayID' => $orderInfo['unitePayID'], 'source' => '网站佣金', 'type' => 2));
+                    $this->memberRechargeMoneyLogModel->insert(array('memberID' => $storeInfo['memberID'], 'money' => $siteFees, 'unitePayID' => $orderInfo['unitePayID'], 'source' => '网站佣金 ' . $productName, 'type' => 2));
                 }
             }
 
@@ -126,7 +128,9 @@ class MemberOrder extends Model{
             $this->beginTransaction();
             $this->update(array('returnStatus' => 5, 'orderStatus' => -2, 'isPaused' => 0), array('orderID' => $orderInfo['orderID']));
             $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney + ' . $orderInfo['paidMoney'])), array('memberID' => $orderInfo['memberID']));
-            $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'source' => '订单' . $orderInfo['businessID'] . '退款', 'type' => 1));
+            $productSnapshot = json_decode($orderInfo['productSnapshot'], true);
+            $productName = $productSnapshot['productName'];
+            $this->memberRechargeMoneyLogModel->insert(array('memberID' => $orderInfo['memberID'], 'money' => $orderInfo['paidMoney'], 'source' => '订单' . $orderInfo['businessID'] . '退款 ' . $productName, 'type' => 1));
             $this->commit();
         }catch (\Exception $e){
             var_dump($e->getMessage());
