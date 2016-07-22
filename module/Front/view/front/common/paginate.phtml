@@ -1,4 +1,5 @@
 <div id="paging">
+    <a href="<?php echo $url?>pageNum=<?php echo $pages->first; ?>">首页</a>
     <a href="<?php echo $url?>pageNum=<?php echo ($pages->current - 1) <= $pages->first ? $pages->first : ($pages->current - 1) ?>" style="width:60px">上一页</a>
     <?php
         foreach($pages->pagesInRange as $v){
