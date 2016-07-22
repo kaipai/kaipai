@@ -31,7 +31,7 @@
                             <span class="yc_pm1">[订单号] <?php echo $v['businessID'] ?></span>
 
 
-                            <span class="yc_pm2"><?php if($v['orderType'] == 1){ ?><img src="<?php echo $v['storeLogo'] ?>" alt=""><em><?php echo $v['storeName'] ?></em><?php } ?></span>
+                            <span class="yc_pm2"><?php if($v['orderType'] == 1){ ?><img src="<?php echo $v['storeLogo'] ?>" alt=""><em><?php echo $v['storeName'] ?></em><?php }elseif($v['orderType'] == 2){ ?><img src="/jinren/images/y_03.jpg" alt=""> <em>开源拍卖</em><?php } ?></span>
                             <span class="yc_pm3 lxmj"><a qq="<?php echo $v['orderType'] == 1 ? $v['storeqq'] : $_siteSettings['qq']; ?>" href="javascript:;" class="tencent-qq"><?php echo $v['orderType'] == 1 ? '联系卖家' : '联系客服'; ?></a></span>
                             <span class="yc_pm4"><a href="javascript:;" class="post-complain-btn" order-id="<?php echo $v['orderID'] ?>">网站申诉</a></span>
                             <span class="yc_pm5"><a href="javascript:;" class="del-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
@@ -39,10 +39,10 @@
                         <div class="ys_tip6">
                             <div class="yc_imgleft"><img style="cursor:pointer;" onclick="window.open('<?php if($v['orderType'] == 1){ ?>/product/snap?productID=<?php echo $v['orderID']; ?><?php }else{ ?>/customization/detail?customizationID=<?php echo $v['customizationID']; ?><?php } ?>');" src="<?php echo $v['product']['listImg']; ?>"></div>
                             <div class="yc_imgleft1">
-                                <p class="yc_imgleft2"><span class="yc_ysname"><?php echo $v['product']['productName'] ?></span> <span class="yc_money"><?php if($v['orderType'] == 2){ echo sprintf('%.2f', $v['payMoney'] / $v['customizationCount'], 2) . 'X' . $v['customizationCount']; }else{ echo $v['productPrice']; } ?></span>
+                                <p class="yc_imgleft2"><span class="yc_ysname1"><?php echo $v['product']['productName'] ?></span> <span class="yc_money"><?php if($v['orderType'] == 2){ echo sprintf('%.2f', $v['payMoney'] / $v['customizationCount'], 2) . 'X' . $v['customizationCount']; }else{ echo $v['productPrice']; } ?></span>
                                 </p>
 
-                                <div class="yc_ysname1">
+                                <div class="yc_ysname2">
                                     <?php if($v['commision'] != 0){
                                     ?>
                                         <p><span class="yc_ysname">佣金</span> <span class="yc_money"><?php echo $v['commision'] ?></span></p>
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">等待买家付款</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情&rsaquo;&rsaquo;</a></p>
                                     <!--<p class="yc_p"><a href="javascript:;" class="cancel-order-btn" order-id="<?php /*echo $v['orderID'] */?>">关闭交易</a></p>-->
                                 </div>
                             <?php
@@ -69,7 +69,7 @@
                                     <div class="yc_ddfk1">已付定金</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情&rsaquo;&rsaquo;</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == 3){
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">买家已付款</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情&rsaquo;&rsaquo;</a></p>
 
                                     <?php
                                     if($v['orderType'] == 1){
@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">卖家已发货</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情&rsaquo;&rsaquo;</a></p>
 
                                     <?php
                                         if($v['orderType'] == 1){
@@ -164,11 +164,11 @@
                                 ?>
 
                                 <div class="yc_ddfk yc_imgleft2">
-                                    <div class="yc_ddfk1">交易成功</div>
+                                    <div class="yc_ddfk2">交易成功</div>
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">商品已发货</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情&rsaquo;&rsaquo;</a></p>
                                 </div>
                             <?php
                             }elseif($v['orderStatus'] == -1 || $v['orderStatus'] == -2){
@@ -178,7 +178,7 @@
                                 </div>
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">未按时付款/已退货</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php echo $v['orderID'] ?>">订单详情&rsaquo;&rsaquo;</a></p>
                                     <p class="yc_p"><a href="javascript:;">已关闭</a></p>
                                 </div>
                             <?php
@@ -186,7 +186,7 @@
                                 */?><!--
                                 <div class="yc_ddright yc_imgleft2">
                                     <p class="yc_p"><a href="javascript:;">已付全款</a></p>
-                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php /*echo $v['orderID'] */?>">订单详情</a></p>
+                                    <p class="yc_p"><a href="/member/order-detail?orderID=<?php /*echo $v['orderID'] */?>">订单详情&rsaquo;&rsaquo;</a></p>
                                 </div>
                             --><?php
 /*                            }*/
