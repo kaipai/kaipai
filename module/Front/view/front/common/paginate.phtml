@@ -11,4 +11,20 @@
     <a href="<?php echo $url?>pageNum=<?php echo ($pages->current + 1) < $pages->last ? ($pages->current + 1) : $pages->last ?>" style="width:60px">下一页</a>
     <a href="<?php echo $url?>pageNum=<?php echo $pages->last; ?>">尾页</a>
     <span>共 <?php echo $pages->pageCount;?> 页</span>
+    <span>到<input type="text" id="redirect-paginate-num" />页</span><a href="javascript:;" class="redirect-paginate-num-btn">确定</a>
 </div>
+
+<script>
+    $(function(){
+        $('.redirect-paginate-num-btn').on('click', function(){
+            var pageNum = $('#redirect-paginate-num').val();
+            pageNum = parseInt(pageNum);
+            if(pageNum < <?php echo $pages->first ?> || pageNum > <?php echo $pages->last; ?>){
+                layer.alert('请输入正确的页数');
+                return false;
+            }
+            location.href = '<?php echo $url; ?>pageNum=' + pageNum;
+        });
+
+    })
+</script>

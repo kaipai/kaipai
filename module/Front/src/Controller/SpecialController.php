@@ -86,7 +86,7 @@ class SpecialController extends Front{
 
     public function detailAction(){
         $specialID = $this->queryData['specialID'];
-        $order = $this->queryData['order'];
+        $rawOrder = $order = $this->queryData['order'];
         $where = array(
             'specialID' => $specialID,
         );
@@ -108,7 +108,7 @@ class SpecialController extends Front{
             'specialInfo' => $specialInfo,
             'products' => $products,
             'pages' => $specialProducts['pages'],
-            'order' => $order,
+            'order' => $rawOrder,
         ));
 
         return $this->view;
