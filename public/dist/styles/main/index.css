@@ -548,7 +548,7 @@
 .sf_btn a {color: #fff;}
 .sf_paixu{ background: #cdcdcd; line-height:40px; height: 40px; overflow: hidden; padding-left: 20px }
 .sf_paixu ul li{ background:#eeeeee; margin-right: 8px ; float: left;  padding-left: 12px; padding-right: 12px; vertical-align: middle;height: 40px;}
-.sf_paixu ul li img{ float: right;}
+.sf_paixu ul li img{ float: right;padding-left: 6px;}
 .ym1{ padding-right: 0px !important}
 .tpli{ margin-left: 90px}
 .ym{ background: #cdcdcd !important;}

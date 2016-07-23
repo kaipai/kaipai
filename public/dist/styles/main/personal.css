@@ -1528,7 +1528,7 @@ body {
 .kp_shop{background: #fff; padding-top: 8px;padding-left: 8px;padding-bottom: 8px; overflow: hidden; margin-bottom: 12px}
 .kp_shop_left{ float: left; width: 100px; height: 100px; margin-right: 30px; position: relative;}
 .kp_shop_left img{width:100%; height: 100% }
-.kp_shop_center{float: left; width: 280px; }
+.kp_shop_center{float: left; width: 360px; }
 .kp_shop_center01{float: left;width: 108px; margin-left: 45px; text-align: center; margin-top: 20px}
 .kp_nmai{background: url(/jinren/images/yu_03.jpg) no-repeat center top;padding-top: 20px;}
 .kp_shop_centerp{font-size: 20px;color: #000; margin-top: 10px}
@@ -1744,7 +1744,7 @@ body {
 .kp_tj_left{position: relative; float: left; width: 176px;padding-top: 12px;padding-left: 12px; padding-right: 12px; background: #9b3334; overflow: hidden; color: #fff; height:118px; overflow: hidden; }
 .kp_tj_right{ float: left; width: 698px; overflow: hidden;}
 .kp_tj_left a{color: #fff}
-.cj_ad{position: absolute;bottom: 0px; right: 20px;text-align: right; padding-bottom: 4px}
+.cj_ad{position: absolute;bottom: 0px; right: 20px;text-align: right; padding-bottom: 11px}
 .kp_tj_right table{ background: #fff; overflow: hidden;padding: 4px; }
 .kp_tj_right table tr td{text-indent:0px;}
 .cj_info1 img{ width: 210px; height: 120px; overflow: hidden;padding-top: 4px; padding-left: 4px;}
