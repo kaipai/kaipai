@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="/dist/styles/main/space.css">
+
+<div class="mySpace">
+    <?php echo $this->render('banner'); ?>
+    <div class="spacecont">
+        <?php echo $this->render('top') ?>
+        <div class="center ">
+            <div class="space_wz">
+                <?php foreach($articles as $v){
+                    ?>
+
+                    <div class="space_li">
+                        <div class="space_title">
+                            <div class="space_title_left"><span class="font30" style="cursor: pointer;" onclick="location.href='/zone/article-detail?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $v['memberArticleID'] ?>';"><?php echo $v['memberArticleName'] ?></span><span class="font16"><?php echo $v['instime'] ?></span></div>
+                            <?php if($_isMyZone){ ?>
+                                <div class="space_title_right1">
+                                    <ul>
+                                        <li><a href="javascript:;" class="member-article-hide-btn" data="<?php echo $v['isHide'] ? 0 : 1 ?>" member-article-id="<?php echo $v['memberArticleID'] ?>"><?php echo $v['isHide'] ? '显示' : '隐藏' ?></a></li>
+                                        <li><a href="/zone/article-detail?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $v['memberArticleID'] ?>">编辑</a></li>
+                                        <li class="space_title_del"><a href="javascript:;" class="member-article-del-btn" member-article-id="<?php echo $v['memberArticleID'] ?>">删除</a></li>
+                                    </ul>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <div class="c"></div>
+                    </div>
+                <?php
+                } ?>
+            </div>
+            <?php echo $this->render('/front/common/paginate', array('pages' => $pages, 'url' => '/zone/index?zoneID=' . $_zoneInfo['memberID'])); ?>
+        </div>
+
+
+    </div>
+
+</div>
+<script>
+    $('.member-article-hide-btn').on('click', function(){
+        var data = {};
+        data.memberArticleID = $(this).attr('member-article-id');
+        data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+        data.isHide = $(this).attr('data');
+        $.ajax({
+            url : '/zone/add-article',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(res){
+                if(res.flag > 0){
+                    layer.alert(res.msg, function(){
+                        location.reload();
+                    });
+                }else{
+                    layer.alert(res.msg);
+                }
+            }
+        });
+    });
+
+    $('.member-article-del-btn').on('click', function(){
+        var data = {};
+        data.memberArticleID = $(this).attr('member-article-id');
+        data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+        data.isDel = 1;
+        layer.confirm('确认删除吗？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            $.ajax({
+                url : '/zone/add-article',
+                dataType : 'json',
+                type : 'post',
+                data : data,
+                success : function(res){
+                    if(res.flag > 0){
+                        layer.alert(res.msg, function(){
+                            location.reload();
+                        });
+                    }else{
+                        layer.alert(res.msg);
+                    }
+                }
+            });
+        }, function(){
+            layer.closeAll();
+        });
+
+    });
+</script>

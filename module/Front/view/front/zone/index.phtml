@@ -5,49 +5,61 @@
     <div class="spacecont">
         <?php echo $this->render('top') ?>
         <div class="center ">
-            <div class="space_wz3">
+            <div class="space_wz">
                 <?php foreach($articles as $v){
                 ?>
-                    <div class="space_cominfo">
-                        <div class="space_cominfo_left" style="cursor: pointer;" onclick="location.href='/zone/article-detail?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $v['memberArticleID'] ?>';">
-                            <div><span class="space_cominfo_name"><?php echo $v['memberArticleName'] ?></span><span class="font16"><?php echo $v['instime'] ?></span>
-                            </div>
-                            <div class="space_cominfo_nr">
-                                <?php echo $v['memberArticleContent'] ?><?php if(empty($v['fullContent'])) echo '...'; ?>
-                            </div>
+                    <div class="space_li">
+                        <div class="space_title">
+                            <div class="space_title_left"><span class="font30"><?php echo $v['memberArticleName'] ?></span><span class="font16"><?php echo $v['instime'] ?></span></div>
+                            <?php if($_isMyZone){ ?>
+                                <div class="space_title_right">
+                                    <ul>
+                                        <li class="join-award-article" member-article-id="<?php echo $v['memberArticleID']; ?>" style="cursor: pointer">报名【有奖征文】</li>
+                                        <li><a href="/zone/article-detail?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $v['memberArticleID'] ?>">编辑</a></li>
+                                        <li class="space_title_del"><a href="javascript:;" class="member-article-del-btn" member-article-id="<?php echo $v['memberArticleID'] ?>">删除</a></li>
+                                        <!--<li class="space_no"><a href="javascript:;" class="post-illegal-btn" coreID="<?php /*echo $v['memberArticleID'] */?>" type="1">举报</a></li>-->
+                                        <!--<li class="space_no"><a href="">回复>></a></li>-->
+                                    </ul>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <div class="c"></div>
+                        <div class="space_conts">
+                            <?php echo $v['memberArticleContent'] ?><?php if(empty($v['fullContent'])) echo '...'; ?>
                             <?php
                             if(!empty($v['imgs'])){
-                            ?>
+                                ?>
 
                                 <div class="space_imgsc">
                                     <ul>
-                            <?php
-                                $i = 0;
-                                foreach($v['imgs'] as $sv){
-                                    $i++;
-                                    if($i == 4) break;
-                                    ?>
-                                        <li><img src="<?php echo $sv?>"></li>
-                                <?php
-                                }
-                            ?>
+                                        <?php
+                                        $i = 0;
+                                        foreach($v['imgs'] as $sv){
+                                            $i++;
+                                            if($i == 4) break;
+                                            ?>
+                                            <li><img src="<?php echo $sv?>"></li>
+                                        <?php
+                                        }
+                                        ?>
                                     </ul>
                                 </div>
                             <?php
                             }
                             ?>
+                            <div class="space_zzai">
+                                <ul>
+                                    <li>阅读(<?php echo $v['readCount']; ?>)</li>
+                                    <li>评论(<?php echo $v['commentCount'] ?>)</li>
+                                    <!--<li class="space_zzai_del"><a href="javascript:;" class="mark-member-article" member-article-id="<?php /*echo $v['memberArticleID'] */?>">收藏(<?php /*echo $v['markCount'] */?>)</a></li>
+                                    <li class="space_zzai_del space_scxm favorite-member-article" member-article-id="<?php /*echo $v['memberArticleID'] */?>">(<?php /*echo $v['favoriteCount'] */?>)</li>-->
+
+                                    <li class="space_zzai_del">收藏(<?php echo $v['markCount'] ?>)</li>
+                                    <li class="space_zzai_del space_scxm">(<?php echo $v['favoriteCount'] ?>)</li>
+                                </ul>
+                                <div class="space_lookall"><a href="/zone/article-detail?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $v['memberArticleID'] ?>" target="_blank">查看全文>></a></div>
+                            </div>
                         </div>
-                        <?php if($_isMyZone){ ?>
-                        <div class="space_cominfo_right">
-                            <ul>
-                                <li><a href="javascript:;" class="member-article-hide-btn" data="<?php echo $v['isHide'] ? 0 : 1 ?>" member-article-id="<?php echo $v['memberArticleID'] ?>"><?php echo $v['isHide'] ? '显示' : '隐藏' ?></a></li>
-                                <li><a href="/zone/article-detail?zoneID=<?php echo $_zoneInfo['memberID'] ?>&memberArticleID=<?php echo $v['memberArticleID'] ?>">编辑</a></li>
-                                <li class="space_no"><a href="javascript:;" class="member-article-del-btn" member-article-id="<?php echo $v['memberArticleID'] ?>">删除</a></li>
-                                <!--<li class="space_no"><a href="javascript:;" class="post-illegal-btn" coreID="<?php /*echo $v['memberArticleID'] */?>" type="1">举报</a></li>-->
-                                <!--<li class="space_no"><a href="">回复>></a></li>-->
-                            </ul>
-                        </div>
-                        <?php } ?>
                     </div>
                 <?php
                 } ?>
@@ -109,5 +121,20 @@
             layer.closeAll();
         });
 
+    });
+
+    $('.join-award-article').on('click', function(){
+        var data = {};
+        data.memberArticleID = $(this).attr('member-article-id');
+        data.zoneID = <?php echo $_zoneInfo['memberID'] ?>;
+        $.ajax({
+            url : '/zone/join-award-article',
+            dataType : 'json',
+            type : 'post',
+            data : data,
+            success : function(res){
+                layer.alert(res.msg);
+            }
+        });
     });
 </script>

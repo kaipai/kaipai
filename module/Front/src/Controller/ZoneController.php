@@ -64,6 +64,21 @@ class ZoneController extends Front{
         return $this->view;
     }
 
+    public function articleListAction(){
+        $where = array('MemberArticle.memberID' => $this->_zoneInfo['memberID']);
+        if(!$this->_isMyZone){
+            $where['MemberArticle.isHide'] = 0;
+        }
+        $res = $this->memberArticleModel->getArticles($where, $this->pageNum, $this->limit);
+        $articles = $res['data'];
+
+        $this->view->setVariables(array(
+            'articles' => $articles,
+            'pages' => $res['pages'],
+        ));
+        return $this->view;
+    }
+
     public function markAction(){
         $res = $this->memberArticleMarkModel->getArticles(array('MemberArticleMark.memberID' => $this->_zoneInfo['memberID']), $this->pageNum, $this->limit);
         $articles = $res['data'];

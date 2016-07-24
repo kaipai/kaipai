@@ -3,6 +3,8 @@
         <ul>
             <li><a href="/zone/index?zoneID=<?php echo $_zoneInfo['memberID'] ?>">首页</a></li>
 
+            <li><a href="/zone/article-list?zoneID=<?php echo $_zoneInfo['memberID'] ?>">文章列表</a></li>
+
             <?php
             if($_isMyZone){
                 ?>
@@ -15,11 +17,12 @@
             <?php
             if(!$_isMyZone){
             ?>
-                <li><a href="javascript:;">&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
             <?php
             }
             ?>
-            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+
             <li class="space_img">
                 <img src="<?php echo $_zoneInfo['avatar'] ?>">
                 <?php
