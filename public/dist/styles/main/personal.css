@@ -1775,7 +1775,7 @@ body {
 .ys_tip4 span{ display: inline-block;}
 .yc_pm1{border-right: 1px solid #c9c5c4 ;padding-right:20px;padding-left:10px; width: 248px}
 .yc_pm2{padding-left:20px;padding-right:20px; width: 114px; overflow: hidden;height: 20px;margin-bottom: -6px;border-right: 1px solid #c9c5c4;}
-.yc_pm2 img{float: left;width: 20px;height: 20px;margin-top: 0px;}
+.yc_pm2 img{float: left;width: 20px;height: 20px;margin-top: 0px;border-radius: 3px;}
 .yc_pm2 em{float: left; width: 90px; overflow: hidden;margin-bottom: 2px;}
 .yc_pm3{width: 160px;padding-left:10px;}
 .yc_pm4{width: 90px}
@@ -1786,8 +1786,9 @@ body {
 .yc_imgleft1{ float: left;width: 314px;margin-right: 50px}
 .yc_ysname{width: 198px; display: inline-block;text-align: right;}
 .yc_money{ width: 100px;display: inline-block;text-align: right;}
-.yc_ysname1{/* background: #f9f8f4;*/ overflow: hidden; margin-top:16px;padding-top: 8px;padding-bottom: 8px;/* padding-right: 10px */}
+.yc_ysname1{/* background: #f9f8f4;*/ overflow: hidden;width: 200px;display: block;float: left;padding-bottom: 8px;/* padding-right: 10px */}
 .yc_ysname2{ background: #f9f8f4; overflow: hidden; margin-top:16px;padding-top: 8px;padding-bottom: 8px;padding-right: 10px;color: #87807e;}
+.yc_ysname2 p{height: 22px;line-height: 22px;}
 .yc_imgleft2{margin-top:20px}
 .yc_ddfk{ float: left;width: 160px;margin-right: 22px;}
 .yc_ddfk1{line-height: 32px; background: #f18101; color: #fff; text-align: center; border-radius: 4px;margin-left: 60px;}
