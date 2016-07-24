@@ -41,13 +41,13 @@
 
                                 <div class="yc_ysname2">
                                     <p>
-                                        <?php if($v['commision'] != 0){
-                                            ?>
-                                            <span class="yc_ysname">佣金</span> <span class="yc_money"><?php echo $v['commision'] ?></span>
-                                        <?php
-                                        } ?>
-                                        <span class="yc_ysname">实付</span> <span class="yc_money"><?php echo $v['payMoney'] ?></span>
+                                    <?php if($v['commision'] != 0){
+                                        ?>
+                                        <span class="yc_ysname">佣金</span> <span class="yc_money"><?php echo $v['commision'] ?></span>
+                                    <?php
+                                    } ?>
                                     </p>
+                                    <p><span class="yc_ysname">实付</span> <span class="yc_money"><?php echo $v['payMoney'] ?></span></p>
                                 </div>
                             </div>
                             <?php
