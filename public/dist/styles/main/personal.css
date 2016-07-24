@@ -1956,11 +1956,13 @@ body {
     padding-bottom: 10px;
 }
 .kp_dtye{
-    margin-top: 10px;
-    margin-left: -30px;
-    float: left;
-    color: #f00;
+
+    height: 47px; padding-left: 60px;font-size: 18px; line-height: 47px;
+    background: url('/dist/images/icon-money.png') no-repeat;
 }
+.kp_dtye em{font-size: 22px; padding-left: 10px;}
+.kp_txtx{padding-left: 34px; font-size: 12px;line-height: 20px; color: #333;background: url('/dist/images/icon-xin.jpg') no-repeat 18px 3px; margin-top: 10px;}
+.kp_txtx em{color: #810100; font-size: 22px;padding-top: 14px;padding-right: 10px; display: inline;}
 .kp_dtye1{
     margin-top: 10px;
     margin-left: 10px;

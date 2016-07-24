@@ -9,11 +9,13 @@
             </div>
             <div class="kp_dttop2">
                 <div class="kp_dtmy"></div>
-                <div class="kp_dtye">开拍余额</div>
-                <div class="kp_dtye1"><?php echo $_memberInfo['rechargeMoney'] ?></div>
+                <div class="kp_dtye">开拍余额<em><?php echo $_memberInfo['rechargeMoney'] ?></em></div>
                 <div class="kp_bd" style="cursor: pointer;" onclick="location.href='/member/bind-card';">输入银行信息</div>
                 <div class="kp_tx do-withdraw-btn" style="cursor:pointer;">提现</div>
-                <div class="kp_txtx">当日16:00以前申请提现的，当日到帐；16:00以后申请提现的，T+1到帐。周末及节假日不处理提现申请，敬请谅解。</div>
+                <div class="kp_txtx">
+                    当日16:00以前申请提现的，当日到帐；16:00以后申请提现的，T+1到帐。周末及节假日不处理提现申请，敬请谅解。
+                </div>
+
             </div>
             <div class="kp_dtsx">
                 <form method="post" action="/member/my-recharge" id="query-order-form" />
