@@ -555,7 +555,7 @@
                 data.productCategoryFilters.push(optionID);
             });
             data.productCategoryProperty = {};
-            $('.category-property').each(function(){
+            $('.category-property:visible').each(function(){
                 var productCategoryPropertyID = $(this).attr('product-category-property-id');
                 data.productCategoryProperty[productCategoryPropertyID] = $(this).val();
             });
