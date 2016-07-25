@@ -97,6 +97,28 @@
 <?php
 }
 ?>
+<?php
+
+    if($_controllerName == 'product'){
+?>
+        <div id="paging">
+            <a href="javascript:;" class="paginate-front-page">首页</a>
+            <a href="javascript:;" class="paginate-preview-page" style="width:60px">上一页</a>
+            <?php
+            for($i = 1; $i <= $productsPage; $i++){
+                ?>
+                <a href="javascript:;" class="paginate-page"><?php echo $i; ?></a>
+            <?php
+            }
+            ?>
+            <a href="javascript:;" class="paginate-next-page" style="width:60px" total-pages="<?php echo $productsPage; ?>">下一页</a>
+            <a href="javascript:;" class="paginate-rear-page" total-pages="<?php echo $productsPage; ?>">尾页</a>
+            <span>共 <?php echo $productsPage ?> 页</span>
+            <span>到<input type="text" id="redirect-paginate-num" />页</span><a total-pages="<?php echo $productsPage; ?>" href="javascript:;" class="redirect-paginate-num-btn">确定</a>
+        </div>
+<?php
+    }
+?>
 
 <script>
     $(function(){

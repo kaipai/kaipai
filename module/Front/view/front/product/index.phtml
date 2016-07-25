@@ -83,7 +83,7 @@
     <div class="center ">
 
         <!--分类-->
-        <div>
+        <div id="main-content">
             <?php if(!empty($categoryInfo)){
             ?>
                 <div class="fl_liebie">分类拍品 > <?php echo $categoryInfo['categoryName']; ?></div>
@@ -268,7 +268,8 @@
             isRefundInDays : 0,
             isCertificateCard : 0,
             isAuthorAuth : 0,
-            status : 'all'
+            status : 'all',
+            scroll : 0
         }
         function refresh(params){
             if($('#is-auction-auth').is(':checked')){
@@ -325,6 +326,10 @@
                     $('#products').html(data);
                 }
             });
+            if(params.scroll){
+                $('html,body').animate({scrollTop: $("#main-content").offset().top}, 500);
+            }
+
         }
 
 
@@ -422,6 +427,53 @@
 
 
         $(".probot-ad").slide({mainCell:".bd ul",autoPlay:true,effect:"leftMarquee",vis:4,interTime:10});
+
+
+
+        $(document).on('click', '.paginate-front-page', function(){
+            params.pageNum = 1;
+            params.scroll = 1;
+            refresh(params);
+        });
+        $(document).on('click', '.paginate-preview-page', function(){
+            params.scroll = 1;
+            params.pageNum = params.pageNum - 1;
+            if(params.pageNum <= 0) params.pageNum = 1;
+
+            refresh(params);
+
+        });
+        $(document).on('click', '.paginate-page', function(){
+            $(this).addClass('selected').siblings().removeClass('selected');
+            params.pageNum = parseInt($(this).html());
+            params.scroll = 1;
+            refresh(params);
+        });
+        $(document).on('click', '.paginate-next-page', function(){
+            params.scroll = 1;
+            params.pageNum = params.pageNum + 1;
+            var totalPages = parseInt($(this).attr('total-pages'));
+            if(params.pageNum > totalPages) params.pageNum = totalPages;
+            refresh(params);
+        });
+        $(document).on('click', '.paginate-rear-page', function(){
+            params.pageNum = parseInt($(this).attr('total-pages'));
+            params.scroll = 1;
+            refresh(params);
+        });
+        $(document).on('click', '.redirect-paginate-num-btn', function(){
+
+            var pageNum = $('#redirect-paginate-num').val();
+            pageNum = parseInt(pageNum);
+            var totalPages = parseInt($(this).attr('total-pages'));
+            if(pageNum < 1 || pageNum > totalPages){
+                layer.alert('请输入正确的页数');
+                return false;
+            }
+            params.pageNum = pageNum;
+            params.scroll = 1;
+            refresh(params);
+        });
     })
 
 </script>

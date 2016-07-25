@@ -558,6 +558,7 @@ em, i {
 
 /*分页**/
 #paging {
+    clear:both;
   text-align: center;
   display: block;
   margin-top: 15px;
