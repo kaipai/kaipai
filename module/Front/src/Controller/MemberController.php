@@ -1324,6 +1324,7 @@ class MemberController extends Front{
 
         foreach($products as $productInfo){
             if(!empty($productInfo)){
+                if(!empty($productInfo['auctionStatus'])) return $this->response(ApiError::COMMON_ERROR, '该拍品无法操作上架');
                 $productInfo['startTime'] = time();
                 $update['startTime'] = $productInfo['startTime'];
 
