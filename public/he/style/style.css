@@ -42,8 +42,8 @@
     margin-right: 10px;
 }
 .select_cho li span{
-    padding-right: 40px;
-    display: inline-block;
+    padding-right: 30px;
+    display: inline-block;width: 80px; ;
 }
 .select_cho li:hover{
     background: #a9a8a3;
