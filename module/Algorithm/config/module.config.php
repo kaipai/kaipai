@@ -24,7 +24,7 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '[:controller][/:action]',
+                            'route' => '/[:controller][/:action]',
                             'constraints' => array(
                                 '__NAMESPACE__' => 'Algorithm\Controller',
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',

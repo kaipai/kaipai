@@ -1,6 +1,6 @@
 <?php
 namespace Algorithm\Controller;
-
+use COM\Controller;
 class SortController extends Controller{
 
     private $raw = array(
