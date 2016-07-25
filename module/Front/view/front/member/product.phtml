@@ -15,7 +15,7 @@
                 </ul>
                 <span class="kp_zzpm" style="cursor: pointer" onclick="location.href='/member/product?auctionStatus=2';">所有正在拍卖</span>
             </div>
-            <p class="kp_tsinfo">*选择“上架”，系统即默认为立刻上架开拍（最长有一分钟延迟）。24小时内结束。所有拍品上架即无法重新编辑。</p>
+            <p class="kp_tsinfo" style="margin-bottom: 14px;padding-left:0px;">*选择“上架”，系统即默认为立刻上架开拍（最长有一分钟延迟）。24小时内结束。所有拍品上架即无法重新编辑。</p>
             <?php
                 foreach($products as $v){
             ?>
@@ -92,22 +92,22 @@
                                 </span>
                             </div>
                             <div class="kp_bj">
-                                <span>
+
 
                                     <?php
                                         if(in_array($v['auctionStatus'], array(1))){
                                     ?>
-                                            <a href="javascript:;" class="withdraw-product-btn" product-id="<?php echo $v['productID'] ?>">下架</a>
+                                <span><a href="javascript:;" class="withdraw-product-btn" product-id="<?php echo $v['productID'] ?>">下架</a></span>
                                     <?php
 
                                         }elseif(empty($v['auctionStatus'])){
                                     ?>
-                                            <a href="javascript:;" class="publish-product-btn" product-id="<?php echo $v['productID'] ?>">上架</a>
+                                <span><a href="javascript:;" class="publish-product-btn" product-id="<?php echo $v['productID'] ?>">上架</a></span>
                                     <?php
                                         }
                                     ?>
 
-                                </span>
+
                                 <span class="kp_bjsc">
                                     <a is-store-recommend="<?php echo $v['isStoreRecommend']; ?>" href="javascript:;" class="store-recommend-product store-recommend-product-<?php echo $v['productID'] ?>" product-id="<?php echo $v['productID'] ?>"><?php
                                             if($v['isStoreRecommend']){

@@ -116,9 +116,9 @@
             <?php
                 }
             ?>
-
+            <?php echo $this->render('/front/common/paginate', array('url' => '/member/special?', 'pages' => $pages)); ?>
         </div>
-        <?php echo $this->render('/front/common/paginate', array('url' => '/member/special?', 'pages' => $pages)); ?>
+
 
 
     </div>
