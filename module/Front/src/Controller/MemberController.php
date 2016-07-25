@@ -1382,7 +1382,7 @@ class MemberController extends Front{
             if(!empty($paidProducts)){
                 $price = $this->siteSettings['productMoney'] * count($paidProducts);
                 $unitePayID = $this->memberOrderModel->genUnitePayID();
-                $this->productModel->update(array('unitePayID' => $unitePayID, 'publishStartTime' => $startTime, 'publishEndTime' => $endTime), $where);
+                $this->productModel->update(array('unitePayID' => $unitePayID, 'publishStartTime' => $startTime, 'publishEndTime' => $endTime, 'publishAtOnce' => 0), $where);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $price));
             }
         }else{
