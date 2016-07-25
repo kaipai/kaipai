@@ -1523,7 +1523,7 @@ body {
 .kp_right{float: left; width:900px ;}
 .kp_tit{background: #e2dfd6; overflow: hidden; }
 .kp_tit ul li{line-height: 36px; font-size: 18px; float: left; padding-left:30px;padding-left: 30px; color: #333}
-.kp_zzpm{ float: right; margin-right: 18px;line-height: 36px; font-size: 18px;color: #fff;padding:0 20px; background-color: #7f0b00;}
+.kp_zzpm{ float: right;line-height: 36px; font-size: 18px;color: #fff;padding:0 20px; background-color: #7f0b00;}
 .kp_tsinfo{font-size: 16px;line-height: 36px;color: #7F0B00; padding-left: 30px}
 .kp_shop{background: #fff; padding-top: 8px;padding-left: 8px;padding-bottom: 8px; overflow: hidden; margin-bottom: 12px}
 .kp_shop_left{ float: left; width: 100px; height: 100px; margin-right: 30px; position: relative;}
@@ -1962,7 +1962,7 @@ body {
     background: url('/dist/images/icon-money.png') no-repeat;
 }
 .kp_dtye em{font-size: 22px; padding-left: 10px;}
-.kp_txtx{padding-left: 34px; font-size: 12px;line-height: 20px; color: #333;background: url('/dist/images/icon-xin.jpg') no-repeat 18px 3px; margin-top: 10px;}
+.kp_txtx{padding-left: 34px; font-size: 14px;line-height: 20px; color: #333;background: url('/dist/images/icon-xin.jpg') no-repeat 18px 3px; margin-top: 10px;}
 .kp_txtx em{color: #810100; font-size: 22px;padding-top: 14px;padding-right: 10px; display: inline;}
 .kp_dtye1{
     margin-top: 10px;
