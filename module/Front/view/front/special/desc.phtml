@@ -4,9 +4,9 @@
 </div>
 <div class="center">
     <div class="page-box pb30 fz16">
-        <?php
-        echo $storeInfo['specialDesc'];
-        ?>
+
+        <iframe frameborder="no" border="0" scrolling="no" src="/special/desc-content?specialID=<?php echo $specialInfo['specialID'] ?>" width="100%" id="iframepage" name="iframepage" onload="iframeHeight('iframepage');">
+        </iframe>
 
     </div>
 </div>

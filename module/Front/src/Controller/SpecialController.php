@@ -198,4 +198,9 @@ class SpecialController extends Front{
         ));
         return $this->view;
     }
+
+    public function descContentAction(){
+        $this->descAction();
+        return $this->view;
+    }
 }
