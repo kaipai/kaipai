@@ -200,6 +200,7 @@ class SpecialController extends Front{
     }
 
     public function descContentAction(){
+        $this->view->setNoLayout();
         $this->descAction();
         return $this->view;
     }
