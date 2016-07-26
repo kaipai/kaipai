@@ -186,4 +186,16 @@ class SpecialController extends Front{
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('rows' => $dataRows, 'total' => $dataTotalCount));
     }
+
+    public function descAction(){
+        $specialID = $this->queryData['specialID'];
+        $where = array(
+            'specialID' => $specialID
+        );
+        $specialInfo = $this->specialModel->fetch($where);
+        $this->view->setVariables(array(
+            'specialInfo' => $specialInfo
+        ));
+        return $this->view;
+    }
 }
