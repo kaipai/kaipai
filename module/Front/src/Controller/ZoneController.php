@@ -113,19 +113,20 @@ class ZoneController extends Front{
 
     public function commentsAction(){
         $memberArticleID = $this->queryData['memberArticleID'];
-        $where = array('MemberArticleComment.memberArticleID' => $memberArticleID, 'pid' => 0);
+        $where = array('MemberArticleComment.memberArticleID' => $memberArticleID);
         $res = $this->memberArticleCommentModel->getComments($where, $this->pageNum, $this->limit);
         $comments = $res['data'];
+        $pidData = array();
         foreach($comments as $k => $v){
-            $where = array(
-                'pid' => $v['memberArticleCommentID'],
-            );
-            $childs = $this->memberArticleCommentModel->getComments($where, 1, 100);
-            $comments[$k]['childs'] = $childs;
+            if(!empty($v['pid'])){
+                $pidData[$v['pid']][] = $v;
+                unset($comments[$k]);
+            }
         }
         $this->view->setVariables(array(
             'comments' => $comments,
             'pages' => $res['pages'],
+            'pidData' => $pidData,
         ));
 
         return $this->view;
