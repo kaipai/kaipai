@@ -8,7 +8,6 @@ class SortController extends Controller{
     );
 
     public function indexAction(){
-        echo '<pre>';
         print_r($this->raw);
         $this->heapSort();
         print_r($this->raw);

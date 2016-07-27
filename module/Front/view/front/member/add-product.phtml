@@ -699,20 +699,23 @@
 
         $('#product-preview-btn').on('click', function(){
             var data = getProductFormData();
+            if(!data) return false;
+            var result;
             $.ajax({
                 url : '/member/save-product-preview',
                 type : 'post',
                 dataType : 'json',
+                async : false,
                 data : data,
                 success : function(res){
-                    if(res.flag > 0){
-                        window.open('/product/pre-view?productID=' + res.data['productID']);
-                    }else{
-                        layer.alert(res.msg);
-                    }
-
+                    result = res;
                 }
             });
+            if(result.flag > 0){
+                window.open('/product/pre-view?productID=' + result.data['productID']);
+            }else{
+                layer.alert(result.msg);
+            }
         });
 
         $('#save-repo-btn').on('click', function(){

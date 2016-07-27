@@ -36,4 +36,30 @@ return array(
             ),
         ),
     ),
+    'console' => array(
+        'router' => array(
+            'routes' => array(
+                'sort-index-name' => array(
+                    'options' => array(
+                        'route' => 'sort-index',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Algorithm\Controller',
+                            'controller' => 'Sort',
+                            'action' => 'index'
+                        )
+                    )
+                ),
+                'basis-index-name' => array(
+                    'options' => array(
+                        'route' => 'basis-index',
+                        'defaults' => array(
+                            '__NAMESPACE__' => 'Algorithm\Controller',
+                            'controller' => 'Basis',
+                            'action' => 'index'
+                        )
+                    )
+                ),
+            )
+        )
+    ),
 );
