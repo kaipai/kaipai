@@ -744,6 +744,12 @@ class MemberController extends Front{
             $productInfo['endTimeDay'] = date('j', $endTime);
             $productInfo['endTimeHour'] = date('G', $endTime);
             $productInfo['endTimeMin'] = date('i', $endTime);
+        }elseif(!empty($this->_storeInfo['defaultDeliveryCityID'])){
+            $defaultDeliveryCity = $this->regionModel->select(array('regionID' => $this->_storeInfo['defaultDeliveryCityID']))->current();
+            $this->view->setVariables(array(
+                'defaultDeliveryCityID' => $defaultDeliveryCity['regionID'],
+                'defaultDeliveryProvinceID' => $defaultDeliveryCity['pid'],
+            ));
         }
 
         $productCategories = $this->productCategoryModel->select()->toArray();
@@ -1129,6 +1135,9 @@ class MemberController extends Front{
             }else{
                 $this->productModel->insert($product);
                 $productID = $this->productModel->getLastInsertValue();
+                if(!empty($product['deliveryCityID'])){
+                    $this->storeModel->update(array('defaultDeliveryCityID' => $product['deliveryCityID']), array('storeID' => $this->_storeInfo['storeID']));
+                }
                 if(!empty($product['specialID'])){
                     $this->specialModel->update(array('productCount' => new Expression('productCount+1')), array('specialID' => $product['specialID']));
                 }

@@ -470,6 +470,10 @@
                 ?>
                     $('#province-select').val(<?php echo $productInfo['deliveryProvinceID'] ?>);
                 <?php
+                }elseif(!empty($defaultDeliveryProvinceID)){
+                ?>
+                    $('#province-select').val(<?php echo $defaultDeliveryProvinceID ?>);
+                <?php
                 } ?>
 
                 $.ajax({
@@ -477,7 +481,7 @@
                     type : 'post',
                     dataType : 'json',
                     data : {
-                        pid : 31
+                        pid : <?php if(!empty($productInfo)){echo $productInfo['deliveryProvinceID'];}elseif(!empty($defaultDeliveryProvinceID)){echo $defaultDeliveryProvinceID;}else{echo 31;} ?>
                     },
                     success : function(data){
                         var options = '';
@@ -493,6 +497,10 @@
                         <?php if(!empty($productInfo)){
                         ?>
                             $('#city-select').val(<?php echo $productInfo['deliveryCityID'] ?>);
+                        <?php
+                        }elseif(!empty($defaultDeliveryCityID)){
+                        ?>
+                        $('#city-select').val(<?php echo $defaultDeliveryCityID ?>);
                         <?php
                         } ?>
                     }
