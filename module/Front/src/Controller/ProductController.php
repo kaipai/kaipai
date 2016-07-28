@@ -170,6 +170,10 @@ class ProductController extends Front{
 
             $auctionLogs[$k]['nickName'] = Utility::getPrivateNickName($v['nickName']);
         }
+
+        if(!empty($productInfo['deliveryCityID'])){
+            $productInfo['deliveryRegionInfo']  = $this->regionModel->getRegionInfo($productInfo['deliveryCityID']);
+        }
         $this->view->setVariables(array(
             'productInfo' => $productInfo,
             'properties' => $properties,
@@ -229,6 +233,9 @@ class ProductController extends Front{
         if(!empty($productInfo['detailImgs'])){
             $detailImgs = json_decode($productInfo['detailImgs'], true);
         }
+        if(!empty($productInfo['deliveryCityID'])){
+            $productInfo['deliveryRegionInfo']  = $this->regionModel->getRegionInfo($productInfo['deliveryCityID']);
+        }
         $this->view->setVariables(array(
             'productInfo' => $productInfo,
             'properties' => $properties,
@@ -252,6 +259,9 @@ class ProductController extends Front{
         $auctionLogs = $this->auctionLogModel->getLogs(array('productID' => $productInfo['productID']));
         foreach($auctionLogs as $k => $v){
             $auctionLogs[$k]['nickName'] = Utility::getPrivateNickName($v['nickName']);
+        }
+        if(!empty($productInfo['deliveryCityID'])){
+            $productInfo['deliveryRegionInfo']  = $this->regionModel->getRegionInfo($productInfo['deliveryCityID']);
         }
         $this->view->setVariables(array(
             'productInfo' => $productInfo,
