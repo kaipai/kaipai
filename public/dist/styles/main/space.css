@@ -43,17 +43,22 @@
 .space_zzai ul li.space_title_del{border-right:0px}
 .space_lim{border-bottom: 0px;}
 .space_comment{ margin-top: 14px; overflow: hidden;}
-.space_comment_left{ float: left; width:1014px }
-.space_tex{ width:1014px; height: 140px; border:1px solid #8a857f; background: #fffdee; padding:10px}
-.space_comment_right{ float: left; width: 108px; margin-left: 30px}
-.space_fbcom{ background: #87c4bd; color: #fff; text-align: center;line-height:38px; color: #fff; margin-top:125px; cursor: pointer;}
+.space_comment_left{ float: left; width:900px }
+.space_tex{ width:890px; height: 140px; border:1px solid #8a857f; background: #fffdee; padding:10px;resize: none;}
+.space_comment_right{ float: left; width: 108px; margin-left: 24px}
+.space_fbcom{ background: #87c4bd; color: #fff; text-align: center;line-height:38px; color: #fff; margin-top:120px; cursor: pointer;}
 .space_cominfo{overflow: hidden;border-bottom: 1px dashed #8a857f;padding: 20px 40px}
+.space_cominfoChildren{ padding-left: 140px; }
 .space_cominfo_left{ float: left; width: 910px }
 .space_cominfo_right{ float: right; width: 170px}
 .space_cominfo_name{ font-size: 20px; color: #000}
 .space_cominfo_nr{ margin-top: 20px}
 .space_cominfo_right ul li{ float: left; padding-left: 10px; padding-right: 10px; border-right:1px solid #8a857f;}
 .space_cominfo_right ul li.space_no{border-right:0px;}
+.childrenTextBox{height: 206px;border:1px solid #8a857f;margin-top: 20px;background: #fff; padding:10px; }
+.childrenTextBox textarea{outline:none;border:0; height: 140px;resize: none; width: 100%; box-sizing:border-box; }
+.childrenTextBoxBot{ border-top:1px solid #999; }
+.childrenBtn{ background: #87c4bd; color: #fff; text-align: center;line-height:38px; color: #fff;margin: 10px 10px ;float: right; padding: 0 20px; cursor: pointer;}
 .space_pinlun{ margin-top: 20px}
 .space_fbwz{ background: #800000; color: #fff; padding-left:14px; line-height: 40px ; margin-top: 20px}
 .space_bioti{ margin-top: 30px}
