@@ -79,10 +79,13 @@ class SortController extends Controller{
     }
 
     private function quickSort(){
-        
+        $count = count($this->raw);
+        $pivot = $this->getPivot($this->raw, 0, $count - 1);
+        $this->recursiveSort($this->raw, 0, $pivot - 1);
+        $this->recursiveSort($this->raw, $pivot + 1, $count - 1);
     }
 
-    private function recursiveSort($arr){
+    private function recursiveSort($arr, $left, $right){
 
     }
 
@@ -109,7 +112,7 @@ class SortController extends Controller{
         $tmp = $arr[$middle];
         $arr[$middle] = $arr[$right - 1];
 
-        return $arr[$middle];
+        return $middle;
     }
 
 
