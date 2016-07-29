@@ -78,9 +78,48 @@ class SortController extends Controller{
         return $this->raw;
     }
 
+    private function quickSort(){
+        
+    }
+
+    private function recursiveSort($arr){
+
+    }
+
+    private function getPivot($arr, $left, $right){
+        $left = current($arr);
+        $right = $arr[count($arr) - 1];
+        $middle = ($left + $right) / 2;
+
+        if($arr[$left > $arr[$right]]){
+            $tmp = $arr[$left];
+            $arr[$left] = $arr[$right];
+            $arr[$right] = $tmp;
+        }
+        if($arr[$left] > $arr[$middle]){
+            $tmp = $arr[$left];
+            $arr[$left] = $arr[$middle];
+            $arr[$middle] = $tmp;
+        }
+        if($arr[$middle] > $arr[$right]){
+            $tmp = $arr[$middle];
+            $arr[$middle] = $arr[$right];
+            $arr[$right] = $tmp;
+        }
+        $tmp = $arr[$middle];
+        $arr[$middle] = $arr[$right - 1];
+
+        return $arr[$middle];
+    }
+
+
     private function heapSort(){
 
 
+
+    }
+
+    private function initHeap(){
 
     }
 
