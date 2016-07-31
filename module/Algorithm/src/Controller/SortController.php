@@ -4,12 +4,12 @@ use COM\Controller;
 class SortController extends Controller{
 
     private $raw = array(
-        5, 4, 3, 13, 45, 192, 35, 98, 78, 454
+        49, 7, 23, 123, 31, 123, 43, 24, 54,
     );
 
     public function indexAction(){
         print_r($this->raw);
-        $this->heapSort();
+        $this->quickSort();
         print_r($this->raw);
         return $this->response;
     }
@@ -80,37 +80,67 @@ class SortController extends Controller{
 
     private function quickSort(){
         $count = count($this->raw);
-        $pivot = $this->getPivot($this->raw, 0, $count - 1);
-        $this->recursiveSort($this->raw, 0, $pivot - 1);
-        $this->recursiveSort($this->raw, $pivot + 1, $count - 1);
+        $this->recursiveSort(0, $count - 1);
     }
 
-    private function recursiveSort($arr, $left, $right){
+    private function recursiveSort($left, $right){
+        $pivot = $this->getPivot($left, $right);
+        $pivotVal = $this->raw[$pivot];
+        $this->raw[$pivot] = $this->raw[$right - 1];
+        $this->raw[$right - 1] = $pivotVal;
+
+        $i = $left; $j = $right - 1;
+
+        if($i == $j) return ;
+
+        while(1){
+
+            while($this->raw[++$i] < $pivotVal){
+
+            }
+
+            while($this->raw[--$j] > $pivotVal){
+
+            }
+
+            if($i < $j){
+
+                $tmp = $this->raw[$i];
+                $this->raw[$i] = $this->raw[$j];
+                $this->raw[$j] = $tmp;
+
+            }else{
+                break;
+            }
+        }
+        $tmp = $this->raw[$i];
+        $this->raw[$i] = $this->raw[$right - 1];
+        $this->raw[$right - 1] = $tmp;
+
+        $this->recursiveSort($left, $i - 1);
+        $this->recursiveSort($i + 1, $right);
 
     }
 
-    private function getPivot($arr, $left, $right){
-        $left = current($arr);
-        $right = $arr[count($arr) - 1];
-        $middle = ($left + $right) / 2;
+    private function getPivot($left, $right){
+        $middle = floor(($left + $right) / 2);
 
-        if($arr[$left > $arr[$right]]){
-            $tmp = $arr[$left];
-            $arr[$left] = $arr[$right];
-            $arr[$right] = $tmp;
+        if($this->raw[$left > $this->raw[$right]]){
+            $tmp = $this->raw[$left];
+            $this->raw[$left] = $this->raw[$right];
+            $this->raw[$right] = $tmp;
         }
-        if($arr[$left] > $arr[$middle]){
-            $tmp = $arr[$left];
-            $arr[$left] = $arr[$middle];
-            $arr[$middle] = $tmp;
+        if($this->raw[$left] > $this->raw[$middle]){
+            $tmp = $this->raw[$left];
+            $this->raw[$left] = $this->raw[$middle];
+            $this->raw[$middle] = $tmp;
         }
-        if($arr[$middle] > $arr[$right]){
-            $tmp = $arr[$middle];
-            $arr[$middle] = $arr[$right];
-            $arr[$right] = $tmp;
+        if($this->raw[$middle] > $this->raw[$right]){
+            $tmp = $this->raw[$middle];
+            $this->raw[$middle] = $this->raw[$right];
+            $this->raw[$right] = $tmp;
         }
-        $tmp = $arr[$middle];
-        $arr[$middle] = $arr[$right - 1];
+
 
         return $middle;
     }
