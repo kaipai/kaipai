@@ -85,13 +85,16 @@ class SortController extends Controller{
 
     private function recursiveSort($left, $right){
         $pivot = $this->getPivot($left, $right);
+        $i = $left; $j = $right - 1;
+        if($i == $j) return ;
+
         $pivotVal = $this->raw[$pivot];
         $this->raw[$pivot] = $this->raw[$right - 1];
         $this->raw[$right - 1] = $pivotVal;
 
-        $i = $left; $j = $right - 1;
+        var_dump($i, $j);
+        print_r($this->raw);
 
-        if($i == $j) return ;
 
         while(1){
 
