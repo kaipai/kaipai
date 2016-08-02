@@ -163,17 +163,28 @@ class Product extends Model{
 
     }
 
-    public function todayCanPublishProducts($storeID = null){
+    public function todayCanPublishProducts($storeID = null, $num = 1, $startTime = null, $endTime = null){
+        if(empty($startTime)) {
+            $startTime = strtotime(date('Y-m-d 00:00:00'));
+        }else{
+            $startTime = strtotime(date('Y-m-d 00:00:00', $startTime));
+        }
+        if(empty($endTime)) {
+            $endTime = strtotime(date('Y-m-d 23:59:59'));
+        }else{
+            $endTime = strtotime(date('Y-m-d 23:59:59', $endTime));
+        }
         $select = $this->getSelect();
-        $select->columns(array('count(*)' => 'totalProducts'));
+        $select->columns(array('totalProducts' => new Expression('count(*)')));
         $select->where(array(
             'storeID' => $storeID,
             'auctionStatus' => array(1, 2),
-            'startTime > ?' => strtotime(date('Y-m-d 00:00:00')),
-            'endTime < ?' => strtotime(date('Y-m-d 23:59:59')),
+            'startTime > ?' => $startTime,
+            'startTime < ?' => $endTime,
         ));
         $data = $this->selectWith($select)->current();
-        if($data['totalProducts'] >= 5){
+
+        if($data['totalProducts'] + $num > 5){
             return false;
         }else{
             return true;

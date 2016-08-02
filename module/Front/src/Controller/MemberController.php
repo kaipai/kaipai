@@ -1330,7 +1330,9 @@ class MemberController extends Front{
         );
 
         $products = $this->productModel->select($where)->toArray();
-
+        $count = count($products);
+        $flag = $this->productModel->todayCanPublishProducts($this->_storeInfo['storeID'], $count);
+        if(!$flag) return $this->response(ApiError::COMMON_ERROR, '自由拍每日拍卖限5件，设置已超出');
         foreach($products as $productInfo){
             if(!empty($productInfo)){
                 if(!empty($productInfo['auctionStatus'])) return $this->response(ApiError::COMMON_ERROR, '该拍品无法操作上架');
@@ -1374,6 +1376,10 @@ class MemberController extends Front{
         );
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
         $products = $this->productModel->select($where)->toArray();
+        $count = count($products);
+        $flag = $this->productModel->todayCanPublishProducts($this->_storeInfo['storeID'], $count, $startTime, $endTime);
+        if(!$flag) return $this->response(ApiError::COMMON_ERROR, '自由拍每日拍卖限5件，设置已超出');
+
         foreach($products as $productInfo){
             if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
             if($productInfo['auctionStatus'] != 0) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
@@ -1382,7 +1388,7 @@ class MemberController extends Front{
         if($startTime < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
         if($endTime < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
         if($endTime < $startTime) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间早于开始时间');
-        if($endTime > strtotime('+2 days', $startTime)) return $this->response(ApiError::COMMON_ERROR, '拍卖时间在48小时内');
+        if($endTime > strtotime('+2 days', $startTime)) return $this->response(ApiError::COMMON_ERROR, '自由拍拍卖时长不超过48小时，设置已超出');
 
 
         if(!empty($this->siteSettings['productMoney'])){
