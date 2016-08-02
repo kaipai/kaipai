@@ -163,6 +163,23 @@ class Product extends Model{
 
     }
 
+    public function todayCanPublishProducts($storeID = null){
+        $select = $this->getSelect();
+        $select->columns(array('count(*)' => 'totalProducts'));
+        $select->where(array(
+            'storeID' => $storeID,
+            'auctionStatus' => array(1, 2),
+            'startTime > ?' => strtotime(date('Y-m-d 00:00:00')),
+            'endTime < ?' => strtotime(date('Y-m-d 23:59:59')),
+        ));
+        $data = $this->selectWith($select)->current();
+        if($data['totalProducts'] >= 5){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
 
 
 }
