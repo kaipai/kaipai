@@ -562,7 +562,7 @@ class MemberController extends Front{
         );
         $this->memberOrderModel->update(array('delayAutoConfirmDeliveryDoneTime' => 1, 'autoConfirmDeliveryDoneTime' => new Expression('autoConfirmDeliveryDoneTime + 432000')), $where);
 
-        return $this->response(ApiSuccess::COMMON_SUCCESS, '延长成功');
+        return $this->response(ApiSuccess::COMMON_SUCCESS, '收货时间已被延长5天');
     }
 
     public function applyReturnOrderAction(){
