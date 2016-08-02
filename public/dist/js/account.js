@@ -15,7 +15,7 @@ $(document).on('click', '#btn_getcode', function() {
 			shadeClose: true,
 			time: 2000
 		});
-		return;
+		return false;
 	};
 	if (picVerifyCode == "") {
 		layer.open({
@@ -25,7 +25,7 @@ $(document).on('click', '#btn_getcode', function() {
 			shadeClose: true,
 			time: 2000
 		});
-		return
+		return false;
 	};
 	if (reSend) {
         var flag = 1;
@@ -38,13 +38,8 @@ $(document).on('click', '#btn_getcode', function() {
             success : function(data) {
                 if(data.flag <= 0){
                     flag = 0;
-                    layer.open({
-                        type: 0,
-                        icon: 2,
-                        content: data.msg,
-                        shadeClose: true,
-                        time: 2000
-                    });
+                    layer.alert(data.msg);
+                    return false;
                 }
             }
         });
@@ -74,7 +69,7 @@ $(document).on('click', '#register', function(){
             shadeClose: true,
             time: 2000
         });
-        return;
+        return false;
     }
     if (!re.test(mobile)) {
         layer.open({
@@ -85,7 +80,7 @@ $(document).on('click', '#register', function(){
             shadeClose: true,
             time: 2000
         });
-        return;
+        return false;
     }
     if (!verifyCode) {
         layer.open({
@@ -95,7 +90,7 @@ $(document).on('click', '#register', function(){
             shadeClose: true,
             time: 2000
         });
-        return
+        return false;
     }
     if (!password) {
         layer.open({
@@ -105,7 +100,7 @@ $(document).on('click', '#register', function(){
             shadeClose: true,
             time: 2000
         });
-        return
+        return false;
     }
     if(!serviceTerm){
         layer.open({
@@ -115,6 +110,7 @@ $(document).on('click', '#register', function(){
             shadeClose: true,
             time: 2000
         });
+        return false;
     }
 
     $.ajax({
@@ -129,13 +125,8 @@ $(document).on('click', '#register', function(){
         },
         success : function(data){
             if(data.flag <= 0){
-                layer.open({
-                    type : 0,
-                    icon : 2,
-                    content : data.msg,
-                    shadeClose: true,
-                    time: 2000
-                });
+                layer.alert(data.msg)
+                return false;
             }else{
                 location.href = '/';
             }
@@ -157,7 +148,7 @@ $(document).on('click', '#do-login', function(){
             shadeClose: true,
             time: 2000
         });
-        return;
+        return false;
     }
     if (!re.test(mobile)) {
         layer.open({
@@ -167,7 +158,7 @@ $(document).on('click', '#do-login', function(){
             shadeClose: true,
             time: 2000
         });
-        return;
+        return false;
     }
     if (!password) {
         layer.open({
@@ -177,7 +168,7 @@ $(document).on('click', '#do-login', function(){
             shadeClose: true,
             time: 2000
         });
-        return
+        return false;
     }
 
     $.ajax({
@@ -222,7 +213,7 @@ $(document).on('click', '#reset-pwd-btn', function(){
             shadeClose: true,
             time: 2000
         });
-        return;
+        return false;
     }
     if (!verifyCode) {
         layer.open({
@@ -232,7 +223,7 @@ $(document).on('click', '#reset-pwd-btn', function(){
             shadeClose: true,
             time: 2000
         });
-        return
+        return false;
     }
     if (!password) {
         layer.open({
@@ -242,7 +233,7 @@ $(document).on('click', '#reset-pwd-btn', function(){
             shadeClose: true,
             time: 2000
         });
-        return
+        return false;
     }
     if(!confirmPassword){
         layer.open({
@@ -252,6 +243,7 @@ $(document).on('click', '#reset-pwd-btn', function(){
             shadeClose: true,
             time: 2000
         });
+        return false;
     }
 
     $.ajax({
@@ -266,13 +258,8 @@ $(document).on('click', '#reset-pwd-btn', function(){
         },
         success : function(data){
             if(data.flag <= 0){
-                layer.open({
-                    type : 0,
-                    icon : 2,
-                    content : data.msg,
-                    shadeClose: true,
-                    time: 2000
-                });
+                layer.alert(data.msg);
+                return false;
             }else{
                 layer.alert(data.msg, function(){
                     location.href = '/login/do-login';

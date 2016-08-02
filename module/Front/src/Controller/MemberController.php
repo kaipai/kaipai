@@ -432,6 +432,7 @@ class MemberController extends Front{
             if(!empty($this->postData['qq'])){
                 $this->storeModel->update(array('storeqq' => $this->postData['qq']), array('storeID' => $this->memberInfo['storeID']));
             }
+            if(mb_strlen($this->postData['signature']) > 20) return $this->response(ApiError::COMMON_ERROR, '个性签名字数超过限制');
 
             $this->memberInfoModel->update($this->postData, array('memberID' => $this->memberInfo['memberID']));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
@@ -831,6 +832,7 @@ class MemberController extends Front{
 
                 if($this->postData['endTime'] < $this->postData['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
             }
+            if(mb_strlen($this->postData['specialName']) > 12) return $this->response(ApiError::COMMON_ERROR, '专场标题字数超过限制');
 
             $this->postData['storeID'] = $this->_storeInfo['storeID'];
 
@@ -954,11 +956,13 @@ class MemberController extends Front{
             $this->postData['storeLogo'] = Utility::saveBaseCodePic($this->postData['storeLogo']);
             $this->postData['storeBanner'] = Utility::saveBaseCodePic($this->postData['storeBanner']);
             //$this->postData['recommendImg'] = Utility::saveBaseCodePic($this->postData['recommendImg']);
-
+            if(mb_strlen($this->postData['storeName']) > 6) return $this->response(ApiError::COMMON_ERROR, '店铺名称字数超过限制');
+            if(mb_strlen($this->postData['signature']) > 35) return $this->response(ApiError::COMMON_ERROR, '店铺签名字数超过限制');
             $this->storeModel->update($this->postData, $where);
 
             //$this->storeCategoryModel->delete(array('storeID' => $storeID));
             foreach($storeCategory as $v){
+                if(mb_strlen($v) > 6) return $this->response(ApiError::COMMON_ERROR, '店内分类字数超过限制');
                 $exist = $this->storeCategoryModel->select(array('storeID' => $storeID, 'storeCategoryName' => $v))->current();
 
                 if(!empty($v) && empty($exist)){
@@ -1034,6 +1038,7 @@ class MemberController extends Front{
         $data['storeID'] = $this->_storeInfo['storeID'];
         $product = $data;
         unset($product['productCategoryFilters'], $product['productCategoryProperty'], $product['storeCategoryID']);
+        if(mb_strlen($product['productName']) > 15) return $this->response(ApiError::COMMON_ERROR, '拍品标题字数超过限制');
         if(!empty($data['detailImgs'])){
             $detailImgs = explode(',', trim($data['detailImgs'], ','));
             if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');

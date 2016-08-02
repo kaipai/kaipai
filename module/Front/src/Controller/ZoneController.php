@@ -248,9 +248,8 @@ class ZoneController extends Front{
             unset($this->postData['zoneID']);
             $this->postData['senderID'] = $this->memberInfo['memberID'];
             $this->memberArticleCommentModel->insert($this->postData);
-            if(empty($this->postData['pid'])){
-                $this->memberArticleModel->update(array('commentCount' => new Expression('commentCount+1')), array('memberArticleID' => $this->postData['memberArticleID']));
-            }
+
+            $this->memberArticleModel->update(array('commentCount' => new Expression('commentCount+1')), array('memberArticleID' => $this->postData['memberArticleID']));
 
             return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功');
         }catch (\Exception $e){

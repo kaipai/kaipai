@@ -117,7 +117,8 @@
 					default : text = '未知错误!';
  					break;	
 				}
-            	alert( text );
+            	layer.alert( text );
+                return false;
         	});
         }
     });

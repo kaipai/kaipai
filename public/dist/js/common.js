@@ -331,8 +331,13 @@ $(document).ready(function(){
         }
 
         //console.log(J_uploadPar);
-        lrz(that.files[0], {
+        lrz(that.files[0], {quality : 1
         }).then(function (rst) {
+            console.log(rst);
+            if(rst.fileLen > 1024 * 1024){
+                layer.alert('文件大小超过限制!');
+                return false;
+            }
             //console.log(rst);
             var img = new Image();
             img.src = rst.base64;

@@ -6,18 +6,18 @@
         <div class="kp_right">
             <div class="mt20">
                 <span class="ind_jrzz bold">店铺名称</span>
-                <input class="zz_inputqm" type="text" id="storeName" placeholder="" value="<?php echo !empty($_storeInfo['storeName']) ? $_storeInfo['storeName'] : ''; ?>">
+                <input class="zz_inputqm" type="text" id="storeName" placeholder="" value="<?php echo !empty($_storeInfo['storeName']) ? $_storeInfo['storeName'] : ''; ?>">*限6个字
                 <br> <span class="ind_jrzz"></span>
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺标志</div>
                 <div class="dianpbai curfile" id="imghead"><img src="<?php echo !empty($_storeInfo['storeLogo']) ? $_storeInfo['storeLogo'] : '/images/img_03.jpg'?>"></div>
-                <em style="color:red;">*200x200像素</em><input type="file" class="fileEle" />
+                <em style="">*200x200像素</em>&nbsp;&nbsp;<input type="file" class="fileEle" />
             </div>
             <div class="mt20">
                 <div class="ind_jrzz bold">店铺抬头</div>
                 <div class="dianpbai1 curfile" id="imghead1"><img src="<?php echo !empty($_storeInfo['storeBanner']) ? $_storeInfo['storeBanner'] : '/images/img_06.jpg'?>"></div>
-                <em style="color:red;">*1200x300像素</em><input type="file" class="fileEle" />
+                <em style="">*1200x300像素</em>&nbsp;&nbsp;<input type="file" class="fileEle" />
             </div>
             <div class="mt20">
                 <span class="ind_jrzz bold">店铺签名</span>
@@ -138,13 +138,7 @@
                 dataType : 'json',
                 data : data,
                 success : function(data){
-                    layer.open({
-                        type : 0,
-                        icon : 1,
-                        content : data.msg,
-                        shadeClose: true,
-                        time: 2000
-                    });
+                    layer.alert(data.msg);
                 }
             });
         });

@@ -174,6 +174,7 @@ class LoginController extends Front{
         if(empty($mobile) || empty($password) || /*empty($confirmPassword) ||*/ empty($nickName)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
         if(strlen($password) < 6) return $this->response(ApiError::PASSWORD_LT_SIX_WORDS, ApiError::PASSWORD_LT_SIX_WORDS_MSG);
+        if(mb_strlen($nickName) > 5) return $this->response(ApiError::COMMON_ERROR, '昵称字数超过限制');
         /*if($password != $confirmPassword){
             return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
         }*/
