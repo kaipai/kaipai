@@ -40,17 +40,18 @@
                 <br> <span class="ind_jrzz"></span>
             </div>
             <div class="mt20">
-                <div class="ind_jrzz bold" id="store-categories">拍品分类</div>
-                <?php
-                    foreach($storeCategories as $v){
-                ?>
-                        <input type="text" value="<?php echo $v['storeCategoryName'] ?>" placeholder="分类名称" class="ind_dp1 storeCategory">
-                <?php
-                    }
-                ?>
+                <div class="ind_jrzz bold" style="display:inline-block;">拍品分类</div>
+                <div style="display:inline-block;">
+                    <div id="store-categories" style="width:700px;"><?php
+                        foreach($storeCategories as $v){
+                            ?><input type="text" value="<?php echo $v['storeCategoryName'] ?>" placeholder="分类名称" class="ind_dp1 storeCategory"><?php } ?></div>
+                    <span class="ind_jia" id="add-store-category-btn" style="width:154px;"> &nbsp</span>
+                </div>
 
-                <span class="ind_jia" id="add-store-category-btn"> &nbsp</span>
+
+
             </div>
+            <br style="clear:both" />
             <div class="mt20  ycsd">
                 <span class="ind_jrzz bold" style="float:left">店铺自述</span>
 
@@ -80,7 +81,7 @@
         var qqq = UE.getEditor('qqq');
 
         $('#add-store-category-btn').on('click', function(){
-            $('#store-categories').after('<input type="text" value="" placeholder="分类名称" class="ind_dp1 storeCategory">');
+            $('#store-categories').append('<input type="text" value="" placeholder="分类名称" class="ind_dp1 storeCategory">');
         });
 
         $('#store-settings-committ').on('click', function(){

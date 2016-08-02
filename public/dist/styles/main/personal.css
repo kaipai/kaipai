@@ -1691,7 +1691,7 @@ body {
 .ind_dnb1{margin-top: 4px; width: 76px; height: 28px; background: #61b7d8; color: #fff; text-align: center;line-height: 28px}
 .ind_dnb2{margin-top: 4px; width: 76px; height: 28px; background: #bababa; color: #fff; text-align: center;line-height: 28px}
 .mt30{ margin-top: 30px}
-.ind_dp1{ width: 150px;height: 28px; line-height: 28px}
+.ind_dp1{ width: 150px;height: 28px; line-height: 28px;margin:0px 10px 10px 0px;}
 .ind_checkbox{width: 20px;height: 20px; vertical-align: middle;}
 .ind_radio{width: 20px;height: 20px; vertical-align: middle;}
 .ind_jrzc{margin-top: 20px; color: #000; overflow: hidden; }
