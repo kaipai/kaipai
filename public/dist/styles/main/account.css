@@ -537,10 +537,11 @@
   color: #666; }
 
 .xtj_hzzh a.i_01 {
-  background: url(/dist/img/account/i_02.jpg) no-repeat 10px center; }
+  background: url(/dist/img/account/i_02_new.jpg) no-repeat 10px center; }
 
-.xtj_hzzh a.i_01:hover {
-  background: url(/dist/img/account/i_02h.jpg) no-repeat 10px center; }
+.xtj_hzzh a.i_03 {
+    background: url(/dist/img/account/i_03.jpg) no-repeat 10px center; }
+
 
 .xtj_hzzh a.i_04 {
   background: url(/dist/img/account/i_05.jpg) no-repeat 10px center; }
