@@ -24,7 +24,12 @@ class TestController extends Controller{
             $event = $e->getName();
             $params = $e->getParams();
             printf('eventName %s, params %s', $event, json_encode($params));
-        });
+        }, 2);
+        $eventManager->attach('do', function($e){
+            $event = $e->getName();
+            $params = $e->getParams();
+            printf('eventName2 %s, params2 %s', $event, json_encode($params));
+        }, 3);
         $params = array('foo' => '222', 'bar' => '333');
         $eventManager->trigger('do', null, $params);*/
 
