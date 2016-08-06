@@ -27,7 +27,7 @@ class Product extends Model{
     public function getIndexRecommendProducts(){
         $where = array(
             'b.isIndexRecommend' => 1,
-            //'b.auctionStatus' => array(1, 2),
+            'b.auctionStatus' => array(1, 2),
             'b.recommendStartTime < ?' => time(),
             'b.recommendEndTime > ?' => time(),
             'b.isDel' => 0,
