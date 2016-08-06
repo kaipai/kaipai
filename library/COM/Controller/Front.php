@@ -56,6 +56,7 @@ class Front extends Controller{
             }
             $siteSettings[$v['settingName']] = $v['settingValue'];
         }
+        $siteSettings['qq1'] = $siteSettings['qq'];
         $qq = mt_rand(1, 3);
         if($qq == 2 && !empty($siteSettings['qq2'])){
             $siteSettings['qq'] = $siteSettings['qq2'];
