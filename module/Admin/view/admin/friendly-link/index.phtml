@@ -1,4 +1,7 @@
 <div id="toolbar" class="fixed-table-toolbar col-lg-offset-2">
+    <div class="pull-left">
+        <a  class="btn btn-primary" href="/admin/<?php echo $this->layout()->controllerName; ?>/add-view"><i class="fa fa-pencil"></i>新增</a>
+    </div>
     <div class="form-inline" role="form">
     </div>
 </div>
@@ -27,17 +30,16 @@
                 field: 'linkID',
                 title: '链接ID',
                 align: 'center',
-                valign: 'middle',
-                width:200
-
+                valign: 'middle'
             },
             {
-                field: 'linkName',
-                title: '链接名称',
+                field: 'img',
+                title: '链接图片',
                 align: 'center',
                 valign: 'middle',
-                width:200
-
+                formatter : function(value, row, index){
+                    return '<img src="' + value + '" />';
+                }
             },
             {
                 field: 'linkUrl',
@@ -46,6 +48,20 @@
                 valign: 'middle',
                 width:200
 
+            },{
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                valign: 'middle',
+                formatter:function operateFormatter(value, row, index) {
+                    return [
+                        "<a title='编辑' href=\"/admin/<?php echo $this->layout()->controllerName;?>/add-view?linkID="+row.linkID+"\" ><i class=\"glyphicon glyphicon-edit\"></i></a>",
+                        '<a title="删除" href="javascript:void(0)" class="remove ml10 col-md-4 confirm-btn" boxsize="modal-sm" ctitle="确认提示"' +
+                        ' cbody="确认删除吗？" url="/admin/<?php echo $this->layout()->controllerName;?>/del" method="post" params="linkID='+ row.linkID +'">'+
+                        '<i class="glyphicon glyphicon-remove"></i>'+
+                        '</a>'
+                    ].join('');
+                }
             }
             ]
     });

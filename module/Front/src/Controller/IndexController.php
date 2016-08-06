@@ -34,6 +34,8 @@ class IndexController extends Front{
         }
         $indexArticleList = $this->articleModel->getIndexArticleList();
 
+
+        $friendlyLinks = $this->friendlyLinkModel->select()->toArray();
         $this->view->setVariables(array(
             'products' => $products['products'],
             'banners' => $banners,
@@ -43,6 +45,7 @@ class IndexController extends Front{
             'indexThirdRightAd' => $indexThirdRightAd,
             'indexRecommendArticles' => $indexRecommendArticles,
             'indexArticleList' => $indexArticleList,
+            'friendlyLinks' => $friendlyLinks,
 
         ));
         return $this->view;

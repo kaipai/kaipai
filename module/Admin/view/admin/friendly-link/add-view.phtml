@@ -1,0 +1,51 @@
+<?php
+echo $this->render('/admin/common/upload-img');
+?>
+<div class="wrapper">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <?php echo (isset($info['linkID'])) ? '编辑合作机构:' . $info['linkID'] : '新增合作机构'; ?>
+                <a class="text-right" style="float:right;" href="<?php echo '/admin/' . $this->layout()->controllerName . '/index' ?>">返回</a>
+            </h3>
+        </div>
+        <div class="panel-body">
+            <div class="container mtop40" style="margin-bottom: 50px; height: auto;">
+                <form class="form-horizontal" action="/admin/<?php echo $this->layout()->controllerName; ?>/add" method="post">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">列表图片</label>
+
+                        <div class="col-sm-10 col-md-10 access-upload" id="img-div">
+                            <a id="img" >
+                                <img src="<?php if(!empty($info)) echo $info['img'] ?>" alt="" />
+                                <input type="hidden" name="img" value="<?php if(!empty($info)) echo $info['img'] ?>" />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">链接地址</label>
+
+                        <div class="col-sm-4">
+                            <input class="form-control" name="linkUrl" value="<?php echo !empty($info['linkUrl']) ? $info['linkUrl'] : ''; ?>">
+                        </div>
+                    </div>
+                    <input type="hidden" name="linkID" value="<?php if(!empty($info['linkID'])) echo $info['linkID']; ?>"/>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a class="btn btn-primary editModal" onclick="">确定</a>
+                        </div>
+                    </div>
+                </form>
+
+                <input type="hidden" name="location-url" value="/admin/<?php echo $this->layout()->controllerName; ?>/index"/>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        uploadInit('img');
+    })
+
+
+</script>

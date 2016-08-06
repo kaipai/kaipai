@@ -223,33 +223,17 @@
     </div>
 
     <ul class="center friendUl">
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
-        <li><a href="javascript:">
-                <img src="/dist/images/friend-img.jpg" alt="">
-            </a></li>
+        <?php
+            foreach($friendlyLinks as $v){
+        ?>
+                <li>
+                    <a target="_blank" href="<?php echo $v['linkUrl']; ?>">
+                        <img src="<?php echo $v['img'] ?>" alt="" style="width:154px;height: 60px;">
+                    </a>
+                </li>
+        <?php
+            }
+        ?>
     </ul>
 
 </div>
