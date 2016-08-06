@@ -124,9 +124,8 @@ class ProductController extends Front{
         $this->view->setVariables(array(
             'products' => $products['products'],
             'productsCount' => $products['productsCount'],
-            'productsPage' => ceil($products['productsCount'] / $this->limit),
-            'currPage' => $this->pageNum,
             'show' => $show,
+            'pages' => $products['pages'],
         ));
         return $this->view;
     }

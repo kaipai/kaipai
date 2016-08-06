@@ -31,15 +31,16 @@ class ProductFilterOption extends Model{
         }
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber(ceil($offset / $limit) + 1);
-        $paginator->setItemCountPerPage($limit);
+        $paginator->setItemCountPerPage(1);
         $products = $paginator->getCurrentItems()->getArrayCopy();
+        $pages = $paginator->getPages();
         $productsCount = $paginator->getTotalItemCount();
 
         foreach($products as $k => $v){
             $products[$k]['leftTime'] = Utility::getLeftTime(time(), $v['endTime']);
         }
 
-        return array('products' => $products, 'productsCount' => $productsCount);
+        return array('products' => $products, 'productsCount' => $productsCount, 'pages' => $pages);
 
     }
 

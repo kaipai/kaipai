@@ -135,7 +135,7 @@ class Paginator implements Countable, IteratorAggregate
      *
      * @var int
      */
-    protected $pageRange = 10;
+    protected $pageRange = 5;
 
     /**
      * Pages

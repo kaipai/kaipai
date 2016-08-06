@@ -105,16 +105,26 @@
             <a href="javascript:;" class="paginate-front-page">首页</a>
             <a href="javascript:;" class="paginate-preview-page" style="width:60px">上一页</a>
             <?php
-            for($i = 1; $i <= $productsPage; $i++){
+            foreach($pages->pagesInRange as $v){
                 ?>
-                <a href="javascript:;" class="paginate-page"><?php echo $i; ?></a>
+                <a href="javascript:;" class="paginate-page <?php if($v == $pages->current) echo 'selected'; ?>"><?php echo $v; ?></a>
             <?php
             }
             ?>
-            <a href="javascript:;" class="paginate-next-page" style="width:60px" total-pages="<?php echo $productsPage; ?>">下一页</a>
-            <a href="javascript:;" class="paginate-rear-page" total-pages="<?php echo $productsPage; ?>">尾页</a>
-            <span>共 <?php echo $productsPage ?> 页</span>
-            <span>到<input type="text" id="redirect-paginate-num" />页</span><a total-pages="<?php echo $productsPage; ?>" href="javascript:;" class="redirect-paginate-num-btn">确定</a>
+            <?php
+            if($pages->pageCount > 5 && !in_array($pages->pageCount - 1, $pages->pagesInRange)){
+                echo '...';
+                ?>
+                <a href="javascript:;" class="paginate-page <?php if($v == $pages->current) echo 'selected'; ?>"><?php echo $pages->pageCount - 1; ?></a>
+                <a href="javascript:;" class="paginate-page <?php if($v == $pages->current) echo 'selected'; ?>"><?php echo $pages->pageCount; ?></a>
+            <?php
+            }
+            ?>
+
+            <a href="javascript:;" class="paginate-next-page" style="width:60px" total-pages="<?php echo $pages->pageCount; ?>">下一页</a>
+            <a href="javascript:;" class="paginate-rear-page" total-pages="<?php echo $pages->pageCount; ?>">尾页</a>
+            <span>共 <?php echo $pages->pageCount ?> 页</span>
+            <span>到<input type="text" id="redirect-paginate-num" />页</span><a total-pages="<?php echo $pages->pageCount; ?>" href="javascript:;" class="redirect-paginate-num-btn">确定</a>
         </div>
 <?php
     }
@@ -123,7 +133,7 @@
 <script>
     $(function(){
         if($('#products-page').length){
-            $('#products-page').html('<?php echo $currPage; ?>/<em id="total-page"><?php echo $productsPage ?></em>');
+            $('#products-page').html('<?php echo $pages->current; ?>/<em id="total-page"><?php echo $pages->pageCount ?></em>');
         }
 
         $(".yomibox2").each(function () {

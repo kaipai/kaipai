@@ -3,9 +3,22 @@
     <a href="<?php echo $url?>pageNum=<?php echo ($pages->current - 1) <= $pages->first ? $pages->first : ($pages->current - 1) ?>" style="width:60px">上一页</a>
     <?php
         foreach($pages->pagesInRange as $v){
+
+
     ?>
             <a href="<?php echo $url ?>pageNum=<?php echo $v; ?>" class="<?php if($v == $pages->current){echo 'selected';} ?>"><?php echo $v; ?></a>
     <?php
+
+
+        }
+    ?>
+    <?php
+        if($pages->pageCount > 5 && !in_array($pages->pageCount - 1, $pages->pagesInRange)){
+            echo '...';
+        ?>
+            <a href="<?php echo $url ?>pageNum=<?php echo $pages->pageCount - 1; ?>"><?php echo $pages->pageCount - 1; ?></a>
+            <a href="<?php echo $url ?>pageNum=<?php echo $pages->pageCount; ?>"><?php echo $pages->pageCount; ?></a>
+        <?php
         }
     ?>
     <a href="<?php echo $url?>pageNum=<?php echo ($pages->current + 1) < $pages->last ? ($pages->current + 1) : $pages->last ?>" style="width:60px">下一页</a>
