@@ -587,3 +587,7 @@
 .probot-ad .bd ul li:hover .ad-bg,.probot-ad .bd ul li:hover .title{display: block;}
 .articleTit{font-size: 22px; color: #333; margin-bottom: 18px;}
 .articleTit span{font-size: 14px; color: #666; padding-left: 18px;}
+.friend-tit{height: 28px;background: url(/dist/images/friendb.png) 0 14px repeat-x;}
+.friend-titimg{height: 28px;background: url(/dist/images/friendtit.png) 0 0 no-repeat;width: 296px;}
+.friendUl{ padding: 20px 0; }
+.friendUl li{height: 60px; width: 154px;float: left; margin:5px 15px 10px 0;}

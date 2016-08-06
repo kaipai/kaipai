@@ -961,18 +961,29 @@ class MemberController extends Front{
             $this->storeModel->update($this->postData, $where);
 
             //$this->storeCategoryModel->delete(array('storeID' => $storeID));
-            foreach($storeCategory as $v){
-                if(mb_strlen($v) > 6) return $this->response(ApiError::COMMON_ERROR, '店内分类字数超过限制');
-                $exist = $this->storeCategoryModel->select(array('storeID' => $storeID, 'storeCategoryName' => $v))->current();
+            if(!empty($storeCategory)){
+                $tmp = array();
+                foreach($storeCategory as $v){
+                    if(mb_strlen($v) > 6) return $this->response(ApiError::COMMON_ERROR, '店内分类字数超过限制');
+                    $exist = $this->storeCategoryModel->select(array('storeID' => $storeID, 'storeCategoryName' => $v))->current();
 
-                if(!empty($v) && empty($exist)){
-                    $tmp = array(
-                        'storeID' => $storeID,
-                        'storeCategoryName' => $v,
-                    );
-                    $this->storeCategoryModel->insert($tmp);
+                    if(!empty($v) && empty($exist)){
+                        $tmp = array(
+                            'storeID' => $storeID,
+                            'storeCategoryName' => $v,
+                        );
+                        $this->storeCategoryModel->insert($tmp);
+
+                    }elseif(!empty($exist)){
+                        $this->storeCategoryModel->update(array('storeCategoryName' => $exist['storeCategoryName']), array('storeCategoryID' => $exist['storeCategoryID']));
+                    }
+                    $tmp[] = $exist['storeCategoryName'];
                 }
+                $this->storeCategoryModel->delNotExistCategory($tmp, $storeID);
+            }else{
+                $this->storeCategoryModel->delete(array('storeID' => $storeID));
             }
+
             $this->storeModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
         }catch (\Exception $e){

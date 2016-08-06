@@ -40,11 +40,23 @@
                 <br> <span class="ind_jrzz"></span>
             </div>
             <div class="mt20">
-                <div class="ind_jrzz bold" style="display:inline-block;">拍品分类</div>
+                <div class="ind_jrzz bold fl" style="display:inline-block;">拍品分类</div>
                 <div style="display:inline-block;">
-                    <div id="store-categories" style="width:700px;"><?php
-                        foreach($storeCategories as $v){
-                            ?><input type="text" value="<?php echo $v['storeCategoryName'] ?>" placeholder="分类名称" class="ind_dp1 storeCategory"><?php } ?></div>
+                    <div id="store-categories" style="width:700px;">
+                        <?php
+                        foreach($storeCategories as $v) {
+                            ?>
+                            <div class="input-cate-box">
+                                <input class="ind_dp1 storeCategory" placeholder="分类名称" type="text" value="<?php echo $v['storeCategoryName'] ?>">
+
+                                <div class="input-icon-del">
+                                    X
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
                     <span class="ind_jia" id="add-store-category-btn" style="width:154px;"> &nbsp</span>
                 </div>
 
@@ -81,9 +93,12 @@
         var qqq = UE.getEditor('qqq');
 
         $('#add-store-category-btn').on('click', function(){
-            $('#store-categories').append('<input type="text" value="" placeholder="分类名称" class="ind_dp1 storeCategory">');
+            $('#store-categories').append('<div class="input-cate-box"><input type="text" value="" placeholder="分类名称" class="ind_dp1 storeCategory"><div class="input-icon-del">X</div></div>');
         });
 
+        $(document).on('click', '.input-icon-del', function(){
+            $(this).parent().remove();
+        });
         $('#store-settings-committ').on('click', function(){
             var storeLogo = $('#imghead').find('img').attr('src');
             var storeBanner = $('#imghead1').find('img').attr('src');

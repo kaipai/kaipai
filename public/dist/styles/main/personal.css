@@ -2202,3 +2202,6 @@ li .exc_strat{
 .detailed-xx-top .zrjb-link em{padding: 0 5px; cursor: pointer;}
 .gzsp-new{width: 100px !important;margin-left: 46px;}
 .marginTop20{ margin-top: 20px !important;}
+.input-cate-box{position: relative;width: 155px;height: 30px;float: left; margin: 0 10px 15px 0;}
+.storeCategory{position: absolute;}
+.input-icon-del{ background:url(/dist/img/icon-del.jpg) no-repeat;width: 17px;height: 17px;position: absolute;right: -1px;top: -1px; ;text-indent: -9999px; cursor: pointer; }

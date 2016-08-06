@@ -6,7 +6,7 @@
 .spacename{padding-top: 118px;/* padding-left: 33px; */font-size: 40px; color: #fff}
 .spacetip{ font-size: 20px;/* padding-left: 33px; */color: #fff; margin-top: 16px}
 .space_bti{padding-top: 10px;}
-.space_bti ul li{ float: left;  width: 126px; font-size: 20px}
+.space_bti ul li{ float: left;  width: 126px; font-size: 20px;text-align: center;}
 .space_bti ul li.space_img{position: absolute;  width: 214px; height: 214px;left: 492px;top: -168px; border-radius: 100%;border: 1px solid #fff;}
 .space_dp{position: absolute; background: #ee8102; width: 88px; height: 30px; line-height: 30px; text-align: center; color: #fff; border-radius: 6px;z-index: 2;top: 175px;}
 .space_bti ul li.space_img img{ width: 100%; height: 100%;border-radius: 100%;border: 1px solid #fff;}
@@ -99,3 +99,7 @@
 .ys_searhc{margin-right: 0px !important; background: #820000; color: #fff !important;cursor: pointer; line-height: 28px; display: inline-block; width: 60px; text-align: center; }
 .ys_input{ width: 340px; height: 22px; padding-left: 10px; margin-left: 0px !important; margin-right: 0px !important }
 .ys_searhc1{ margin-right: 0px !important}
+.msg-icon{height: 24px;width: 100%; padding-top: 10px;}
+
+.msg-icon em{float: right;background:url(/dist/img/icon-down.png) no-repeat right 2px; padding-right: 25px; cursor: pointer;}
+.msg-icon-up em{background-image:url(/dist/img/icon-up.png);}
