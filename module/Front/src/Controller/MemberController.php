@@ -1190,6 +1190,7 @@ class MemberController extends Front{
         $data['storeID'] = $this->_storeInfo['storeID'];
         $product = $data;
         unset($product['productCategoryFilters'], $product['productCategoryProperty'], $product['storeCategoryID']);
+        if(mb_strlen($product['productName']) > 15) return $this->response(ApiError::COMMON_ERROR, '拍品标题字数超过限制');
         if(!empty($data['detailImgs'])){
             $detailImgs = explode(',', trim($data['detailImgs'], ','));
             if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
