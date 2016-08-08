@@ -4,9 +4,10 @@
         $deep ++;
         foreach($pidData[$comment['memberArticleCommentID']] as $sv){
             global $count;
+            global $extend;
             $count ++;
 ?>
-            <div class="space_cominfo space_cominfoChildren">
+            <div class="space_cominfo space_cominfoChildren <?php if($count > 10) echo 'hide hide-child-space'; ?>">
                 <div class="space_cominfo_left">
                     <div><span class="space_cominfo_name"><?php echo $sv['nickName'] ?>&nbsp;回复&nbsp;<?php echo $comment['nickName'] ?></span><span class="font16"><?php echo $sv['instime'] ?></span>
                     </div>
@@ -23,11 +24,11 @@
 
             </div>
             <?php
-                if($count >= 10){
+                if($count >= 10 && !$extend){
+                    $extend = 1;
             ?>
-                    <div class="msg-icon"><em>展示更多回复</em></div>
+                    <div class="msg-icon msg-icon-up"><em>展示更多回复</em></div>
             <?php
-                    return;
                 }
             ?>
 
@@ -55,6 +56,7 @@
 
 <?php
         $count = 0;
+        $extend = 0;
         recursiveComment($v, $pidData, 0, $count);
 ?>
 
@@ -118,6 +120,16 @@
                     }
                 }
             });
+        });
+
+        $(document).on('click', '.msg-icon', function(){
+            if($(this).hasClass('msg-icon-up')){
+                $(this).siblings('.hide-child-space').removeClass('hide');
+                $(this).removeClass('msg-icon-up');
+            }else{
+                $(this).siblings('.hide-child-space').addClass('hide');
+                $(this).addClass('msg-icon-up');
+            }
         });
     })
 </script>
