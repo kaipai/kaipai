@@ -3,6 +3,8 @@
         if(empty($pidData[$comment['memberArticleCommentID']])) return false;
         $deep ++;
         foreach($pidData[$comment['memberArticleCommentID']] as $sv){
+            global $count;
+            $count ++;
 ?>
             <div class="space_cominfo space_cominfoChildren">
                 <div class="space_cominfo_left">
@@ -20,7 +22,15 @@
                 </div>
 
             </div>
-            <!--<div class="msg-icon msg-icon-up"><em>展示更多回复</em></div>-->
+            <?php
+                if($count >= 10){
+            ?>
+                    <div class="msg-icon"><em>展示更多回复</em></div>
+            <?php
+                    return;
+                }
+            ?>
+
 <?php
             recursiveComment($sv, $pidData, $deep);
         }
@@ -44,7 +54,11 @@
         </div>
 
 <?php
-        recursiveComment($v, $pidData);
+        $count = 0;
+        recursiveComment($v, $pidData, 0, $count);
+?>
+
+<?php
     }
 ?>
 <div class="hide" id="reply-commend-div">
