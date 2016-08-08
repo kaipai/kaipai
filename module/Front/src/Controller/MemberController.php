@@ -81,7 +81,7 @@ class MemberController extends Front{
             $where->and->equalTo('MemberOrder.orderStatus', $orderStatus);
         }
         if(!empty($search)){
-            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.orderID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
+            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.businessID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
         }
 
 
@@ -1002,7 +1002,7 @@ class MemberController extends Front{
             $where->and->equalTo('MemberOrder.orderStatus', $orderStatus);
         }
         if(!empty($search)){
-            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.orderID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
+            $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.businessID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
         }
         $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
         $orders = $result['data'];
