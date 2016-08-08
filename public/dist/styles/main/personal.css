@@ -1788,7 +1788,7 @@ td.cj_infoNew{vertical-align : top; padding-top: 10px; }
 .yc_ysname{width: 198px; display: inline-block;text-align: right;}
 .yc_money{display: inline-block;float: right;}
 .yc_ysname1{/* background: #f9f8f4;*/ overflow: hidden;width: 200px;display: block;float: left;padding-bottom: 8px;/* padding-right: 10px */}
-.yc_ysname2{ background: #f9f8f4; overflow: hidden; margin-top:42px;padding-top: 8px;padding-bottom: 8px;padding-right: 10px;color: #87807e;}
+.yc_ysname2{ background: #f9f8f4; overflow: hidden; margin-top:42px;padding-top: 8px;padding-bottom: 8px;padding-right: 10px;color: #87807e;display: block;width: 100%;}
 .yc_ysname2 p{height: 22px;line-height: 22px;}
 .youfei{ padding-left: 10px; display: inline-block;}
 .order_yongjin{width: 130px;}
