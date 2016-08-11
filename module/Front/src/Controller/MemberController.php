@@ -869,6 +869,10 @@ class MemberController extends Front{
         $specialID = $this->postData['specialID'];
         $specialInfo = $this->specialModel->select(array('specialID' => $specialID))->current();
         //$this->specialModel->update(array('verifyStatus' => 1), array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
+        $specialProductsCount = $this->productModel->getCount(array('specialID' => $specialID, 'isDel' => 0));
+        if($specialProductsCount != $specialInfo['productCountLimit']){
+            return $this->response(ApiError::COMMON_ERROR, '实际拍品数量与专场定义的拍品数量不符');
+        }
         $update = array('verifyStatus' => 1);
         if(empty($this->siteSettings['specialMoney']) || !empty($specialInfo['isPaid'])){
             $update['isPaid'] = 1;
