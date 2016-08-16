@@ -15,6 +15,7 @@ class FileService
     private $waterText; // 水印文字
     private $waterPct; // 水印透明度
     private $allowType = 'jpg|gif|jpeg|png|bmp';
+    private $isProportion = false;
 
 
     /**
@@ -111,7 +112,8 @@ class FileService
         $this->targetRel = '/uploads/' . date('Ymd') . '/';
 
         if (!is_dir($this->targetAbs)) {
-            mkdir($this->targetAbs, '0755');
+            mkdir($this->targetAbs);
+            chmod($this->targetAbs, 0777);
         }
 
         $dirs = explode('/', $targetDir);
@@ -119,7 +121,8 @@ class FileService
         if (!is_dir($this->targetAbs . $targetDir)) {
             foreach ($dirs as $v) {
                 if ($v) {
-                    mkdir($this->targetAbs . $v, '0755');
+                    mkdir($this->targetAbs . $v);
+                    chmod($this->targetAbs . $v, 0777);
                     $this->targetAbs .= $v . '/';
                     $this->targetRel .= $v . '/';
                 }
@@ -139,7 +142,7 @@ class FileService
      * @param int options['height']
      * 设置缩略图属性
      */
-    public function setThumb($options)
+    public function setThumb($options, $isProportion = false)
     {
         $this->ifThumb = 1;
         if (isset($options['width'])) {
@@ -148,8 +151,19 @@ class FileService
         if (isset($options['height'])) {
             $this->thumbH = $options['height'];
         }
-
+        $this->isProportion = $isProportion;
         return $this;
+    }
+
+    public function customThumb($srcFile, $dstW, $dstH){
+        $lastPos = strrpos($srcFile, '/');
+        $dir = substr($srcFile, 0, $lastPos+1);
+        $file = substr($srcFile, $lastPos+1);
+        $fileName = strstr($file, '.', true);
+        $ext = strstr($file, '.');
+        $dstFile = $dir . $fileName . $dstW . 'X' . $dstH . $ext;
+
+        $this->makeThumb(BaseRootPath . $srcFile, BaseRootPath . $dstFile, $dstW, $dstH, true);
     }
 
     /**
@@ -215,16 +229,16 @@ class FileService
      * @param string $isProportion 略缩图是否等比略缩,默认为false
      * @return array|boolean
      */
-    public function makeThumb($srcFile, $dstFile, $dstW, $dstH, $isProportion = FALSE)
+    public function makeThumb($srcFile, $dstFile, $dstW, $dstH)
     {
-        if (false === ($minitemp = self::getThumbInfo($srcFile, $dstW, $dstH, $isProportion))) return false;
+        if (false === ($minitemp = self::getThumbInfo($srcFile, $dstW, $dstH, $this->isProportion))) return false;
         list($imagecreate, $imagecopyre) = self::getImgcreate($minitemp['type']);
         if (!$imagecreate) return false;
         $imgwidth = $minitemp['width'];
         $imgheight = $minitemp['height'];
 
         $srcX = $srcY = $dstX = $dstY = 0;
-        if (!$isProportion) {
+        if (!$this->isProportion) {
             $dsDivision = $imgheight / $imgwidth;
             $fixDivision = $dstH / $dstW;
             if ($dsDivision > $fixDivision) {
@@ -439,6 +453,7 @@ class FileService
      */
     public static function getImgInfo($srcFile)
     {
+
         if (false === ($imgdata = self::getImgSize($srcFile))) return false;
         $imgdata['type'] = self::getTypes($imgdata['type']);
         if (empty($imgdata) || !function_exists('imagecreatefrom' . $imgdata['type'])) return false;

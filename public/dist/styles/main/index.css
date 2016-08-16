@@ -51,12 +51,18 @@
   width: 263px;
   height: 263px;
   border: 1px solid #58504e;
-  position: relative; }
+  position: relative;
+  vertical-align: middle;
+  display: table-cell;
+  text-align: center;
+}
 
 .indexPro-img img {
-  width: 263px;
+  max-width:263px;
+  max-height:263px;
+  /*width: 263px;
   height: 263px;
-  position: absolute; }
+  position: absolute; */}
 
 .indexPro-num {
   position: absolute;

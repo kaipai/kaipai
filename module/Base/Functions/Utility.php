@@ -307,4 +307,15 @@ class Utility
 
         return $matches[1];
     }
+
+    public static function getThumb($path, $pixel){
+        if(empty($path)) return false;
+        $fileName = strstr($path, '.', true);
+        $ext = strstr($path, '.');
+        if(file_exists(BaseRootPath . $fileName . $pixel . $ext)){
+            return $fileName . $pixel . $ext;
+        }else{
+            return $path;
+        }
+    }
 }
