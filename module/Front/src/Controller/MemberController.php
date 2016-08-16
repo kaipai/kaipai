@@ -11,45 +11,48 @@ use Zend\Db\Sql\Predicate\Between;
 use Zend\Db\Sql\Predicate\IsNull;
 use Zend\Db\Sql\Where;
 
-class MemberController extends Front{
+class MemberController extends Front
+{
 
     private $_storeInfo;
 
-    public function init(){
+    public function init()
+    {
 
-        if(empty($this->memberInfo)) {
-            if($this->request->isXmlHttpRequest()){
+        if (empty($this->memberInfo)) {
+            if ($this->request->isXmlHttpRequest()) {
                 return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
-            }else{
+            } else {
                 return $this->redirect()->toUrl('/login/do-login');
             }
 
         }
-        if(!empty($this->memberInfo['storeID'])){
+        if (!empty($this->memberInfo['storeID'])) {
             $this->_storeInfo = $this->storeModel->select(array('storeID' => $this->memberInfo['storeID']))->current();
             $this->layout()->setVariable('_storeInfo', $this->_storeInfo);
             $this->view->setVariables(array(
                 '_storeInfo' => $this->_storeInfo
             ));
         }
-        if((empty($this->_storeInfo) || $this->_storeInfo['verifyStatus'] != 2) && in_array($this->actionName, array('add-product', 'product', 'special', 'store-order', 'setting', 'my-store'))){
+        if ((empty($this->_storeInfo) || $this->_storeInfo['verifyStatus'] != 2) && in_array($this->actionName, array('add-product', 'product', 'special', 'store-order', 'setting', 'my-store'))) {
             return $this->redirect()->toUrl('/member/store-join');
         }
     }
 
-    public function notificationAction(){
+    public function notificationAction()
+    {
         $type = $this->queryData['type'];
         $where = array(
             'Notification.memberID' => $this->memberInfo['memberID'],
         );
-        if(!empty($type)) $where['Notification.type'] = $type;
-        if($type == 3){
+        if (!empty($type)) $where['Notification.type'] = $type;
+        if ($type == 3) {
             $where[] = new Between('Notification.instime', date('Y-m-d H:i:s', strtotime('-3 days')), date('Y-m-d H:i:s'));
         }
-        if($type == 4){
+        if ($type == 4) {
             $where[] = new Between('Notification.instime', date('Y-m-d H:i:s', strtotime('-3 months')), date('Y-m-d H:i:s'));
         }
-        if($type == 1){
+        if ($type == 1) {
             $where = new Where();
             $where->and->equalTo('Notification.type', $type);
             $where->and->nest()->or->equalTo('Notification.memberID', $this->memberInfo['memberID'])->or->isNull('Notification.memberID');
@@ -71,28 +74,28 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function orderAction(){
+    public function orderAction()
+    {
 
         $search = $this->queryData['search'];
         $orderStatus = $this->queryData['orderStatus'];
         $where = new Where();
         $where->and->equalTo('MemberOrder.memberID', $this->memberInfo['memberID']);
-        if(!empty($orderStatus)){
+        if (!empty($orderStatus)) {
             $where->and->equalTo('MemberOrder.orderStatus', $orderStatus);
         }
-        if(!empty($search)){
+        if (!empty($search)) {
             $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.businessID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
         }
 
 
-
         $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
         $orders = $result['data'];
-        foreach($orders as $k => $v){
-            if(!empty($v['productSnapshot'])){
+        foreach ($orders as $k => $v) {
+            if (!empty($v['productSnapshot'])) {
                 $tmp = json_decode($v['productSnapshot'], true);
                 $orders[$k]['product'] = $tmp;
-            }elseif(!empty($v['customizationSnapshot'])){
+            } elseif (!empty($v['customizationSnapshot'])) {
                 $tmp = json_decode($v['customizationSnapshot'], true);
 
                 $orders[$k]['product'] = array(
@@ -117,23 +120,24 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function orderDetailAction($storeView = 0){
+    public function orderDetailAction($storeView = 0)
+    {
         $orderID = $this->queryData['orderID'];
         $where = array(
             'MemberOrder.orderID' => $orderID,
 
         );
-        if($storeView){
+        if ($storeView) {
             $where['MemberOrder.storeID'] = $this->memberInfo['storeID'];
-        }else{
+        } else {
             $where['MemberOrder.memberID'] = $this->memberInfo['memberID'];
         }
         $orderInfo = $this->memberOrderModel->getOrderDetail($where);
 
-        if(empty($orderInfo)){
+        if (empty($orderInfo)) {
             $this->view->setTemplate('error/404');
-        }else{
-            if($orderInfo['orderType'] == 2){
+        } else {
+            if ($orderInfo['orderType'] == 2) {
                 $tmp = json_decode($orderInfo['customizationSnapshot'], true);
 
                 $orderInfo['product'] = array(
@@ -142,7 +146,7 @@ class MemberController extends Front{
                     'depositPrice' => $tmp['depositPrice'],
                     'listImg' => $tmp['listImg'],
                 );
-            }else{
+            } else {
                 $tmp = json_decode($orderInfo['productSnapshot'], true);
                 $orderInfo['product'] = $tmp;
             }
@@ -154,12 +158,13 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function auctionAction(){
+    public function auctionAction()
+    {
         $auctions = $this->auctionMemberModel->getAuctionList(array('AuctionMember.memberID' => $this->memberInfo['memberID'], 'b.auctionStatus' => 2, 'b.isDel' => 0));
 
-        if($this->request->isXmlHttpRequest()){
+        if ($this->request->isXmlHttpRequest()) {
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $auctions);
-        }else{
+        } else {
             $memberRecommendProducts = $this->productModel->getMemberRecommendProducts();
             $this->view->setVariables(array(
                 'memberRecommendProducts' => $memberRecommendProducts,
@@ -170,7 +175,8 @@ class MemberController extends Front{
 
     }
 
-    public function profileAction(){
+    public function profileAction()
+    {
         $where = array(
             'memberID' => $this->memberInfo['memberID'],
         );
@@ -179,16 +185,17 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, $memberInfo);
     }
 
-    public function interestProductAction(){
+    public function interestProductAction()
+    {
         $search = $this->queryData['search'];
         $auctionStatus = $this->queryData['auctionStatus'];
         $where = new Where();
         $where->and->equalTo('MemberProductInterest.memberID', $this->memberInfo['memberID']);
         $where->and->equalTo('b.isDel', 0);
-        if(!empty($auctionStatus)){
+        if (!empty($auctionStatus)) {
             $where->and->equalTo('b.auctionStatus', $auctionStatus);
         }
-        if(!empty($search)){
+        if (!empty($search)) {
             $where->and->nest()->or->like('b.productName', '%' . $search . '%');
         }
 
@@ -205,11 +212,12 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function interestStoreAction(){
+    public function interestStoreAction()
+    {
         $search = $this->queryData['search'];
         $where = new Where();
         $where->and->equalTo('MemberStoreInterest.memberID', $this->memberInfo['memberID']);
-        if(!empty($search)){
+        if (!empty($search)) {
             $where->and->nest()->or->like('b.storeName', '%' . $search . '%');
         }
 
@@ -223,31 +231,34 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function updateAction(){
+    public function updateAction()
+    {
         $where = array(
             'memberID' => $this->memberInfo['memberID']
         );
         $set = $this->postData;
         $purview = array('selfDesc', 'wechat', 'avatar', 'email', 'qq', 'signature');
-        foreach($set as $k => $v) {
+        foreach ($set as $k => $v) {
             if (!in_array($k, $purview)) unset($set[$k]);
         }
-        if(empty($set)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if (empty($set)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
         $this->memberInfoModel->update($set, $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
     }
 
-    public function logOutAction(){
+    public function logOutAction()
+    {
         $session = new Session(self::FRONT_PLATFORM);
         $session->clear();
         setcookie('autoCode', '', time(), '/');
         return $this->redirect()->toUrl('/login/do-login');
     }
 
-    public function addInterestProductAction(){
+    public function addInterestProductAction()
+    {
         $productID = $this->postData['productID'];
-        try{
+        try {
             $this->memberProductInterestModel->beginTransaction();
             $tmp = array(
                 'productID' => $productID,
@@ -257,21 +268,22 @@ class MemberController extends Front{
             $this->productModel->update(array('interestedCount' => new Expression('interestedCount+1')), array('productID' => $productID));
             $specialID = array();
             $specials = $this->productModel->setColumns(array('specialID'))->select(array('productID' => $productID))->toArray();
-            foreach($specials as $v){
+            foreach ($specials as $v) {
                 $specialID[] = $v['specialID'];
             }
             $this->specialModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('specialID' => $specialID));
             $this->memberProductInterestModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '关注成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->memberProductInterestModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
     }
 
-    public function removeInterestProductAction(){
+    public function removeInterestProductAction()
+    {
         $productID = $this->postData['productID'];
-        try{
+        try {
             $this->memberProductInterestModel->beginTransaction();
             $tmp = array(
                 'productID' => $productID,
@@ -281,21 +293,22 @@ class MemberController extends Front{
             $this->productModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('productID' => $productID));
             $specialID = array();
             $specials = $this->productModel->setColumns(array('specialID'))->select(array('productID' => $productID))->toArray();
-            foreach($specials as $v){
+            foreach ($specials as $v) {
                 $specialID[] = $v['specialID'];
             }
             $this->specialModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('specialID' => $specialID));
             $this->memberProductInterestModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '取消关注成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->memberProductInterestModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
     }
 
-    public function addInterestStoreAction(){
+    public function addInterestStoreAction()
+    {
         $storeID = $this->postData['storeID'];
-        try{
+        try {
             $this->memberStoreInterestModel->beginTransaction();
             $tmp = array(
                 'storeID' => $storeID,
@@ -305,15 +318,16 @@ class MemberController extends Front{
             $this->storeModel->update(array('interestedCount' => new Expression('interestedCount+1')), array('storeID' => $storeID));
             $this->memberStoreInterestModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '关注成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->memberStoreInterestModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
     }
 
-    public function removeInterestStoreAction(){
+    public function removeInterestStoreAction()
+    {
         $storeID = $this->postData['storeID'];
-        try{
+        try {
             $this->memberStoreInterestModel->beginTransaction();
             $tmp = array(
                 'storeID' => $storeID,
@@ -323,22 +337,24 @@ class MemberController extends Front{
             $this->storeModel->update(array('interestedCount' => new Expression('interestedCount-1')), array('storeID' => $storeID));
             $this->memberStoreInterestModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '取消关注成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->memberStoreInterestModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
     }
 
-    public function noteAction(){
+    public function noteAction()
+    {
         return $this->view;
     }
 
-    public function cancelOrderAction(){
+    public function cancelOrderAction()
+    {
         $orderID = $this->postData['orderID'];
         $where = array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']);
         $orderInfo = $this->memberOrderModel->select($where)->current();
-        if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
-        if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
+        if (empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if ($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
 
         $this->memberOrderModel->update(array('orderStatus' => -1), $where);
 
@@ -346,12 +362,13 @@ class MemberController extends Front{
 
     }
 
-    public function delOrderAction(){
+    public function delOrderAction()
+    {
         $orderID = $this->postData['orderID'];
         $where = array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']);
         $orderInfo = $this->memberOrderModel->select($where)->current();
-        if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
-        if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能删除');
+        if (empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if ($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能删除');
 
         $this->memberOrderModel->update(array('isDel' => 1, 'orderStatus' => -1), $where);
 
@@ -359,26 +376,28 @@ class MemberController extends Front{
 
     }
 
-    public function confirmDeliveryDoneAction(){
+    public function confirmDeliveryDoneAction()
+    {
         $where = array(
             'MemberOrder.memberID' => $this->memberInfo['memberID'],
             'MemberOrder.orderID' => $this->postData['orderID'],
             'MemberOrder.orderStatus' => 4,
         );
         $orderInfo = $this->memberOrderModel->fetch($where);
-        if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if (empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
 
 
-        try{
+        try {
             $this->memberOrderModel->confirmDeliveryDone($orderInfo);
             return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $this->response(ApiError::COMMON_ERROR, '确认失败');
         }
 
     }
 
-    public function memberDeliveryListAction(){
+    public function memberDeliveryListAction()
+    {
         $memberDeliveries = $this->memberDeliveryModel->select(array('memberID' => $this->memberInfo['memberID']))->toArray();
         $this->view->setVariables(array(
             'memberDeliveries' => $memberDeliveries
@@ -386,12 +405,13 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function addMemberDeliveryAction(){
+    public function addMemberDeliveryAction()
+    {
         $receiverName = $this->postData['receiverName'];
         $receiverMobile = $this->postData['receiverMobile'];
         $receiverAddr = $this->postData['receiverAddr'];
         $memberDeliveryID = $this->postData['memberDeliveryID'];
-        if(empty($receiverName) || empty($receiverMobile) || empty($receiverAddr)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if (empty($receiverName) || empty($receiverMobile) || empty($receiverAddr)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
 
         $data = array(
             'memberID' => $this->memberInfo['memberID'],
@@ -399,11 +419,11 @@ class MemberController extends Front{
             'receiverMobile' => $receiverMobile,
             'receiverAddr' => $receiverAddr,
         );
-        if(!empty($memberDeliveryID)){
+        if (!empty($memberDeliveryID)) {
             $this->memberDeliverModel->update($data, array('memberDeliveryID' => $memberDeliveryID));
             $data['memberDeliveryID'] = $memberDeliveryID;
             return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功', $data);
-        }else{
+        } else {
             $this->memberDeliveryModel->insert($data);
             $memberDeliveryID = $this->memberDeliveryModel->getLastInsertValue();
             $data['memberDeliveryID'] = $memberDeliveryID;
@@ -411,103 +431,108 @@ class MemberController extends Front{
         }
     }
 
-    public function delMemberDeliveryAction(){
+    public function delMemberDeliveryAction()
+    {
         $memberDeliveryID = $this->postData['memberDeliveryID'];
         $this->memberDeliveryModel->delete(array('memberDeliveryID' => $memberDeliveryID, 'memberID' => $this->memberInfo['memberID']));
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
     }
 
-    public function settingsAction(){
-        if(empty($this->postData)){
+    public function settingsAction()
+    {
+        if (empty($this->postData)) {
             $memberInfo = $this->memberInfoModel->select(array('memberID' => $this->memberInfo['memberID']))->current();
             $this->view->setVariables(array('_memberInfo' => $memberInfo));
             return $this->view;
         }
 
-        try{
-            if(!empty($this->postData['avatar'])){
+        try {
+            if (!empty($this->postData['avatar'])) {
                 $this->postData['avatar'] = Utility::saveBaseCodePic($this->postData['avatar']);
             }
-            if(!empty($this->postData['qq'])){
+            if (!empty($this->postData['qq'])) {
                 $this->storeModel->update(array('storeqq' => $this->postData['qq']), array('storeID' => $this->memberInfo['storeID']));
             }
-            if(mb_strlen($this->postData['signature'], 'UTF-8') > 20) return $this->response(ApiError::COMMON_ERROR, '个性签名字数超过限制');
+            if (mb_strlen($this->postData['signature'], 'UTF-8') > 20) return $this->response(ApiError::COMMON_ERROR, '个性签名字数超过限制');
 
             $this->memberInfoModel->update($this->postData, array('memberID' => $this->memberInfo['memberID']));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $this->response(ApiError::COMMON_ERROR, '保存失败');
         }
     }
 
-    public function updateMobileAction(){
+    public function updateMobileAction()
+    {
         $mobile = $this->postData['mobile'];
         $verifyCode = $this->postData['verifyCode'];
 
-        if(empty($mobile) || empty($verifyCode)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
-        if(!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
+        if (empty($mobile) || empty($verifyCode)) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+        if (!$this->validateMobile($mobile)) return $this->response(ApiError::MOBILE_VALIDATE_FAILED, ApiError::MOBILE_VALIDATE_FAILED_MSG);
         $smsVeriyfCode = $this->mobileVerifyCodeModel->getLastVerifyCode($mobile);
-        if($verifyCode == $smsVeriyfCode){
-            try{
+        if ($verifyCode == $smsVeriyfCode) {
+            try {
                 $this->memberModel->beginTransaction();
                 $this->memberModel->update(array('mobile' => $mobile), array('memberID' => $this->memberInfo['memberID']));
                 $this->memberInfoModel->update(array('mobile' => $mobile), array('memberID' => $this->memberInfo['memberID']));
                 $this->memberModel->commit();
 
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->memberModel->rollback();
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '保存失败');
             }
 
 
-
-        }else{
+        } else {
             return $this->response(ApiError::COMMON_ERROR, '手机验证码验证失败');
         }
     }
 
-    public function updatePasswordAction(){
-        if(empty($this->postData['oldPwd']) || empty($this->postData['newPwd']) || empty($this->postData['confirmNewPwd'])) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
+    public function updatePasswordAction()
+    {
+        if (empty($this->postData['oldPwd']) || empty($this->postData['newPwd']) || empty($this->postData['confirmNewPwd'])) return $this->response(ApiError::PARAMETER_MISSING, ApiError::PARAMETER_MISSING_MSG);
 
         $loginInfo = $this->memberModel->select(array('mobile' => $this->memberInfo['mobile'], 'password' => $this->memberModel->genPassword($this->postData['oldPwd'])))->current();
-        if(empty($loginInfo)) return $this->response(ApiError::COMMON_ERROR, '原密码错误');
+        if (empty($loginInfo)) return $this->response(ApiError::COMMON_ERROR, '原密码错误');
 
-        if(strlen($this->postData['newPwd']) < 6) return $this->response(ApiError::PASSWORD_LT_SIX_WORDS, ApiError::PASSWORD_LT_SIX_WORDS_MSG);
-        if($this->postData['newPwd'] != $this->postData['confirmNewPwd']){
+        if (strlen($this->postData['newPwd']) < 6) return $this->response(ApiError::PASSWORD_LT_SIX_WORDS, ApiError::PASSWORD_LT_SIX_WORDS_MSG);
+        if ($this->postData['newPwd'] != $this->postData['confirmNewPwd']) {
             return $this->response(ApiError::TWICE_PASSWORD_NOT_SIMILAR, ApiError::TWICE_PASSWORD_NOT_SIMILAR_MSG);
         }
 
-        try{
+        try {
             $this->memberModel->update(array('password' => $this->memberModel->genPassword($this->postData['newPwd'])), array('memberID' => $this->memberInfo['memberID']));
 
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $this->response(ApiError::COMMON_ERROR, '保存失败');
         }
 
     }
 
-    public function addInterestZoneAction(){
+    public function addInterestZoneAction()
+    {
         $zoneID = $this->postData['zoneID'];
         $where = array('memberID' => $this->memberInfo['memberID'], 'interestedMemberID' => $zoneID);
 
         $this->notificationModel->insert(array('type' => 5, 'memberID' => $zoneID, 'content' => '您的空间已被' . $this->memberInfo['nickName'] . '关注。'));
 
         $exist = $this->memberInterestModel->select($where)->current();
-        if(empty($exist)){
+        if (empty($exist)) {
             $this->memberInterestModel->insert($where);
 
             return $this->response(ApiSuccess::COMMON_SUCCESS, '关注成功');
-        }else{
+        } else {
             return $this->response(ApiSuccess::COMMON_SUCCESS, '已关注');
         }
 
     }
 
-    public function removeInterestZoneAction(){
+    public function removeInterestZoneAction()
+    {
         $zones = $this->postData['zones'];
         $where = array('memberID' => $this->memberInfo['memberID'], 'interestedMemberID' => $zones);
 
@@ -517,16 +542,17 @@ class MemberController extends Front{
 
     }
 
-    public function orderStatusAction(){
+    public function orderStatusAction()
+    {
         $unitePayID = $this->postData['unitePayID'];
         $type = $this->postData['type'];
-        if($type == 1){
+        if ($type == 1) {
             $where = array(
                 'orderID' => $unitePayID,
             );
             $order = $this->memberOrderModel->select($where)->current();
             $orderStatus = $order['orderStatus'];
-        }elseif($type == 2){
+        } elseif ($type == 2) {
             $where = array(
                 'unitePayID' => $unitePayID
             );
@@ -534,7 +560,7 @@ class MemberController extends Front{
 
             $orderStatus = $product['isPaid'] ? 2 : 1;
 
-        }elseif($type == 3){
+        } elseif ($type == 3) {
             $where = array(
                 'unitePayID' => $unitePayID
             );
@@ -547,14 +573,16 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('orderStatus' => $orderStatus));
     }
 
-    public function postComplainAction(){
+    public function postComplainAction()
+    {
         $orderID = $this->postData['orderID'];
         $complainContent = $this->postData['complainContent'];
         $this->memberOrderModel->update(array('isComplained' => 2, 'complainContent' => $complainContent, 'complainTime' => time(), 'isComplainPaused' => 1), array('orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']));
         return $this->response(ApiSuccess::COMMON_SUCCESS, '申诉成功');
     }
 
-    public function delayAutoConfirmDeliveryDoneTimeAction(){
+    public function delayAutoConfirmDeliveryDoneTimeAction()
+    {
         $orderID = $this->postData['orderID'];
         $where = array(
             'orderID' => $orderID,
@@ -566,7 +594,8 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '收货时间已被延长5天');
     }
 
-    public function applyReturnOrderAction(){
+    public function applyReturnOrderAction()
+    {
         $orderID = $this->postData['orderID'];
         $returnType = $this->postData['returnType'];
         $applyReturnReason = $this->postData['applyReturnReason'];
@@ -575,29 +604,29 @@ class MemberController extends Front{
             'memberID' => $this->memberInfo['memberID'],
         );
         $orderInfo = $this->memberOrderModel->fetch($where);
-        if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
-        if($returnType == 1){
-            if($orderInfo['payTime'] > strtotime('-3 days')){
+        if (empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if ($returnType == 1) {
+            if ($orderInfo['payTime'] > strtotime('-3 days')) {
                 return $this->response(ApiError::COMMON_ERROR, '未超过72小时时限');
             }
-            if($orderInfo['orderStatus'] > 3){
+            if ($orderInfo['orderStatus'] > 3) {
                 return $this->response(ApiError::COMMON_ERROR, '卖家已发货');
             }
 
-            try{
+            try {
                 $this->memberOrderModel->update(array('returnType' => $returnType), $where);
                 $this->memberOrderModel->returnOrder($orderInfo);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '退款成功');
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 return $this->response(ApiError::COMMON_ERROR, '退款失败');
             }
 
-        }elseif($returnType == 2){
-            if($orderInfo['orderStatus'] != 4){
+        } elseif ($returnType == 2) {
+            if ($orderInfo['orderStatus'] != 4) {
                 return $this->response(ApiError::COMMON_ERROR, '订单不处于已发货状态');
             }
-        }elseif($returnType == 3){
-            if($orderInfo['orderStatus'] != 4){
+        } elseif ($returnType == 3) {
+            if ($orderInfo['orderStatus'] != 4) {
                 return $this->response(ApiError::COMMON_ERROR, '订单不处于已发货状态');
             }
         }
@@ -608,12 +637,13 @@ class MemberController extends Front{
     }
 
 
-    public function deliveryReturnOrderAction(){
+    public function deliveryReturnOrderAction()
+    {
         $haveDelivery = $this->postData['haveDelivery'];
         $deliveryType = $this->postData['deliveryType'];
         $deliveryNum = $this->postData['deliveryNum'];
         $orderID = $this->postData['orderID'];
-        if($haveDelivery && (empty($deliveryType) || empty($deliveryNum))) return $this->response(ApiError::COMMON_ERROR, '请填写物流信息');
+        if ($haveDelivery && (empty($deliveryType) || empty($deliveryNum))) return $this->response(ApiError::COMMON_ERROR, '请填写物流信息');
 
         $where = array('returnStatus' => 3, 'orderID' => $orderID, 'memberID' => $this->memberInfo['memberID']);
         $this->memberOrderModel->update(array('returnStatus' => 4, 'returnDeliveryType' => $deliveryType, 'returnDeliveryNum' => $deliveryNum, 'returnDeliveryTime' => time()), $where);
@@ -622,45 +652,8 @@ class MemberController extends Front{
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public function acceptReturnOrderAction(){
+    public function acceptReturnOrderAction()
+    {
         $orderID = $this->postData['orderID'];
         $accept = $this->postData['accept'];
         $where = array(
@@ -669,10 +662,10 @@ class MemberController extends Front{
             'returnStatus' => 1,
         );
         $orderInfo = $this->memberOrderModel->fetch($where);
-        if($accept == 1){
-            if($orderInfo['returnType'] == 2){
+        if ($accept == 1) {
+            if ($orderInfo['returnType'] == 2) {
                 $this->memberOrderModel->returnOrder($orderInfo);
-            }elseif($orderInfo['returnType'] == 3){
+            } elseif ($orderInfo['returnType'] == 3) {
                 $this->memberOrderModel->update(
                     array(
                         'returnStatus' => 3, 'orderReturnReceiverName' => $this->postData['orderReturnReceiverName'], 'orderReturnReceiverMobile' => $this->postData['orderReturnReceiverMobile'],
@@ -683,10 +676,10 @@ class MemberController extends Front{
                 );
             }
 
-        }else{
+        } else {
             $update = array('returnStatus' => 2, 'isPaused' => 0);
             $orderInfo = $this->memberOrderModel->fetch($where);
-            if(!empty($orderInfo['autoConfirmDeliveryDoneTime']) && !empty($orderInfo['applyReturnTime'])){
+            if (!empty($orderInfo['autoConfirmDeliveryDoneTime']) && !empty($orderInfo['applyReturnTime'])) {
                 $update['autoConfirmDeliveryDoneTime'] = $orderInfo['autoConfirmDeliveryDoneTime'] + (time() - $orderInfo['applyReturnTime']);
             }
 
@@ -697,36 +690,39 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '处理成功');
     }
 
-    public function storeDelOrderAction(){
+    public function storeDelOrderAction()
+    {
         $orderID = $this->postData['orderID'];
         $where = array('orderID' => $orderID, 'storeID' => $this->_storeInfo['storeID']);
         $orderInfo = $this->memberOrderModel->select($where)->current();
-        if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
-        if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
+        if (empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if ($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
 
         $this->memberOrderModel->update(array('orderStatus' => -1, 'isDel' => 1), $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
     }
 
-    public function storeCancelOrderAction(){
+    public function storeCancelOrderAction()
+    {
         $orderID = $this->postData['orderID'];
         $where = array('orderID' => $orderID, 'storeID' => $this->_storeInfo['storeID']);
         $orderInfo = $this->memberOrderModel->select($where)->current();
-        if(empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
-        if($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
+        if (empty($orderID)) return $this->response(ApiError::COMMON_ERROR, '订单信息不存在');
+        if ($orderInfo['orderStatus'] > 1 && $orderInfo['orderStatus'] != 5) return $this->response(ApiError::COMMON_ERROR, '订单已付款不能取消');
 
         $this->memberOrderModel->update(array('orderStatus' => -1), $where);
 
         return $this->response(ApiSuccess::COMMON_SUCCESS, '关闭成功');
     }
 
-    public function addProductAction(){
+    public function addProductAction()
+    {
         $specialID = $this->queryData['specialID'];
         $productID = $this->queryData['productID'];
 
         $productInfo = $this->productModel->select(array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']))->current();
-        if(!empty($productInfo)){
+        if (!empty($productInfo)) {
             $specialID = $productInfo['specialID'];
             $productCategoryFilterOptions = $this->productFilterOptionModel->select(array('productID' => $productID))->toArray();
             $productPropertyValues = $this->productPropertyValueModel->select(array('productID' => $productID))->toArray();
@@ -745,7 +741,7 @@ class MemberController extends Front{
             $productInfo['endTimeDay'] = date('j', $endTime);
             $productInfo['endTimeHour'] = date('G', $endTime);
             $productInfo['endTimeMin'] = date('i', $endTime);
-        }elseif(!empty($this->_storeInfo['defaultDeliveryCityID'])){
+        } elseif (!empty($this->_storeInfo['defaultDeliveryCityID'])) {
             $defaultDeliveryCity = $this->regionModel->select(array('regionID' => $this->_storeInfo['defaultDeliveryCityID']))->current();
             $this->view->setVariables(array(
                 'defaultDeliveryCityID' => $defaultDeliveryCity['regionID'],
@@ -756,7 +752,7 @@ class MemberController extends Front{
         $productCategories = $this->productCategoryModel->select()->toArray();
         $storeCategory = $this->storeCategoryModel->select(array('storeID' => $this->_storeInfo['storeID']))->toArray();
         $specialWhere = array('storeID' => $this->_storeInfo['storeID']);
-        if(!empty($specialID)){
+        if (!empty($specialID)) {
             $specialWhere = array('specialID' => $specialID);
         }
         $specials = $this->specialModel->select($specialWhere)->toArray();
@@ -773,7 +769,8 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function addProductCategoryAction(){
+    public function addProductCategoryAction()
+    {
         $this->view->setNoLayout();
         $productCategoryID = $this->queryData['productCategoryID'];
         $options = $this->productCategoryFilterOptionModel->getCategoryFilters(array('b.productCategoryID' => $productCategoryID));
@@ -784,11 +781,12 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function addSpecialAction(){
-        if(empty($this->postData)){
+    public function addSpecialAction()
+    {
+        if (empty($this->postData)) {
             $specialID = $this->queryData['specialID'];
             $specialInfo = $this->specialModel->select(array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']))->current();
-            if(!empty($specialInfo)){
+            if (!empty($specialInfo)) {
                 $startTime = $specialInfo['startTime'];
                 $endTime = $specialInfo['endTime'];
                 $specialInfo['startTimeYear'] = date('Y', $startTime);
@@ -809,52 +807,73 @@ class MemberController extends Front{
 
             ));
             return $this->view;
-        }else{
-            if(isset($this->postData['productCountLimit'])){
+        } else {
+            if (isset($this->postData['productCountLimit'])) {
                 $this->postData['productCountLimit'] = intval($this->postData['productCountLimit']);
-                if(!($this->postData['productCountLimit'] >= 20 && $this->postData['productCountLimit'] <= 60)){
+                if (!($this->postData['productCountLimit'] >= 20 && $this->postData['productCountLimit'] <= 60)) {
                     return $this->response(ApiError::COMMON_ERROR, '拍品数量限制在20-60个');
                 }
             }
-            if(!empty($this->postData['specialImg'])){
+            if (!empty($this->postData['specialImg'])) {
                 $this->postData['specialImg'] = Utility::saveBaseCodePic($this->postData['specialImg']);
             }
-            if(!empty($this->postData['specialBanner'])){
+            if (!empty($this->postData['specialBanner'])) {
                 $this->postData['specialBanner'] = Utility::saveBaseCodePic($this->postData['specialBanner']);
             }
-            if(!empty($this->postData['startTime'])){
+            if (!empty($this->postData['startTime'])) {
                 $this->postData['startTime'] = strtotime($this->postData['startTime']);
-                if($this->postData['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
-            }
-            if(!empty($this->postData['endTime'])){
-                $this->postData['endTime'] = strtotime($this->postData['endTime']);
-                if($this->postData['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
+                if ($this->postData['startTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
 
-                if($this->postData['endTime'] < $this->postData['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
             }
-            if(mb_strlen($this->postData['specialName'], 'UTF-8') > 12) return $this->response(ApiError::COMMON_ERROR, '专场标题字数超过限制');
+            if (!empty($this->postData['endTime'])) {
+                $this->postData['endTime'] = strtotime($this->postData['endTime']);
+                if ($this->postData['endTime'] < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
+
+                if ($this->postData['endTime'] < $this->postData['startTime']) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间小于开始时间');
+            }
+
+            $startHour = date('G', $this->postData['startTime']);
+            $startMin = date('i', $this->postData['startTime']);
+            $endHour = date('G', $this->postData['endTime']);
+            $endMin = date('i', $this->postData['endTime']);
+            $startHourMin = $startHour . $startMin;
+            $endHourMin = $endHour . $endMin;
+            $timeInterval = $this->postData['endTime'] - $this->postData['startTime'];
+            if ($startHourMin >= 1000 && $startHourMin < 2200) {
+                if ($endHourMin > 2200 || $endHourMin < 1000) {
+
+                    return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
+                }
+
+            }elseif($startHourMin >= 2200 || $startHourMin < 1000){
+                if ($endHourMin > 1000 && $endHourMin < 2200){
+                    return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
+                }
+            }
+            if ($timeInterval > 12 * 3600) return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
+
+
+            if (mb_strlen($this->postData['specialName'], 'UTF-8') > 12) return $this->response(ApiError::COMMON_ERROR, '专场标题字数超过限制');
 
             $this->postData['storeID'] = $this->_storeInfo['storeID'];
 
 
-
-            if(!empty($this->postData['specialID'])){
+            if (!empty($this->postData['specialID'])) {
                 $where = array('specialID' => $this->postData['specialID'], 'storeID' => $this->_storeInfo['storeID']);
                 $specialInfo = $this->specialModel->select($where)->current();
-                if(empty($specialInfo)) return $this->response(ApiError::COMMON_ERROR, '专场不存在');
-                if($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
-                if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
+                if (empty($specialInfo)) return $this->response(ApiError::COMMON_ERROR, '专场不存在');
+                if ($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
+                if ($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
 
                 unset($this->postData['specialID']);
                 $this->specialModel->update($this->postData, $where);
-                if(!empty($this->postData['startTime']) && !empty($this->postData['endTime'])){
+                if (!empty($this->postData['startTime']) && !empty($this->postData['endTime'])) {
                     $this->productModel->update(array('startTime' => $this->postData['startTime'], 'endTime' => $this->postData['endTime']), $where);
                 }
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功');
-            }else{
+            } else {
 
                 $this->specialModel->insert($this->postData);
-
 
 
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功');
@@ -865,28 +884,30 @@ class MemberController extends Front{
 
     }
 
-    public function specialVerifyAction(){
+    public function specialVerifyAction()
+    {
         $specialID = $this->postData['specialID'];
         $specialInfo = $this->specialModel->select(array('specialID' => $specialID))->current();
         //$this->specialModel->update(array('verifyStatus' => 1), array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
         $specialProductsCount = $this->productModel->getCount(array('specialID' => $specialID, 'isDel' => 0));
-        if($specialProductsCount != $specialInfo['productCountLimit']){
+        if ($specialProductsCount != $specialInfo['productCountLimit']) {
             return $this->response(ApiError::COMMON_ERROR, '实际拍品数量与专场定义的拍品数量不符');
         }
         $update = array('verifyStatus' => 1);
-        if(empty($this->siteSettings['specialMoney']) || !empty($specialInfo['isPaid'])){
+        if (empty($this->siteSettings['specialMoney']) || !empty($specialInfo['isPaid'])) {
             $update['isPaid'] = 1;
             $this->specialModel->update($update, array('specialID' => $specialID, 'storeID' => $this->_storeInfo['storeID']));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '提交成功');
 
-        }else{
+        } else {
             $unitePayID = $this->memberOrderModel->genUnitePayID();
             $this->specialModel->update(array('unitePayID' => $unitePayID), array('specialID' => $specialID));
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $this->siteSettings['specialMoney']));
         }
     }
 
-    public function specialAction(){
+    public function specialAction()
+    {
         $where = array('Special.storeID' => $this->_storeInfo['storeID']);
         $specials = $this->specialModel->getSpecials($where, $this->pageNum, $this->limit);
 
@@ -897,7 +918,8 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function specialProductAction(){
+    public function specialProductAction()
+    {
         $specialID = $this->queryData['specialID'];
         $special = $this->specialModel->select(array('specialID' => $specialID))->current();
         $products = $this->productModel->select(array('specialID' => $specialID, 'isDel' => 0))->toArray();
@@ -908,18 +930,19 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function productAction(){
+    public function productAction()
+    {
         $auctionStatus = $this->queryData['auctionStatus'];
         $where = array('Product.storeID' => $this->memberInfo['storeID'], 'Product.auctionStatus != ?' => 3);
-        if(!empty($auctionStatus)){
+        if (!empty($auctionStatus)) {
             $where['Product.auctionStatus'] = $auctionStatus;
         }
         $res = $this->productModel->getProducts($where, $this->pageNum, $this->limit);
         $products = $res['data'];
-        foreach($products as $k => $v){
+        foreach ($products as $k => $v) {
             $startTime = $v['startTime'];
             $endTime = $v['endTime'];
-            if(!empty($startTime)){
+            if (!empty($startTime)) {
                 $products[$k]['startTimeYear'] = date('Y', $startTime);
                 $products[$k]['startTimeMonth'] = date('n', $startTime);
                 $products[$k]['startTimeDay'] = date('j', $startTime);
@@ -941,14 +964,15 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function storeSettingAction(){
-        if(empty($this->postData)){
+    public function storeSettingAction()
+    {
+        if (empty($this->postData)) {
             $storeCategories = $this->storeCategoryModel->select(array('storeID' => $this->_storeInfo['storeID']))->toArray();
             $this->view->setVariables(array('storeCategories' => $storeCategories));
             return $this->view;
         }
 
-        try{
+        try {
             $this->storeModel->beginTransaction();
             $storeCategory = $this->postData['storeCategory'];
             unset($this->postData['storeCategory']);
@@ -960,61 +984,62 @@ class MemberController extends Front{
             $this->postData['storeLogo'] = Utility::saveBaseCodePic($this->postData['storeLogo']);
             $this->postData['storeBanner'] = Utility::saveBaseCodePic($this->postData['storeBanner']);
             //$this->postData['recommendImg'] = Utility::saveBaseCodePic($this->postData['recommendImg']);
-            if(mb_strlen($this->postData['storeName'], 'UTF-8') > 6) return $this->response(ApiError::COMMON_ERROR, '店铺名称字数超过限制');
-            if(mb_strlen($this->postData['signature'], 'UTF-8') > 35) return $this->response(ApiError::COMMON_ERROR, '店铺签名字数超过限制');
+            if (mb_strlen($this->postData['storeName'], 'UTF-8') > 6) return $this->response(ApiError::COMMON_ERROR, '店铺名称字数超过限制');
+            if (mb_strlen($this->postData['signature'], 'UTF-8') > 35) return $this->response(ApiError::COMMON_ERROR, '店铺签名字数超过限制');
             $this->storeModel->update($this->postData, $where);
 
             //$this->storeCategoryModel->delete(array('storeID' => $storeID));
-            if(!empty($storeCategory)){
+            if (!empty($storeCategory)) {
                 $tmp = array();
-                foreach($storeCategory as $v){
-                    if(mb_strlen($v, 'UTF-8') > 6) return $this->response(ApiError::COMMON_ERROR, '店内分类字数超过限制');
+                foreach ($storeCategory as $v) {
+                    if (mb_strlen($v, 'UTF-8') > 6) return $this->response(ApiError::COMMON_ERROR, '店内分类字数超过限制');
                     $exist = $this->storeCategoryModel->select(array('storeID' => $storeID, 'storeCategoryName' => $v))->current();
 
-                    if(!empty($v) && empty($exist)){
+                    if (!empty($v) && empty($exist)) {
                         $tmp = array(
                             'storeID' => $storeID,
                             'storeCategoryName' => $v,
                         );
                         $this->storeCategoryModel->insert($tmp);
 
-                    }elseif(!empty($exist)){
+                    } elseif (!empty($exist)) {
                         $this->storeCategoryModel->update(array('storeCategoryName' => $exist['storeCategoryName']), array('storeCategoryID' => $exist['storeCategoryID']));
                     }
                     $tmp[] = $exist['storeCategoryName'];
                 }
                 $this->storeCategoryModel->delNotExistCategory($tmp, $storeID);
-            }else{
+            } else {
                 $this->storeCategoryModel->delete(array('storeID' => $storeID));
             }
 
             $this->storeModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->storeModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
 
     }
 
-    public function storeOrderAction(){
+    public function storeOrderAction()
+    {
         $search = $this->queryData['search'];
         $orderStatus = $this->queryData['orderStatus'];
         $where = new Where();
         $where->and->equalTo('MemberOrder.storeID', $this->memberInfo['storeID']);
-        if(!empty($orderStatus)){
+        if (!empty($orderStatus)) {
             $where->and->equalTo('MemberOrder.orderStatus', $orderStatus);
         }
-        if(!empty($search)){
+        if (!empty($search)) {
             $where->and->nest()->or->like('d.productName', '%' . $search . '%')->or->like('MemberOrder.businessID', '%' . $search . '%')->or->like('e.storeName', '%' . $search . '%');
         }
         $result = $this->memberOrderModel->getOrderList($where, $this->pageNum, $this->limit);
         $orders = $result['data'];
-        foreach($orders as $k => $v){
-            if(!empty($v['productSnapshot'])){
+        foreach ($orders as $k => $v) {
+            if (!empty($v['productSnapshot'])) {
                 $tmp = json_decode($v['productSnapshot'], true);
                 $orders[$k]['product'] = $tmp;
-            }elseif(!empty($v['customizationSnapshot'])){
+            } elseif (!empty($v['customizationSnapshot'])) {
                 $tmp = json_decode($v['customizationSnapshot'], true);
                 $orders[$k]['product'] = array(
                     'productName' => $tmp['title'],
@@ -1037,7 +1062,8 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function categoryPropertyAction(){
+    public function categoryPropertyAction()
+    {
         $categoryID = $this->queryData['productCategoryID'];
         $properties = $this->productCategoryPropertyModel->select(array('productCategoryID' => $categoryID))->toArray();
         $this->view->setVariables(array(
@@ -1047,17 +1073,18 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function saveProductAction(){
+    public function saveProductAction()
+    {
 
         $data = $this->postData;
         $data['storeID'] = $this->_storeInfo['storeID'];
         $product = $data;
         unset($product['productCategoryFilters'], $product['productCategoryProperty'], $product['storeCategoryID']);
 
-        if(mb_strlen($product['productName'], 'UTF-8') > 15) return $this->response(ApiError::COMMON_ERROR, '拍品标题字数超过限制');
-        if(!empty($data['detailImgs'])){
+        if (mb_strlen($product['productName'], 'UTF-8') > 15) return $this->response(ApiError::COMMON_ERROR, '拍品标题字数超过限制');
+        if (!empty($data['detailImgs'])) {
             $detailImgs = explode(',', trim($data['detailImgs'], ','));
-            if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
+            if (count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
             $product['listImg'] = current($detailImgs);
             /*$ext = strstr($product['listImg'], '.');
             $product['listImg'] = str_replace($ext, '263X263' . $ext, $product['listImg']);*/
@@ -1071,18 +1098,18 @@ class MemberController extends Front{
             $product['endTime'] = strtotime($product['endTime']);
         }*/
 
-        if(!empty($product['specialID'])){
+        if (!empty($product['specialID'])) {
             $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
             $product['startTime'] = $specialInfo['startTime'];
             $product['endTime'] = $specialInfo['endTime'];
             $product['auctionStatus'] = $specialInfo['auctionStatus'];
 
-            if(empty($product['productID'])){
+            if (empty($product['productID'])) {
                 $specialInfo = $this->specialModel->select(array('specialID' => $product['specialID']))->current();
 
-                if(($specialInfo['productCount'] + 1) > $specialInfo['productCountLimit']) return $this->response(ApiError::COMMON_ERROR, '超过拍品数量限制');
-                if($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
-                if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
+                if (($specialInfo['productCount'] + 1) > $specialInfo['productCountLimit']) return $this->response(ApiError::COMMON_ERROR, '超过拍品数量限制');
+                if ($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
+                if ($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
             }
 
         }/*else{
@@ -1105,68 +1132,66 @@ class MemberController extends Front{
         unset($product['publish']);*/
 
 
-
-
-        if(isset($product['startPrice'])){
+        if (isset($product['startPrice'])) {
             $product['currPrice'] = $product['startPrice'];
         }
 
 
-        if(!empty($data['productID'])){
+        if (!empty($data['productID'])) {
 
             $where = array(
                 'productID' => $product['productID'],
                 'storeID' => $product['storeID']
             );
             $products = $this->productModel->select($where)->toArray();
-            foreach($products as $productInfo){
-                if(empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
+            foreach ($products as $productInfo) {
+                if (empty($productInfo)) return $this->response(ApiError::COMMON_ERROR, '拍品不存在');
                 //if(empty($product['specialID']) && !empty($productInfo['specialID']) && !empty($product['startTime']) && !empty($product['endTime'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
-                if(!empty($productInfo['specialID'])){
+                if (!empty($productInfo['specialID'])) {
                     $specialInfo = $this->specialModel->select(array('specialID' => $productInfo['specialID']))->current();
-                    if($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
-                    if($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
+                    if ($specialInfo['verifyStatus'] == 1) return $this->response(ApiError::COMMON_ERROR, '专场已提交审核, 不能编辑');
+                    if ($specialInfo['verifyStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '专场已通过审核, 不能编辑');
                 }
 
-                if($productInfo['auctionStatus'] != 0) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
+                if ($productInfo['auctionStatus'] != 0) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
             }
         }
 
-        try{
+        try {
             $this->productModel->beginTransaction();
 
-            if(!empty($products)){
+            if (!empty($products)) {
                 unset($product['productID']);
                 $this->productModel->update($product, $where);
-                if(!empty($data['productCategoryFilters'])){
+                if (!empty($data['productCategoryFilters'])) {
                     $this->productFilterOptionModel->delete(array('productID' => $where['productID']));
                 }
 
-                if(!empty($data['productCategoryProperty'])){
+                if (!empty($data['productCategoryProperty'])) {
                     $this->productPropertyValueModel->delete(array('productID' => $where['productID']));
                 }
                 $productID = $where['productID'];
-                foreach($products as $productInfo){
-                    if(!empty($productInfo['specialID']) && $product['isDel']){
+                foreach ($products as $productInfo) {
+                    if (!empty($productInfo['specialID']) && $product['isDel']) {
                         $this->specialModel->update(array('productCount' => new Expression('productCount-1')), array('specialID' => $productInfo['specialID']));
                         $this->productModel->update(array('auctionStatus' => 0, 'isPaid' => 0, 'isDel' => 0, 'specialID' => new Expression('null'), 'startTime' => new Expression('null'), 'endTime' => new Expression('null')), array('productID' => $productInfo['productID']));
                     }
                 }
 
-            }else{
+            } else {
                 $this->productModel->insert($product);
                 $productID = $this->productModel->getLastInsertValue();
-                if(!empty($product['deliveryCityID'])){
+                if (!empty($product['deliveryCityID'])) {
                     $this->storeModel->update(array('defaultDeliveryCityID' => $product['deliveryCityID']), array('storeID' => $this->_storeInfo['storeID']));
                 }
-                if(!empty($product['specialID'])){
+                if (!empty($product['specialID'])) {
                     $this->specialModel->update(array('productCount' => new Expression('productCount+1')), array('specialID' => $product['specialID']));
                 }
             }
 
-            if(!empty($data['productCategoryFilters'])){
+            if (!empty($data['productCategoryFilters'])) {
                 $productCategoryFilters = $data['productCategoryFilters'];
-                foreach($productCategoryFilters as $v){
+                foreach ($productCategoryFilters as $v) {
                     $tmp = array(
                         'productID' => $productID,
                         'productCategoryFilterOptionID' => $v,
@@ -1175,8 +1200,8 @@ class MemberController extends Front{
                 }
             }
 
-            if(!empty($data['productCategoryProperty'])){
-                foreach($data['productCategoryProperty'] as $k => $v){
+            if (!empty($data['productCategoryProperty'])) {
+                foreach ($data['productCategoryProperty'] as $k => $v) {
                     $tmp = array(
                         'productID' => $productID,
                         'productCategoryPropertyID' => $k,
@@ -1187,56 +1212,57 @@ class MemberController extends Front{
             }
 
             $this->productModel->commit();
-            if(!empty($products)){
+            if (!empty($products)) {
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '更新成功', array('productID' => $productID));
-            }else{
+            } else {
                 return $this->response(ApiSuccess::COMMON_SUCCESS, '新增成功', array('productID' => $productID));
             }
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->productModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
 
     }
 
-    public function saveProductPreviewAction(){
+    public function saveProductPreviewAction()
+    {
 
         $data = $this->postData;
         $data['storeID'] = $this->_storeInfo['storeID'];
         $product = $data;
         unset($product['productCategoryFilters'], $product['productCategoryProperty'], $product['storeCategoryID']);
-        if(mb_strlen($product['productName'], 'UTF-8') > 15) return $this->response(ApiError::COMMON_ERROR, '拍品标题字数超过限制');
-        if(!empty($data['detailImgs'])){
+        if (mb_strlen($product['productName'], 'UTF-8') > 15) return $this->response(ApiError::COMMON_ERROR, '拍品标题字数超过限制');
+        if (!empty($data['detailImgs'])) {
             $detailImgs = explode(',', trim($data['detailImgs'], ','));
-            if(count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
+            if (count($detailImgs) > 5) return $this->response(ApiError::COMMON_ERROR, '拍品图片不能超过5张');
             $product['listImg'] = current($detailImgs);
             $product['detailImgs'] = json_encode($detailImgs);
         }
 
-        if(!empty($product['startTime'])){
+        if (!empty($product['startTime'])) {
             $product['startTime'] = strtotime($product['startTime']);
         }
-        if(!empty($product['endTime'])){
+        if (!empty($product['endTime'])) {
             $product['endTime'] = strtotime($product['endTime']);
         }
-        if(!empty($product['startPrice'])){
+        if (!empty($product['startPrice'])) {
             $product['currPrice'] = $product['startPrice'];
         }
 
-        try{
+        try {
             $this->productCopyModel->beginTransaction();
-            if(!empty($product['productID'])){
+            if (!empty($product['productID'])) {
                 $this->productCopyModel->update($product, array('productID' => $product['productID']));
                 $productID = $product['productID'];
-            }else{
+            } else {
                 $this->productCopyModel->insert($product);
                 $productID = $this->productCopyModel->getLastInsertValue();
             }
 
 
-            if(!empty($data['productCategoryProperty'])){
-                foreach($data['productCategoryProperty'] as $k => $v){
+            if (!empty($data['productCategoryProperty'])) {
+                foreach ($data['productCategoryProperty'] as $k => $v) {
                     $tmp = array(
                         'productID' => $productID,
                         'productCategoryPropertyID' => $k,
@@ -1247,19 +1273,20 @@ class MemberController extends Front{
             }
             $this->productCopyModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('productID' => $productID));
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->productCopyModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
 
     }
 
-    public function storeJoinAction(){
-        if(empty($this->_storeInfo) || $this->_storeInfo['verifyStatus'] == 3){
+    public function storeJoinAction()
+    {
+        if (empty($this->_storeInfo) || $this->_storeInfo['verifyStatus'] == 3) {
             $this->view->setTemplate('/front/member/store-join-step1');
-        }elseif($this->_storeInfo['verifyStatus'] == 1){
+        } elseif ($this->_storeInfo['verifyStatus'] == 1) {
             $this->view->setTemplate('/front/member/store-join-step2');
-        }elseif($this->_storeInfo['verifyStatus'] == 2){
+        } elseif ($this->_storeInfo['verifyStatus'] == 2) {
             $this->view->setTemplate('/front/member/store-join-step3');
         }
 
@@ -1267,10 +1294,11 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function storeVerifyAction(){
+    public function storeVerifyAction()
+    {
         $store = $this->postData;
         $verifyCode = $this->mobileVerifyCodeModel->getLastVerifyCode($store['storeMobile']);
-        if($verifyCode != $store['storeMobileCode']){
+        if ($verifyCode != $store['storeMobileCode']) {
             return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
         }
         unset($store['storeMobileCode']);
@@ -1279,12 +1307,12 @@ class MemberController extends Front{
         $store['memberID'] = $this->memberInfo['memberID'];
         $store['storeName'] = $this->memberInfo['nickName'];
 
-        try{
+        try {
             $this->storeModel->beginTransaction();
-            if(!empty($this->_storeInfo)){
+            if (!empty($this->_storeInfo)) {
                 $store['verifyStatus'] = 1;
                 $this->storeModel->update($store, array('storeID' => $this->_storeInfo['storeID']));
-            }else{
+            } else {
                 $this->storeModel->insert($store);
                 $storeID = $this->storeModel->getLastInsertValue();
                 $this->memberInfoModel->update(array('storeID' => $storeID), array('memberID' => $this->memberInfo['memberID']));
@@ -1293,47 +1321,51 @@ class MemberController extends Front{
 
             $this->storeModel->commit();
             return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->storeModel->rollback();
             return $this->response($e->getCode(), $e->getMessage());
         }
     }
 
-    public function recommendProductAction(){
+    public function recommendProductAction()
+    {
         $productID = $this->postData['productID'];
-        if(!empty($productID)){
+        if (!empty($productID)) {
             $this->productModel->update(array('isSpecialRecommend' => 1), array('productID' => $productID));
         }
         return $this->response(ApiSuccess::COMMON_SUCCESS, '推荐成功');
     }
 
-    public function storeRecommendProductAction(){
+    public function storeRecommendProductAction()
+    {
         $productID = $this->postData['productID'];
-        if(!empty($productID)){
+        if (!empty($productID)) {
             $this->productModel->update(array('isStoreRecommend' => $this->postData['isStoreRecommend']), array('productID' => $productID));
         }
-        if($this->postData['isStoreRecommend'] == 1){
+        if ($this->postData['isStoreRecommend'] == 1) {
             return $this->response(ApiSuccess::COMMON_SUCCESS, '推荐成功');
-        }else{
+        } else {
             return $this->response(ApiSuccess::COMMON_SUCCESS, '取消推荐成功');
         }
 
     }
 
-    public function delSpecialAction(){
+    public function delSpecialAction()
+    {
         $specialID = $this->postData['specialID'];
-        if(!empty($specialID)){
+        if (!empty($specialID)) {
             $this->specialModel->update(array('isDel' => 1), array('specialID' => $specialID));
         }
         return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
     }
 
-    public function delImgAction(){
+    public function delImgAction()
+    {
         $productInfo = $this->productModel->select(array('productID' => $this->postData['productID']))->current();
-        if(!empty($productInfo)){
+        if (!empty($productInfo)) {
             $detailImgs = json_decode($productInfo['detailImgs'], true);
-            foreach($detailImgs as $k => $v){
-                if($v == $this->postData['path']){
+            foreach ($detailImgs as $k => $v) {
+                if ($v == $this->postData['path']) {
                     unset($detailImgs[$k]);
                 }
             }
@@ -1344,7 +1376,8 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '删除成功');
     }
 
-    public function publishProductAction(){
+    public function publishProductAction()
+    {
         $productID = $this->postData['productID'];
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
         $update = array(
@@ -1354,32 +1387,31 @@ class MemberController extends Front{
         $products = $this->productModel->select($where)->toArray();
         $count = count($products);
         $flag = $this->productModel->todayCanPublishProducts($this->_storeInfo['storeID'], $count);
-        if(!$flag) return $this->response(ApiError::COMMON_ERROR, '自由拍每日拍卖限5件，设置已超出');
-        foreach($products as $productInfo){
-            if(!empty($productInfo)){
-                if(!empty($productInfo['auctionStatus'])) return $this->response(ApiError::COMMON_ERROR, '该拍品无法操作上架');
+        if (!$flag) return $this->response(ApiError::COMMON_ERROR, '自由拍每日拍卖限5件，设置已超出');
+        foreach ($products as $productInfo) {
+            if (!empty($productInfo)) {
+                if (!empty($productInfo['auctionStatus'])) return $this->response(ApiError::COMMON_ERROR, '该拍品无法操作上架');
                 $productInfo['startTime'] = time();
                 $update['startTime'] = $productInfo['startTime'];
 
                 $productInfo['endTime'] = strtotime('+1 day');
                 $update['endTime'] = $productInfo['endTime'];
 
-                if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
+                if (!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
             }
         }
 
 
-
-        if(!empty($this->siteSettings['productMoney'])){
+        if (!empty($this->siteSettings['productMoney'])) {
             $paidWhere = array_merge($where, array('isPaid' => 0));
             $paidProducts = $this->productModel->select($paidWhere)->toArray();
-            if(!empty($paidProducts)){
+            if (!empty($paidProducts)) {
                 $price = $this->siteSettings['productMoney'] * count($paidProducts);
                 $unitePayID = $this->memberOrderModel->genUnitePayID();
                 $this->productModel->update(array('unitePayID' => $unitePayID, 'publishAtOnce' => 1), $where);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $price));
             }
-        }else{
+        } else {
             $update['isPaid'] = 1;
         }
 
@@ -1388,7 +1420,8 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '上架成功');
     }
 
-    public function saveAuctionTimeAction(){
+    public function saveAuctionTimeAction()
+    {
         $productID = $this->postData['productID'];
         $startTime = strtotime($this->postData['startTime']);
         $endTime = strtotime($this->postData['endTime']);
@@ -1400,29 +1433,29 @@ class MemberController extends Front{
         $products = $this->productModel->select($where)->toArray();
         $count = count($products);
         $flag = $this->productModel->todayCanPublishProducts($this->_storeInfo['storeID'], $count, $startTime, $endTime);
-        if(!$flag) return $this->response(ApiError::COMMON_ERROR, '自由拍每日拍卖限5件，设置已超出');
+        if (!$flag) return $this->response(ApiError::COMMON_ERROR, '自由拍每日拍卖限5件，设置已超出');
 
-        foreach($products as $productInfo){
-            if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
-            if($productInfo['auctionStatus'] != 0) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
+        foreach ($products as $productInfo) {
+            if (!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场上架');
+            if ($productInfo['auctionStatus'] != 0) return $this->response(ApiError::COMMON_ERROR, '该拍品不能被编辑');
         }
 
-        if($startTime < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
-        if($endTime < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
-        if($endTime < $startTime) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间早于开始时间');
-        if($endTime > strtotime('+2 days', $startTime)) return $this->response(ApiError::COMMON_ERROR, '自由拍拍卖时长不超过48小时，设置已超出');
+        if ($startTime < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖开始时间选择错误');
+        if ($endTime < time()) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间选择错误');
+        if ($endTime < $startTime) return $this->response(ApiError::COMMON_ERROR, '拍卖结束时间早于开始时间');
+        if ($endTime > strtotime('+2 days', $startTime)) return $this->response(ApiError::COMMON_ERROR, '自由拍拍卖时长不超过48小时，设置已超出');
 
 
-        if(!empty($this->siteSettings['productMoney'])){
+        if (!empty($this->siteSettings['productMoney'])) {
             $paidWhere = array_merge($where, array('isPaid' => 0));
             $paidProducts = $this->productModel->select($paidWhere)->toArray();
-            if(!empty($paidProducts)){
+            if (!empty($paidProducts)) {
                 $price = $this->siteSettings['productMoney'] * count($paidProducts);
                 $unitePayID = $this->memberOrderModel->genUnitePayID();
                 $this->productModel->update(array('unitePayID' => $unitePayID, 'publishStartTime' => $startTime, 'publishEndTime' => $endTime, 'publishAtOnce' => 0), $where);
                 return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('unitePayID' => $unitePayID, 'price' => $price));
             }
-        }else{
+        } else {
             $update['isPaid'] = 1;
         }
 
@@ -1431,13 +1464,14 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '定时上架设置成功');
     }
 
-    public function withdrawProductAction(){
+    public function withdrawProductAction()
+    {
         $productID = $this->postData['productID'];
         $where = array('productID' => $productID, 'storeID' => $this->_storeInfo['storeID']);
         $products = $this->productModel->select($where)->toArray();
-        foreach($products as $productInfo){
-            if(!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场下架');
-            if($productInfo['auctionStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '拍卖正在进行中, 无法下架');
+        foreach ($products as $productInfo) {
+            if (!empty($productInfo['specialID'])) return $this->response(ApiError::COMMON_ERROR, '专场拍品跟着专场下架');
+            if ($productInfo['auctionStatus'] == 2) return $this->response(ApiError::COMMON_ERROR, '拍卖正在进行中, 无法下架');
         }
 
         $this->productModel->update(array('auctionStatus' => 0, 'startTime' => new Expression('null'), 'endTime' => new Expression('null')), $where);
@@ -1445,13 +1479,14 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '下架成功');
     }
 
-    public function confirmDeliveryInfoAction(){
+    public function confirmDeliveryInfoAction()
+    {
         $haveDelivery = $this->postData['haveDelivery'];
         $deliveryType = $this->postData['deliveryType'];
         $deliveryNum = $this->postData['deliveryNum'];
         $orderID = $this->postData['orderID'];
-        if($haveDelivery && (empty($deliveryType) || empty($deliveryNum))) return $this->response(ApiError::COMMON_ERROR, '请填写物流信息');
-        try{
+        if ($haveDelivery && (empty($deliveryType) || empty($deliveryNum))) return $this->response(ApiError::COMMON_ERROR, '请填写物流信息');
+        try {
 
             $this->memberOrderModel->beginTransaction();
             $this->memberOrderDeliveryModel->update(array('deliveryTypeID' => $deliveryType, 'deliveryNum' => $deliveryNum), array('orderID' => $orderID));
@@ -1467,13 +1502,14 @@ class MemberController extends Front{
             $this->memberOrderModel->commit();
 
             return $this->response(ApiSuccess::COMMON_SUCCESS, '保存成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->memberOrderModel->rollback();
             return $this->response(ApiError::COMMON_ERROR, '保存失败');
         }
     }
 
-    public function storeOrderDetailAction(){
+    public function storeOrderDetailAction()
+    {
         $this->view->setVariables(array('storeView' => 1));
         $this->orderDetailAction(1);
 
@@ -1481,7 +1517,8 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function myStoreAction(){
+    public function myStoreAction()
+    {
 
         return $this->redirect()->toUrl('/store/detail?storeID=' . $this->_storeInfo['storeID']);
     }
@@ -1497,11 +1534,12 @@ class MemberController extends Front{
         return $this->response(ApiSuccess::COMMON_SUCCESS, '取消成功');
     }*/
 
-    public function myRechargeAction(){
+    public function myRechargeAction()
+    {
         $where = array(
             'MemberRechargeMoneyLog.memberID' => $this->memberInfo['memberID'],
         );
-        if(!empty($this->postData)){
+        if (!empty($this->postData)) {
             $startTimeYear = $this->postData['startTimeYear'];
             $startTimeMonth = $this->postData['startTimeMonth'];
             $startTimeDay = $this->postData['startTimeDay'];
@@ -1526,8 +1564,9 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function bindCardAction(){
-        if(!empty($this->postData)){
+    public function bindCardAction()
+    {
+        if (!empty($this->postData)) {
             /*$verifyCode = $this->mobileVerifyCodeModel->getLastVerifyCode($this->postData['cardMobile']);
             if($verifyCode != $this->postData['verifyCode']){
                 return $this->response(ApiError::VERIFY_CODE_INVALID, ApiError::VERIFY_CODE_INVALID_MSG);
@@ -1546,14 +1585,15 @@ class MemberController extends Front{
         return $this->view;
     }
 
-    public function postWithdrawAction(){
+    public function postWithdrawAction()
+    {
         $this->postData['memberID'] = $this->memberInfo['memberID'];
         $this->postData['storeID'] = $this->memberInfo['storeID'];
         $this->postData['money'] = floatval($this->postData['money']);
-        if(empty($this->postData['money'])) return $this->response(ApiError::COMMON_ERROR, '请输入金额');
-        if($this->postData['money'] > $this->memberInfo['rechargeMoney']) return $this->response(ApiError::COMMON_ERROR, '提现金额大于余额, 提现失败');
-        if($this->memberInfo['isRechargeMoneyLocked']) return $this->response(ApiError::COMMON_ERROR, ApiError::RECHARGE_MONEY_LOCKED);
-        try{
+        if (empty($this->postData['money'])) return $this->response(ApiError::COMMON_ERROR, '请输入金额');
+        if ($this->postData['money'] > $this->memberInfo['rechargeMoney']) return $this->response(ApiError::COMMON_ERROR, '提现金额大于余额, 提现失败');
+        if ($this->memberInfo['isRechargeMoneyLocked']) return $this->response(ApiError::COMMON_ERROR, ApiError::RECHARGE_MONEY_LOCKED);
+        try {
             $this->withdrawLogModel->beginTransaction();
             $this->withdrawLogModel->insert($this->postData);
             $this->memberInfoModel->update(array('rechargeMoney' => new Expression('rechargeMoney - ' . $this->postData['money'])), array('memberID' => $this->memberInfo['memberID']));
@@ -1561,13 +1601,14 @@ class MemberController extends Front{
             $this->withdrawLogModel->commit();
 
             return $this->response(ApiSuccess::COMMON_SUCCESS, '提交成功, 待审核');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->withdrawLogModel->rollback();
             return $this->response(ApiError::COMMON_ERROR, '提现失败');
         }
     }
 
-    public function confirmReturnOrderAction(){
+    public function confirmReturnOrderAction()
+    {
         $orderID = $this->postData['orderID'];
         $where = array(
             'orderID' => $orderID,
@@ -1575,17 +1616,18 @@ class MemberController extends Front{
             'returnStatus' => 4
         );
         $orderInfo = $this->memberOrderModel->fetch($where);
-        if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单不存在');
+        if (empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单不存在');
 
-        try{
+        try {
             $this->memberOrderModel->returnOrder($orderInfo);
             return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $this->response(ApiError::COMMON_ERROR, '确认失败');
         }
     }
 
-    public function noConfirmReturnOrderAction(){
+    public function noConfirmReturnOrderAction()
+    {
         $orderID = $this->postData['orderID'];
         $where = array(
             'orderID' => $orderID,
@@ -1593,17 +1635,17 @@ class MemberController extends Front{
             'returnStatus' => 4
         );
         $orderInfo = $this->memberOrderModel->fetch($where);
-        if(empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单不存在');
+        if (empty($orderInfo)) return $this->response(ApiError::COMMON_ERROR, '订单不存在');
 
-        try{
+        try {
             $update = array('returnStatus' => 6, 'isPaused' => 0);
-            if(!empty($orderInfo['autoConfirmDeliveryDoneTime']) && !empty($orderInfo['applyReturnTime'])){
+            if (!empty($orderInfo['autoConfirmDeliveryDoneTime']) && !empty($orderInfo['applyReturnTime'])) {
                 $update['autoConfirmDeliveryDoneTime'] = $orderInfo['autoConfirmDeliveryDoneTime'] + (time() - $orderInfo['applyReturnTime']);
             }
             $this->memberOrderModel->update($update, array('orderID' => $orderInfo['orderID']));
 
             return $this->response(ApiSuccess::COMMON_SUCCESS, '确认成功');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $this->response(ApiError::COMMON_ERROR, '确认失败');
         }
     }
