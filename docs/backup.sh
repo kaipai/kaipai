@@ -42,11 +42,3 @@ tar -zcvf $root_dir/$store_dir/$zipname $data_dir
 if [ $? = 0 ]; then
     rm -r $root_dir/$data_dir
 fi
-
-#if (! ssh piaoyi@10.252.94.156 "[ -d /data/backup/120_26_124_179/${month} ]")
-#then
-#   scp -r $root_dir/$store_dir piaoyi@10.252.94.156:/data/backup/120_26_124_179/
-#else
-#   scp $root_dir/$store_dir/$zipname piaoyi@10.252.94.156:/data/backup/120_26_124_179/${month}/$zipname
-#fi
-#scp $root_dir/$store_dir/$zipname huiteng@120.26.107.102:/data/backup/120_26_124_179/${month}/$zipname
