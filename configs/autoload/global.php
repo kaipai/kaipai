@@ -3,8 +3,8 @@
 return array(
     //生产环境配置
     'aliConfig' => array(
-        'partner' => '2088601184372385', //商户ID
-        'key' => 'ty14ojrq1tfht37ezjlacwbxotoar2yg', //key
+        'partner' => '', //商户ID
+        'key' => '', //key
         'service' => 'create_direct_pay_by_user',
         'sign_type' => strtoupper('md5'),
         'input_charset' => strtolower('utf-8'),
@@ -18,7 +18,7 @@ return array(
         'product_return_url' => 'http://xxx.com/pay/aliProductReturn',
         'special_return_url' => 'http://xxx.com/pay/aliSpecialReturn',
         'final_return_url' => 'http://xxx.com/pay/aliFinalReturn',
-        'seller_email' => 'lianxian2011510@126.com ',
+        'seller_email' => '',
         'logistics_type' => 'EXPRESS',
         'logistics_fee' => '0.00',
         'logistics_payment' => 'BUYER_PAY_AFTER_RECEIVE',
@@ -33,24 +33,12 @@ return array(
         'special_return_url' => 'http://xxx.com/pay/unionSpecialReturn',
         'final_return_url' => 'http://xxx.com/pay/unionFinalReturn',
     ),
-    'bd-config'=>array(
-        'and'=>array(
-            'ak'=>'I6ph4WU2mrAAAevQN0Kv9Qac',
-            'sk'=>'xQGIP0OfCrkxMHuilPowQGYOZyuExGVY',
-        ),
-        'ios'=>array(
-            'ak'=>'uRd26IGZDo03X7WY4P37E3U7',
-            'sk'=>'dLem844jFCRvLBypblFlLmG1H6mP6ufn',
-        ),
-    ),
     'db' => array(
         'driver' => 'Pdo',
         'driver_options' => array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
         ),
     ),
-    'app-super-verify-code' => '059814',
-    'response-signature-code' => 'zxvjequi@#!',
     /**
      * @description 短信发送配置
      */
