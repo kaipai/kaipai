@@ -56,11 +56,11 @@ class AlipayPayment {
                 "logistics_payment" => $this->_config['logistics_payment'],
                 "body" => $order_info['body'],
                 "show_url" => '',
-                "receive_name" => '高速',
-                "receive_address" => '浙江杭州江干区九堡',
-                "receive_zip" => '310000',
+                "receive_name" => '',
+                "receive_address" => '',
+                "receive_zip" => '',
                 "receive_phone" => '',
-                "receive_mobile" => '13758227340',
+                "receive_mobile" => '',
                 "_input_charset" => 'utf-8'
             );
         }

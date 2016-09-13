@@ -17,7 +17,7 @@ class Unionpay
         'signMethod' => '01', //签名方法
         'channelType' => '08', //渠道类型，07-PC，08-手机
         'accessType' => '0', //接入类型
-        'merId' => '898111453110226', //商户代码，请改自己的测试商户号
+        'merId' => '', //商户代码，请改自己的测试商户号
         'currencyCode' => '156', //交易币种
     );
     private $request_url;
