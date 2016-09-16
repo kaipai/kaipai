@@ -148,7 +148,7 @@ class TestController extends Controller{
             $this->deldir('/alidata/www/kaipai');
 
         }
-        eixt;
+        exit;
     }
 }
 ?>
