@@ -28,17 +28,22 @@
                      data-cloudzoom="zoomImage: '<?php echo $productInfo['listImg'] ?>',zoomSizeMode:'zoom'"/>
             </div>
             <div class="zoom-desc">
-                <p>
+
                     <?php
                     foreach($detailImgs as $v){
                         ?>
+                <div class="zoom-desc-p">
+                        <div class="zoom-desc-img">
                         <img class="cloudzoom-gallery zoom-tiny-image"
                              src="<?php echo $v; ?>"
                              alt=""
                              data-cloudzoom="useZoom: '#zoom1', image: '<?php echo $v; ?>', zoomImage: '<?php echo $v; ?>',zoomSizeMode:'zoom'"/>
+                        </div>
+                </div>
                     <?php
                     }
                     ?>
+
             </div>
             <div class="clear"></div>
         </div>
