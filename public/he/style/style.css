@@ -511,6 +511,7 @@ div.dp-popup td.disabled{cursor:default;}
      *font-family:Arial;
     position: relative;
     top:10px;
+    background-color: #fff;
 }
 .exc_list_img font{
     background: #800000;

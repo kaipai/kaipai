@@ -37,7 +37,11 @@
                             <span class="yc_pm5"><a href="javascript:;" class="del-order-btn" order-id="<?php echo $v['orderID'] ?>">删除</a></span>
                         </div>
                         <div class="ys_tip6">
-                            <div class="yc_imgleft"><img style="cursor:pointer;" onclick="window.open('<?php if($v['orderType'] == 1){ ?>/product/snap?productID=<?php echo $v['orderID']; ?><?php }else{ ?>/customization/detail?customizationID=<?php echo $v['customizationID']; ?><?php } ?>');" src="<?php echo $v['product']['listImg']; ?>"></div>
+                            <div class="yc_imgleft">
+                                <div class="yc_imgleft_in">
+                                <img style="cursor:pointer;" onclick="window.open('<?php if($v['orderType'] == 1){ ?>/product/snap?productID=<?php echo $v['orderID']; ?><?php }else{ ?>/customization/detail?customizationID=<?php echo $v['customizationID']; ?><?php } ?>');" src="<?php echo $v['product']['listImg']; ?>">
+                                </div>
+                            </div>
                             <div class="yc_imgleft1">
                                 <p class="yc_imgleft2"><span class="yc_ysname1"><?php echo $v['product']['productName'] ?></span> <span class="yc_money"><?php if($v['orderType'] == 2){ echo sprintf('%.2f', $v['payMoney'] / $v['customizationCount'], 2) . 'X' . $v['customizationCount']; }else{ echo $v['productPrice']; } ?></span>
                                 </p>

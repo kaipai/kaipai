@@ -585,8 +585,13 @@
 .probot-ad .bd{ padding:10px;   }
 .probot-ad .bd ul{ overflow:hidden; zoom:1; }
 .probot-ad .bd ul li{ margin:0 8px; float:left;height:265px; _display:inline; overflow:hidden; text-align:center; position: relative;  }
-.probot-ad .bd ul li .pic{ text-align:center;  }
-.probot-ad .bd ul li .pic img{ width:280px; height:265px; display:block; border:1px solid #ccc; }
+.probot-ad .bd ul li .pic{
+  text-align:center;
+  vertical-align: middle;
+  display: table-cell;
+  width:280px;
+  height:265px;}
+.probot-ad .bd ul li .pic img{ max-width:280px; max-height:265px; display:block; border:1px solid #ccc; }
 .probot-ad .bd ul li .pic a:hover img{ border-color:#999;  }
 .probot-ad .bd ul li .ad-bg{ display:  none; bottom: 0; z-index: 9;width: 280px;  position: absolute;background:rgba(0, 0, 0, 0.3);height: 32px;width: 280px;}
 .probot-ad .bd ul li .title{display:  none; bottom: 0;  color: #fff; z-index: 99;width: 280px;  position: absolute; line-height: 32px; height: 32px;}
