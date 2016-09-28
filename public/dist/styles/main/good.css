@@ -38,11 +38,16 @@
   width: 400px;
   height: 400px;
   margin: 10px auto 0;
-  position: relative; }
+  position: relative;
+  vertical-align: middle;
+  display: table-cell;}
 
 .zoom-small-image img {
-  width: 100%;
-  height: 400px; }
+  /*width: 100%;*/
+  /*height: 400px; */
+  max-height: 400px;
+  max-width: 400px;
+}
 
 .zoom-tiny-image {
   width: 80px;

@@ -39,12 +39,12 @@
                 ?>
                 <li><a href="/zone/mark?zoneID=<?php echo $_zoneInfo['memberID'] ?>">收藏文章</a></li>
                 <li><a href="/zone/interested-zones?zoneID=<?php echo $_zoneInfo['memberID'] ?>">关注的空间</a></li>
-                <!--<li><a href="/zone/message?zoneID=<?php /*echo $_zoneInfo['memberID'] */?>">留言板(<span class="ff7519"><?php /*echo $_zoneInfo['messageCount'] */?></span>)</a></li>-->
+                <li><a href="/zone/message?zoneID=<?php echo $_zoneInfo['memberID'] ?>">留言板(<span class="ff7519"><?php echo $_zoneInfo['messageCount'] ?></span>)</a></li>
             <?php
             }else{
                 ?>
                 <li><a href="javascript:;" class="add-interest-zone-btn" zone-id="<?php echo $_zoneInfo['memberID'] ?>">关注空间</a></li>
-                <!--<li><a href="javascript:;" class="add-message-btn">我要留言</a></li>-->
+                <li><a href="javascript:;" class="add-message-btn">我要留言</a></li>
             <?php
             } ?>
 
