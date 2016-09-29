@@ -6,12 +6,12 @@
 .spacename{padding-top: 118px;/* padding-left: 33px; */font-size: 40px; color: #fff}
 .spacetip{ font-size: 20px;/* padding-left: 33px; */color: #fff; margin-top: 16px}
 .space_bti{padding-top: 10px;}
-.space_bti ul li{ float: left;  width: 126px; font-size: 20px;text-align: center;}
+.space_bti ul li{ float: left;  width: 126px; font-size: 20px; text-align: center;}
 .space_bti ul li.space_img{position: absolute;  width: 214px; height: 214px;left: 492px;top: -168px; border-radius: 100%;border: 1px solid #fff;}
 .space_dp{position: absolute; background: #ee8102; width: 88px; height: 30px; line-height: 30px; text-align: center; color: #fff; border-radius: 6px;z-index: 2;top: 175px;}
 .space_bti ul li.space_img img{ width: 100%; height: 100%;border-radius: 100%;border: 1px solid #fff;}
 .space_bti{ position: relative;  padding-bottom: 20px}
-.space_gz{ margin-left: 300px}
+.space_gz{ margin-left: 190px}
 .ff7519{ color: #ff7519}
 .spacecont{background:#f0eee2; padding-bottom: 30px }
 .space_wz3{ background: #fff; border: 1px solid #8a857f; overflow: hidden; margin-top: 30px;padding-left: 14px;padding-right: 14px; padding-bottom: 50px; min-height: 1000px}
@@ -50,7 +50,7 @@
 .space_cominfo{overflow: hidden;border-bottom: 1px dashed #8a857f;padding: 20px 40px}
 .space_cominfoChildren{ padding-left: 140px; }
 .space_cominfo_left{ float: left; width: 910px }
-.space_cominfo_right{ float: right; width: 170px}
+.space_cominfo_right{ float: right; width: 150px}
 .space_cominfo_name{ font-size: 20px; color: #000}
 .space_cominfo_nr{ margin-top: 20px}
 .space_cominfo_right ul li{ float: left; padding-left: 10px; padding-right: 10px; border-right:1px solid #8a857f;}
@@ -59,6 +59,7 @@
 .childrenTextBox textarea{outline:none;border:0; height: 140px;resize: none; width: 100%; box-sizing:border-box; }
 .childrenTextBoxBot{ border-top:1px solid #999; }
 .childrenBtn{ background: #87c4bd; color: #fff; text-align: center;line-height:38px; color: #fff;margin: 10px 10px ;float: right; padding: 0 20px; cursor: pointer;}
+
 .space_pinlun{ margin-top: 20px}
 .space_fbwz{ background: #800000; color: #fff; padding-left:14px; line-height: 40px ; margin-top: 20px}
 .space_bioti{ margin-top: 30px}
@@ -69,7 +70,7 @@
 .wysiwyg {width: 1200px !important;height: 400px;margin-top: 20px}
 .space_btn{ margin-top: 20px}
 .space_yulanbtn{ background: #ac5f59; color: #fff; padding: 6px 14px; cursor: pointer;}
-.space_surebtn{background: #800000; color: #fff; padding: 6px 14px;cursor: pointer;}
+.space_surebtn{background: #800000; color: #fff; padding: 6px 14px;cursor: pointer;  }
 .permyimg{ margin-top:40px;overflow: hidden; min-height: 600px}
 .permyimg_left{ float: left; margin-right: 100px}
 .permyimg_left img{ width: 200px; height: 200px; border: 1px solid #fff; border-radius: 100%}
@@ -79,6 +80,7 @@
 .pro_name ul li.pro_na1{ background:url(../../images/go_03.jpg) no-repeat  scroll 160px center }
 .pro_zs{ margin-top: 80px; color: #000}
 .pro_zscont{ line-height: 30px; margin-top: 10px}
+
 .art-msgList{padding: 0 0 0 48px;}
 .art-msgList li{  line-height: 24px;padding: 10px 0 }
 .art-msgList li .msgLi-tit{font-weight: bold;
@@ -103,3 +105,31 @@
 
 .msg-icon em{float: right;background:url(/dist/img/icon-down.png) no-repeat right 2px; padding-right: 25px; cursor: pointer;}
 .msg-icon-up em{background-image:url(/dist/img/icon-up.png);}
+.msg-icon{height: 24px;width: 100%; padding-top: 10px;}
+
+.msg-icon em{float: right;background:url(/dist/img/icon-down.png) no-repeat right 2px; padding-right: 25px; cursor: pointer;}
+.msg-icon-up em{background-image:url(/dist/img/icon-up.png);}
+.msgAddBox{padding-top: 60px;}
+.msgAddTit{ background: #e6e6e8; height: 48px; line-height: 48px;border-bottom: 2px solid #bbb7b6;}
+.msgAddTit span{width: 400px; height: 48px;background-color: #820000; color: #fff; text-indent: 20px; display: block;}
+.msgAddTit span em{ color: #ef8300;padding: 0 10px; }
+.msgAddCon{padding: 0 5px;background-color: #fff;}
+.msgAddCon textarea{border: 0;height: 325px;width: 100%;resize: none; outline: none; font-size: 14px;line-height: 24px;}
+.msgAddBot{background: #e6e6e8; height: 48px; line-height: 48px;border-bottom: 2px solid #bbb7b6;}
+.msgAddIcon{float: left; margin-left: 20px;background:url(/dist/img/uploadicon.jpg) 0 6px no-repeat; height: 48px; padding-left: 42px; cursor: pointer;}
+.msgAddSend{float: right;background-color: #820000;text-align: center;width: 194px;height: 48px; color: #fff; cursor: pointer;}
+.msgAddImg{width: 100%;height: 225px;margin-top: 10px; display: none; background-color: #f0eee2;}
+.msgAddImg-top{background:url(/dist/img/msg-top.jpg) 0 6px no-repeat; width: 30px;height: 24px; margin-left: 22px;}
+.msgAddImgUl{ background-color: #fff;height: 200px;width: 454px;  padding: 30px 0 0 15px; }
+.msgAddImgUl li{height:132px; width: 132px;cursor: pointer;background: #fff url(/dist/img/msg-uploadbg.jpg) left top no-repeat;
+    float: left;position: relative;overflow: hidden; margin-left: 10px;}
+.msgAddImgUl ul{width: 100%; height: 132px;}
+.msgAddImgUl li input[type=file]{position: absolute;width: 100%;height: 132px;opacity: 0;cursor: pointer;
+    filter: alpha(opacity=0);}
+.msgAddImgUl li img{width: 132px; height: 132px; }
+.msgAddImg p{color: #666; line-height: 42px; font-size: 14px;}
+.icon-del{width: 17px;height: 17px; position: absolute;background:#f00 url(/dist/img/icon-del.jpg) no-repeat; top: 0;right: 0; z-index: 20;}
+.msgImgList{ width: 100%;height: 135px; padding: 15px 0; }
+.msgImgList li{width: 135px;height: 135px; float: left;margin-right: 15px;position: relative; overflow: hidden;}
+.msgImgList li img{width: 135px;height: 135px;}
+.msgImgList li .icon-fd{position: absolute;bottom: 5px;right: 5px;background: url(/dist/img/fangda.png) no-repeat;width: 45px;height: 45px;cursor: pointer;}

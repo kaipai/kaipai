@@ -137,7 +137,7 @@ class ZoneController extends Front{
         $res = $this->memberMessageModel->getMessages($where, $this->pageNum, $this->limit);
         $messages = $res['data'];
         foreach($messages as $k => $v){
-            $tmp = $this->memberMessageModel->getMessages(array('MemberMessage.pid' => $v['messageID']), 1, 100);
+            $tmp = $this->memberMessageModel->getMessages(array('MemberMessage.memberID' => $this->_zoneInfo['memberID'],'MemberMessage.pid' => $v['messageID']), 1, 100);
             $messages[$k]['childs'] = $tmp['data'];
         }
         $this->view->setVariables(array(
@@ -146,6 +146,7 @@ class ZoneController extends Front{
         ));
         return $this->view;
     }
+
 
     public function interestedZonesAction(){
         $where = array('MemberInterest.memberID' => $this->_zoneInfo['memberID']);
@@ -258,20 +259,46 @@ class ZoneController extends Front{
     }
 
     public function addMessageAction(){
+//        var_dump($this->postData);exit;
         if(empty($this->memberInfo)) return $this->response(ApiError::NEED_LOGIN, ApiError::NEED_LOGIN_MSG);
         if($this->memberInfo['memberID'] == $this->_zoneInfo['memberID'] && empty($this->postData['pid'])) return $this->response(ApiError::COMMON_ERROR, '不能给自己留言');
         if(empty($this->postData['content'])) return $this->response(ApiError::COMMON_ERROR, '内容不能为空');
         try{
             $this->postData['senderID'] = $this->memberInfo['memberID'];
             $this->postData['memberID'] = $this->_zoneInfo['memberID'];
+            $imgs = [];
+            if(!empty($this->postData['img'])){
+                foreach($this->postData['img'] as $val){
+                    $img = getimagesize($_SERVER['DOCUMENT_ROOT'].$val);
+                    $imgInfo['url'] = $val;
+                    $imgInfo['width'] = $img[0];
+                    $imgInfo['height'] = $img[1];
+                    $imgs[] = $imgInfo;
+                }
+                unset($this->postData['img']);
+                $this->postData['imgs'] = serialize($imgs);
+            }
+
             unset($this->postData['zoneID']);
-            $this->memberMessageModel->insert($this->postData);
+            $addData = $this->postData;
+            if(!empty($this->postData['pid'])){
+                $this->postData['memberID'] = $this->postData['sender_id'];
+                $this->notificationModel->insert(array('type' => 5, 'memberID' => $this->postData['sender_id'], 'content' => '您的空间有一条新留言。'));
+                unset($this->postData['sender_id'],$this->postData['pid']);
+                $this->memberMessageModel->insert($this->postData);
+            }
+            unset($addData['sender_id']);
+            $this->memberMessageModel->insert($addData);
             $this->memberInfoModel->update(array('messageCount' => new Expression('messageCount+1')), array('memberID' => $this->postData['memberID']));
             $this->notificationModel->insert(array('type' => 5, 'memberID' => $this->_zoneInfo['memberID'], 'content' => '您的空间有一条新留言。'));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功');
         }catch (\Exception $e){
             return $this->response(ApiError::COMMON_ERROR, '添加失败');
         }
+    }
+
+    public function msgAddAction(){
+            return $this->view;
     }
 
     public function delArticleAction(){

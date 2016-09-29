@@ -20,6 +20,25 @@
                                     <div class="space_cominfo_nr">
                                         <?php echo $v['content'] ?>
                                     </div>
+                                    <?php
+                                    if(!empty($v['imgs'])){
+                                        $v['imgs'] = unserialize($v['imgs']);
+                                    ?>
+                                    <ul class="msgImgList">
+                                        <?php
+                                        foreach($v['imgs'] as $iv){
+                                        ?>
+                                        <li>
+                                            <img src="<?php echo $iv['url'] ?>"  alt="">
+                                            <div class="icon-fd"  onclick="openImg('<?php echo $iv['url'] ?>',<?php echo $iv['width'] ?>,<?php echo $iv['height'] ?>)" ></div>
+                                        </li>
+                                            <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                    <?php
+                                    }
+                                    ?>
                                     <ul class="art-msgList">
                                     <?php
                                         if(!empty($v['childs'])){
@@ -28,6 +47,25 @@
                                                 <li>
                                                     <span class="msgLi-tit"><?php echo $sv['senderName'] ?></span>
                                                     ：<?php echo $sv['content'] ?>
+                                                    <?php
+                                                    if(!empty($sv['imgs'])){
+                                                        $sv['imgs'] = unserialize($sv['imgs']);
+                                                        ?>
+                                                        <ul class="msgImgList">
+                                                            <?php
+                                                            foreach($sv['imgs'] as $isv){
+                                                                ?>
+                                                                <li>
+                                                                    <img src="<?php echo $isv['url'] ?>"  alt="">
+                                                                    <div class="icon-fd"  onclick="openImg('<?php echo $isv['url'] ?>',<?php echo $isv['width'] ?>,<?php echo $isv['height'] ?>)" ></div>
+                                                                </li>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </ul>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                 </li>
                                     <?php
                                             }
@@ -43,8 +81,8 @@
                                         <li>
                                             <a href="javascript:;" class="post-illegal-btn" coreID="<?php echo $v['messageID'] ?>" type="3">举报</a>
                                         </li>
-                                        <li class="space_no">
-                                            <a href="javascript:;" class="reply-member-message-btn" message-id="<?php echo $v['messageID'] ?>">回复>></a>
+                                        <li class="space_no openMsgAdd" spacename = "<?php echo $v['senderName'] ?>">
+                                            <a  spacename = "<?php echo $v['senderName'] ?>" message-id="<?php echo $v['messageID'] ?>" sender-id="<?php echo $v['senderID'] ?>">回复>></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -62,4 +100,185 @@
     </div>
 
 </div>
+<div id="msgAddBox" style="display: none;">
+    <div class="msgAddBox clearfix" >
+        <div class="msgAddTit">
+              <span>
+                我要对 <em id="spacename"></em>
+                留言
+              </span>
+        </div>
+        <form id="msg_form">
+        <div class="msgAddCon">
+            <textarea name="content" style="height: 200px"></textarea>
+            <input name="zoneID" value="<?php echo $_zoneInfo['memberID'] ?>" type="hidden">
+            <input name="pid" id="pid_val" value="" type="hidden">
+            <input name="sender_id" id="sender_id_val" value="" type="hidden">
+        </div>
+        <div class="msgAddBot">
+            <div class="msgAddIcon" id="msgAddIcon">图片</div>
+            <div class="msgAddSend">发送</div>
+            <div class="clear"></div>
+        </div>
+        <div id="imgs"></div>
+        <div class="msgAddImg " id="msgAddImg">
+            <div class="msgAddImg-top"></div>
+            <div class="msgAddImgUl">
+                <ul >
+                    <li>
+                        <input  accept="image/*" class="uploadFile1" name="uploadFile1" type="file"/>
+                    </li>
+                    <li>
+                        <input  accept="image/*" class="uploadFile2" name="uploadFile1" type="file"/>
+                    </li>
+                    <li>
+                        <input  accept="image/*" class="uploadFile3" name="uploadFile1" type="file"/>
+                    </li>
+
+                </ul>
+                <p>最多可添加3张照片</p>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    //图片展示
+    function openImg(url,width,height) {
+        layer.open({
+            type: 2,
+            title: false,
+            skin: 'layui-layer-rim',
+            area: [width+'px',height+'px'],//此外图片大小需要固定
+            shade: 0.8,
+            scrollbar: false,
+            shadeClose: true,
+            content: [url, 'no']
+        });
+    };
+
+
+
+    function uploadFileAjax(inputEle,imgName, sucFun, flag) {
+        inputEle.change(function() {
+            var that = this;
+            console.log("uploadFileAjax");
+            var J_uploadPar = $(that).parent();
+
+            lrz(that.files[0], {
+                quality: 1
+            })
+                .then(function(rst) {
+                    if (!flag) {
+                        var img = new Image();
+                        img.src = rst.base64;
+                        J_uploadPar.find('.icon-del').remove();
+                        J_uploadPar.find('img').remove();
+                        J_uploadPar.append(img);
+                        var html="<div class='icon-del'></div>";
+                        J_uploadPar.append(html);
+                    }
+                    sucFun('data.data');
+                    $.ajax({
+                        url: "/index/file-upload", // 这个地址做了跨域处理，可以用于实际调试
+                        data: rst.formData,
+                        processData: false,
+                        contentType: false,
+                        type: 'POST',
+                        success: function(data) {
+                            if (data.flag == 1) {
+                                $("#"+imgName).remove();
+                                html = '<input name="img[]" id="'+imgName+'" value="'+data.data.picPath+'" type="hidden">';
+
+                                $(html).appendTo("#imgs");
+
+                            } else {
+                                alert('图片上传失败，请联系管理员！');
+                            }
+
+
+
+                        }
+                    });
+
+                    return rst;
+                });
+
+
+        });
+        //end
+    };
+
+    uploadFileAjax($('.uploadFile1'),'uploadFile1',function(data){
+
+    });
+    uploadFileAjax($('.uploadFile2'),'uploadFile2',function(data){
+
+    });
+    uploadFileAjax($('.uploadFile3'),'uploadFile3',function(data){
+
+    });
+    $(function(){
+        var J_msgAddImg=$("#msgAddImg");
+        $('#msgAddIcon').on('click', function(event) {
+            event.preventDefault();
+            if(J_msgAddImg.is(":hidden")){
+                J_msgAddImg.show();
+                console.log("hide");
+            }else{
+                J_msgAddImg.hide();
+            }
+        });
+
+        //打开留言框
+
+        $('.openMsgAdd').on('click', 'a', function(event) {
+            event.preventDefault();
+            $('#spacename').html( $(this).attr('spacename')+'的空间');
+            $('#pid_val').val( $(this).attr('message-id'));
+            $('#sender_id_val').val( $(this).attr('sender-id'));
+            layer.open({
+                type: 1,
+                title: false,
+                skin: 'layui-layer-rim',
+                area: ['1200px', '660px'],
+                shade: 0.8,
+                scrollbar: false,
+                shadeClose: true,
+                content: $('#msgAddBox')
+            });
+        });
+
+        //删除
+        $('.msgAddImgUl').on('click', '.icon-del', function(event) {
+            event.preventDefault();
+            var J_parent=$(this).parent();
+            J_parent.find('.icon-del,img').remove();
+            var class_name = J_parent.find('input').attr('class');
+            $('#'+class_name).remove();
+        });
+
+
+    });
+
+    $(".msgAddSend").on("click", function () {
+        var msg_add_url= "/zone/add-Message";
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: msg_add_url,
+            data: $('#msg_form').serialize(),
+            success: function ($data) {
+                layer.alert($data.msg, function(){
+                    if($data.flag == 1){
+                        location.reload();
+                    }else{
+                        layer.closeAll();
+                    }
+
+                });
+            },
+        });
+    });
+</script>
 
