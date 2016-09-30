@@ -14,7 +14,7 @@
                             <div class="space_cominfo">
                                 <div class="space_cominfo_left">
                                     <div>
-                                        <span class="space_cominfo_name"><?php echo $v['senderName'] ?></span>
+                                        <span class="space_cominfo_name"><a style="color: #000;" href="/zone/index?zoneID=<?php echo $v['senderID'] ?>"><?php echo $v['senderName'] ?></a> </span>
                                         <span class="font16"><?php echo $v['instime']; ?></span>
                                     </div>
                                     <div class="space_cominfo_nr">
@@ -236,7 +236,7 @@
             event.preventDefault();
             $('#spacename').html( $(this).attr('spacename')+'的空间');
             $('#pid_val').val( $(this).attr('message-id'));
-            $('#sender_id_val').val( $(this).attr('sender-id'));
+            $('#sender_id_val').val( $(this).attr('senderspace_cominfo_name-id'));
             layer.open({
                 type: 1,
                 title: false,
