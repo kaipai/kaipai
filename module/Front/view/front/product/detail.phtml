@@ -257,8 +257,9 @@
                     foreach($recommendProducts as $v){
                 ?>
                         <li style="cursor: pointer" onclick="window.open('/product/detail?productID=<?php echo $v['productID'] ?>');">
+                            <div class="rnav-list-li">
                             <img src="<?php echo $v['listImg'] ?>" alt="">
-
+                            </div>
                             <p class="rnav-info">
                                 <?php echo $v['productName'] ?><br>
                                 当前价 <em>￥<?php echo $v['currPrice'] ?></em>

@@ -2181,6 +2181,7 @@ li .exc_strat{
     *font-family:Arial;
     position: relative;
     top:10px;
+  background-color: #fff;
 }
 .exc_list_img font{
     background: #800000;
