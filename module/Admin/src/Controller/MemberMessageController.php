@@ -34,7 +34,7 @@ class MemberMessageController extends Admin{
 		    if(!empty($val['imgs'])){
 			    $imgs = unserialize($val['imgs']);
 			    foreach($imgs as $ims_val){
-				    $rows[$key]['content'] .= "<br/><img src='".$ims_val['url']."' style='height:100px;'/>";
+				    $rows[$key]['content'] .= "<br/><a target='_blank' href='".$ims_val['url']."'> <img src='".$ims_val['url']."' style='height:100px;'/></a>";
 			    }
 		    }
 	    }
