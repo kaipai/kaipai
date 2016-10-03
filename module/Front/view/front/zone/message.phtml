@@ -237,12 +237,11 @@
             $('#spacename').html( $(this).attr('spacename')+'的空间');
             $('#pid_val').val( $(this).attr('message-id'));
             $('#sender_id_val').val( $(this).attr('senderspace_cominfo_name-id'));
-            layer.open({
-                type: 1,
-                title: false,
-                skin: 'layui-layer-rim',
-                area: ['1200px', '660px'],
-                shade: 0.8,
+	        layer.open({
+		        type: 1,
+		        title: false,
+		        skin: 'layui-layer-rim',
+		        area: ['800px', '370px'],
                 scrollbar: false,
                 shadeClose: true,
                 content: $('#msgAddBox')

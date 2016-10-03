@@ -283,6 +283,7 @@ class ZoneController extends Front{
             $addData = $this->postData;
             if(!empty($this->postData['pid'])){
                 $this->postData['memberID'] = $this->postData['sender_id'];
+	            $this->memberInfoModel->update(array('messageCount' => new Expression('messageCount+1')), array('memberID' => $this->postData['sender_id']));
                 $this->notificationModel->insert(array('type' => 5, 'memberID' => $this->postData['sender_id'], 'content' => '您的空间有一条新留言。'));
                 unset($this->postData['sender_id'],$this->postData['pid']);
                 $this->memberMessageModel->insert($this->postData);
