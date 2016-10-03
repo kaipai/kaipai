@@ -30,6 +30,15 @@ class MemberMessageController extends Admin{
         $data['total'] = $result['total'];
 
         $data['rows'] = $rows;
+	    foreach($rows as $key =>$val){
+		    if(!empty($val['imgs'])){
+			    $imgs = unserialize($val['imgs']);
+			    foreach($imgs as $ims_val){
+				    $rows[$key]['content'] .= "<br/><img src='".$ims_val['url']."' style='height:100px;'/>";
+			    }
+		    }
+	    }
+//	    var_dump($rows);exit;
 
         return $this->adminResponse($data);
     }
