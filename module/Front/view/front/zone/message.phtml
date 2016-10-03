@@ -79,7 +79,7 @@
                                 <div class="space_cominfo_right">
                                     <ul>
                                         <li>
-                                            <a href="javascript:;" class="post-illegal-btn" coreID="<?php echo $v['messageID'] ?>" type="3">举报</a>
+                                            <a href="javascript:;" class="post-illegal-btn" coreID="<?php echo $v['messageID'] ?>" type="5">举报</a>
                                         </li>
                                         <li class="space_no openMsgAdd" spacename = "<?php echo $v['senderName'] ?>">
                                             <a  spacename = "<?php echo $v['senderName'] ?>" message-id="<?php echo $v['messageID'] ?>" sender-id="<?php echo $v['senderID'] ?>">回复>></a>
@@ -236,7 +236,7 @@
             event.preventDefault();
             $('#spacename').html( $(this).attr('spacename')+'的空间');
             $('#pid_val').val( $(this).attr('message-id'));
-            $('#sender_id_val').val( $(this).attr('senderspace_cominfo_name-id'));
+            $('#sender_id_val').val( $(this).attr('sender-id'));
 	        layer.open({
 		        type: 1,
 		        title: false,
