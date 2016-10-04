@@ -69,6 +69,7 @@
                                 J_uploadPar.append(html);
                             }
                             sucFun('data.data');
+		                    inputEle.val('');
                             $.ajax({
                                 url: "/index/file-upload", // 这个地址做了跨域处理，可以用于实际调试
                                 data: rst.formData,

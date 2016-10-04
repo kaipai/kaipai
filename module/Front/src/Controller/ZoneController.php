@@ -290,7 +290,7 @@ class ZoneController extends Front{
             }
             unset($addData['sender_id']);
             $this->memberMessageModel->insert($addData);
-            $this->memberInfoModel->update(array('messageCount' => new Expression('messageCount+1')), array('memberID' => $this->postData['memberID']));
+            $this->memberInfoModel->update(array('messageCount' => new Expression('messageCount+1')), array('memberID' => $this->_zoneInfo['memberID']));
             $this->notificationModel->insert(array('type' => 5, 'memberID' => $this->_zoneInfo['memberID'], 'content' => '您的空间有一条新留言。'));
             return $this->response(ApiSuccess::COMMON_SUCCESS, '添加成功');
         }catch (\Exception $e){
