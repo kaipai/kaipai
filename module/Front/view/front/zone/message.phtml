@@ -46,6 +46,7 @@
                                     ?>
                                                 <li>
                                                     <span class="msgLi-tit"><?php echo $sv['senderName'] ?></span>
+	                                                <span class="font16"><?php echo $v['instime']; ?></span>
                                                     ：<?php echo $sv['content'] ?>
                                                     <?php
                                                     if(!empty($sv['imgs'])){
@@ -179,7 +180,8 @@
                         J_uploadPar.append(html);
                     }
                     sucFun('data.data');
-                    $.ajax({
+		            inputEle.val('');
+		            $.ajax({
                         url: "/index/file-upload", // 这个地址做了跨域处理，可以用于实际调试
                         data: rst.formData,
                         processData: false,
