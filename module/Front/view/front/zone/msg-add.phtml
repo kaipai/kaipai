@@ -79,7 +79,7 @@
                                 success: function(data) {
                                     if (data.flag == 1) {
                                         $("#"+imgName).remove();
-                                        html = '<input name="img[]" id="'+imgName+'" value="'+data.data.picPath+'" type="hidden">';
+                                        html = '<input name="img[]" id="'+imgName+'" value="'+data.data.thumbPicPath+'" type="hidden">';
 
                                         $(html).appendTo("#imgs");
 
