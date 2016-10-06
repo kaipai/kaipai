@@ -102,7 +102,7 @@
 
 </div>
 <div id="msgAddBox" style="display: none;">
-    <div class="msgAddBox clearfix" >
+    <div class="msgAddBox clearfix"  style="padding-top: 0; height: 560px; " >
         <div class="msgAddTit">
               <span>
                 我要对 <em id="spacename"></em>
@@ -122,9 +122,9 @@
             <div class="clear"></div>
         </div>
         <div id="imgs"></div>
-        <div class="msgAddImg " id="msgAddImg">
+        <div class="msgAddImg " id="msgAddImg"  style="">
             <div class="msgAddImg-top"></div>
-            <div class="msgAddImgUl">
+            <div class="msgAddImgUl" style="height: auto">
                 <ul >
                     <li>
                         <input  accept="image/*" class="uploadFile1" name="uploadFile1" type="file"/>
@@ -221,16 +221,16 @@
 
     });
     $(function(){
-        var J_msgAddImg=$("#msgAddImg");
-        $('#msgAddIcon').on('click', function(event) {
-            event.preventDefault();
-            if(J_msgAddImg.is(":hidden")){
-                J_msgAddImg.show();
-                console.log("hide");
-            }else{
-                J_msgAddImg.hide();
-            }
-        });
+	    var J_msgAddImg=$("#msgAddImg");
+	    $('#msgAddIcon').on('click', function(event) {
+		    event.preventDefault();
+		    if(J_msgAddImg.is(":hidden")){
+			    J_msgAddImg.show();
+			    console.log("hide");
+		    }else{
+			    J_msgAddImg.hide();
+		    }
+	    });
 
         //打开留言框
 
@@ -242,12 +242,20 @@
 	        layer.open({
 		        type: 1,
 		        title: false,
-		        skin: 'layui-layer-rim',
-		        area: ['800px', '370px'],
-                scrollbar: false,
-                shadeClose: true,
-                content: $('#msgAddBox')
-            });
+		        skin: 'layui-layer-nobg',
+		        area: '800px',
+
+		        scrollbar: false,
+		        shadeClose: false,
+		        content: $('#msgAddBox'),
+		        success: function(layero, index){
+			        console.log(layero, index);
+		        },
+		        cancel:function(){
+			        console.log('关闭弹窗时回调');
+			        $("#msgAddImg").hide();
+		        }
+	        });
         });
 
         //删除
@@ -281,5 +289,7 @@
             },
         });
     });
+
+
 </script>
 
