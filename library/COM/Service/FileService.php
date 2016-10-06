@@ -83,7 +83,8 @@ class FileService
             // 生成缩略图
             if ($this->ifThumb) {
                 $thumbInfo = $this->makeThumb($this->targetAbs . $fileInfo[$k]['name'], $this->targetAbs . $tmpFileName . $this->thumbW . 'X' . $this->thumbH . $ext, $this->thumbW, $this->thumbH);
-                $data['thumb'] = $thumbInfo;
+	            $thumbInfo['thumb_url'] = $this->targetRel . $tmpFileName . $this->thumbW . 'X' . $this->thumbH . $ext;
+	            $data['thumb'] = $thumbInfo;
             }
 
             // 加水印
@@ -485,7 +486,8 @@ class FileService
         in_array($srcExt, $exts) && $srcdata['type'] = 2;
         if (false === ($info = getimagesize($srcFile))) return false;
         list($srcdata['width'], $srcdata['height'], $srcdata['type']) = $info;
-        if (!$srcdata['type'] || ($srcdata['type'] == 1 && in_array($srcExt, $exts))) return false;
+//	    if (!$srcdata['type'] || ($srcdata['type'] == 1 && in_array($srcExt, $exts))) return false;
+	    if (!$srcdata['type']) return false;
         return $srcdata;
     }
 

@@ -85,12 +85,13 @@ class IndexController extends Front{
     public function fileUploadAction(){
         try{
             $fileService = $this->sm->get('COM\Service\FileService');
-            //$result = $fileService->setThumb(array('width' => 100, 'height' => 100))->upload($this->request);
-            $result = $fileService->upload($this->request);
+            $result = $fileService->setThumb(array('width' => 500, 'height' => 500),true)->upload($this->request);
+            //$result = $fileService->upload($this->request);
+//	        var_dump($result);exit;
             $result = json_decode($result, true);
             /*$fileService->customThumb($result[0]['path'], 263, 263);
             $fileService->customThumb($result[0]['path'], 100, 100);*/
-            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('picPath' => $result[0]['path']));
+            return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG, array('picPath' => $result[0]['path'],'thumbPicPath' => $result[0]['thumb']['thumb_url']));
 
         }catch(\Exception $e){
             return $this->response(ApiError::FILE_UPLOAD_FAILED, ApiError::FILE_UPLOAD_FAILED_MSG);
