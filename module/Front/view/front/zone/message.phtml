@@ -146,6 +146,12 @@
 <script type="text/javascript">
     //图片展示
     function openImg(url,width,height) {
+	    var max_width = 400;
+	    if(width > max_width){
+		    height = (height * 400) / width;
+		    width = 400;
+
+	    }
         layer.open({
             type: 2,
             title: false,
