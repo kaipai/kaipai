@@ -3,7 +3,7 @@ namespace Admin\Controller;
 use Base\ConstDir\Admin\AdminSuccess;
 use COM\Controller\Admin;
 use Zend\Db\Sql\Predicate\Like;
-
+//use Zend\Db\Sql\Predicate\Predicate;
 class MemberMessageController extends Admin{
     public function indexAction(){
         return $this->view;
@@ -17,7 +17,8 @@ class MemberMessageController extends Admin{
         $sort = $this->queryData['sort'];
         $order = $this->queryData['order'];
         if(!empty($search)){
-            $where[] = new Like('c.nickName', '%' . $search . '%');
+            $where = new Like('content', '%' . $search . '%');
+//            $where = "c.nickName like '%" . $search . "%' OR b.nickName like '%" . $search . "%'  OR content like '%" . $search . "%'  ";
         }
         if(!empty($sort) && !empty($order)){
             $sortOrder = 'MemberMessage.' . $sort . ' ' . $order;

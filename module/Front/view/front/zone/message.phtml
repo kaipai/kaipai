@@ -171,13 +171,9 @@
             })
                 .then(function(rst) {
                     if (!flag) {
-                        var img = new Image();
-                        img.src = rst.base64;
+//                        img.src = rst.base64;
                         J_uploadPar.find('.icon-del').remove();
                         J_uploadPar.find('img').remove();
-                        J_uploadPar.append(img);
-                        var html="<div class='icon-del'></div>";
-                        J_uploadPar.append(html);
                     }
                     sucFun('data.data');
 		            inputEle.val('');
@@ -193,6 +189,12 @@
                                 html = '<input name="img[]" id="'+imgName+'" value="'+data.data.thumbPicPath+'" type="hidden">';
 
                                 $(html).appendTo("#imgs");
+                                
+                                var img = new Image();
+                                img.src = data.data.thumbPicPath;
+                                J_uploadPar.append(img);
+                                var html="<div class='icon-del'></div>";
+                                J_uploadPar.append(html);
 
                             } else {
                                 alert('图片上传失败，请联系管理员！');
