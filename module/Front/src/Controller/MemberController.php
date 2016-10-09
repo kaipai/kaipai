@@ -839,7 +839,7 @@ class MemberController extends Front
             $startHourMin = $startHour . $startMin;
             $endHourMin = $endHour . $endMin;
             $timeInterval = $this->postData['endTime'] - $this->postData['startTime'];
-            if ($startHourMin >= 1000 && $startHourMin < 2200) {
+            /*if ($startHourMin >= 1000 && $startHourMin < 2200) {
                 if ($endHourMin > 2200 || $endHourMin < 1000) {
 
                     return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
@@ -849,6 +849,13 @@ class MemberController extends Front
                 if ($endHourMin > 1000 && $endHourMin < 2200){
                     return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
                 }
+            }*/
+            if ($startHourMin == 1000 && $endHourMin != 2200) {
+                return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
+            } elseif ($startHourMin == 2200 && $endHourMin != 1000) {
+                return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
+            } elseif ($startHourMin != 1000 && $startHourMin != 2200) {
+                return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
             }
             if ($timeInterval > 12 * 3600) return $this->response(ApiError::COMMON_ERROR, '拍卖时间只能在上午10点到下午22点或下午22点到次日10点');
 
