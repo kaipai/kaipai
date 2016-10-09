@@ -1783,7 +1783,7 @@ td.cj_infoNew{vertical-align : top; padding-top: 10px; }
 .yc_pm4{width: 90px}
 .lxmj a{color: #820000 !important}
 .ys_tip6{margin-top: 10px; overflow: hidden;}
-.yc_imgleft{ float: left; }
+.yc_imgleft{ float: left; margin-right: 15px;}
 .yc_imgleft_in{ width: 144px; height: 144px; margin-right: 50px;vertical-align:middle;text-align:center;display: table-cell}
 .yc_imgleft img{ /*width: 100%; height: 100%*/max-width: 144px;max-height:144px;}
 .yc_imgleft1{ float: left;width: 354px;}
