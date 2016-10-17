@@ -283,9 +283,9 @@
                         }
                         s += '<a title="解除封停" href="javascript:void(0)" class="col-md-4 text-success confirm-btn" boxsize="modal-sm" ctitle="确认提示" cbody="确认解除吗？" url="/admin/<?=$this->layout()->controllerName;?>/update" method="post" params="storeID='+ row.storeID +'&storeCloseType=0"><i class="glyphicon glyphicon-plus"></i></a>';
                     }else{
-                        s += '<a title="封停" href="javascript:void(0)"  class="col-md-4" rid="' + value + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-minus"></i></a>';
+                        s += '<a title="封停" href="javascript:void(0)"  class="col-md-4" rid="' + row.storeID + '"  data-toggle="modal" data-target="#edit_modal"><i class="glyphicon glyphicon-minus"></i></a>';
                     }
-                    s += '<a href="javascript:void(0)" level="' + row.level + '"  rid="' + value + '"  data-toggle="modal" data-target="#edit_modal2">设置等级</a>';
+                    s += '<a href="javascript:void(0)" level="' + row.level + '"  rid="' + row.storeID + '"  data-toggle="modal" data-target="#edit_modal2">设置等级</a>';
 
 
                     return s;
