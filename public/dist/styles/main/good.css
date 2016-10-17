@@ -34,14 +34,11 @@
 .zoom-desc-img{
   width: 78px;
   height: 78px;
-
-  display: inline;
-  box-sizing: border-box;
-  cursor: pointer;
-  vertical-align: middle;
-  display: table-cell;
   text-align: center;
   border: 1px solid #58504e;
+    display: block;
+    overflow: hidden;
+    line-height: 73px;
 }
 
 .zoom-desc-p {
@@ -57,18 +54,25 @@
   margin: 10px auto 0;
   position: relative;
   vertical-align: middle;
-  display: table-cell;
   text-align: center;
-  border: 1px solid #58504e;}
+  border: 1px solid #58504e;
+    display: block;
+    overflow: hidden;
+    line-height: 393px;
+}
 
 .zoom-small-image img {
   /*width: 100%;*/
   /*height: 400px; */
   max-height: 400px;
   max-width: 400px;
+    display: inline;
+    vertical-align: middle;
 }
 
 .zoom-tiny-image {
+    display: inline;
+    vertical-align: middle;
   max-width: 78px;
   max-height: 78px;
 }
