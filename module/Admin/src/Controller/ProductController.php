@@ -38,6 +38,12 @@ class ProductController extends Admin{
             if(!empty($v['recommendEndTime'])){
                 $data['rows'][$k]['recommendEndTime'] = date('Y-m-d H:i:s', $v['recommendEndTime']);
             }
+            if(!empty($v['startTime'])){
+                $data['rows'][$k]['startTime'] = date('Y-m-d H:i:s', $v['startTime']);
+            }
+            if(!empty($v['endTime'])){
+                $data['rows'][$k]['endTime'] = date('Y-m-d H:i:s', $v['endTime']);
+            }
 
         }
 
