@@ -1512,7 +1512,7 @@ body {
 
 .kp_main{background: #f8f8f8; padding-top: 30px ; overflow: hidden;font-size: 16px; color: #333}
 .kp_left{ float: left;width: 230px; margin-right: 20px;overflow: hidden;color: #fff;}
-.kp_p{ padding-left: 20px;font-size: 24px; line-height: 38px; background: #000; color: #fff;}
+.kp_p{ padding-left: 20px;font-size: 24px; line-height: 38px; background: #4A708B; color: #fff;}
 .kp_titone{ font-size: 24px;  background: #231816; overflow: hidden;}
 .kp_ul li{ line-height: 36px; border-bottom: 1px solid #d4d5d3; background: url(../../img/navbg.png) repeat-x 0;  padding-left: 20px; font-size: 18px}
 .kp_ul  a{ color: #444}
