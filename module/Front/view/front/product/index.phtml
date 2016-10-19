@@ -235,7 +235,11 @@
                     foreach($productIndexRecommendProducts as $v){
                 ?>
                         <li>
-                            <div class="pic"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"target="_blank"><img src="<?php echo $v['listImg'] ?>" /></a></div>
+	                        <?php
+	                        $img_arr = explode('.',$v['listImg']);
+	                        $v['img_small'] = $img_arr[0].'500X500.'.$img_arr[1];
+	                        ?>
+                            <div class="pic"><a href="/product/detail?productID=<?php echo $v['productID'] ?>"target="_blank"><img src="<?php if(file_exists($_SERVER['DOCUMENT_ROOT'].$v['img_small'])) echo $v['img_small']; else echo $v['listImg']; ?>" /></a></div>
                             <div class="ad-bg"></div>
                             <div class="title"><a href="/product/detail?productID=<?php echo $v['productID'] ?>" target="_blank"><?php echo $v['productName'] ?></a></div>
                         </li>
