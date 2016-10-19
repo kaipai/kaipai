@@ -3,6 +3,8 @@
     <ul class="indexPro">
         <?php
         foreach ($products as $v) {
+	        $img_arr = explode('.',$v['listImg']);
+	        $v['img_small'] = $img_arr[0].'500X500.'.$img_arr[1];
             ?>
             <?php if ($v['auctionStatus'] == 1) {
                 ?>
@@ -16,7 +18,7 @@
                     <p class="indexPro-time"><?php echo date('m月d日 H:i', $v['startTime']) ?> 开拍</p>
 
                     <div class="indexPro-img">
-                        <img src="<?php echo $v['listImg']; ?>">
+                        <img src="<?php if(file_exists($_SERVER['DOCUMENT_ROOT'].$v['img_small'])) echo $v['img_small']; else echo $v['listImg']; ?>">
 
                         <p class="indexPro-num"><em><?php echo $v['auctionCount'] ?></em>
                             <span>次出价</span>
@@ -39,7 +41,7 @@
                     </p>
 
                     <div class="indexPro-img">
-                        <img src="<?php echo $v['listImg']; ?>">
+                        <img src="<?php if(file_exists($_SERVER['DOCUMENT_ROOT'].$v['img_small'])) echo $v['img_small']; else echo $v['listImg']; ?>">
 
                         <p class="indexPro-num"><em><?php echo $v['auctionCount'] ?></em>
 	                        <span>次出价</span>
