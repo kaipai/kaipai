@@ -11,9 +11,8 @@ if($v['auctionStatus'] == 2){
     </li>
     <li class="lh32">距结束 <font class="yomibox2" data="<?php echo date('Y/m/d H:i:s', $v['endTime']); ?>"></font></li>
     <li class="exc_list_img">
-        <img src="<?php echo $v['listImg']; ?>" style="max-width:254px;max-height:254px;"> <font><strong><?php echo $v['auctionCount'] ?></strong>
-            <br/>
-            次出价</font>
+        <img src="<?php echo $v['listImg']; ?>" style="max-width:258px;max-height:258px;vertical-align: middle;display: inline;"> <font><strong><?php echo $v['auctionCount'] ?></strong>
+		    <em>次出价</em></font>
     </li>
 </ul>
 <?php
@@ -29,9 +28,8 @@ if($v['auctionStatus'] == 2){
         </li>
         <li class="lh32">已结束</li>
         <li class="exc_list_img">
-            <img src="<?php echo $v['listImg']; ?>" style="max-width:254px;max-height:254px;"> <font><strong><?php echo $v['auctionCount'] ?></strong>
-                <br/>
-                次出价</font>
+            <img src="<?php echo $v['listImg']; ?>" style="max-width:258px;max-height:258px;vertical-align: middle;display: inline;"> <font><strong><?php echo $v['auctionCount'] ?></strong>
+		        <em>次出价</em></font>
         </li>
 
     </ul>
@@ -48,11 +46,10 @@ if($v['auctionStatus'] == 2){
         </li>
         <li class="lh32 exc_strat"><?php echo date('m月d日 H:i', $v['startTime']) ?> 开拍</li>
         <li class="exc_list_img">
-            <img src="<?php echo $v['listImg']; ?>" style="max-width:254px;max-height:254px;">
+            <img src="<?php echo $v['listImg']; ?>" style="max-width:258px;max-height:258px;vertical-align: middle;display: inline;">
             <font class="exc_num_bg">
                 <strong><?php echo $v['auctionCount'] ?></strong>
-                <br>
-                次出价
+	            <em>次出价</em>
             </font>
         </li>
     </ul>

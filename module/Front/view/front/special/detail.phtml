@@ -55,7 +55,6 @@ echo $this->headLink()
         height: 258px;
         width: 258px;
         display: table-cell;
-        vertical-align: middle;
         text-align: center;
         *display: block;
         *font-size: 175px;
@@ -63,20 +62,39 @@ echo $this->headLink()
         position: relative;
         top: 10px;
 	    background-color: #fff;
+	    line-height: 258px;
     }
 
     .exc_list_img font {
-        background: #800000;
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        padding: 6px 15px 10px;
-        font-size: 14px;
-        color: #fff;
+	    background: #800000;
+	    position: absolute;
+	    top: 0px;
+	    right: 0px;
+	    padding: 6px 15px 10px;
+	    font-size: 14px;
+	    color: #fff;
+	    width: 42px;
+	    height: 54px;
     }
 
     .exc_list_img strong {
         font-size: 26px;
+	    display: block;
+	    left: 0;
+	    top: 12px;
+	    width: 100%;
+	    line-height: 40px;
+	    text-align: center;
+    }
+
+    .exc_num_bg em {
+	    display: block;
+	    padding-top: 4px;
+	    left: 0;
+	    top: 12px;
+	    width: 100%;
+	    line-height: 5px;
+	    text-align: center;
     }
 
     .exc_num_bg {
