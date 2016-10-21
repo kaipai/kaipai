@@ -31,7 +31,7 @@ class ProductFilterOption extends Model{
         }
         $paginator = $this->paginate($select);
         $paginator->setCurrentPageNumber(ceil($offset / $limit) + 1);
-        //$paginator->setItemCountPerPage(1);
+        $paginator->setItemCountPerPage($limit);
         $products = $paginator->getCurrentItems()->getArrayCopy();
         $pages = $paginator->getPages();
         $productsCount = $paginator->getTotalItemCount();
