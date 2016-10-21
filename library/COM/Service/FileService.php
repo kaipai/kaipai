@@ -27,7 +27,8 @@ class FileService
      */
     public function upload(Request $request)
     {
-        if (!($request instanceof Request)) {
+	    ini_set('gd.jpeg_ignore_warning', true);
+	    if (!($request instanceof Request)) {
             throw new \Exception(BaseConst::UPLOAD_PARAMETER_ERROR_MSG, BaseConst::UPLOAD_PARAMETER_ERROR);
         }
 
