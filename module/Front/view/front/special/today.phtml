@@ -2,25 +2,38 @@
 <link rel="stylesheet" href="/he/style/common.css">
 <link rel="stylesheet" href="/he/style/style.css">
 <div id="flashBg" style="background-color:#5d5f5c;">
-    <div id="flashLine">
-        <div id="flash">
-            <?php foreach($ads as $v){
-            ?>
-                <a href="<?php echo $v['url']; ?>" target="_blank" id="flash1" style="display: block; "><img src="<?php echo $v['img'] ?>" height="370"></a>
-            <?php
-            } ?>
-
-            <div class="flash_bar">
+    <div  class="slideBox-banner">
+        <div class="hd">
+            <ul>
                 <?php
                 $count = 1;
                 foreach($ads as $v){
 
-                    ?>
-                    <div class="<?php if($count == 1){echo 'dq';}else{echo 'no';} ?>" id="f<?php echo $count; ?>" onclick="changeflash(<?php echo $count; ?>)"></div>
+                ?>
+                    <li><?php echo ++$count; ?></li>
                 <?php
-                } ?>
-            </div>
+                }
+                ?>
+            </ul>
         </div>
+        <div class="bd">
+            <ul>
+                <?php
+                foreach($ads as $v){
+                ?>
+                    <li>
+                        <a href="<?php echo $v['url']; ?>" target="_blank">
+                            <img src="<?php echo $v['img'] ?>">
+                        </a>
+
+                    </li>
+                <?php
+                }
+                ?>
+            </ul>
+        </div>
+        <a class="prev" href="javascript:void(0)"></a>
+        <a class="next" href="javascript:void(0)"></a>
     </div>
     <div class="date_spe">
         <div style="float:right; margin-top:15px;">
@@ -169,44 +182,7 @@
                 window.top.location.href = '/special/index?date=' + dateText;
             }
         });
-
-    });
-
-    var currentindex=1;
-    $("#flashBg").css("background-color",$("#flash1").attr("name"));
-    function changeflash(i){
-        currentindex=i;
-        for(j=1;j<=3;j++){
-            if(j==i){
-                $("#flash"+j).fadeIn("normal");
-                $("#flash"+j).css("display","block");
-                $("#f"+j).removeClass();
-                $("#f"+j).addClass("dq");
-                $("#flashBg").css("background-color",$("#flash"+j).attr("name"));
-            }else{
-                $("#flash"+j).css("display","none");
-                $("#f"+j).removeClass();
-                $("#f"+j).addClass("no");
-            }
-        }
-    }
-    function startAm(){
-        timerID = setInterval("timer_tick()",3000);
-    }
-    function stopAm(){
-        clearInterval(timerID);
-    }
-    function timer_tick(){
-        currentindex=currentindex>=3?1:currentindex+1;
-        changeflash(currentindex);
-    }
-    $(document).ready(function(){
-        $(".flash_bar div").mouseover(function(){
-            stopAm();
-        }).mouseout(function(){
-            startAm();
-        });
-        startAm();
+        $(".slideBox-banner").slide({mainCell:".bd ul",autoPlay:true});
     });
 
     $(function(){
