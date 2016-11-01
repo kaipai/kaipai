@@ -518,11 +518,14 @@ div.dp-popup td.disabled{cursor:default;}
     position: absolute;
     top: 0px;
     right: 0px;
-    padding: 6px 15px 10px;
+    /*padding: 6px 15px 10px;*/
     font-size: 14px;
     color: #fff;
+    height: 73px;
+    width: 70px;
 }
 .exc_list_img strong{
+    display: block;
     font-size: 26px;
 }
 .exc_num_bg{
