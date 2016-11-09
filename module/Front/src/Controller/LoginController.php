@@ -61,7 +61,7 @@ class LoginController extends Front{
     public function qqLoginAction(){
         $qqOpenID = $this->queryData['qqOpenID'];
         $accessToken = $this->queryData['accessToken'];
-        $response = Utility::curl('https://graph.qq.com/user/get_user_info?oauth_consumer_key=101328212&access_token=' . $accessToken . '&openid=' . $qqOpenID . '&format=json', array(), 'get');
+        $response = Utility::curl('https://graph.qq.com/user/get_user_info?oauth_consumer_key=101363290&access_token=' . $accessToken . '&openid=' . $qqOpenID . '&format=json', array(), 'get');
         $response = json_decode($response, true);
 
         if($response['ret'] < 0){
