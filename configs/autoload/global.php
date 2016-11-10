@@ -18,7 +18,7 @@ return array(
         'product_return_url' => 'http://kaipai123.com/pay/aliProductReturn',
         'special_return_url' => 'http://kaipai123.com/pay/aliSpecialReturn',
         'final_return_url' => 'http://kaipai123.com/pay/aliFinalReturn',
-        'seller_email' => '',
+        'seller_email' => 'kaipai123@sina.com',
         'logistics_type' => 'EXPRESS',
         'logistics_fee' => '0.00',
         'logistics_payment' => 'BUYER_PAY_AFTER_RECEIVE',
