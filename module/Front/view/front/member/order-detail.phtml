@@ -258,8 +258,6 @@
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-                            layer.alert('申请开通中');
-                            return false;
                             location.href = res.data['coreData'];
                         }else if(res.flag == 3){
                             layer.alert('申请开通中');

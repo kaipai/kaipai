@@ -3,8 +3,8 @@
 return array(
     //生产环境配置
     'aliConfig' => array(
-        'partner' => '', //商户ID
-        'key' => '', //key
+        'partner' => '2088121871315175', //商户ID
+        'key' => 'uaav7a04ob6ai84dg94qs12v8u6v25w8', //key
         'service' => 'create_direct_pay_by_user',
         'sign_type' => strtoupper('md5'),
         'input_charset' => strtolower('utf-8'),
