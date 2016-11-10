@@ -182,7 +182,7 @@ echo $this->render('/front/common/transfer-account');
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-                            window.open(res.data['coreData']);
+                            location.href = res.data['coreData'];
                         }else if(res.flag == 3){
                             layer.alert('申请开通中');
                             return false;

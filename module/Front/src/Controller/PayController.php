@@ -95,7 +95,13 @@ class PayController extends Front
 
 
     public function aliReturnAction(){
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        $unitePayID = $this->queryData['out_trade_no'];
+        $where = array(
+            'MemberOrder.unitePayID' => $unitePayID,
+        );
+
+        $orderInfo = $this->memberOrderModel->getOrderDetail($where);
+        return $this->redirect()->toUrl('/member/order-detail?orderID=' . $orderInfo['orderId']);
     }
 
     public function unionReturnAction(){
@@ -186,7 +192,8 @@ class PayController extends Front
 
 
     public function aliProductReturnAction(){
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        print_r($this->queryData);die;
+        return $this->redirect()->toUrl('/member/product');
     }
 
     public function unionProductReturnAction(){
@@ -276,7 +283,7 @@ class PayController extends Front
 
 
     public function aliSpecialReturnAction(){
-        return $this->response(ApiSuccess::COMMON_SUCCESS, ApiSuccess::COMMON_SUCCESS_MSG);
+        return $this->redirect()->toUrl('/member/special');
     }
 
     public function unionSpecialReturnAction(){
