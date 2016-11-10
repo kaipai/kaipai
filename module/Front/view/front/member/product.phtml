@@ -172,7 +172,6 @@ echo $this->render('/front/common/transfer-account');
         <p class="kp_tsinfo1">注：自由拍卖时间不超过48小时</p>
     </div>
 </div>
-<a style="display:none;" id="auto-commit" href="" target="_blank">test</a>
 <script>
     $(function(){
         function recommendProduct(params){
@@ -502,8 +501,7 @@ echo $this->render('/front/common/transfer-account');
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-                            var tempwindow = window.open();
-                            tempwindow.location = res.data['coreData'];
+                            window.open(res.data['coreData']);
                         }else if(res.flag == 3){
                             layer.alert('申请开通中');
                             return false;
