@@ -192,7 +192,6 @@ class PayController extends Front
 
 
     public function aliProductReturnAction(){
-        print_r($this->queryData);die;
         return $this->redirect()->toUrl('/member/product');
     }
 
