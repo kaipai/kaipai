@@ -172,9 +172,7 @@ echo $this->render('/front/common/transfer-account');
         <p class="kp_tsinfo1">注：自由拍卖时间不超过48小时</p>
     </div>
 </div>
-<form id="auto-commit-pay-form" action="" style="display:none;" target="_blank">
 
-</form>
 <script>
     $(function(){
         function recommendProduct(params){
@@ -504,8 +502,10 @@ echo $this->render('/front/common/transfer-account');
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-                            $('#auto-commit-pay-form').attr('action', res.data['coreData']);
-                            $('#auto-commit-pay-form').submit();
+                            var openLink = $("");
+                            openLink.attr('href', res.data['coreData']);
+                            openLink[0].click();
+                            
                         }else if(res.flag == 3){
                             layer.alert('申请开通中');
                             return false;
