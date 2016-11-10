@@ -147,7 +147,9 @@
 </div>
 
 <?php echo $this->render('/front/common/transfer-account'); ?>
+<form id="auto-commit-pay-form" action="" style="display:none;" target="_blank">
 
+</form>
 <script>
     $(function(){
 
@@ -258,7 +260,8 @@
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-                            window.open(res.data['coreData']);
+                            $('#auto-commit-pay-form').attr('action', res.data['coreData']);
+                            $('#auto-commit-pay-form').submit();
                         }else if(res.flag == 3){
                             layer.alert('申请开通中');
                             return false;
