@@ -502,9 +502,8 @@ echo $this->render('/front/common/transfer-account');
                                 location.reload();
                             });
                         }else if(res.flag == 2){
-                            $('#auto-commit').attr('href', res.data['coreData']);
-                            $('#auto-commit').click();
-
+                            var tempwindow = window.open();
+                            tempwindow.location = res.data['coreData'];
                         }else if(res.flag == 3){
                             layer.alert('申请开通中');
                             return false;
