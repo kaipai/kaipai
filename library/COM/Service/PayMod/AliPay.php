@@ -16,7 +16,7 @@ class AliPay extends BasePay
     public function doPay($unitePayID = null, $price, $productName = '收款') {
         include_once __DIR__ . '/lib/ali/alipay.php';
         $config = $this->sm->get('Config');
-        $aliConfig = $config[getenv('APP_ENV')]['aliConfig'];
+        $aliConfig = $config['aliConfig'];
         $aliPayment = new \AlipayPayment($aliConfig);
         $subject = $productName;
         $orderInfo = array(
@@ -52,7 +52,7 @@ class AliPay extends BasePay
     public function specialDoPay($unitePayID = null, $price) {
         include_once __DIR__ . '/lib/ali/alipay.php';
         $config = $this->sm->get('Config');
-        $aliConfig = $config[getenv('APP_ENV')]['aliConfig'];
+        $aliConfig = $config['aliConfig'];
         $aliConfig['notify_url'] = $aliConfig['special_notify_url'];
         $aliConfig['return_url'] = $aliConfig['special_return_url'];
         $aliPayment = new \AlipayPayment($aliConfig);
@@ -71,7 +71,7 @@ class AliPay extends BasePay
     public function finalDoPay($unitePayID = null, $price) {
         include_once __DIR__ . '/lib/ali/alipay.php';
         $config = $this->sm->get('Config');
-        $aliConfig = $config[getenv('APP_ENV')]['aliConfig'];
+        $aliConfig = $config['aliConfig'];
         $aliConfig['notify_url'] = $aliConfig['final_notify_url'];
         $aliConfig['return_url'] = $aliConfig['final_return_url'];
         $aliPayment = new \AlipayPayment($aliConfig);
