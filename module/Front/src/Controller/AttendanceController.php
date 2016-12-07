@@ -1,9 +1,9 @@
 <?php
 namespace Front\Controller;
 
-use COM\Controller;
+use COM\Controller\Front;
 
-class AttendanceController extends Controller
+class AttendanceController extends Front
 {
     protected $fadingjiejiari = array(
         '01' => array(1, 2, 3), '02' => array(7, 8, 9, 10, 11, 12, 13),
