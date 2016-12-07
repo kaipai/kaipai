@@ -24,7 +24,7 @@ class AttendanceController extends Front
 
     public function indexAction()
     {
-
+        $this->view->setNoLayout();
         $errorMsg = current($this->flashMessenger()->getErrorMessages());
         $this->view->setVariable('errorMsg', $errorMsg);
         return $this->view;
