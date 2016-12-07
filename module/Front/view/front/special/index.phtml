@@ -52,7 +52,13 @@ echo $this->headLink()->appendStylesheet('/he/style/style.css');
                             <li><span>分 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类</span><?php echo $v['categoryName'] ?></li>
                             <li class="w325">共<?php echo $v['productCountLimit']; ?>个拍卖品</li>
                             <li><span>选送商家</span><?php echo $v['storeName'] ?></li>
-                            <li class="w325"><span>拍卖时间</span><?php echo date('Y/m/d H:i', $v['startTime']) . '~' . date('Y/m/d H:i', $v['endTime']) ?></li>
+                            <li class="w325"><span>拍卖时间</span>
+							<?php if(strtotime(date('Y/m/d', $v['startTime']))==strtotime(date('Y/m/d', $v['endTime']))){ ?>
+							<?php echo date('Y/m/d H:i', $v['startTime']) . '~' . date('H:i', $v['endTime']) ?>
+							<?php } else { ?>
+								<?php echo date('Y/m/d H:i', $v['startTime']) . '~[次日]' . date('H:i', $v['endTime']) ?>
+								
+							<?php } ?></li>
                         </ul>
                     </dd>
                 </dl>
