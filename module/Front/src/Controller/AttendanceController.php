@@ -6,19 +6,19 @@ use COM\Controller\Front;
 class AttendanceController extends Front
 {
     protected $fadingjiejiari = array(
-        '01' => array(1, 2, 3), '02' => array(7, 8, 9, 10, 11, 12, 13),
-        '03' => array(), '04' => array(2, 3, 4, 30),
-        '05' => array(1, 2), '06' => array(9, 10, 11),
+        '01' => array(1, 2, 27, 28, 29, 30, 31), '02' => array(1, 2),
+        '03' => array(), '04' => array(2, 3, 4, 29, 30),
+        '05' => array(1, 28, 29, 30), '06' => array(),
         '07' => array(), '08' => array(),
-        '09' => array(15, 16, 17), '10' => array(1, 2, 3, 4, 5, 6, 7),
+        '09' => array(), '10' => array(1, 2, 3, 4, 5, 6, 7, 8),
         '11' => array(), '12' => array(),
     );
     protected $tiaoxiu = array(
-        '01' => array(), '02' => array(6, 14),
-        '03' => array(), '04' => array(),
-        '05' => array(), '06' => array(12),
+        '01' => array(22), '02' => array(4),
+        '03' => array(), '04' => array(1),
+        '05' => array(27), '06' => array(),
         '07' => array(), '08' => array(),
-        '09' => array(18), '10' => array(8, 9),
+        '09' => array(30), '10' => array(),
         '11' => array(), '12' => array(),
     );
 
